@@ -1092,7 +1092,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_newvm">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">New VM ...</property>
+                        <property name="label" translatable="yes">New VM...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_newvm_activate"/>
                       </object>
@@ -1155,7 +1155,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_addserver">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Add ...</property>
+                        <property name="label" translatable="yes">Add...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_addserver_activate"/>
                       </object>
@@ -1315,7 +1315,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_newvm2">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">New ...</property>
+                        <property name="label" translatable="yes">New...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_newvm_activate"/>
                       </object>
@@ -1323,7 +1323,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_importvm2">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Import ...</property>
+                        <property name="label" translatable="yes">Import...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_importvm_activate"/>
                       </object>
@@ -1402,7 +1402,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_vm_export">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Export as Backup ...</property>
+                        <property name="label" translatable="yes">Export as Backup...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_export_activate"/>
                       </object>
@@ -1485,7 +1485,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_stg_new">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">New Storage Repository ...</property>
+                        <property name="label" translatable="yes">New Storage Repository...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_menuitem_stg_new_activate"/>
                       </object>
@@ -1524,7 +1524,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_stg_newvdi">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">New Virtual Disk ...</property>
+                        <property name="label" translatable="yes">New Virtual Disk...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_btstgnewdisk_activate"/>
                       </object>
@@ -1532,7 +1532,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_stg_attachvdi">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Attach Virtual Disk ...</property>
+                        <property name="label" translatable="yes">Attach Virtual Disk...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_btstorageattach_clicked"/>
                       </object>
@@ -1552,7 +1552,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_tpl_newvm">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">New VM ...</property>
+                        <property name="label" translatable="yes">New VM...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_newvm_activate"/>
                       </object>
@@ -1560,7 +1560,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_tpl_import">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Import Template ...</property>
+                        <property name="label" translatable="yes">Import Template...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_importvm_activate"/>
                       </object>
@@ -1568,7 +1568,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_tpl_export">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Export Template ...</property>
+                        <property name="label" translatable="yes">Export Template...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_export_activate"/>
                       </object>
@@ -1576,7 +1576,7 @@
                     <child>
                       <object class="GtkMenuItem" id="menuitem_tpl_copy">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Copy Template ...</property>
+                        <property name="label" translatable="yes">Copy Template...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_m_copy_activate"/>
                       </object>
@@ -5114,7 +5114,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Produt code: </property>
+                                                            <property name="label" translatable="yes">Product code: </property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -5411,7 +5411,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            <property name="label" translatable="yes">Minimum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5424,7 +5424,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            <property name="label" translatable="yes">Maximum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5437,7 +5437,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Static Maximun:</property>
+                                                            <property name="label" translatable="yes">Static Maximum:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5525,7 +5525,7 @@
                                                             <property name="width_request">300</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">* Static Maximun only could be changed on halted VMs</property>
+                                                            <property name="label" translatable="yes">* Static Maximum can only be changed on halted VMs</property>
                                                             <attributes>
                                                             <attribute name="size" value="8000"/>
                                                             </attributes>
@@ -5587,7 +5587,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            <property name="label" translatable="yes">Minimum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5600,7 +5600,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            <property name="label" translatable="yes">Maximum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5613,7 +5613,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Static Maximun:</property>
+                                                            <property name="label" translatable="yes">Static Maximum:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5714,7 +5714,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            <property name="label" translatable="yes">Minimum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5727,7 +5727,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            <property name="label" translatable="yes">Maximum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">5</property>
@@ -5881,7 +5881,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimun Memory:</property>
+                                                            <property name="label" translatable="yes">Minimum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">30</property>
@@ -5894,7 +5894,7 @@
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Maximun Memory:</property>
+                                                            <property name="label" translatable="yes">Maximum Memory:</property>
                                                             </object>
                                                             <packing>
                                                             <property name="x">30</property>
@@ -5956,8 +5956,8 @@
                                                             <property name="width_request">320</property>
                                                             <property name="height_request">40</property>
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">Important: For automatically allocate memory you need 
-have installed XenServer Tools.</property>
+                                                            <property name="label" translatable="yes">Important: In order to automatically allocate memory 
+XenServer Tools needs to be installed.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="semibold"/>
                                                             <attribute name="size" value="8000"/>
@@ -7903,7 +7903,7 @@ have installed XenServer Tools.</property>
                                                         <property name="xalign">0</property>
                                                         <property name="yalign">0</property>
                                                         <property name="label" translatable="yes">All changes made to users and groups on the access list will take effect 
-when a user next logs in.</property>
+at next login.</property>
                                                       </object>
                                                       <packing>
                                                         <property name="x">20</property>
@@ -8138,7 +8138,7 @@ when a user next logs in.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkButton" id="btsnapnewvm">
-                                                    <property name="label" translatable="yes">New VM ...</property>
+                                                    <property name="label" translatable="yes">New VM...</property>
                                                     <property name="width_request">80</property>
                                                     <property name="height_request">20</property>
                                                     <property name="visible">True</property>
@@ -8154,7 +8154,7 @@ when a user next logs in.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkButton" id="btsnapcreatetpl">
-                                                    <property name="label" translatable="yes">Create Template ...</property>
+                                                    <property name="label" translatable="yes">Create Template...</property>
                                                     <property name="width_request">130</property>
                                                     <property name="height_request">20</property>
                                                     <property name="visible">True</property>
@@ -8202,7 +8202,7 @@ when a user next logs in.</property>
                                                 </child>
                                                 <child>
                                                   <object class="GtkButton" id="btsnaprevert">
-                                                    <property name="label" translatable="yes">Revert To ...</property>
+                                                    <property name="label" translatable="yes">Revert To...</property>
                                                     <property name="width_request">80</property>
                                                     <property name="height_request">20</property>
                                                     <property name="visible">True</property>
@@ -8648,7 +8648,7 @@ is useful and you use it, your donation will help their development.</property>
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">Need further advice, assistance or support? Visit
+                                                <property name="label" translatable="yes">Need further advice, assistance or support? Visit:
 </property>
                                               </object>
                                               <packing>
@@ -8658,7 +8658,7 @@ is useful and you use it, your donation will help their development.</property>
                                             </child>
                                             <child>
                                               <object class="GtkLinkButton" id="linkbutton2">
-                                                <property name="label" translatable="yes">http://www.xensemaking.com/openxenmanager/</property>
+                                                <property name="label" translatable="yes">https://sourceforge.net/projects/openxenmanager/forums/</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -8666,7 +8666,7 @@ is useful and you use it, your donation will help their development.</property>
                                                 <property name="relief">none</property>
                                                 <property name="focus_on_click">False</property>
                                                 <property name="xalign">0</property>
-                                                <property name="uri">http://www.xensemaking.com/openxenmanager/</property>
+                                                <property name="uri">https://sourceforge.net/projects/openxenmanager/forums/</property>
                                               </object>
                                               <packing>
                                                 <property name="x">350</property>
@@ -8679,7 +8679,7 @@ is useful and you use it, your donation will help their development.</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">You can try xenwebmanager downloading from here:</property>
+                                                <property name="label" translatable="yes">You can download XenWebManager from here:</property>
                                               </object>
                                               <packing>
                                                 <property name="x">15</property>
@@ -8688,14 +8688,14 @@ is useful and you use it, your donation will help their development.</property>
                                             </child>
                                             <child>
                                               <object class="GtkLinkButton" id="linkbutton4">
-                                                <property name="label" translatable="yes">http://www.xensemaking.com/xenwebmanager/</property>
+                                                <property name="label" translatable="yes">https://sourceforge.net/projects/xenwebmanager/</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
                                                 <property name="has_tooltip">True</property>
                                                 <property name="relief">none</property>
-                                                <property name="uri">http://www.xensemaking.com/xenwebmanager/</property>
+                                                <property name="uri">https://sourceforge.net/projects/xenwebmanager/</property>
                                               </object>
                                               <packing>
                                                 <property name="x">350</property>
@@ -10289,7 +10289,7 @@ is useful and you use it, your donation will help their development.</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btacceptsnapshotname">
-                <property name="label" translatable="yes">Ok</property>
+                <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -10396,7 +10396,7 @@ is useful and you use it, your donation will help their development.</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btacceptsnaptplname">
-                <property name="label" translatable="yes">Ok</property>
+                <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -10475,7 +10475,7 @@ cannot be undone.</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btacceptsnapshotdelete">
-                <property name="label" translatable="yes">Ok</property>
+                <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -11086,9 +11086,9 @@ Quality of Server (QoS)</property>
     <property name="copyright" translatable="yes">$Rev$:     Revision of last commit
 $Author$:  Author of last commit
 $Date$:    Date of last commit
-Copyright &#xA9; 2009-2010 Alberto Gonz&#xE1;lez 
-Contact via mail: alberto@pesadilla.org</property>
-    <property name="comments" translatable="yes">Free... Fastest</property>
+Copyright &#xA9; 2009-2010 Alberto Gonz&#xE1;lez
+</property>
+    <property name="comments" translatable="yes">Free cross-platform interface for managing XenServer / XCP</property>
     <property name="website">http://www.openxenmanager.com</property>
     <property name="license" translatable="yes">This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11150,7 +11150,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">warning</property>
-    <property name="text" translatable="yes">Are you sure you want to delete VM?</property>
+    <property name="text" translatable="yes">Are you sure you want to delete the VM?</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox17">
         <property name="visible">True</property>
@@ -11694,7 +11694,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
             </child>
             <child>
               <object class="GtkButton" id="btalertdismissall">
-                <property name="label" translatable="yes">Dismis all</property>
+                <property name="label" translatable="yes">Dismiss all</property>
                 <property name="width_request">100</property>
                 <property name="height_request">20</property>
                 <property name="visible">True</property>
@@ -12352,7 +12352,7 @@ Are you sure you want to continue?</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Number of VCPUs:</property>
+                                                <property name="label" translatable="yes">Number of vCPUs:</property>
                                               </object>
                                               <packing>
                                                 <property name="x">10</property>
@@ -12379,7 +12379,7 @@ Are you sure you want to continue?</property>
                                                 <property name="height_request">20</property>
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">VCPU priority for this virtual machine:</property>
+                                                <property name="label" translatable="yes">vCPU priority for this virtual machine:</property>
                                               </object>
                                               <packing>
                                                 <property name="x">10</property>
@@ -13961,7 +13961,7 @@ XenServer will always attempt to use the resources of the home if it can.</prope
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="acceptdialogsyslogempty">
-                <property name="label" translatable="yes">Ok</property>
+                <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -22289,7 +22289,7 @@ Author: David Markey &lt;david.markey@citrix.com&gt;</property>
                             <property name="height_request">25</property>
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Select an operating system for new the new virtual machine</property>
+                            <property name="label" translatable="yes">Select an operating system for the new virtual machine</property>
                             <attributes>
                               <attribute name="weight" value="ultrabold"/>
                             </attributes>
@@ -22920,7 +22920,7 @@ nfs://server/path
                                             <property name="visible">True</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <property name="label" translatable="yes">Enter any additional advanced boot parameters here,
+                                            <property name="label" translatable="yes">Enter any additional advanced boot parameters here.
 If you do not wish to supply any advanced parameters leave this box blank</property>
                                             <attributes>
                                               <attribute name="style" value="normal"/>
@@ -22992,7 +22992,7 @@ If you do not wish to supply any advanced parameters leave this box blank</prope
                                         <property name="yalign">0</property>
                                         <property name="label" translatable="yes">The home server provides resources for a VM in a pool.
 OpenXenManager will always attempt to use the resources of the home 
-server if it can,</property>
+server if it can.</property>
                                         <property name="wrap">True</property>
                                         <property name="ellipsize">end</property>
                                       </object>
@@ -23610,7 +23610,7 @@ click "Next" to continue to the next page.</property>
                                         <property name="visible">True</property>
                                         <property name="xalign">0</property>
                                         <property name="yalign">0</property>
-                                        <property name="label" translatable="yes">You have successfully completed the new virtual machine wzard.
+                                        <property name="label" translatable="yes">You have successfully completed the new virtual machine wizard.
 To create the new virtual machine and close the wizard, click Finish.
 This process may take several minutes.</property>
                                       </object>
@@ -24729,11 +24729,11 @@ Do you want to reattach the SR?</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="yalign">0</property>
-                    <property name="label" translatable="yes">Are you sure you want to revert to selected snapshot?
+                    <property name="label" translatable="yes">Are you sure you want to revert to the selected snapshot?
 
-Reverting to this snapshot will revert the VM back to the point in the time that the snapshot was created, and the current state of the VM will be lost
+Reverting to this snapshot will revert the VM back to the point in the time that the snapshot was created, and the current state of the VM will be lost.
 
-Before do a revert is recommended take a snapshot with current state.</property>
+Before doing a revert it is recommended take a snapshot of the current state.</property>
                     <property name="wrap">True</property>
                   </object>
                   <packing>
@@ -24803,7 +24803,7 @@ Before do a revert is recommended take a snapshot with current state.</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">question</property>
-    <property name="text" translatable="yes">Are you sure you want to shutdown server?  Before that you should shutdown all vms.</property>
+    <property name="text" translatable="yes">Are you sure you want to shutdown the server?  Ensure that all VMs are already shut down.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox100">
         <property name="visible">True</property>
@@ -24879,7 +24879,7 @@ Before do a revert is recommended take a snapshot with current state.</property>
                     <property name="width_request">450</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">To assign a new license to the servers you selected, choose the license edition, enter the license server details, and then click OK</property>
+                    <property name="label" translatable="yes">To assign a new license to the servers you selected, choose the license edition, enter the license server details, and then click OK.</property>
                     <property name="wrap">True</property>
                   </object>
                   <packing>
