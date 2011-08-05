@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+# show hardware info with dmidecode
+
+import XenAPIPlugin, time
+import subprocess
+
+def doexec(args, inputtext=None):
+    """Execute a subprocess, then return its return code, stdout and stderr"""
+    proc = subprocess.Popen(args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
+    (stdout,stderr) = proc.communicate(inputtext)
+    rc = proc.returncode
+    return (rc,stdout,stderr)
+
+def main(session, args):
+    (rc,stdout,stderr) = doexec(["dmidecode", "-q"])
+    return stdout
+
+if __name__ == "__main__":
+    XenAPIPlugin.dispatch({"main": main})
+

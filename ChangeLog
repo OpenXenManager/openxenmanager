@@ -1,0 +1,225 @@
+04/06/2010:
+- Implemented "New Storage - AoE" (experimental mode) 
+
+06/05/2010:
+- Plugins now works with custom fields
+- Added two new demo plugins: NagiosWebUI.xcplugin.xml GlpiWebUI.xcplugin.xml
+
+04/05/2010:
+- Implemented custom fields
+- Removed check if a network has a pifs
+- Fixed a problem on search tab, if cpu load (for error) is greater than 100
+then set to 100
+- Recoding
+
+
+01/05/2010:
+- Updated Performance tab: rrdtool is not more needed, now graphs are auto
+update and you can put your cursor over point and see the value and data
+(performance tab now is in testing mode
+- Updated usagebar images
+
+25/04/2010:
+- Implemented "maps" tab for testing, you need install graphviz
+
+23/04/2010:
+- On Console tab added two buttons: send ctrlaltdel and enter fullscreen
+- Fixed "send ctrl-alt-del"
+
+22/04/2010:
+- Console works now with older version of gtk-vnc
+- Keymap should be (partially) fixed, please, is important if you found some
+problem with keymap tell us
+
+20/04/2010:
+- Fix a problem exiting from OXC when a vnc connection is still opened
+- Performance tab should be finished now
+
+18/04/2010:
+- Toolbar buttons: Force shutdown and Hard shutdown
+- Now network tab on host shows the same information than xencenter
+- Fixed a problem with glade with oxc.glade
+
+11/04/2010 (2):
+- Implemented "updates manager", tomorrow i will fix "upload update"
+- Now if NIC is disconnected then speed is not showed
+
+11/04/2010:
+- New VM window recreated and improved
+
+10/04/2010:
+- Implemented: "Get Server Status Report
+- Fixed bug 2984515: "Doesn't show options after VM creation"
+
+04/04/2010:
+- Implemented in experimental mode: VM Performance, i need testers
+
+01/04/2010:
+- NEW FEATURE: added migration tool of xend based xen virtual machines to
+XS/XCP, thanks to dmarkey
+- Now when you add a new server to pool shows a dialog saying "please
+reconnect to resync"
+
+31/03/2010:
+- Now you can set if a disk/cd is bootable or not for each VM 
+- NEW FEATURE: Download host logs (all /var on unique file tar.gz)
+
+22/03/2010:
+- I think now is fixed insert ISO/DVD to VM
+
+21/03/2010:
+- Implemented: Repair Storage
+- Implemented: Delete server from pool
+- Almost implemented: Add server to pool
+- Fixed: broken storage wasn't detected so fine
+
+20/03/2010 (3):
+- New feature: "Take Screenshot" on Tools menu
+
+20/03/2010 (2):
+- When you disconnect from server, update alerts
+
+20/03/2010:
+- More visual colors fixes
+- For ubuntu lucid: gtkbuilder on pygtk has a bug, get_name() doesn't work. I
+change code for alternate way to work on ubuntu lucid and other distros
+
+19/03/2010:
+- No gtk warnings now
+- Fixing some visual things 
+- Experimental plugin implementation (including a OpenFiler example), you need
+python-webkit
+
+
+17/03/2010 (2)
+- SO information is showed now on General Tab (copy from xencenter 5.6)
+- If memory host information is zero, doesn't throw error now
+
+17/03/2010 
+- Tab search should be not frozen now
+- Start VM after vm creation should be fixed now
+
+16/03/2010 (3)
+- Improved: now search tab should be fastest (threading)
+
+16/03/2010 (2)
+- Add network to VM now shows all networks
+- Possible solution to missed vms under servers (on pool)
+
+16/03/2010
+- Fixes: Width of management interface's confirmation dialog 
+- Color on license warning window
+- Now when you disconnect from a server inside a pool, disconnect from entire
+pool
+- If default storage ref doesn't exists, doesn't crash on new vm wizard
+- New feature: Expand All / Collapse children 
+
+15/03/2010
+- Fixes: On create VM ISO combobox doesn't show correctly the info
+- Now hosts are added sorted under pool
+- Fixed hidden templates (xencenter has a similar problem)
+
+14/03/2010
+Fixes:
+- before hide Local Storage also hid shared storage
+- now logs tab shows the logs sorted by timestamp
+- problem causing a crash: start a vm on logs tab
+- problem mounting DVD on a VM
+- If a exception occurs on a main thread, exception is showed but application
+continues with the thread
+- Right click on a snapshot (snapshot tabs) crash the program
+- Enable actions for a template in a top menuitem
+- Now you can delete a template from top menuitem
+- Add disk to VM now works properly
+
+Features:
+- Now progress window works on "connecting" process and not only on
+"sync.."
+- Some tabs hadn't a horizontal scrollbar
+- Migrate Server between servers
+- Delete VMs from tree when is deleted
+
+11/03/2010
+- Two days of fixes
+
+07/03/2010
+- New feature (not in xencenter): Pool -> database dump and restore database
+
+06/03/2010
+- New features: On help menu -> "Check for Updates" and "XenServer on the Web"
+03/03/2010
+- Implemented (i dont know if fully): Server -> Enter maintenance mode 
+
+03/03/2010
+- Implemented: Start in recovery mode (On VM menu)
+
+02/03/2010
+- Fixed: On "New VM" oxc style was always used
+- PLEASE TEST IT: connecting now is on a thread and window progress now is
+showing a progress
+
+02/03/2010
+- Now all menu options do somethin, expect reboot/shutdown server and send
+ctrl+alt+supr (not implemeted yet)
+- New FEATURE: On server menu you have "Show dmesg", it will show a dmesg of
+server
+
+01/03/2010
+- Fixed problem when you edit a VM, the dialog doesn't close, thanks rsampaio
+- Now you can select text on labels with information (general tab and log)
+
+28/02/2010
+- On Pool General Tab now shows fully/partially patches applied
+
+28/02/2010
+- On Server General Tab now shows patches applied
+
+28/02/2010
+- Now when you connect to server you can select SSL connection
+- When disconnect from server, you will go redirect to home window
+
+27/02/2010
+- New Storage -> Hardware HBA
+- When a task is completed, show "completed" and not "100%"
+
+21/02/2010
+- Pool tabs
+- When a VM is booting or is pending of shutdown the image of vm now is orange
+
+21/02/2010
+- Install license key
+
+21/02/2010
+Server:
+- Backup server
+- Restore from backup
+Storage:
+- dettach/reattach/forget/delete
+
+18/02/2010
+Install Xenserver tools
+
+17/02/2010
+Pool Properties
+Delete Pool
+Disconnect Pool
+Fixed frozen problem and periodic crashes
+Fixed memory set problems
+Fixed new vm wizard problems
+Change Master Password
+
+08/02/2010
+New Storage
+
+01/02/2010
+Add pool/delete pool almost finished
+window.py now has code commented
+
+30/01/2010
+Management interface
+Now dialogs and windows could be accepted pressing key enter
+Double click on disconnected server now connects to server
+Detect if pool is created or deleted and refresh the left tree
+Partial code commented
+26/01/2010:
+Import VM is 100% implemented

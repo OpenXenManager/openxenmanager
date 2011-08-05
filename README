@@ -1,0 +1,12 @@
+You need pygtk
+You need ubuntu jaunty or debian unstable (glade 3.6 and libgtk 2.16)
+You need python-gtk-vnc
+
+Install rrdtool for graphs
+
+To launch openxenmanager:
+
+python window.py
+
+Please visit #openxenmanager in irc.freenode.net to talk about alpha version
+Or send me mail to alberto@pesadilla.org with "openxenmanager: " subject

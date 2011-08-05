@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XenCenterPlugin xmlns="http://www.citrix.com/XenCenter/Plugins/schema" version="1" plugin_version="1.0.0.0">
+    <TabPage name="Nagios Demo" url="http://opengear.dyndns.org/nagios/cgi-bin/extinfo.cgi?type=1&amp;host={$nagios}" search="4f40121b-cc67-4b38-a93b-e72959bf0904" />
+        <Search uuid="4f40121b-cc67-4b38-a93b-e72959bf0904" name="Nagios VMs" major_version="2" minor_version="0" show_expanded="yes">
+        <Query>
+            <QueryScope>
+                <Vm />
+            </QueryScope>
+            <EnumPropertyQuery property="nagios" equals="" query="" />
+        </Query>
+    </Search>
+</XenCenterPlugin>
+

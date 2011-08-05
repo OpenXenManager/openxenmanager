@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XenCenterPlugin xmlns="http://www.citrix.com/XenCenter/Plugins/schema" version="1" plugin_version="1.0.0.0">
+    <TabPage name="OpenFiler Web" url="https://{$ip_address}:446/" search="4f40121b-cc67-4b38-a93b-e72959bf0904" />
+	<Search uuid="4f40121b-cc67-4b38-a93b-e72959bf0904" name="OpenFiler SRs" major_version="2" minor_version="0" show_expanded="yes">
+        <Query>
+            <QueryScope>
+                <RemoteSR />
+                <LocalSR />
+            </QueryScope>
+            <EnumPropertyQuery property="name_description" equals="no" query="openfiler" />
+        </Query>
+    </Search>
+</XenCenterPlugin>

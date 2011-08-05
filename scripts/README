@@ -1,0 +1,5 @@
+Here a list of scripts that can be used with openxencenter,
+you just have to add in your xenserver/xcp server in the /etc/xapi.d/plugins/ directory
+and remember "chmod +x plugin"
+
+dmidecode: show your hardware info on a tab
