@@ -867,19 +867,6 @@
                   <object class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkMenuItem" id="menuitem_importvm">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Import VM...</property>
-                        <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_m_importvm_activate"/>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
-                        <property name="visible">True</property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkMenuItem" id="menuitem_exit">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Exit</property>
@@ -954,14 +941,6 @@
                         <property name="label" translatable="yes">Toolbar</property>
                         <property name="use_underline">True</property>
                         <signal name="toggled" handler="on_checkshowtoolbar_toggled"/>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkCheckMenuItem" id="checksetsyle">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Use OXC style</property>
-                        <property name="use_underline">True</property>
-                        <signal name="toggled" handler="on_checksetsyle_toggled"/>
                       </object>
                     </child>
                   </object>
@@ -8603,42 +8582,6 @@ your server or Resource Pool with virtual machines</property>
                                               <packing>
                                                 <property name="x">9</property>
                                                 <property name="y">52</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLinkButton" id="linkbutton1">
-                                                <property name="width_request">70</property>
-                                                <property name="height_request">52</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="relief">none</property>
-                                                <property name="uri">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6491164</property>
-                                                <child>
-                                                  <object class="GtkImage" id="image2">
-                                                    <property name="visible">True</property>
-                                                    <property name="pixbuf">images/paypal-donate.gif</property>
-                                                  </object>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="x">40</property>
-                                                <property name="y">190</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label11">
-                                                <property name="width_request">600</property>
-                                                <property name="height_request">40</property>
-                                                <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">This application is free and open source. If you believe this application 
-is useful and you use it, your donation will help their development.</property>
-                                              </object>
-                                              <packing>
-                                                <property name="x">150</property>
-                                                <property name="y">200</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -25340,6 +25283,7 @@ Before doing a revert it is recommended take a snapshot of the current state.</p
     </child>
   </object>
   <object class="GtkWindow" id="walert">
+    <property name="type">popup</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="default_width">300</property>

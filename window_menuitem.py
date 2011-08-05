@@ -784,17 +784,6 @@ class oxcWindowMenuItem:
             self.builder.get_object("toolbar").hide()
         # Save in configuration
         self.config.write()
-    def on_checksetsyle_toggled(self, widget, data=None):
-        """
-        Enable or disable use oxc style or use GTK style
-        """
-        self.config["gui"]["set_style"] = widget.get_active()
-        # This is a trick:
-        # Only set the color when application is showed, not before
-        if self.builder.get_object("lbltreesearch6").get_parent():
-            self.set_style_colors()
-        # Save in configuration
-        self.config.write()
     def on_checkshowcustomtpls_toggled(self, widget, data=None, a=None):
         """
         Enable or disable show custom templates on left tree

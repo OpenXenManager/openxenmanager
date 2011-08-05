@@ -1060,10 +1060,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             self.convert_bytes(storage['virtual_allocation'])))
 
     def fill_host_search(self, ref, list):
-        color = [None, None]
-        if str(self.wine.config["gui"]["set_style"]) == "True":
-            color[0] = gtk.gdk.color_parse("#d5e5f7") 
-            color[1] = gtk.gdk.color_parse("#BAE5D3") 
         while not self.halt_search:
             gobject.idle_add(lambda: list.clear() and False)
             position = 0
@@ -1082,7 +1078,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 start_time = self.all_hosts[host]['other_config']['boot_time'][:-1]
                 uptime = self.humanize_time(time.time() - int(start_time))
                 hosts[host] = position
-                gobject.idle_add(lambda item: list.append(None, item) and False, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"),  "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, color[position % 2]]))
+                gobject.idle_add(lambda item: list.append(None, item) and False, ([gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"),  "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" +  self.all_hosts[host]['name_description']  + "</i>", gtk.gdk.pixbuf_new_from_file("images/usagebar_5.png"), "",gtk.gdk.pixbuf_new_from_file("images/usagebar_%s.png" % str(memory_img)),memory,"-","",self.all_hosts[host]['address'],uptime, None]))
 
                 position = position + 1
 
@@ -1092,12 +1088,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if not self.halt_search:
                     time.sleep(1)
     def fill_vm_search(self, host,list, hosts):
-        color = [None, None]
-        rcolor = 0 
-        if str(self.wine.config["gui"]["set_style"]) == "True":
-            color[0] = gtk.gdk.color_parse("#d5e5f7") 
-            color[1] = gtk.gdk.color_parse("#BAE5D3") 
-
         rrd_updates = rrdinfo.RRDUpdates("http://%s/rrd_updates?session_id=%s&start=%d&cf=AVERAGE&interval=5&host=true" % (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
         rrd_updates.refresh()
         for uuid in rrd_updates.get_vm_list():
@@ -1224,7 +1214,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   str(vif_write_avg) + "/" + str(vif_write_max) + " | " +  str(vif_read_avg) + "/" + str(vif_read_max),
                                   "\n".join(ips),
                                   uptime,
-                                  color[rcolor % 2] 
+                                  None
                               ]))
                         else:
                             gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item) and False,
@@ -1239,9 +1229,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                   "<span foreground='red'><b>not installed</b></span>",
                                   "-",
                                   uptime,
-                                  color[rcolor % 2] 
+                                  None
                                ]))
-                        rcolor = rcolor + 1
                     else:
                         pass
                         """
@@ -1256,9 +1245,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             "<span foreground='red'><b>not installed</b></span>",
                             "-",
                             uptime,
-                            color[rcolor % 2] 
+                            None
                          ]))
-                        rcolor = rcolor + 1
                         """
                         #print  self.all_vms[vm]
                 else:
