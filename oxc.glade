@@ -11030,9 +11030,10 @@ Quality of Server (QoS)</property>
 $Author$:  Author of last commit
 $Date$:    Date of last commit
 Copyright &#xA9; 2009-2010 Alberto Gonz&#xE1;lez
+Copyright &#xA9; 2011 Emmanuel Appiah, Cheng Sun
 </property>
     <property name="comments" translatable="yes">Free cross-platform interface for managing XenServer / XCP</property>
-    <property name="website">http://www.openxenmanager.com</property>
+    <property name="website">https://sourceforge.net/projects/openxenmanager/</property>
     <property name="license" translatable="yes">This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
