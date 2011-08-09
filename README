@@ -1,12 +1,32 @@
-You need pygtk
-You need ubuntu jaunty or debian unstable (glade 3.6 and libgtk 2.16)
-You need python-gtk-vnc
+OpenXenManager
+==============
 
-Install rrdtool for graphs
+OpenXenManager is a full-featured graphical interface to manage Citrix
+XenServer / Xen Cloud Platform (XCP) hosts through the network.
 
-To launch openxenmanager:
+OpenXenManager is an open-source multiplatform clone of Citrix XenCenter.
 
-python window.py
+It is written in Python, using pyGTK for its interface.
 
-Please visit #openxenmanager in irc.freenode.net to talk about alpha version
-Or send me mail to alberto@pesadilla.org with "openxenmanager: " subject
+The homepage for OpenXenManager is at:
+https://sourceforge.net/projects/openxenmanager/
+
+To launch OpenXenManager simply run the "openxenmanager" script.
+
+Requirements:
+* pyGTK 2.16
+* GTK-VNC (Linux only)
+
+OpenXenManager runs on Windows or Linux. Mac is not supported, though you should
+be able to get it to work.
+
+
+If you have found a bug, please file a detailed report in our bug tracker:
+  http://sourceforge.net/tracker/?group_id=327385&atid=1374139
+
+For help, visit the forums:
+  http://sourceforge.net/projects/openxenmanager/forums
+Or drop in to our IRC channel: #openxenmanager on irc.freenode.net
+
+
+ - Cheng Sun <chengsun9@gmail.com>
