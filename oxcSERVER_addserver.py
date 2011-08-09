@@ -69,13 +69,12 @@ class oxcSERVERaddserver(gobject.GObject):
                 self.session_events = self.connection_events.session.login_with_password(self.user, self.password) 
                 self.session_events_uuid = self.session_events['Value']
                 self.connection_events.event.register(self.session_events_uuid, ["*"])
+                # tell the controller that we've finished
+                self.emit("connect-success")
             else:
                 self.emit("connect-failure", self.session['ErrorDescription'][2])
         except:
             self.emit("connect-failure", sys.exc_info()[1])
-        
-        # tell the controller that we've finished
-        self.emit("connect-success")
         
     def thread_event_next(self):
         Thread(target=self.event_next, args=()).start()
