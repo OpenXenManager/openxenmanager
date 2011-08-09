@@ -193,16 +193,14 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.builder.set_translation_domain("oxc")
         # Add the file to gtk.Builder object
         self.builder.add_from_file(self.gladefile)
-
-
+        
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button
+        # TODO: csun: eventually it should be possible not to do this: http://stackoverflow.com/questions/4657344/
         for widget in self.builder.get_objects():
-            if type(widget) == type(gtk.Dialog()):
+            if isinstance(widget, gtk.Dialog) or \
+               isinstance(widget, gtk.Window) and gtk.Buildable.get_name(widget) != "window1":
                 widget.connect("delete-event", self.on_delete_event)
-            if type(widget) == type(gtk.Window()):
-                if gtk.Buildable.get_name(widget) != "window1":
-                    widget.connect("delete-event", self.on_delete_event)
         # Frequent objects
         self.txttreefilter = self.builder.get_object("txttreefilter")
 
@@ -233,8 +231,6 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 style "my-style" { GtkComboBox::appears-as-list = 1 }
                 widget "*" style "my-style"
         ''')
-        # Set a default font 
-        self.window.get_settings().set_string_property('gtk-font-name', 'sans normal 8','');
 
         self.builder.connect_signals(self)
 
@@ -253,7 +249,6 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.modelfiltertpl = self.builder.get_object("listtemplates").filter_new()
         self.builder.get_object("treetemplates").set_model(self.modelfiltertpl)
         self.modelfiltertpl.set_visible_func(self.visible_func_templates)
-
 
         self.builder.get_object("networkcolumn1").set_property("model", self.builder.get_object("listimportnetworkcolumn"))
         self.builder.get_object("cellrenderercombo1").set_property("model", self.builder.get_object("listnewvmnetworkcolumn"))
@@ -442,6 +437,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
 
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
+        
+        
 
     def adjust_scrollbar_performance(self):
         for widget in ["scrolledwindow47", "scrolledwindow48", "scrolledwindow49", "scrolledwindow50"]:

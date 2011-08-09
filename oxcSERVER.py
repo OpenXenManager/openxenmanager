@@ -53,7 +53,6 @@ from capabilities import capabilities_text
 
 class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,oxcSERVERalerts,oxcSERVERaddserver,oxcSERVERnewvm,oxcSERVERmenuitem):
     session_uuid = None
-    error_connecting = ""
     is_connected = False 
     host_vm = {}
     set_descriptions = {}
@@ -76,48 +75,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     hostroot = {}
     last_storage_iter = None
     pbdcreate = []
-    connecting = False
+    
     def __init__(self, host, user, password, wine, ssl = False):
-        self.wine = wine
-        Thread(target=self.connect, args=(host, user, password, wine, ssl)).start()
-        self.connecting = True
-    def update_connect_status(self):
-        while self.connecting:
-            self.wine.builder.get_object("progressconnect").pulse()
-            time.sleep(1)
-        gobject.idle_add(lambda: self.wine.finish_add_server(self.host, self.user, self.password, None, ssl=self.ssl) and False)
-
-    def connect(self, host, user, password, wine, ssl):
-        if ssl:
-            self.connection = xmlrpclib.Server("https://%s" % host)
-            self.connection_events = xmlrpclib.Server("https://%s" % host)
-        else:
-            self.connection = xmlrpclib.Server("http://%s" % host)
-            self.connection_events = xmlrpclib.Server("http://%s" % host)
+        super(oxcSERVER, self).__init__()
         self.host = host
         self.hostname = host
         self.wine = wine
         self.user = user
         self.password = password
         self.ssl = ssl 
-        try:
-            self.session = \
-                    self.connection.session.login_with_password(user, password) 
-            if self.session['Status']  == "Success":
-                self.is_connected = True
-                self.host = host
-                self.hostname = host
-                self.session_uuid = self.session['Value']
-                self.session_events = \
-                self.connection_events.session.login_with_password(user, password) 
-                self.session_events_uuid = self.session_events['Value']
-                self.connection_events.event.register(self.session_events_uuid, ["*"])
-            else:
-                self.error_connecting = self.session['ErrorDescription'][2]
-        except:
-            self.error_connecting = sys.exc_info()[1]
-        self.connecting = False 
-
+        
     def logout(self):
         self.halt_search = True
         self.halt = True
@@ -1670,7 +1637,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 elif weight <= 512:
                     labels["lblvmpriority"] = "Normal"
                 elif weight <= 2048:
-                    labels["lblvmpriority"] = "Above normal"
+                    labels["lblvmpriority"] = "Above Normal"
                 elif weight <= 4096:
                     labels["lblvmpriority"] = "High"
                 elif weight <= 16384:
@@ -1763,6 +1730,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         """
         return "%s %s %s" % (host, ref, self.session_uuid)
         
+    # TODO: these should *not* be here
+    # {
     def dump(self, obj):
       for attr in dir(obj):
         print "obj.%s = %s" % (attr, getattr(obj, attr))
@@ -1780,7 +1749,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if secs:
             string += "%02d seconds " % (secs)
         return string
-
     def convert_bytes(self, n):
         """
         http://www.5dollarwhitebox.org/drupal/node/84
@@ -1797,6 +1765,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             return '%.2fK' % (float(n) / K)
         else:
             return '%d' % n
+    # }
 
     def thread_host_search(self, ref, list):
         Thread(target=self.fill_host_search, args=(ref, list)).start()
@@ -1805,6 +1774,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if self.treestore.get_value(iter_ref, 6) == user_data:
             self.found_iter = iter_ref
     def event_next(self):
+        print "Entering event loop"
+        
         while not self.halt:
             try:
                 eventn = self.connection_events.event.next(self.session_events_uuid)
@@ -2143,8 +2114,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                 for host_ref in self.hostroot.keys():
                                                     gobject.idle_add(lambda: self.wine.treestore.remove(self.hostroot[host_ref]) and False)
 
-                                            self.fill_tree_with_vms(self.wine.treestore, self.wine.treeroot, self.wine.treeview)
-                                            self.wine.treeview.expand_all()
+                                            self.sync()
                                         if self.all_pools[event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
                                             self.treestore.foreach(self.update_default_sr, \
                                                    [self.all_pools[event["ref"]]['default_SR'], event["snapshot"]["default_SR"]])
@@ -2225,12 +2195,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     else:
                                         print event["class"] + " => ",event
             except socket, msg:
-             self.halt = True
-             # FIXME TODO
-             # Disconnect
+                self.halt = True
+                # FIXME TODO
+                # Disconnect
             except:
-              print "Unexpected error:", sys.exc_info()
-              print traceback.print_exc()
+                print "Unexpected error:", sys.exc_info()
+                print traceback.print_exc()
+                
+        print "Exiting event loop"
 
 
     def update_default_sr(self, model, path, iter_ref, user_data):
