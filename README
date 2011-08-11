@@ -1,32 +1,48 @@
-OpenXenManager
-==============
-
+OpenXenManager introduction
+===========================
 OpenXenManager is a full-featured graphical interface to manage Citrix
 XenServer / Xen Cloud Platform (XCP) hosts through the network.
 
 OpenXenManager is an open-source multiplatform clone of Citrix XenCenter.
-
 It is written in Python, using pyGTK for its interface.
 
 The homepage for OpenXenManager is at:
 https://sourceforge.net/projects/openxenmanager/
 
+Subscribe to the openxenmanager-announce mailing list for important information
+and release announcements:
+https://lists.sourceforge.net/lists/listinfo/openxenmanager-announce
+
+
+Running OpenXenManager
+======================
 To launch OpenXenManager simply run the "openxenmanager" script.
 
 Requirements:
+* Python 2.4
 * pyGTK 2.16
 * GTK-VNC (Linux only)
 
-OpenXenManager runs on Windows or Linux. Mac is not supported, though you should
-be able to get it to work.
+OpenXenManager runs on Windows or Linux. Mac is not officially supported,
+though you may be able to get it to work.
 
+
+Help / bug reports
+==================
 
 If you have found a bug, please file a detailed report in our bug tracker:
   http://sourceforge.net/tracker/?group_id=327385&atid=1374139
 
-For help, visit the forums:
+For help you can:
+
+* Visit the forums:
   http://sourceforge.net/projects/openxenmanager/forums
-Or drop in to our IRC channel: #openxenmanager on irc.freenode.net
+
+* Send an email in the mailing list:
+  https://lists.sourceforge.net/lists/listinfo/openxenmanager-users
+
+* Or drop in to our IRC channel:
+  #openxenmanager on irc.freenode.net
 
 
  - Cheng Sun <chengsun9@gmail.com>
