@@ -80,6 +80,19 @@ class oxcWindowAddServer:
         Function used to connect to server
         """
         self.builder.get_object("addserver").hide()
+        # check that we are not already connected
+        # FIXME: csun: should be better done when we have controllers
+        found = []
+        def add_helper(model, path, iter):
+            if self.treestore.get(iter, 3, 5) == ("host", host):
+                found.append(self.treestore.get(iter, 1)[0])
+                return True
+            return False
+        self.treestore.foreach(add_helper)
+        if len(found):
+            # Show an alert dialog showing error
+            self.show_error_dlg("'%s' is already connected as '%s'" % (host, found[0]), "Error")
+            return
         #Show a dialog with a progress bar.. it should be do better
         self.builder.get_object("wprogressconnect").show()
         # Check if SSL connection is selected
@@ -124,11 +137,13 @@ class oxcWindowAddServer:
         # Append to historical host list on "add server" window
         self.builder.get_object("listaddserverhosts").append([server.host])
         # Remove the server from tree; it will be created again with "server_sync_update_tree"
-        (model, iter) = self.treeview.get_selection().get_selected()
-        iter = self.modelfilter.convert_iter_to_child_iter(iter)
-        assert self.treestore.iter_is_valid(iter)
-        if self.treestore.get_value(iter, 3) == "server":
-            self.treestore.remove(iter)
+        # FIXME: csun: this won't be necessary when we have controllers
+        def remove_helper(model, path, iter):
+            if self.treestore.get(iter, 1, 3) == (server.hostname, "server"):
+                self.treestore.remove(iter)
+                return True
+            return False
+        self.treestore.foreach(remove_helper)
         # Fill left tree and get all data (pool, vm, storage, template..)
         Thread(target=server.sync).start()
         

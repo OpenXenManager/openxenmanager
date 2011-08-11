@@ -99,6 +99,7 @@ class oxcSERVERaddserver(gobject.GObject):
         result = self.connection.VM.get_all_records(self.session_uuid)
         if "Value" not in result:
             if "HOST_IS_SLAVE" in result["ErrorDescription"]:
+                # TODO: csun: automatically connect instead
                 error = "The host server \"%s\" is a slave in a pool; please connect to the master server at \"%s\"." % (self.host, result["ErrorDescription"][1])
             else:
                 error = "Unknown error:\n%s" % str(result["ErrorDescription"])
