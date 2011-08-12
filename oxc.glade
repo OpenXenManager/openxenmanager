@@ -2184,12 +2184,12 @@ Quality of Server (QoS)</property>
     <property name="message_type">warning</property>
     <property name="text" translatable="yes">Are you sure you want to delete the VM?</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox17">
+      <object class="GtkVBox" id="dialog-vbox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area16">
+          <object class="GtkHButtonBox" id="dialog-action_area">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -2255,7 +2255,7 @@ Quality of Server (QoS)</property>
             <child>
               <object class="GtkCheckButton" id="dialogdelete_snap">
                 <property name="label" translatable="yes">Delete associated snapshots</property>
-                <property name="width_request">220</property>
+                <property name="width_request">250</property>
                 <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -27790,11 +27790,13 @@ This process may take several minutes.</property>
   </object>
   <object class="GtkWindow" id="wprogressconnect">
     <property name="can_focus">False</property>
+    <property name="type">popup</property>
     <property name="title" translatable="yes">Connecting....</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="type_hint">splashscreen</property>
     <property name="urgency_hint">True</property>
+    <property name="has_resize_grip">False</property>
     <child>
       <object class="GtkEventBox" id="eventbox52">
         <property name="visible">True</property>

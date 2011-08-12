@@ -2,6 +2,8 @@
 # OpenXenManager
 #
 # Copyright (C) 2009 Alberto Gonzalez Rodriguez alberto@pesadilla.org
+# Copyright (C) 2011 Cheng Sun <chengsun9@gmail.com>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -1781,425 +1783,415 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 eventn = self.connection_events.event.next(self.session_events_uuid)
                 if "Value" in eventn:
                     for event in eventn["Value"]:
-                           if event['class'] == "vm":
-                                if event['operation'] == "add":
-                                    self.all_vms[event["ref"]] =  event['snapshot']
-                                    if not self.all_vms[event["ref"]]["is_a_snapshot"]:
-                                        gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
-                                    else:
-                                        gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                             self.wine.builder.get_object("treevmsnapshots"), \
-                                             self.wine.builder.get_object("listvmsnapshots")) and False)
+                        if event['class'] == "vm":
+                            if event['operation'] == "add":
+                                self.all_vms[event["ref"]] =  event['snapshot']
+                                if not self.all_vms[event["ref"]]["is_a_snapshot"]:
+                                    gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
+                                else:
+                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
+                                         self.wine.builder.get_object("treevmsnapshots"), \
+                                         self.wine.builder.get_object("listvmsnapshots")) and False)
 
-                                    gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
-                                    gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
-                                    for track in self.track_tasks:
-                                        if self.track_tasks[track] == "Import.VM":
-                                            self.track_tasks[track] = event["ref"]
-                                        if self.track_tasks[track] == "Backup.Server":
-                                            self.track_tasks[track] = event["ref"]
-                                        if self.track_tasks[track] == "Restore.Server":
-                                            self.track_tasks[track] = event["ref"]
-                                        if self.track_tasks[track] == "Backup.Pool":
-                                            self.track_tasks[track] = event["ref"]
-                                        if self.track_tasks[track] == "Restore.Pool":
-                                            self.track_tasks[track] = event["ref"]
-                                        if self.track_tasks[track] == "Upload.Patch":
-                                            self.track_tasks[track] = event["ref"]
-                                    self.wine.builder.get_object("wprogressimportvm").hide()
-                                    # Perfect -> set now import_ref to event["ref"]
-                                    self.import_ref = event["ref"]
-                                elif event['operation'] == "del":
-                                    if not self.all_vms[event["ref"]]["is_a_snapshot"]:
+                                gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
+                                gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
+                                for track in self.track_tasks:
+                                    if self.track_tasks[track] == "Import.VM":
+                                        self.track_tasks[track] = event["ref"]
+                                    if self.track_tasks[track] == "Backup.Server":
+                                        self.track_tasks[track] = event["ref"]
+                                    if self.track_tasks[track] == "Restore.Server":
+                                        self.track_tasks[track] = event["ref"]
+                                    if self.track_tasks[track] == "Backup.Pool":
+                                        self.track_tasks[track] = event["ref"]
+                                    if self.track_tasks[track] == "Restore.Pool":
+                                        self.track_tasks[track] = event["ref"]
+                                    if self.track_tasks[track] == "Upload.Patch":
+                                        self.track_tasks[track] = event["ref"]
+                                self.wine.builder.get_object("wprogressimportvm").hide()
+                                # Perfect -> set now import_ref to event["ref"]
+                                self.import_ref = event["ref"]
+                            elif event['operation'] == "del":
+                                if not self.all_vms[event["ref"]]["is_a_snapshot"]:
+                                    self.found_iter = None 
+                                    self.treestore.foreach(self.search_ref, event["ref"])
+                                    if self.found_iter:
+                                        gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
+                                    del self.all_vms[event["ref"]]
+                                else:
+                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
+                                         self.wine.builder.get_object("treevmsnapshots"), \
+                                         self.wine.builder.get_object("listvmsnapshots")) and False)
+                                    del self.all_vms[event["ref"]]
+
+                            else:
+                                self.filter_uuid = event['snapshot']['uuid']
+                                if self.vm_filter_uuid():
+                                    #make into a template
+                                    if event['snapshot']['is_a_template']  != self.all_vms[self.vm_filter_uuid()]['is_a_template']:
+                                        self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
                                         self.found_iter = None 
                                         self.treestore.foreach(self.search_ref, event["ref"])
-                                        if self.found_iter:
-                                            gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
-                                        del self.all_vms[event["ref"]]
+                                        if self.found_iter and event['snapshot']['is_a_template']:
+                                            gobject.idle_add(lambda: self.treestore.set(self.found_iter, 0,  gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"), 3,  "custom_template") and False)
+                                            gobject.idle_add(lambda: self.wine.update_tabs() and False)
                                     else:
-                                        gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                             self.wine.builder.get_object("treevmsnapshots"), \
-                                             self.wine.builder.get_object("listvmsnapshots")) and False)
-                                        del self.all_vms[event["ref"]]
-
-                                else:
-                                    self.filter_uuid = event['snapshot']['uuid']
-                                    if self.vm_filter_uuid():
-                                        #make into a template
-                                        if event['snapshot']['is_a_template']  != self.all_vms[self.vm_filter_uuid()]['is_a_template']:
-                                            self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
+                                        if event['snapshot']['resident_on'] !=  self.all_vms[self.vm_filter_uuid()]['resident_on']:
                                             self.found_iter = None 
-                                            self.treestore.foreach(self.search_ref, event["ref"])
-                                            if self.found_iter and event['snapshot']['is_a_template']:
-                                                gobject.idle_add(lambda: self.treestore.set(self.found_iter, 0,  gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"), 3,  "custom_template") and False)
-                                                gobject.idle_add(lambda: self.wine.update_tabs() and False)
-                                        else:
-                                            if event['snapshot']['resident_on'] !=  self.all_vms[self.vm_filter_uuid()]['resident_on']:
-                                                self.found_iter = None 
-                                                gobject.idle_add(lambda: self.treestore.foreach(self.search_ref, event["ref"]) and False)
-                                                if self.found_iter:
-                                                    gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
-                                                    self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
-                                                    gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
-             
-                                            if event['snapshot']['affinity'] !=  self.all_vms[self.vm_filter_uuid()]['affinity']:
-                                                print "migrate or start on or resume on2"
-                                            self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
-                                    else:
-                                        if event["ref"] in self.track_tasks:
-                                            self.all_vms[self.track_tasks[event["ref"]]] =  event['snapshot']
-
-                                        else:
-                                            self.all_vms[event["ref"]] =  event['snapshot']
-                                    self.all_vms[event["ref"]] =  event['snapshot']
-                                    self.treestore.foreach(self.update_vm_status, "")
-                                    gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
-                           else:
-                                if event['class'] == "vm_guest_metrics":
-                                    self.all_vm_guest_metrics[event['ref']] = self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
-                                if event['class'] == "task":
-                                    #print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
-                                    self.all_tasks[event["ref"]] = event["snapshot"]
-                                    if event["ref"] not in self.track_tasks:
-                                        #print event 
-                                        #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
-                                        pass
-                                    if event["snapshot"]["status"] == "success":
-                                       if event["ref"] in self.vboxchildprogressbar:
-                                           self.vboxchildprogress[event["ref"]].hide()
-                                           self.vboxchildprogressbar[event["ref"]].hide()
-                                           self.vboxchildcancel[event["ref"]].hide()
-                                    if event["snapshot"]["error_info"]:
-                                        if event["ref"] in self.track_tasks:
-                                            if self.track_tasks[event["ref"]] in self.all_vms:
-                                                gobject.idle_add(lambda: self.wine.push_error_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], event["snapshot"]["error_info"])) and False)
-                                                eref =  event["ref"] 
-                                                if eref in self.vboxchildcancel:
-                                                    self.vboxchildcancel[eref].hide()
-                                                    self.vboxchildprogressbar[eref].hide()
-                                                    self.vboxchildprogress[eref].set_label(str(event["snapshot"]["error_info"]))
-                                                    self.vboxchildprogress[eref].modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#FF0000'))
-
-                                            else:
-                                                self.wine.builder.get_object("wprogressimportvm").hide()
-                                                self.wine.builder.get_object("tabboximport").set_current_page(2)
-                                                gobject.idle_add(lambda: self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"])) and False)
-                                    else:
-                                        if event["ref"] in self.track_tasks:
-                                            if self.track_tasks[event["ref"]] in self.all_vms:
-                                                if event["snapshot"]["status"] == "success":
-                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s completed" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"])) and False)
-                                                else:
-                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
-                                            else:
-                                                vm = self.connection.VM.get_record(self.session_uuid, self.track_tasks[event["ref"]])
-                                                if "Value" in vm:
-                                                    self.all_vms[self.track_tasks[event["ref"]]] = vm['Value']
-                                                    #self.add_vm_to_tree(self.track_tasks[event["ref"]])
-                                                    gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
-                                                    gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
-                                                    gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
-                                                else:
-                                                    gobject.idle_add(lambda: self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
-                                        else:
-                                             pass  #FIXME?
-                                             #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "Async.VIF.create":
-                                        dom = xml.dom.minidom.parseString(event['snapshot']['result'])
-                                        nodes = dom.getElementsByTagName("value")
-                                        vif_ref = nodes[0].childNodes[0].data
-                                        self.connection.VIF.plug(self.session_uuid, vif_ref)
-                                        if self.wine.selected_tab == "VM_Network":
-                                            gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref,
-                                                    self.wine.builder.get_object("treevmnetwork"),
-                                                    self.wine.builder.get_object("listvmnetwork")) and False)
-
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "Async.VM.revert":
-                                        self.start_vm(self.track_tasks[event["ref"]])
-
-                                    if event["snapshot"]["status"] == "success" and \
-                                            (event["snapshot"]["name_label"] == "Async.VM.clone" or event["snapshot"]["name_label"] == "Async.VM.copy"):
-                                        dom = xml.dom.minidom.parseString(event['snapshot']['result'])
-                                        nodes = dom.getElementsByTagName("value")
-                                        vm_ref = nodes[0].childNodes[0].data
-                                        #self.add_vm_to_tree(vm_ref)
-                                        if event["ref"] in self.set_descriptions:
-                                            self.connection.VM.set_name_description(self.session_uuid, vm_ref, self.set_descriptions[event["ref"]])
-                                    if event["snapshot"]["status"] == "success" and (event["snapshot"]["name_label"] == "Async.VM.provision" or \
-                                            event["snapshot"]["name_label"] == "Async.VM.clone" or event["snapshot"]["name_label"] == "Async.VM.copy"):
-                                        self.filter_uuid = event['snapshot']['uuid']
-                                        # TODO
-                                        # Detect VM with event["ref"]
-                                        if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in self.all_vms:
-                                            for vbd in self.all_vms[self.track_tasks[event["ref"]]]['VBDs']:
-                                                self.all_storage[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
-                                            for vif in self.all_vms[self.track_tasks[event["ref"]]]['VIFs']:
-                                                self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid, vif)['Value']
-                                        if self.vm_filter_uuid() != None:
-                                            self.all_vms[self.vm_filter_uuid()]['allowed_operations'] = \
-                                                self.connection.VM.get_allowed_operations(self.session_uuid, self.vm_filter_uuid())['Value']
-                                        else:
-                                            if event["ref"] in self.track_tasks:
-                                                self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'] = \
-                                                    self.connection.VM.get_allowed_operations(self.session_uuid, self.track_tasks[event["ref"]])['Value']
-                                                if self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'].count("start"):
-                                                    if self.track_tasks[event["ref"]] in self.autostart:
-                                                        host_start = self.autostart[self.track_tasks[event["ref"]]]
-                                                        res = self.connection.Async.VM.start_on(self.session_uuid, self.track_tasks[event["ref"]], host_start, False, False)
-                                                        if "Value" in res:
-                                                            self.track_tasks[res['Value']] = self.track_tasks[event["ref"]]
-                                                        else:
-                                                            print res
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "Async.VM.snapshot": 
-                                        self.filter_uuid = event['snapshot']['uuid']
-                                        if self.track_tasks[event["ref"]] in self.all_vms:
-                                            vm_uuid = self.track_tasks[event["ref"]]
-                                            dom = xml.dom.minidom.parseString(event['snapshot']['result'])
-                                            nodes = dom.getElementsByTagName("value")
-                                            snapshot_ref = nodes[0].childNodes[0].data
-                                            #self.all_vms[vm_uuid]['snapshots'].append(snapshot_ref)
-                                            self.all_vms[snapshot_ref] = self.connection.VM.get_record(self.session_uuid, snapshot_ref)['Value']
-                                            for vbd in self.all_vms[snapshot_ref]['VBDs']:
-                                                #FIXME
-                                                self.all_vbd[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
-
-                                            if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                                self.wine.selected_tab == "VM_Snapshots":
-                                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("treevmsnapshots"), \
-                                                         self.wine.builder.get_object("listvmsnapshots")) and False)
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "VM.Async.snapshot": 
-                                            if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                                self.wine.selected_tab == "VM_Snapshots":
-                                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("treevmsnapshots"), \
-                                                         self.wine.builder.get_object("listvmsnapshots")) and False)
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "Importing VM": 
-                                            if self.import_start:
-                                                self.start_vm(self.track_tasks[event["ref"]])
-                                            if self.import_make_into_template:
-                                                self.make_into_template(self.track_tasks[event["ref"]])
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "VM.destroy": 
-                                            if self.wine.selected_tab == "VM_Snapshots":
-                                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("treevmsnapshots"), \
-                                                         self.wine.builder.get_object("listvmsnapshots")) and False)
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "VIF.destroy": 
-                                            if self.wine.selected_tab == "VM_Network":
-                                                    gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("treevmnetwork"), \
-                                                         self.wine.builder.get_object("listvmnetwork")) and False)
-                                    if event["snapshot"]["status"] == "success" and event["snapshot"]["name_label"] == "VIF.plug": 
-                                            if self.wine.selected_tab == "VM_Network":
-                                                    gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("treevmnetwork"), \
-                                                         self.wine.builder.get_object("listvmnetwork")) and False)
-
-                                    if event["snapshot"]["status"] == "success" and \
-                                            (event["snapshot"]["name_label"] == "VBD.create" or \
-                                            event["snapshot"]["name_label"] == "VBD.destroy"): 
-                                            if self.wine.selected_tab == "VM_Storage":
-                                                    #print "fill_vm_storage start"
-                                                    gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("listvmstorage")) and False)
-                                                    #print pdb.set_trace()
-                                                    #print "fill_vm_storage end"
-                                    if event["snapshot"]["status"] == "success" and \
-                                            (event["snapshot"]["name_label"] == "VDI.create" or \
-                                            event["snapshot"]["name_label"] == "VDI.destroy"): 
-                                            if self.wine.selected_tab == "Local_Storage":
-                                                    gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref, \
-                                                         self.wine.builder.get_object("liststg")) and False)
-                                    if event["snapshot"]["status"] == "success" and \
-                                            (event["snapshot"]["name_label"] == "network.create" or \
-                                            event["snapshot"]["name_label"] == "network.destroy"): 
-                                            if self.wine.selected_tab == "HOST_Network":
-                                                gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
-
-                                    if event["snapshot"]["status"] == "success" and \
-                                            (event["snapshot"]["name_label"] == "Async.Bond.create" or  \
-                                             event["snapshot"]["name_label"] == "Bond.create" or  \
-                                             event["snapshot"]["name_label"] == "Async.Bond.destroy" or  \
-                                             event["snapshot"]["name_label"] == "Bond.destroy"): 
-                                             if self.wine.selected_tab == "HOST_Nics":
-                                                gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
-
-                                    if event["ref"] in self.track_tasks:
-                                        self.tasks[event["ref"]] = event
-                                    if event["ref"] in self.vboxchildprogressbar:
-                                         self.vboxchildprogressbar[event["ref"]].set_fraction(float(event["snapshot"]["progress"]))
-                                                
-                                    else:
-                                       if event["ref"] in self.track_tasks:
-                                            self.tasks[event["ref"]] = event
-                                            if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                                self.wine.selected_tab == "VM_Logs":
-                                                if event["ref"] in self.track_tasks and event["ref"] not in self.vboxchildprogressbar:
-                                                    gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
-                                       else:
-                                           if event["snapshot"]["name_label"] == "Exporting VM" and event["ref"] not in self.vboxchildprogressbar:
-                                               self.track_tasks[event["ref"]] = self.wine.selected_ref 
-                                               self.tasks[event["ref"]] = event
-                                               gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
-                                           else:
-                                                #print event
-                                               pass
-
+                                            gobject.idle_add(lambda: self.treestore.foreach(self.search_ref, event["ref"]) and False)
+                                            if self.found_iter:
+                                                gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
+                                                self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
+                                                gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
+         
+                                        if event['snapshot']['affinity'] !=  self.all_vms[self.vm_filter_uuid()]['affinity']:
+                                            print "migrate or start on or resume on2"
+                                        self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
                                 else:
-                                    #print event
-                                    if event["class"] == "vdi":
-                                        self.all_vdi[event["ref"]] = event["snapshot"]
-                                        if self.wine.selected_tab == "Local_Storage":
-                                            liststg = self.wine.builder.get_object("liststg")
-                                            gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref,liststg) and False)
+                                    if event["ref"] in self.track_tasks:
+                                        self.all_vms[self.track_tasks[event["ref"]]] =  event['snapshot']
+
+                                    else:
+                                        self.all_vms[event["ref"]] =  event['snapshot']
+                                self.all_vms[event["ref"]] =  event['snapshot']
+                                self.treestore.foreach(self.update_vm_status, "")
+                                gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+                        elif event['class'] == "vm_guest_metrics":
+                            self.all_vm_guest_metrics[event['ref']] = self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
+                        elif event['class'] == "task":
+                            #print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
+                            self.all_tasks[event["ref"]] = event["snapshot"]
+                            if event["ref"] not in self.track_tasks:
+                                #print event 
+                                #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
+                                pass
+                            if event["snapshot"]["status"] == "success":
+                               if event["ref"] in self.vboxchildprogressbar:
+                                   self.vboxchildprogress[event["ref"]].hide()
+                                   self.vboxchildprogressbar[event["ref"]].hide()
+                                   self.vboxchildcancel[event["ref"]].hide()
+                            if event["snapshot"]["error_info"]:
+                                if event["ref"] in self.track_tasks:
+                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                        gobject.idle_add(lambda: self.wine.push_error_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], event["snapshot"]["error_info"])) and False)
+                                        eref =  event["ref"] 
+                                        if eref in self.vboxchildcancel:
+                                            self.vboxchildcancel[eref].hide()
+                                            self.vboxchildprogressbar[eref].hide()
+                                            self.vboxchildprogress[eref].set_label(str(event["snapshot"]["error_info"]))
+                                            self.vboxchildprogress[eref].modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#FF0000'))
+
+                                    else:
+                                        self.wine.builder.get_object("wprogressimportvm").hide()
+                                        self.wine.builder.get_object("tabboximport").set_current_page(2)
+                                        gobject.idle_add(lambda: self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"])) and False)
+                            else:
+                                if event["ref"] in self.track_tasks:
+                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                        if event["snapshot"]["status"] == "success":
+                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s completed" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"])) and False)
+                                        else:
+                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                    else:
+                                        vm = self.connection.VM.get_record(self.session_uuid, self.track_tasks[event["ref"]])
+                                        if "Value" in vm:
+                                            self.all_vms[self.track_tasks[event["ref"]]] = vm['Value']
+                                            #self.add_vm_to_tree(self.track_tasks[event["ref"]])
+                                            gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
+                                            gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
+                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                        else:
+                                            gobject.idle_add(lambda: self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                else:
+                                     pass  #FIXME?
+                                     #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
+                            if event["snapshot"]["status"] == "success":
+                                if event["snapshot"]["name_label"] == "Async.VIF.create":
+                                    dom = xml.dom.minidom.parseString(event['snapshot']['result'])
+                                    nodes = dom.getElementsByTagName("value")
+                                    vif_ref = nodes[0].childNodes[0].data
+                                    self.connection.VIF.plug(self.session_uuid, vif_ref)
+                                    if self.wine.selected_tab == "VM_Network":
+                                        gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref,
+                                                self.wine.builder.get_object("treevmnetwork"),
+                                                self.wine.builder.get_object("listvmnetwork")) and False)
+                                if event["snapshot"]["name_label"] == "Async.VM.revert":
+                                    self.start_vm(self.track_tasks[event["ref"]])
+
+                                if event["snapshot"]["name_label"] in ("Async.VM.clone", "Async.VM.copy"):
+                                    dom = xml.dom.minidom.parseString(event['snapshot']['result'])
+                                    nodes = dom.getElementsByTagName("value")
+                                    vm_ref = nodes[0].childNodes[0].data
+                                    #self.add_vm_to_tree(vm_ref)
+                                    if event["ref"] in self.set_descriptions:
+                                        self.connection.VM.set_name_description(self.session_uuid, vm_ref, self.set_descriptions[event["ref"]])
+                                if event["snapshot"]["name_label"] in ("Async.VM.provision", "Async.VM.clone", "Async.VM.copy"):
+                                    self.filter_uuid = event['snapshot']['uuid']
+                                    # TODO
+                                    # Detect VM with event["ref"]
+                                    if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in self.all_vms:
+                                        for vbd in self.all_vms[self.track_tasks[event["ref"]]]['VBDs']:
+                                            self.all_storage[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
+                                        for vif in self.all_vms[self.track_tasks[event["ref"]]]['VIFs']:
+                                            self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid, vif)['Value']
+                                    if self.vm_filter_uuid() != None:
+                                        self.all_vms[self.vm_filter_uuid()]['allowed_operations'] = \
+                                            self.connection.VM.get_allowed_operations(self.session_uuid, self.vm_filter_uuid())['Value']
+                                    else:
+                                        if event["ref"] in self.track_tasks:
+                                            self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'] = \
+                                                self.connection.VM.get_allowed_operations(self.session_uuid, self.track_tasks[event["ref"]])['Value']
+                                            if self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'].count("start"):
+                                                if self.track_tasks[event["ref"]] in self.autostart:
+                                                    host_start = self.autostart[self.track_tasks[event["ref"]]]
+                                                    res = self.connection.Async.VM.start_on(self.session_uuid, self.track_tasks[event["ref"]], host_start, False, False)
+                                                    if "Value" in res:
+                                                        self.track_tasks[res['Value']] = self.track_tasks[event["ref"]]
+                                                    else:
+                                                        print res
+                                if event["snapshot"]["name_label"] == "Async.VM.snapshot": 
+                                    self.filter_uuid = event['snapshot']['uuid']
+                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                        vm_uuid = self.track_tasks[event["ref"]]
+                                        dom = xml.dom.minidom.parseString(event['snapshot']['result'])
+                                        nodes = dom.getElementsByTagName("value")
+                                        snapshot_ref = nodes[0].childNodes[0].data
+                                        #self.all_vms[vm_uuid]['snapshots'].append(snapshot_ref)
+                                        self.all_vms[snapshot_ref] = self.connection.VM.get_record(self.session_uuid, snapshot_ref)['Value']
+                                        for vbd in self.all_vms[snapshot_ref]['VBDs']:
+                                            #FIXME
+                                            self.all_vbd[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
+
+                                        if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
+                                            self.wine.selected_tab == "VM_Snapshots":
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("treevmsnapshots"), \
+                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                if event["snapshot"]["name_label"] == "VM.Async.snapshot": 
+                                        if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
+                                            self.wine.selected_tab == "VM_Snapshots":
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("treevmsnapshots"), \
+                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                if event["snapshot"]["name_label"] == "Importing VM": 
+                                        if self.import_start:
+                                            self.start_vm(self.track_tasks[event["ref"]])
+                                        if self.import_make_into_template:
+                                            self.make_into_template(self.track_tasks[event["ref"]])
+                                if event["snapshot"]["name_label"] == "VM.destroy": 
+                                        if self.wine.selected_tab == "VM_Snapshots":
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("treevmsnapshots"), \
+                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                if event["snapshot"]["name_label"] == "VIF.destroy": 
+                                        if self.wine.selected_tab == "VM_Network":
+                                                gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("treevmnetwork"), \
+                                                     self.wine.builder.get_object("listvmnetwork")) and False)
+                                if event["snapshot"]["name_label"] == "VIF.plug": 
+                                        if self.wine.selected_tab == "VM_Network":
+                                                gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("treevmnetwork"), \
+                                                     self.wine.builder.get_object("listvmnetwork")) and False)
+
+                                if event["snapshot"]["name_label"] in ("VBD.create", "VBD.destroy"): 
                                         if self.wine.selected_tab == "VM_Storage":
-                                            gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
-                                                    self.wine.builder.get_object("listvmstorage")) and False)
-
-                                    elif event["class"] == "vbd":
-                                        self.all_vbd[event["ref"]] = event["snapshot"]
-                                        """
-                                        if event["snapshot"]["allowed_operations"].count("attach") == 1:
-                                            self.last_vbd = event["ref"]
-                                        """  
-                                    elif event["class"] == "pif":
-                                       self.all_pif[event["ref"]]  = event["snapshot"]
-                                       if self.wine.selected_tab == "HOST_Nics":
-                                           gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
-
-                                    elif event["class"] == "bond":
-                                       if event["operation"] == "del":
-                                           del self.all_bond[event["ref"]]
-                                       else:
-                                           self.all_bond[event["ref"]]  = event["snapshot"]
-                                       if self.wine.selected_tab == "HOST_Nics":
-                                           gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
-
-                                    elif event["class"] == "vif":
-                                        if event["operation"] == "del":
-                                            del self.all_vif[event["ref"]]
-                                        else:
-                                            if event["operation"] == "add":
-                                                self.connection.VIF.plug(self.session_uuid, event["ref"])
-                                            self.all_vif[event["ref"]]  = event["snapshot"]
-                                    elif event["class"] == "sr":
-                                        self.filter_uuid = event['snapshot']['uuid']
-                                        self.all_storage[event["ref"]]  = event["snapshot"]
-                                        self.treestore.foreach(self.update_storage_status, "")
-                                        if event["operation"] == "del":
-                                            self.filter_uuid = event['snapshot']['uuid']
-                                            gobject.idle_add(lambda: self.treestore.foreach(self.delete_storage, "") and False)
-                                        if event["operation"] == "add":
-                                            sr = event["ref"]
-                                            # FIXME
-                                            host = self.all_hosts.keys()[0]
-                                            if self.poolroot:
-                                                #iter_ref = self.treestore.append(self.poolroot, [\
-                                                gobject.idle_add(lambda: self.treestore.append(self.poolroot, [\
-                                                   gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                                   self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
-                                                   "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
-                                            else:
-                                                #iter_ref = self.treestore.append(self.hostroot[host], [\
-                                                 gobject.idle_add(lambda: self.treestore.append(self.hostroot[host], [\
-                                                   gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                                   self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
-                                                   "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
-
-                                    elif event["class"] == "pool":
-                                        if self.all_pools[event["ref"]]['name_label'] != event["snapshot"]["name_label"]:
-                                            if self.poolroot:
-                                                gobject.idle_add(lambda: self.wine.treestore.remove(self.poolroot) and False)
-                                            else:
-                                                for host_ref in self.hostroot.keys():
-                                                    gobject.idle_add(lambda: self.wine.treestore.remove(self.hostroot[host_ref]) and False)
-
-                                            self.sync()
-                                        if self.all_pools[event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
-                                            self.treestore.foreach(self.update_default_sr, \
-                                                   [self.all_pools[event["ref"]]['default_SR'], event["snapshot"]["default_SR"]])
-                                        self.all_pools[event["ref"]]  = event["snapshot"]
-                                        if self.wine.selected_type == "pool":
-                                            self.update_tab_pool_general(self.wine.selected_ref, self.wine.builder)
-                                    elif event["class"] == "message":
-                                       if event["operation"] == "del":
-                                           del self.all_messages[event["ref"]]
-                                       elif event["operation"] == "add":
-                                           self.all_messages[event["ref"]] = event["snapshot"]
-                                           self.add_alert(event["snapshot"], event["ref"], 
-                                                   self.wine.listalerts)
-                                           self.wine.update_n_alerts()
-                                       else:
-                                           print event
-                                    elif event["class"] == "vm_guest_metrics":
-                                        self.all_vm_guest_metrics[event["ref"]] = event["snapshot"] 
-                                    elif event["class"] == "network":
-                                        if event["operation"] == "del":
-                                            del self.all_network[event["ref"]]
-                                        else:
-                                            self.all_network[event["ref"]] = event["snapshot"] 
+                                                #print "fill_vm_storage start"
+                                                gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("listvmstorage")) and False)
+                                                #print pdb.set_trace()
+                                                #print "fill_vm_storage end"
+                                if event["snapshot"]["name_label"] in ("VDI.create", "VDI.destroy"): 
+                                        if self.wine.selected_tab == "Local_Storage":
+                                                gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref, \
+                                                     self.wine.builder.get_object("liststg")) and False)
+                                if event["snapshot"]["name_label"] in ("network.create", "network.destroy"): 
                                         if self.wine.selected_tab == "HOST_Network":
                                             gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
-                                    elif event["class"] == "vlan":
-                                       if event["operation"] == "del":
-                                           if event["ref"] in self.all_vlan:
-                                               del self.all_vlan[event["ref"]]
-                                       self.all_vlan[event["ref"]] = event["snapshot"] 
 
-                                    elif event["class"] == "host":
-                                       if event["operation"] == "del":
-                                           self.filter_uuid = event['snapshot']['uuid']
-                                           self.treestore.foreach(self.delete_host, "")
-                                           del self.all_hosts[event["ref"]]
+                                if event["snapshot"]["name_label"] in ("Async.Bond.create", "Bond.create",
+                                                                       "Async.Bond.destroy", "Bond.destroy"): 
+                                         if self.wine.selected_tab == "HOST_Nics":
+                                            gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
-                                       elif event["operation"] == "add":
-                                           self.all_hosts[event["ref"]] = event["snapshot"] 
-                                           self.wine.show_error_dlg("Host added, please reconnect for sync all info")
-                                       else:
-                                           self.filter_uuid = event['snapshot']['uuid']
-                                           self.all_hosts[event["ref"]] = event["snapshot"] 
-                                           self.treestore.foreach(self.update_host_status, "")
-                                    elif event["class"] == "pif_metrics":
-                                        self.all_pif_metrics[event["ref"]] = event["snapshot"] 
-                                    elif event["class"] == "host_metrics":
-                                        self.all_host_metrics[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "vbd_metrics":
-                                        self.all_vbd_metrics[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "vif_metrics":
-                                        self.all_vif_metrics[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "vm_metrics":
-                                        self.all_vm_metrics[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "console":
-                                        self.all_console[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "host_patch":
-                                        if event["operation"] == "del":
-                                           del self.all_host_patch[event["ref"]]
-                                        else:
-                                           self.all_host_patch[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "pool_patch":
-                                        if event["operation"] == "del":
-                                           del self.all_pool_patch[event["ref"]]
-                                        else:
-                                           self.all_pool_patch[event["ref"]] = event["snapshot"]
-                                    elif event["class"] == "pbd":
-                                        self.all_pbd[event["ref"]] = event["snapshot"]
-                                        if event["operation"] == "add":
-                                            sr = event["snapshot"]["SR"]
-                                            host = event["snapshot"]["host"]
-                                            gobject.idle_add(lambda: self.treestore.insert_after(self.hostroot[host], self.last_storage_iter, [\
-                                               gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                               self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
-                                               "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
-                                    elif event["class"] == "host_cpu":
-                                        self.all_host_cpu[event["ref"]] = event["snapshot"]
-                                    else:
-                                        print event["class"] + " => ",event
+                            if event["ref"] in self.track_tasks:
+                                self.tasks[event["ref"]] = event
+                            if event["ref"] in self.vboxchildprogressbar:
+                                 self.vboxchildprogressbar[event["ref"]].set_fraction(float(event["snapshot"]["progress"]))
+                                        
+                            else:
+                               if event["ref"] in self.track_tasks:
+                                    self.tasks[event["ref"]] = event
+                                    if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
+                                        self.wine.selected_tab == "VM_Logs":
+                                        if event["ref"] in self.track_tasks and event["ref"] not in self.vboxchildprogressbar:
+                                            gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
+                               else:
+                                   if event["snapshot"]["name_label"] == "Exporting VM" and event["ref"] not in self.vboxchildprogressbar:
+                                       self.track_tasks[event["ref"]] = self.wine.selected_ref 
+                                       self.tasks[event["ref"]] = event
+                                       gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
+                                   else:
+                                        #print event
+                                       pass
+
+                        elif event["class"] == "vdi":
+                            self.all_vdi[event["ref"]] = event["snapshot"]
+                            if self.wine.selected_tab == "Local_Storage":
+                                liststg = self.wine.builder.get_object("liststg")
+                                gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref,liststg) and False)
+                            if self.wine.selected_tab == "VM_Storage":
+                                gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
+                                        self.wine.builder.get_object("listvmstorage")) and False)
+
+                        elif event["class"] == "vbd":
+                            self.all_vbd[event["ref"]] = event["snapshot"]
+                            """
+                            if event["snapshot"]["allowed_operations"].count("attach") == 1:
+                                self.last_vbd = event["ref"]
+                            """  
+                        elif event["class"] == "pif":
+                           self.all_pif[event["ref"]]  = event["snapshot"]
+                           if self.wine.selected_tab == "HOST_Nics":
+                               gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
+
+                        elif event["class"] == "bond":
+                           if event["operation"] == "del":
+                               del self.all_bond[event["ref"]]
+                           else:
+                               self.all_bond[event["ref"]]  = event["snapshot"]
+                           if self.wine.selected_tab == "HOST_Nics":
+                               gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
+
+                        elif event["class"] == "vif":
+                            if event["operation"] == "del":
+                                del self.all_vif[event["ref"]]
+                            else:
+                                if event["operation"] == "add":
+                                    self.connection.VIF.plug(self.session_uuid, event["ref"])
+                                self.all_vif[event["ref"]]  = event["snapshot"]
+                        elif event["class"] == "sr":
+                            self.filter_uuid = event['snapshot']['uuid']
+                            self.all_storage[event["ref"]]  = event["snapshot"]
+                            self.treestore.foreach(self.update_storage_status, "")
+                            if event["operation"] == "del":
+                                self.filter_uuid = event['snapshot']['uuid']
+                                gobject.idle_add(lambda: self.treestore.foreach(self.delete_storage, "") and False)
+                            if event["operation"] == "add":
+                                sr = event["ref"]
+                                # FIXME
+                                host = self.all_hosts.keys()[0]
+                                if self.poolroot:
+                                    #iter_ref = self.treestore.append(self.poolroot, [\
+                                    gobject.idle_add(lambda: self.treestore.append(self.poolroot, [\
+                                       gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
+                                       self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
+                                       "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
+                                else:
+                                    #iter_ref = self.treestore.append(self.hostroot[host], [\
+                                     gobject.idle_add(lambda: self.treestore.append(self.hostroot[host], [\
+                                       gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
+                                       self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
+                                       "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
+
+                        elif event["class"] == "pool":
+                            if self.all_pools[event["ref"]]['name_label'] != event["snapshot"]["name_label"]:
+                                if self.poolroot:
+                                    gobject.idle_add(lambda: self.wine.treestore.remove(self.poolroot) and False)
+                                else:
+                                    for host_ref in self.hostroot.keys():
+                                        gobject.idle_add(lambda: self.wine.treestore.remove(self.hostroot[host_ref]) and False)
+
+                                self.sync()
+                            if self.all_pools[event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
+                                self.treestore.foreach(self.update_default_sr, \
+                                       [self.all_pools[event["ref"]]['default_SR'], event["snapshot"]["default_SR"]])
+                            self.all_pools[event["ref"]]  = event["snapshot"]
+                            if self.wine.selected_type == "pool":
+                                self.update_tab_pool_general(self.wine.selected_ref, self.wine.builder)
+                        elif event["class"] == "message":
+                           if event["operation"] == "del":
+                               del self.all_messages[event["ref"]]
+                           elif event["operation"] == "add":
+                               self.all_messages[event["ref"]] = event["snapshot"]
+                               self.add_alert(event["snapshot"], event["ref"], 
+                                       self.wine.listalerts)
+                               self.wine.update_n_alerts()
+                           else:
+                               print event
+                        elif event["class"] == "vm_guest_metrics":
+                            self.all_vm_guest_metrics[event["ref"]] = event["snapshot"] 
+                        elif event["class"] == "network":
+                            if event["operation"] == "del":
+                                del self.all_network[event["ref"]]
+                            else:
+                                self.all_network[event["ref"]] = event["snapshot"] 
+                            if self.wine.selected_tab == "HOST_Network":
+                                gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
+                        elif event["class"] == "vlan":
+                           if event["operation"] == "del":
+                               if event["ref"] in self.all_vlan:
+                                   del self.all_vlan[event["ref"]]
+                           self.all_vlan[event["ref"]] = event["snapshot"] 
+
+                        elif event["class"] == "host":
+                           if event["operation"] == "del":
+                               self.filter_uuid = event['snapshot']['uuid']
+                               self.treestore.foreach(self.delete_host, "")
+                               del self.all_hosts[event["ref"]]
+
+                           elif event["operation"] == "add":
+                               self.all_hosts[event["ref"]] = event["snapshot"] 
+                               self.wine.show_error_dlg("Host added, please reconnect for sync all info")
+                           else:
+                               self.filter_uuid = event['snapshot']['uuid']
+                               self.all_hosts[event["ref"]] = event["snapshot"] 
+                               self.treestore.foreach(self.update_host_status, "")
+                        elif event["class"] == "pif_metrics":
+                            self.all_pif_metrics[event["ref"]] = event["snapshot"] 
+                        elif event["class"] == "host_metrics":
+                            self.all_host_metrics[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "vbd_metrics":
+                            self.all_vbd_metrics[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "vif_metrics":
+                            self.all_vif_metrics[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "vm_metrics":
+                            self.all_vm_metrics[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "console":
+                            self.all_console[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "host_patch":
+                            if event["operation"] == "del":
+                               del self.all_host_patch[event["ref"]]
+                            else:
+                               self.all_host_patch[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "pool_patch":
+                            if event["operation"] == "del":
+                               del self.all_pool_patch[event["ref"]]
+                            else:
+                               self.all_pool_patch[event["ref"]] = event["snapshot"]
+                        elif event["class"] == "pbd":
+                            self.all_pbd[event["ref"]] = event["snapshot"]
+                            if event["operation"] == "add":
+                                sr = event["snapshot"]["SR"]
+                                host = event["snapshot"]["host"]
+                                gobject.idle_add(lambda: self.treestore.insert_after(self.hostroot[host], self.last_storage_iter, [\
+                                   gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
+                                   self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
+                                   "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None]) and False)
+                        elif event["class"] == "host_cpu":
+                            self.all_host_cpu[event["ref"]] = event["snapshot"]
+                        else:
+                            print event["class"] + " => ",event
             except socket, msg:
                 self.halt = True
                 # FIXME TODO
                 # Disconnect
+            except httplib.CannotSendRequest:
+                # TODO: csun: this is a common error/complaint. Find out why this is happening and fix this?
+                print "Event loop received CannotSendRequest exception, retrying..."
+                time.sleep(0.1)
             except:
-                print "Unexpected error:", sys.exc_info()
+                print "Event loop -- unexpected error:"
                 print traceback.print_exc()
                 
         print "Exiting event loop"

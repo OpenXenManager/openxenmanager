@@ -1577,6 +1577,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
 
 if __name__ == "__main__":
-        # Main function
-        wine = oxcWindow()
-        gtk.main()
+    # Main function
+    gobject.threads_init()
+    gtk.gdk.threads_init()
+    wine = oxcWindow()
+    gtk.main()
