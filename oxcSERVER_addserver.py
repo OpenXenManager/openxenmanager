@@ -56,7 +56,8 @@ class oxcSERVERaddserver(gobject.GObject):
             
     def connect_server(self):
         protocol = ["http", "https"][self.ssl]
-        self.url = "%s://%s" % (protocol, self.host)
+        self.url = "%s://%s:%d" % (protocol, self.host, self.port)
+        print self.url
         self.connection = xmlrpclib.Server(self.url)
         self.connection_events = xmlrpclib.Server(self.url)
         try:
@@ -112,7 +113,9 @@ class oxcSERVERaddserver(gobject.GObject):
             
             # DEBUG
             for ref in self.all_hosts:
-                print "Server version is %s" % (["%s" % (self.all_hosts[ref]['software_version'][x]) for x in ('product_brand', 'product_version', 'xapi')] + [self.all_hosts[ref]['license_params']['sku_marketing_name']])
+                print "Server version is %s" % (["%s" % (self.all_hosts[ref]['software_version'].get(x))
+                                                 for x in ('product_brand', 'product_version', 'xapi')] +
+                                                [self.all_hosts[ref]['license_params'].get('sku_marketing_name')])
             
             self.emit("sync-progress", "Retrieving pools")
             self.all_pools = self.connection.pool.get_all_records(self.session_uuid).get('Value')
@@ -167,16 +170,11 @@ class oxcSERVERaddserver(gobject.GObject):
             self.emit("sync-progress", "Retrieving consoles")
             self.all_console = self.connection.console.get_all_records(self.session_uuid).get('Value')
 
-            try:
-                # TODO: csun: why can these throw errors?
-                self.emit("sync-progress", "Retrieving subjects")
-                self.all_subject = self.connection.subject.get_all_records(self.session_uuid).get('Value')
-                self.emit("sync-progress", "Retrieving roles")
-                self.all_role = self.connection.role.get_all_records(self.session_uuid).get('Value')
-            except:
-                import traceback
-                print "Synchronisation warning:\nRetrieval of subjects/roles threw error:"
-                traceback.print_exc()
+            self.emit("sync-progress", "Retrieving subjects")
+            self.all_subject = self.connection.subject.get_all_records(self.session_uuid).get('Value')
+            self.emit("sync-progress", "Retrieving roles")
+            self.all_role = self.connection.role.get_all_records(self.session_uuid).get('Value')
+
         except:
             self.emit("sync-failure", "An unknown error occurred. See log output in terminal for details.")
             print "Synchronisation error:\n"

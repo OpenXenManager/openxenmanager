@@ -78,14 +78,15 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     last_storage_iter = None
     pbdcreate = []
     
-    def __init__(self, host, user, password, wine, ssl = False):
+    def __init__(self, host, user, password, wine, ssl = False, port = 80):
         super(oxcSERVER, self).__init__()
         self.host = host
         self.hostname = host
         self.wine = wine
         self.user = user
         self.password = password
-        self.ssl = ssl 
+        self.ssl = ssl
+        self.port = port
         
     def logout(self):
         self.halt_search = True

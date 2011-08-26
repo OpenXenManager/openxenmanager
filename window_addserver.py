@@ -22,6 +22,7 @@
 #!/usr/bin/env python
 import xtea
 import oxm
+import re
 from oxcSERVER import *
 class oxcWindowAddServer:
     """
@@ -29,31 +30,35 @@ class oxcWindowAddServer:
     """
     def on_addserver_clicked(self, widget, data=None):
         """
-        Function called when you press "add server" button 
+        Function called when you press "add server" button or image
         """
         # Show the add server window
         self.builder.get_object("addserver").show_all()
+        self.on_addserverhostname_changed(self.builder.get_object("addserverhostname"))
+        self.on_addserverssl_toggled(self.builder.get_object("checksslconnection"))
         self.builder.get_object("addserverhostname").grab_focus()
-    def on_imageaddserver_button_press_event(self, widget, data=None):
-        """
-        Function called when you press main image to add "add server"
-        """
-        # Show the add server window
-        self.builder.get_object("addserver").show()
-        self.builder.get_object("addserverpassword").grab_focus()
     def on_addserverhostname_changed(self, widget, data=None):
         """
         Function called when hostname/ip text field is changed
         """
-        # Get "connect" button object
         connectAddServer = self.builder.get_object("connectAddServer")
-        # widget.get_active_text() contains the ip/hostname
-        if len(widget.get_active_text()) > 0:
-            # If is not empty, enable the button
+        hostname = widget.get_active_text()
+        if re.match("^[a-zA-Z0-9\-_.]+?$", hostname):
+            # If is valid, enable the button
             connectAddServer.set_sensitive(True)
         else:
-            # If is empty, disable the button
+            # If is invalid, disable the button
             connectAddServer.set_sensitive(False)
+    def on_addserverssl_toggled(self, widget, data=None):
+        """
+        Function called when "SSL connection" checkbox is toggled
+        """
+        connectPort = self.builder.get_object("addserverport")
+        # set the default port number
+        ports = ["80", "443"]   # for unencrypted and encrypted respectively
+        if (not connectPort.get_text() or
+            connectPort.get_text() == ports[not widget.get_active()]):
+            connectPort.set_text(ports[widget.get_active()])
     def on_connectAddServer_clicked(self, widget, data=None):
         """
         Function called when you press the "connect" button 
@@ -71,7 +76,7 @@ class oxcWindowAddServer:
         """
         self.builder.get_object("addserver").hide()
         
-    def add_server(self, host, user, password, iter=None, ssl = None):
+    def add_server(self, host, user, password, iter=None, ssl = None, port = None):
         """
         Function used to connect to server
         """
@@ -92,14 +97,19 @@ class oxcWindowAddServer:
         #Show a dialog with a progress bar.. it should be do better
         self.builder.get_object("wprogressconnect").show()
         # Check if SSL connection is selected
-        if ssl == None:
+        if ssl is None:
             ssl = self.builder.get_object("checksslconnection").get_active()
         else:
             self.builder.get_object("checksslconnection").set_active(ssl)
         
+        if port is None:
+            port = int(self.builder.get_object("addserverport").get_text())
+        else:
+            self.builder.get_object("addserverport").set_text(port)
+        
         # Create a new oxcSERVER object
         self.builder.get_object("lblprogessconnect").set_label("Connecting to %s..." % host)
-        server = oxcSERVER(host,user,password, self, ssl)
+        server = oxcSERVER(host,user,password, self, ssl, port)
         self.xc_servers[host] = server
         # connect the signal handlers
         server.connect("connect-success", oxm.idle(self.server_connect_success))
