@@ -19,28 +19,17 @@
 #
 # -----------------------------------------------------------------------
 import sys
-# Add paths for compatibility (centos, debian lenny..)
-sys.path.append("/usr/local/lib/python2.5/site-packages/")
-sys.path.append("gtk-2.0/")
-sys.path.append("/usr/local/lib/python2.5/site-packages/gtk-2.0/")
 import os
+
 if os.path.dirname(sys.argv[0]): 
     os.chdir(os.path.dirname(sys.argv[0]))
 import pygtk
+
 # On next releases we will use gettext for translations
 APP = 'oxc'
 DIR = 'locale'
 if sys.platform != "win32" and sys.platform != "darwin":
     # If sys.platform is linux or unix
-    """
-    if not os.path.exists("oxcgtkvnc.so"):
-        if platform.architecture()[0] == "32bit":
-            shutil.copy("32/oxcgtkvnc.so", "oxcgtkvnc.so")
-            shutil.copy("32/liboxcgtk-vnc-1.0.so.0", "liboxcgtk-vnc-1.0.so.0")
-        if platform.architecture()[0] == "64bit":
-            shutil.copy("64/oxcgtkvnc.so", "oxcgtkvnc.so")
-            shutil.copy("64/liboxcgtk-vnc-1.0.so.0", "liboxcgtk-vnc-1.0.so.0")
-    """
     import gtkvnc
     # Only needed for translations
     import gtk.glade

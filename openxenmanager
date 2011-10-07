@@ -1,2 +1,2 @@
-#!/bin/bash
-python window.py
+#!/bin/sh
+/usr/bin/env python2 window.py

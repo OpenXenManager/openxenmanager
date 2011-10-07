@@ -1,3 +1,5 @@
+# License: Public Domain
+# Original Author: John Finlay <finlay at moeraki.com>
 # http://www.daa.com.au/pipermail/pygtk/2004-September/008685.html
 
 #!/usr/bin/env python
