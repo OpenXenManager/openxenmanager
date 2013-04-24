@@ -388,7 +388,7 @@ class oxcSERVERmenuitem:
                      else:
                          gobject.idle_add(lambda: list.set_value(list.get_iter((i,)), 3, "<span foreground='green'><b>Connected</b></span>") and False)
         if not error:
-             gobjec.idle_add(lambda: self.wine.builder.get_object("lblrepairerror").set_markup(\
+             gobject.idle_add(lambda: self.wine.builder.get_object("lblrepairerror").set_markup(\
                      "<span foreground='green'><b>All repaired.</b></span>") and False)
         gobject.idle_add(lambda: self.wine.builder.get_object("acceptrepairstorage").set_sensitive(True) and False)
         gobject.idle_add(lambda: self.wine.builder.get_object("cancelrepairstorage").set_label("Close") and False)
