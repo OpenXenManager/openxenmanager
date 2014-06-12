@@ -960,8 +960,16 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         else:
                             ref = self.selected_ref
                         if self.xc_servers[self.selected_host].all_vms[ref]["consoles"]:
-                            console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][0]
-                            location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
+                            nb_consoles = len(self.xc_servers[self.selected_host].all_vms[ref]["consoles"])
+                            location = None
+                            for i in range(nb_consoles):
+                                console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][i]
+                                protocol = self.xc_servers[self.selected_host].all_console[console_ref]["protocol"]
+                                if protocol == 'rfb':
+                                    location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
+                                    break
+                            if location is None:
+                                print "no VNC console found"
                             self.tunnel = Tunnel(self.xc_servers[self.selected_host].session_uuid, location)
                             port = self.tunnel.get_free_port()
                             Thread(target=self.tunnel.listen, args=(port,)).start()
