@@ -21,9 +21,15 @@
 # -----------------------------------------------------------------------
 #!/usr/bin/env python
 import xtea
-import oxm
 import re
 from oxcSERVER import *
+
+
+def idle(func):
+    falsefunc = lambda: func(*args, **kwargs) and False
+    return lambda *args, **kwargs: gobject.idle_add(falsefunc)
+
+
 class oxcWindowAddServer:
     """
     Class with functions to manage "add server" window
@@ -112,11 +118,11 @@ class oxcWindowAddServer:
         server = oxcSERVER(host,user,password, self, ssl, port)
         self.xc_servers[host] = server
         # connect the signal handlers
-        server.connect("connect-success", oxm.idle(self.server_connect_success))
-        server.connect("connect-failure", oxm.idle(self.server_connect_failure))
-        server.connect("sync-progress", oxm.idle(self.server_sync_progress))
-        server.connect("sync-success", oxm.idle(self.server_sync_update_tree))
-        server.connect("sync-failure", oxm.idle(self.server_sync_failure))
+        server.connect("connect-success", idle(self.server_connect_success))
+        server.connect("connect-failure", idle(self.server_connect_failure))
+        server.connect("sync-progress", idle(self.server_sync_progress))
+        server.connect("sync-success", idle(self.server_sync_update_tree))
+        server.connect("sync-failure", idle(self.server_sync_failure))
         # begin async connection
         server.connect_server_async()
         # begin UI animation

@@ -21,6 +21,7 @@
 # -----------------------------------------------------------------------
 import xmlrpclib, urllib
 import asyncore, socket
+import httplib
 import select
 import gtk
 import os
@@ -128,259 +129,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
         return relation
 
-    def prueba(self):
-        print self.session_uuid
-        task_uuid = self.connection.task.create(self.session_uuid, "Restore2", "Restoring2 ")
-        print task_uuid
-        time.sleep(300)
-        print task_uuid
-        return
-        networks = self.connection.network.get_all_records(self.session_uuid)['Value']
-        for network in networks:
-            print networks[network]['name_label']
-            vms = []
-            for vif in networks[network]['VIFs']:
-                vms.append(self.connection.VIF.get_record(self.session_uuid, vif)['Value']['VM'])
-            # Remove duplicates
-            set = {}
-            map(set.__setitem__, vms, [])
-            for vm in set.keys():
-                print "\t" + self.connection.VM.get_record(self.session_uuid, vm)['Value']['name_label']
-
-        storages = self.connection.SR.get_all_records(self.session_uuid)['Value']
-        for storage in storages:
-            vms = []
-            print storages[storage]['name_label']
-            for vdi in storages[storage]['VDIs']:
-                vbds = self.connection.VDI.get_record(self.session_uuid, vdi)['Value']['VBDs']
-                for vbd in vbds:
-                    vms.append(self.connection.VBD.get_record(self.session_uuid, vbd)['Value']['VM'])
-            set = {}
-            map(set.__setitem__, vms, [])
-            for vm in set.keys():
-                print "\t" + self.connection.VM.get_record(self.session_uuid, vm)['Value']['name_label']
-
-        """
-        print self.connection.Async.pool_patch.apply(self.session_uuid, "OpaqueRef:772a39ac-e9be-1b14-2b20-ded03b95b20b", "OpaqueRef:be650e6f-8e2f-d937-c525-15fd57568bac")
-        result = self.connection.host.get_system_status_capabilities(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a")['Value']
-        privacy = {"yes": "1", "maybe": "2", "if_customized": "3", "no": "4"}
-        dom = xml.dom.minidom.parseString(result)
-        nodes = dom.getElementsByTagName("capability")
-        capabilities = {}
-        for node in nodes:
-           attr = node.attributes
-           key, checked, pii, minsize, maxsize, mintime, maxtime = [attr.getNamedItem(k).value for k \
-                   in ["key", "default-checked", "pii", "min-size", "max-size", "min-time", "max-time"]]
-           capabilities[privacy[pii] + "_" + key] = [checked, minsize, maxsize, mintime, maxtime]
-        totalsize = 0
-        totaltime = 0
-        for key in sorted(capabilities.keys()):
-           if key.split("_",2)[1] in capabilities_text:
-               print capabilities_text[key.split("_",2)[1]]
-               checked, minsize, maxsize, mintime, maxtime = [value for value in capabilities[key]]
-               if minsize == maxsize:
-                  if maxsize != "-1": 
-                      totalsize += int(maxsize)
-                  size = self.convert_bytes(maxsize)
-               elif minsize == "-1":
-                  totalsize += int(maxsize)
-                  size = "< %s" % self.convert_bytes(maxsize)
-               else:
-                  totalsize += int(maxsize)
-                  size = "%s-%s" % (self.convert_bytes(minsize), self.convert_bytes(maxsize))
-
-               if mintime == maxtime:
-                  if maxtime == "-1":
-                      time = "Negligible"
-                  else:
-                      totaltime += int(maxtime)
-                      time = maxtime
-               elif mintime == "-1":
-                  totaltime += int(maxtime)
-                  time= "< %s" % maxtime
-               else:
-                  totaltime += int(maxtime)
-                  time= "%s-%s" % (mintime, maxtime)
-
-               print "\tChecked: %s\n\tSize: %s\n\tTime: %s seconds\n" % (checked, size, time)
-        print "Total Size: < %s Total Time: < %d minutes\n" % (self.convert_bytes(totalsize), totaltime/60)
-        print self.connection.VM.get_record(self.session_uuid, "OpaqueRef:dfd4eb56-d44b-8895-328e-83a36a0807ee")
-        print self.connection.VM.set_PV_kernel(self.session_uuid, "OpaqueRef:dfd4eb56-d44b-8895-328e-83a36a0807ee", "asdfasdf")
-        print "https://%s/vncsnapshot?session_id=%s&ref=%s" % (self.host, self.session_uuid, "OpaqueRef:be4332e6-a8c2-eb35-6b4d-58384e1f8463")
-        time.sleep(30)
-        task_uuid = self.connection.task.create(self.session_uuid, "Backup database pool", "Backup database pool")
-        url = "http://" + self.host + '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid, task_uuid['Value'])
-        urllib.urlretrieve(url, "/tmp/backup.xml")
-        import httplib, os
-        filename = "/root/openxencenter/prueba.xml"
-        task_uuid = self.connection.task.create(self.session_uuid, "Restore Pool database", "Restoring database pool " + filename)
-        self.track_tasks[task_uuid['Value']] = "Restore.Pool"
-        size=os.path.getsize(filename)
-        conn = httplib.HTTPConnection("192.168.100.2", 80)
-        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']), True, True)
-        conn.putheader("Content-length:", str(size));
-        conn.endheaders()
-        fp=open(filename, 'r')
-        total = 0
-        while True:
-           leido = fp.read(16384)
-           total += len(leido)
-           if leido:
-               time.sleep(0.1)
-               conn.send(leido) 
-           else:
-               break
-        conn.close()
-        fp.close()
-        value = task_uuid["Value"]
-        task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        while task["status"] == "pending":
-           task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        print self.connection.host.get_all_records(self.session_uuid)
-        print self.connection.host.dmesg(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a")
-        res = self.connection.SR.create(self.session_uuid,"OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d", {"SCSIid" : "3600a0b8000294d50000043454990e472" }, "0", ">Hardware HBA virtual disk storage", "Hardware HBA SR [IBM - /dev/sde]","lvmohba", "", False,{})
-        if len(res['ErrorDescription']) > 2:
-            print res['ErrorDescription'][2]
-        #<?xml version="1.0"?><methodCall><methodName>Async.SR.probe</methodName><params><param><value><string>OpaqueRef:021466a4-68d1-8e4b-c8ee-4d40e7be1d19</string></value></param><param><value><string>OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d</string></value></param><param><value><struct><member><name>SCSIid</name><value><string>3600a0b8000294d50000045784b85e36f</string></value></member></struct></value></param><param><value><string>lvmohba</string></value></param><param><value><struct /></value></param></params></methodCall>
-        all_storage = self.connection.SR.get_all_records(self.session_uuid)['Value']
-        all_pbd = self.connection.PBD.get_all_records(self.session_uuid)['Value']
-        result = self.connection.SR.probe(self.session_uuid, "OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d", {"SCSIid" : "3600a0b8000294d50000045784b85e36f" }, "lvmohba", {})['Value']
-        dom = xml.dom.minidom.parseString(result)
-        nodes = dom.getElementsByTagName("UUID")
-        if len(nodes):
-           reattach = True
-           uuid = nodes[0].childNodes[0].data.strip()
-           for storage in all_storage.values():
-               if storage["uuid"] == uuid:
-                   print storage
-                   if len(storage['PBDs']):
-                       print all_pbd[storage['PBDs'][0]]
-                       reattach = False
-           if reattach: 
-               return 0
-               print "Do you want reattach...."
-           else:
-               print "Please first detach...."
-        else:
-           print "Do you want format.."
-           pass
-        res = self.connection.SR.probe(self.session_uuid, "OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d", {}, "lvmohba", {})
-        if len(res['ErrorDescription']) > 2:
-           result = res['ErrorDescription'][3]
-           dom = xml.dom.minidom.parseString(result)
-           nodes = dom.getElementsByTagName("BlockDevice")
-           disks = {}
-           for node in nodes:
-               size = self.convert_bytes(node.getElementsByTagName("size")[0].childNodes[0].data.strip())
-               serial = node.getElementsByTagName("serial")[0].childNodes[0].data.strip()
-               scsiid = node.getElementsByTagName("SCSIid")[0].childNodes[0].data.strip()
-               adapter = node.getElementsByTagName("adapter")[0].childNodes[0].data.strip()
-               channel = node.getElementsByTagName("channel")[0].childNodes[0].data.strip()
-               id = node.getElementsByTagName("id")[0].childNodes[0].data.strip()
-               lun = node.getElementsByTagName("lun")[0].childNodes[0].data.strip()
-               vendor = node.getElementsByTagName("vendor")[0].childNodes[0].data.strip()
-               if vendor not in disks:
-                   disks[vendor] = []
-               disks[vendor].append("%s %s %s %s:%s:%s:%s" % (size, serial, scsiid, adapter, channel, id, lun))
-           print disks
-        else:
-           print "No LUNS found"
-        """
-        #<?xml version="1.0"?><methodCall><methodName>Async.SR.probe</methodName>
-        #<params>
-        #<param><value><string>OpaqueRef:047a0487-db6d-d273-09a3-d2ac68cb0a7c</string></value></param>
-        #<param><value><string>OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a</string></value></param>
-        #<param><value><struct>
-        #    <member><name>serverpath</name><value><string>/home</string></value></member>
-        #    <member><name>server</name><value><string>192.168.100.4</string></value></member>
-        #    <member><name>options</name><value><string /></value></member>
-        #</struct></value></param>
-        #<param><value><string>nfs</string></value></param>
-        #<param><value><struct /></value></param></params></methodCall>
-        """
-        all_vms = self.connection.VM.get_all_records(self.session_uuid)['Value']
-        all_vdi = self.connection.VDI.get_all_records(self.session_uuid)['Value']
-        all_vbd = self.connection.VBD.get_all_records(self.session_uuid)['Value']
-        vm = "OpaqueRef:0bbb21d5-4810-2cdc-9b75-c02415de78bb"
-        vm_vbd = ""
-        vm_vdi = ""
-        for vbd in all_vbd.keys():
-            if all_vbd[vbd]["VM"] == vm and \
-                    all_vbd[vbd]['type'] == "CD":
-                   vm_vbd = vbd
-
-        for vdi in all_vdi:
-           if all_vdi[vdi]['location'] == "XenCenter.iso":
-            vm_vdi = vdi
-        print self.connection.Async.VBD.eject(self.session_uuid, vm_vbd) 
-        print self.connection.VBD.insert(self.session_uuid, vm_vbd, vm_vdi)
-        sr = {
-        "serverpath" : "/home",
-        "server" : "192.168.100.4",
-        "options" : ""
-        }
-        value = self.connection.Async.SR.probe(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a", sr, "nfs", {})['Value']
-        task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        while task["status"] == "pending":
-           task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        result =  saxutils.unescape(task['result']).replace("<value>","").replace("</value>","").replace("&quot;", '"')
-        print result
-        dom = xml.dom.minidom.parseString(result)
-        nodes = dom.getElementsByTagName("SRlist")
-        if len(nodes[0].childNodes):
-            for i in range(1,len(nodes[0].childNodes),2):
-                print nodes[0].childNodes[i].childNodes[1].childNodes[0].data.strip()
-        self.connection.task.destroy(self.session_uuid, value)
-        sr = {
-           "port" : "3260",
-           "target" : "192.168.100.4",
-           "SCSIid" : "14945540000000000000000000100000002a00a002100a00c",
-           "targetIQN" : "iqn.2001-04.com.example:storage.disk2.sys1.xyz",
-        }
-        value = self.connection.Async.SR.probe(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a", sr, "lvmoiscsi",{})['Value']
-        task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        while task["status"] == "pending":
-           task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        print task
-        self.connection.task.destroy(self.session_uuid, value)
-        sr = {
-            "port" : "3260",
-            "target": "192.168.100.4",
-            }
-        # chapuser
-        # chappassword
-        value = self.connection.Async.SR.create(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a", sr, "0", "__gui__", "SHOULD NEVER BE CREATED","lvmoiscsi","user", True, {})['Value']
-        task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        while task["status"] == "pending":
-            task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        if task["error_info"][3]:
-            dom = xml.dom.minidom.parseString(task["error_info"][3])
-            nodes = dom.getElementsByTagName("TGT")
-            index = nodes[0].childNodes[1].childNodes[0].data.strip()
-            ip = nodes[0].childNodes[3].childNodes[0].data.strip()
-            target = nodes[0].childNodes[5].childNodes[0].data.strip()
-            print "%s (%s)" % (target, ip)
-        else:
-            print task["error_info"][2]
-            self.connection.task.destroy(self.session_uuid, value)
-        sr["targetIQN"] = target
-        value = self.connection.Async.SR.create(self.session_uuid, "OpaqueRef:480dede4-930b-1b5c-54a8-73d38fa56d3a", sr, "0", "__gui__", "SHOULD NEVER BE CREATED","lvmoiscsi","user", True, {})['Value']
-        task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        while task["status"] == "pending":
-            task = self.connection.task.get_record(self.session_uuid, value)['Value']
-        print task["error_info"][3]
-        if task["error_info"][3]:
-            dom = xml.dom.minidom.parseString(task["error_info"][3])
-            nodes = dom.getElementsByTagName("LUN")
-            vendor = nodes[0].childNodes[1].childNodes[0].data.strip()
-            lunid = nodes[0].childNodes[3].childNodes[0].data.strip()
-            size = nodes[0].childNodes[5].childNodes[0].data.strip()
-            scsiid = nodes[0].childNodes[7].childNodes[0].data.strip()
-            print "LUN %s: %s (%s)" % (lunid, self.convert_bytes(size), vendor)
-        else:
-            print task["error_info"][2]
-            self.connection.task.destroy(self.session_uuid, value)
-        """
     def export_vm(self, uuid):
         vm_uuid = self.connection.VM.get_by_uuid(self.session_uuid, uuid)['Value']
         print "GET /export?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (vm_uuid,self.session_uuid)
@@ -408,7 +156,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         return self.connection.host.dmesg(self.session_uuid, ref)["Value"]
 
     def restore_server(self, ref, file, name):
-        import httplib
         #<?xml version="1.0"?><methodCall><methodName>task.create</methodName><params><param><value><string>OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param><param><value><string>uploadTask</string></value></param><param><value><string>http://83.165.161.223/host_restore?session_id=OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param></params></methodCall>
         task_uuid = self.connection.task.create(self.session_uuid, "Restoring Server", "Restoring Server %s from %s " % (name,file))
         self.track_tasks[task_uuid['Value']] = "Restore.Server"
@@ -449,7 +196,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         urllib.urlretrieve(url, filename)
 
     def pool_restore_database(self, ref, filename, name, dry_run="true"):
-        import httplib
         task_uuid = self.connection.task.create(self.session_uuid, "Restore Pool database", "Restoring database pool " + filename)
         self.track_tasks[task_uuid['Value']] = "Restore.Pool"
 
@@ -491,8 +237,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         urllib.urlretrieve(url, filename)
 
     def import_vm(self, ref, filename):
-        #file = "pruebadebian.xva"
-        import httplib
         task_uuid = self.connection.task.create(self.session_uuid, "Importing VM", "Importing VM " + filename)
         self.track_tasks[task_uuid['Value']] = "Import.VM"
 
