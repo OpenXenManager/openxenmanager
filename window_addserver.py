@@ -26,8 +26,7 @@ from oxcSERVER import *
 
 
 def idle(func):
-    falsefunc = lambda: func(*args, **kwargs) and False
-    return lambda *args, **kwargs: gobject.idle_add(falsefunc)
+    return lambda *args, **kwargs: gobject.idle_add(lambda: func(*args, **kwargs) and False)
 
 
 class oxcWindowAddServer:
