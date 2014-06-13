@@ -27,7 +27,7 @@ if os.path.dirname(sys.argv[0]):
     os.chdir(os.path.dirname(sys.argv[0]))
 import pygtk
 
-# On next releases we will use gettext for translations
+# On next releases we will use gettext for translations TODO: Investigate translations
 APP = 'oxc'
 DIR = 'locale'
 if sys.platform != "win32" and sys.platform != "darwin":
