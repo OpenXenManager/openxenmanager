@@ -43,6 +43,7 @@ class oxcWindowAddServer:
         self.on_addserverhostname_changed(self.builder.get_object("addserverhostname"))
         self.on_addserverssl_toggled(self.builder.get_object("checksslconnection"))
         self.builder.get_object("addserverhostname").grab_focus()
+
     def on_addserverhostname_changed(self, widget, data=None):
         """
         Function called when hostname/ip text field is changed
@@ -55,6 +56,7 @@ class oxcWindowAddServer:
         else:
             # If is invalid, disable the button
             connectAddServer.set_sensitive(False)
+
     def on_addserverssl_toggled(self, widget, data=None):
         """
         Function called when "SSL connection" checkbox is toggled
@@ -65,6 +67,7 @@ class oxcWindowAddServer:
         if (not connectPort.get_text() or
             connectPort.get_text() == ports[not widget.get_active()]):
             connectPort.set_text(ports[widget.get_active()])
+
     def on_connectAddServer_clicked(self, widget, data=None):
         """
         Function called when you press the "connect" button 
@@ -76,13 +79,14 @@ class oxcWindowAddServer:
         # Call to "add_server" function with params
         # This function try connect to server and authenticate
         self.add_server(host, user, password)
+
     def on_cancelAddServer_clicked(self, widget, data=None):
         """
         Function called when you press the "cancel" button on "add server" dialog
         """
         self.builder.get_object("addserver").hide()
         
-    def add_server(self, host, user, password, iter=None, ssl = None, port = None):
+    def add_server(self, host, user, password, iter=None, ssl=None, port=None):
         """
         Function used to connect to server
         """
@@ -90,6 +94,7 @@ class oxcWindowAddServer:
         # check that we are not already connected
         # FIXME: csun: should be better done when we have controllers
         found = []
+
         def add_helper(model, path, iter):
             if self.treestore.get(iter, 3, 5) == ("host", host):
                 found.append(self.treestore.get(iter, 1)[0])
@@ -107,15 +112,15 @@ class oxcWindowAddServer:
             ssl = self.builder.get_object("checksslconnection").get_active()
         else:
             self.builder.get_object("checksslconnection").set_active(ssl)
-        
+
         if port is None:
             port = int(self.builder.get_object("addserverport").get_text())
         else:
             self.builder.get_object("addserverport").set_text(port)
-        
+
         # Create a new oxcSERVER object
         self.builder.get_object("lblprogessconnect").set_label("Connecting to %s..." % host)
-        server = oxcSERVER(host,user,password, self, ssl, port)
+        server = oxcSERVER(host, user, password, self, ssl, port)
         self.xc_servers[host] = server
         # connect the signal handlers
         server.connect("connect-success", idle(self.server_connect_success))
@@ -135,7 +140,7 @@ class oxcWindowAddServer:
             self.builder.get_object("progressconnect").pulse()
             server.connectThread.join(1)
         # TODO: what does this variable do?
-        if self.selected_host == None:
+        if self.selected_host is None:
             self.selected_host = server.host
         
     def server_connect_success(self, server):
@@ -176,8 +181,7 @@ class oxcWindowAddServer:
         print "Server sync progress %s" % msg
         self.builder.get_object("progressconnect").pulse()
         self.builder.get_object("lblprogessconnect").set_text("Synchronizing...\n%s" % msg)
-        
-    
+
     def server_sync_finish(self, server):
         # Hide window progress
         self.builder.get_object("wprogressconnect").hide()
@@ -217,9 +221,11 @@ class oxcWindowAddServer:
             for pool in server.all_pools.keys():
                 server.default_sr = server.all_pools[pool]['default_SR']
                 if server.all_pools[pool]['name_label']:
-                    poolroot =  self.treestore.append(self.treeroot, [gtk.gdk.pixbuf_new_from_file\
-                        ("images/poolconnected_16.png"),\
-                        server.all_pools[pool]['name_label'], pool, "pool", "Running", server.host, pool, ['newvm', 'newstorage', 'importvm', 'disconnect'], server.host])
+                    poolroot = self.treestore.append(self.treeroot,
+                                                      [gtk.gdk.pixbuf_new_from_file("images/poolconnected_16.png"),
+                                                       server.all_pools[pool]['name_label'], pool, "pool", "Running",
+                                                       server.host, pool,
+                                                       ['newvm', 'newstorage', 'importvm', 'disconnect'], server.host])
             if poolroot:
                 relacion = {}
                 for ref in server.all_hosts.keys():
@@ -235,32 +241,37 @@ class oxcWindowAddServer:
                     host_enabled = server.all_hosts[h]['enabled']
                     host_address = server.all_hosts[h]['address']
                     if host_enabled:
-                        hostroot[h] = self.treestore.append(poolroot, [gtk.gdk.pixbuf_new_from_file\
-                                    ("images/tree_connected_16.png"),\
-                                    host, host_uuid, "host", "Running", server.host, h,\
-                                    ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown'], host_address])
+                        hostroot[h] = self.treestore.append(
+                            poolroot, [gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), host, host_uuid,
+                                       "host", "Running", server.host, h, ['newvm', 'importvm', 'newstorage',
+                                                                           'clean_reboot', 'clean_shutdown',
+                                                                           'shutdown'], host_address])
                     else:
-                        hostroot[h] = self.treestore.append(poolroot, [gtk.gdk.pixbuf_new_from_file\
-                                    ("images/tree_disabled_16.png"),\
-                                    host, host_uuid, "host", "Disconnected", server.host, h, \
-                                    [], host_address])
+                        hostroot[h] = self.treestore.append(
+                            poolroot,
+                            [gtk.gdk.pixbuf_new_from_file("images/tree_disabled_16.png"), host, host_uuid, "host",
+                             "Disconnected", server.host, h, [], host_address])
                 root = poolroot
             else:
-               host_uuid = server.all_hosts[server.all_hosts.keys()[0]]['uuid']
-               host = server.all_hosts[server.all_hosts.keys()[0]]['name_label']
-               host_address = server.all_hosts[server.all_hosts.keys()[0]]['address']
-               host_enabled = server.all_hosts[server.all_hosts.keys()[0]]['enabled']
-               if host_enabled:
-                   hostroot[server.all_hosts.keys()[0]] = self.treestore.append(self.treeroot, [gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_connected_16.png"),\
-                                host, host_uuid, "host", "Running", server.host, server.all_hosts.keys()[0], 
-                                ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown', 'disconnect'], host_address])
-               else:
-                   hostroot[server.all_hosts.keys()[0]] = self.treestore.append(self.treeroot, [gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_disabled_16.png"),\
-                                host, host_uuid, "host", "Running", server.host, server.all_hosts.keys()[0], 
-                                ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown', 'shutdown', 'disconnect'], host_address])
-               root = hostroot[server.all_hosts.keys()[0]]
+                host_uuid = server.all_hosts[server.all_hosts.keys()[0]]['uuid']
+                host = server.all_hosts[server.all_hosts.keys()[0]]['name_label']
+                host_address = server.all_hosts[server.all_hosts.keys()[0]]['address']
+                host_enabled = server.all_hosts[server.all_hosts.keys()[0]]['enabled']
+                if host_enabled:
+                    hostroot[server.all_hosts.keys()[0]] = self.treestore.append(
+                        self.treeroot, [gtk.gdk.pixbuf_new_from_file("images/tree_connected_16.png"), host, host_uuid,
+                                        "host", "Running", server.host, server.all_hosts.keys()[0],
+                                        ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown',
+                                         'shutdown', 'disconnect'], host_address])
+                else:
+                    hostroot[server.all_hosts.keys()[0]] = self.treestore.append(
+                        self.treeroot, [gtk.gdk.pixbuf_new_from_file("images/tree_disabled_16.png"), host, host_uuid,
+                                        "host", "Running", server.host, server.all_hosts.keys()[0],
+                                        ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown',
+                                         'shutdown', 'disconnect'], host_address])
+
+                root = hostroot[server.all_hosts.keys()[0]]
+
             server.hostname = host
             server.hostroot = hostroot
             server.poolroot = poolroot
@@ -271,96 +282,102 @@ class oxcWindowAddServer:
             rkeys = relacion.keys()
             rkeys.sort(key=str.lower)
             for ref in rkeys:
-                server.all_vms_keys.insert(0,relacion[ref])
-
+                server.all_vms_keys.insert(0, relacion[ref])
 
             for vm in server.all_vms_keys:
                 if not server.all_vms[vm]['is_a_template']:
                     if not server.all_vms[vm]['is_control_domain']:
-                      server.add_vm_to_tree(vm)
-                      for operation in server.all_vms[vm]["current_operations"]:
-                        server.track_tasks[operation] = vm
+                        server.add_vm_to_tree(vm)
+                        for operation in server.all_vms[vm]["current_operations"]:
+                            server.track_tasks[operation] = vm
                     else:
-                      server.host_vm[server.all_vms[vm]['resident_on']] = [vm,  server.all_vms[vm]['uuid']]
+                        server.host_vm[server.all_vms[vm]['resident_on']] = [vm,  server.all_vms[vm]['uuid']]
       
             # Get all storage record 
             for sr in server.all_storage.keys():
                 if server.all_storage[sr]['name_label'] != "XenServer Tools":
                     if len(server.all_storage[sr]['PBDs']) == 0:
-                        server.last_storage_iter = self.treestore.append(root, [\
-                               gtk.gdk.pixbuf_new_from_file("images/storage_detached_16.png"),\
-                                 server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                 "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                        server.last_storage_iter = self.treestore.append(
+                            root, [gtk.gdk.pixbuf_new_from_file("images/storage_detached_16.png"),
+                                   server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'], "storage",
+                                   None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
                         continue
                     broken = False
                     for pbd_ref in server.all_storage[sr]['PBDs']:
                         if not server.all_pbd[pbd_ref]['currently_attached']:
                             broken = True
-                            server.last_storage_iter = self.treestore.append(root, [\
-                                   gtk.gdk.pixbuf_new_from_file("images/storage_broken_16.png"),\
-                                     server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                     "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                            server.last_storage_iter = self.treestore.append(
+                                root, [gtk.gdk.pixbuf_new_from_file("images/storage_broken_16.png"),
+                                       server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],"storage",
+                                       None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
                     if not broken:
                         if server.all_storage[sr]['shared']:
                             if sr == server.default_sr:
-                                server.last_storage_iter = self.treestore.append(root, [\
-                                   gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"),\
-                                     server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                     "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                server.last_storage_iter = self.treestore.append(
+                                    root, [gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"),
+                                           server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                           "storage", None, server.host, sr,
+                                           server.all_storage[sr]['allowed_operations'], None])
                             else:
-                                server.last_storage_iter = self.treestore.append(root, [\
-                                   gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                     server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                     "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                server.last_storage_iter = self.treestore.append(
+                                    root, [gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),
+                                           server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                           "storage", None, server.host, sr,
+                                           server.all_storage[sr]['allowed_operations'], None])
 
                         else:
                             for pbd in server.all_storage[sr]['PBDs']:
                                 if sr == server.default_sr:
                                     if server.all_pbd[pbd]['host'] in hostroot:
-                                        server.last_storage_iter = self.treestore.append(hostroot[server.all_pbd[pbd]['host']], [\
-                                            gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"),\
-                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                             "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                        server.last_storage_iter = self.treestore.append(
+                                            hostroot[server.all_pbd[pbd]['host']],
+                                            [gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"),
+                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                             "storage", None, server.host, sr,
+                                             server.all_storage[sr]['allowed_operations'], None])
                                     else:
-                                        server.last_storage_iter = self.treestore.append(root, [\
-                                           gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                             "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                        server.last_storage_iter = self.treestore.append(
+                                            root, [gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),
+                                                   server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                                   "storage", None, server.host, sr,
+                                                   server.all_storage[sr]['allowed_operations'], None])
 
                                 else:
                                     if server.all_pbd[pbd]['host'] in hostroot:
-                                        server.last_storage_iter = self.treestore.append(hostroot[server.all_pbd[pbd]['host']], [\
-                                            gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                             "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                        server.last_storage_iter = self.treestore.append(
+                                            hostroot[server.all_pbd[pbd]['host']],
+                                            [gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),
+                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                             "storage", None, server.host, sr,
+                                             server.all_storage[sr]['allowed_operations'], None])
                                     else:
-                                        server.last_storage_iter = self.treestore.append(root, [\
-                                           gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                                             server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],\
-                                             "storage", None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
+                                        server.last_storage_iter = self.treestore.append(
+                                            root, [gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),
+                                                   server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
+                                                   "storage", None, server.host, sr,
+                                                   server.all_storage[sr]['allowed_operations'], None])
 
-
-                        
             for tpl in server.all_vms_keys:
                 if server.all_vms[tpl]['is_a_template'] and not server.all_vms[tpl]['is_a_snapshot']: 
                     if server.all_vms[tpl]['last_booted_record'] == "":
-                         self.treestore.append(root, [\
-                            gtk.gdk.pixbuf_new_from_file("images/template_16.png"),\
-                            server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],\
-                            "template", None, server.host, tpl, server.all_vms[tpl]['allowed_operations'], None])
+                        self.treestore.append(root, [gtk.gdk.pixbuf_new_from_file("images/template_16.png"),
+                                                     server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],
+                                                     "template", None, server.host, tpl,
+                                                     server.all_vms[tpl]['allowed_operations'], None])
                     else:
-                         tpl_affinity = server.all_vms[tpl]['affinity']
+                        tpl_affinity = server.all_vms[tpl]['affinity']
                         
-                         if tpl_affinity in hostroot: 
-                             self.treestore.append(hostroot[tpl_affinity], [\
-                                gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"),\
-                                server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],\
-                                "custom_template", None, server.host, tpl, server.all_vms[tpl]['allowed_operations'], None])
-                         else:
-                             self.treestore.append(root, [\
-                                gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"),\
-                                server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],\
-                                "custom_template", None, server.host, tpl, server.all_vms[tpl]['allowed_operations'], None])
+                        if tpl_affinity in hostroot:
+                            self.treestore.append(hostroot[tpl_affinity],
+                                                  [gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"),
+                                                   server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],
+                                                   "custom_template", None, server.host, tpl,
+                                                   server.all_vms[tpl]['allowed_operations'], None])
+                        else:
+                            self.treestore.append(root, [gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"),
+                                                         server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],
+                                                         "custom_template", None, server.host, tpl,
+                                                         server.all_vms[tpl]['allowed_operations'], None])
 
             self.treeview.expand_all()
             
