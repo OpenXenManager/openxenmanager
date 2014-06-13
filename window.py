@@ -23,7 +23,7 @@
 import sys
 import os
 
-if os.path.dirname(sys.argv[0]): 
+if os.path.dirname(sys.argv[0]):
     os.chdir(os.path.dirname(sys.argv[0]))
 import pygtk
 
@@ -44,10 +44,11 @@ else:
     from subprocess import Popen
     import win32gui
     import win32con
-import gtk
+
 import gobject
 # For md5 and xtea
-import hashlib, xtea
+import hashlib
+import xtea
 from oxcSERVER import *
 from pprint import pprint
 import signal
@@ -65,7 +66,7 @@ else:
     # On windows is needed run gobject threads
     gobject.threads_init()
 
-# Splitted classes for oxcWindow
+# Import the split classes for oxcWindow
 from window_vm import * 
 from window_host import * 
 from window_properties import * 
@@ -77,6 +78,7 @@ from window_menuitem import *
 from window_tools import * 
 import xdot
 
+
 class MyDotWindow(xdot.DotWindow):
 
     def __init__(self, window, liststore, treestore):
@@ -86,14 +88,15 @@ class MyDotWindow(xdot.DotWindow):
         self.widget.connect('button_press_event', self.on_double_clicked)
 
     def on_double_clicked(self, widget, event):
-        # On doublie click go to element
+        # On double click go to element
         if event.type == gtk.gdk._2BUTTON_PRESS: 
             x, y = int(event.x), int(event.y)
             if widget.get_url(x, y):
-                url =  widget.get_url(x, y).url
+                url = widget.get_url(x, y).url
                 # Search ref and go to 
                 self.liststore.foreach(self.search_ref, url)
         return True
+
     def search_ref(self, model, path, iter_ref, user_data):
         if self.liststore.get_value(iter_ref, 6) == user_data:
             self.treestore.get_selection().select_path(path)
@@ -103,13 +106,14 @@ class MyDotWindow(xdot.DotWindow):
             self.treestore.emit("button_press_event", event)
         
 
-class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,oxcWindowAlerts,oxcWindowAddServer,oxcWindowNewVm,oxcWindowMenuItem,oxcWindowTools):
+class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorage, oxcWindowAlerts, oxcWindowAddServer,
+                oxcWindowNewVm, oxcWindowMenuItem, oxcWindowTools):
     """Main class to oxc window"""
     xc_servers = {}
     # When you select a element of left tree these variables are filled
     selected_actions = None
     selected_ref = None
-    selected_iter= None 
+    selected_iter = None
     selected_tab = None
     selected_host = None
     selected_type = None
@@ -151,6 +155,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
     # For know if performance images was set
     performance_updated = False
+
     def __init__(self):
         atexit.register(self.signal_handler)
         signal.signal(15, self.signal_handler)
@@ -160,13 +165,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 os.mkdir(os.path.join(os.path.expanduser("~"), ".config"))
             if not os.path.exists(os.path.join(os.path.expanduser("~"), ".config", "openxenmanager")):
                 os.mkdir(os.path.join(os.path.expanduser("~"), ".config", "openxenmanager"))
-            dirconfig =  os.path.join(os.path.expanduser("~"), ".config", "openxenmanager")
-            pathconfig =  os.path.join(os.path.expanduser("~"), ".config", "openxenmanager", "oxc.conf")
+            dirconfig = os.path.join(os.path.expanduser("~"), ".config", "openxenmanager")
+            pathconfig = os.path.join(os.path.expanduser("~"), ".config", "openxenmanager", "oxc.conf")
         else: 
             if not os.path.exists(os.path.join(os.path.expanduser("~"), "openxenmanager")):
                 os.mkdir(os.path.join(os.path.expanduser("~"), "openxenmanager"))
-            dirconfig =  os.path.join(os.path.expanduser("~"), "openxenmanager")
-            pathconfig =  os.path.join(os.path.expanduser("~"), "openxenmanager", "oxc.conf")
+            dirconfig = os.path.join(os.path.expanduser("~"), "openxenmanager")
+            pathconfig = os.path.join(os.path.expanduser("~"), "openxenmanager", "oxc.conf")
 
         if not os.path.exists(pathconfig):
             shutil.copy("oxc.conf", pathconfig)
@@ -180,11 +185,11 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             self.config_hosts = {}
         # Define the glade file
         self.gladefile = "oxc.glade"
-        self.builder = gtk.Builder() 
+        self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
         # Add the file to gtk.Builder object
         self.builder.add_from_file(self.gladefile)
-        
+
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button
         # TODO: csun: eventually it should be possible not to do this: http://stackoverflow.com/questions/4657344/
@@ -229,7 +234,9 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.treestore = gtk.TreeStore(gtk.gdk.Pixbuf, str, str, str, str, str, str, str, str)
                                            # Image,Name, uuid, type, state, host, ref, actions, ip
         # Append default logo on created TreeStore
-        self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file("images/xen.gif"), "OpenXenManager", None, "home", "home", None, None, ["addserver","connectall","disconnectall"], None]))
+        self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file("images/xen.gif"), "OpenXenManager",
+                                                      None, "home", "home", None, None,
+                                                      ["addserver", "connectall", "disconnectall"], None]))
         
         # Model Filter is used but show/hide templates/custom templates/local storage..
         self.modelfilter = self.treestore.filter_new()
@@ -241,16 +248,18 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.builder.get_object("treetemplates").set_model(self.modelfiltertpl)
         self.modelfiltertpl.set_visible_func(self.visible_func_templates)
 
-        self.builder.get_object("networkcolumn1").set_property("model", self.builder.get_object("listimportnetworkcolumn"))
-        self.builder.get_object("cellrenderercombo1").set_property("model", self.builder.get_object("listnewvmnetworkcolumn"))
+        self.builder.get_object("networkcolumn1").set_property("model",
+                                                               self.builder.get_object("listimportnetworkcolumn"))
+        self.builder.get_object("cellrenderercombo1").set_property("model",
+                                                                   self.builder.get_object("listnewvmnetworkcolumn"))
         # Same for properties treestore
         self.propmodelfilter = self.listprop.filter_new()
         self.propmodelfilter.set_visible_func(self.prop_visible_func)
         self.treeprop.set_model(self.propmodelfilter) 
 
         # Fill defaults selection variables
-        self.selected_name  = "OpenXenManager"
-        self.selected_type  = "home"
+        self.selected_name = "OpenXenManager"
+        self.selected_type = "home"
         self.selected_uuid = ""
         self.headimage = self.builder.get_object("headimage")
         self.headlabel = self.builder.get_object("headlabel")
@@ -280,7 +289,9 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         # Add to left tree the saved servers from configuration
         for host in self.config_hosts.keys():
             self.builder.get_object("listaddserverhosts").append([host])
-            self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file("images/tree_disconnected_16.png"), host, None, "server", "Disconnected", None, None, ["connect", "forgetpw", "remove"], None]))
+            self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file("images/tree_disconnected_16.png"),
+                                                   host, None, "server", "Disconnected", None, None,
+                                                   ["connect", "forgetpw", "remove"], None]))
 
         # Expand left tree and update menubar, tabs and toolbar
         self.treeview.expand_all()
@@ -289,7 +300,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         self.update_toolbar()
 
         # Create a TreeStore for SERVER->Search tab 
-        self.listsearch = gtk.TreeStore(gtk.gdk.Pixbuf, str, object, str, object, str, str, str, str, str, gtk.gdk.Color)
+        self.listsearch = gtk.TreeStore(gtk.gdk.Pixbuf, str, object, str, object, str, str, str, str, str,
+                                        gtk.gdk.Color)
         self.treesearch.set_model(self.listsearch)
         #self.treesearch.get_column(0).set_cell_data_func(self.func_cell_data_treesearch, self.treesearch.get_cell(0))
 
@@ -426,17 +438,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if str(self.config["gui"]["save_password"]) == "True":
             self.builder.get_object("masterpassword").show()
 
-
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
         
-        
-
     def adjust_scrollbar_performance(self):
         for widget in ["scrolledwindow47", "scrolledwindow48", "scrolledwindow49", "scrolledwindow50"]:
             self.builder.get_object(widget).grab_focus()
             adj = self.builder.get_object(widget).get_hadjustment()
             adj.set_value(adj.upper - adj.page_size)
-            
 
     def func_cell_data_treesearch(self, column, cell, model, iter_ref, user_data):
         # Test function don't used
@@ -447,33 +455,33 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         Function to define what button is the default for each window/dialog
         Default button could be pressed with enter key
         """
-        widgets = ["addserverpassword","addserverusername","snaptplname", "snapshotname", "vmaddnewdisk_name",
+        widgets = ["addserverpassword", "addserverusername", "snaptplname", "snapshotname", "vmaddnewdisk_name",
                    "txtcopyvmname", "txtpropvmname", "txtnetworkname",  "txtmasterpassword", "txtaskmasterpassword"
                    ]
 
         dialogs = {
-            "addserver" : "connectAddServer",
-            "newvmdisk" : "acceptnewvmdisk",
-            "vmaddnewdisk" : "acceptvmaddnewdisk",
-            "dialogsnapshotname" : "btacceptsnapshotname",
-            "dialogsnaptplname" : "btacceptsnaptplname",
-            "dialogsnapshotdelete" : "btacceptsnapshotdelete",
+            "addserver": "connectAddServer",
+            "newvmdisk": "acceptnewvmdisk",
+            "vmaddnewdisk": "acceptvmaddnewdisk",
+            "dialogsnapshotname": "btacceptsnapshotname",
+            "dialogsnaptplname": "btacceptsnaptplname",
+            "dialogsnapshotdelete": "btacceptsnapshotdelete",
             "vmattachdisk": "btacceptattachdisk",
-            "dialogdeletevm" : "dialogdelete_accept",
-            "dialogdeletevdi" : "dialogdeletevdi_accept",
-            "windowcopyvm" : "windowcopyvm_copy",
-            "dialogvmprop" : "btvmpropaccept",
-            "dialogdeletehostnetwork" : "acceptdialogdeletehostnetwork",
-            "dialogdeletehostnic" : "acceptdialogdeletehostnic",
-            "addbond" : "btacceptaddbond",
-            "newnetwork" : "acceptnewnetwork",
-            "dialogoptions" : "acceptdialogoptions",
-            "masterpassword" : "acceptmasterpassword",
-            "dialogeditnetwork" : "accepteditnetwork",
-            "dialognetworkrestart" : "acceptdialognetworkrestart",
-            "vmimport" : "nextvmimport",
-            "mgmtinterface" : "acceptmgmtinterface",
-            "newpool" : "acceptnewpool"
+            "dialogdeletevm": "dialogdelete_accept",
+            "dialogdeletevdi": "dialogdeletevdi_accept",
+            "windowcopyvm": "windowcopyvm_copy",
+            "dialogvmprop": "btvmpropaccept",
+            "dialogdeletehostnetwork": "acceptdialogdeletehostnetwork",
+            "dialogdeletehostnic": "acceptdialogdeletehostnic",
+            "addbond": "btacceptaddbond",
+            "newnetwork": "acceptnewnetwork",
+            "dialogoptions": "acceptdialogoptions",
+            "masterpassword": "acceptmasterpassword",
+            "dialogeditnetwork": "accepteditnetwork",
+            "dialognetworkrestart": "acceptdialognetworkrestart",
+            "vmimport": "nextvmimport",
+            "mgmtinterface": "acceptmgmtinterface",
+            "newpool": "acceptnewpool"
         }
         # For each dialog
         for wid in dialogs:
@@ -505,32 +513,31 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         This function checks configuration values and show/hide elements
         Returning False you hide the element, returning True you show the element
         """
-        host =  self.treestore.get_value(iter_ref, 5)
-        ref =  self.treestore.get_value(iter_ref, 6)
-        seltype =  self.treestore.get_value(iter_ref, 3)
-        if len(self.txttreefilter.get_text())>0 and \
-           ((seltype == "vm" or seltype == "template" or seltype == "storage" or seltype == "custom_template") and 
-            self.treestore.get_value(iter_ref, 1).lower().count(self.txttreefilter.get_text().lower()) == 0):
-             return False
+        host = self.treestore.get_value(iter_ref, 5)
+        ref = self.treestore.get_value(iter_ref, 6)
+        seltype = self.treestore.get_value(iter_ref, 3)
+        if len(self.txttreefilter.get_text()) > 0 and \
+           ((seltype == "vm" or seltype == "template" or seltype == "storage" or seltype == "custom_template") and
+                self.treestore.get_value(iter_ref, 1).lower().count(self.txttreefilter.get_text().lower()) == 0):
+                return False
         if seltype == "vm" and str(self.config["gui"]["show_hidden_vms"]) == "False" and host and ref and \
                 self.xc_servers[host].all_vms[ref].get("other_config") and \
                 str(self.xc_servers[host].all_vms[ref]["other_config"].get("HideFromXenCenter")).lower() == "true":
-             return False
+                return False
         if seltype == "template":
-             if self.config["gui"]["show_xs_templates"] == "False" or \
-                 not self.config["gui"]["show_xs_templates"]:
+            if self.config["gui"]["show_xs_templates"] == "False" or not self.config["gui"]["show_xs_templates"]:
                 return False
         elif seltype == "custom_template":
-             if self.config["gui"]["show_custom_templates"] == "False" or \
-                not self.config["gui"]["show_custom_templates"]:
+            if self.config["gui"]["show_custom_templates"] == "False" or \
+                    not self.config["gui"]["show_custom_templates"]:
                 return False
         elif seltype == "storage":
-             if self.config["gui"]["show_local_storage"] == "False" or \
-                not self.config["gui"]["show_local_storage"]:
+            if self.config["gui"]["show_local_storage"] == "False" or not self.config["gui"]["show_local_storage"]:
                 if host and ref:
                     if not self.xc_servers[host].all_storage[ref]['shared']:
                         return False
         return True
+
     def foreach_connect(self, model, path, iter_ref, user_data):
         """
         This function connect or disconnect depends user_data value
@@ -545,7 +552,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                     if self.config_hosts[name][1]:
                         path = self.modelfilter.convert_path_to_child_path(path)
                         self.treeview.get_selection().select_path(path)
-                        iter_ref= self.treestore.get_iter(path)
+                        iter_ref = self.treestore.get_iter(path)
                         self.selected_iter = iter_ref
                         self.selected_name = self.treestore.get_value(iter_ref, 1)
                         self.selected_uuid = self.treestore.get_value(iter_ref, 2)
@@ -562,7 +569,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 if not user_data:
                     path = self.modelfilter.convert_path_to_child_path(path)
                     self.treeview.get_selection().select_path(path)
-                    iter_ref= self.treestore.get_iter(path)
+                    iter_ref = self.treestore.get_iter(path)
                     self.selected_iter = iter_ref
                     self.selected_name = self.treestore.get_value(iter_ref, 1)
                     self.selected_uuid = self.treestore.get_value(iter_ref, 2)
@@ -576,6 +583,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
             else:
                 print "**", self.treestore.get_value(iter_ref, 4)
+
     def on_window1_configure_event(self, widget, data=None):
         self.on_window1_size_request(widget, data)
         
@@ -615,6 +623,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             # If is a good password set to global variable "password" and hide dialog
             self.password = password
             self.builder.get_object("masterpassword").hide()
+
     def on_cancelmasterpassword_clicked(self, widget, data=None):
         """
          Function called when you cancel the master password dialog.
@@ -622,6 +631,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         #If you cancel the dialog, then set global variable "password" to None
         self.password = None
         self.builder.get_object("masterpassword").hide()
+
     def on_txtaskmasterpassword_changed(self, widget, data=None):
         """
         Function called when you write or remove characters on master password entry
@@ -632,18 +642,23 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         
     def update_tabs(self):
         """
-        Function called when you select a element from left tree
-        Depending selected type show or hide differents tabs
+        Function called when you select an element from left tree
+        Depending on selected type show or hide different tabs
         """
-        frames = ("framestggeneral", "framememory","framestgdisks","framevmgeneral", "framevmstorage", "framevmnetwork", "framehostgeneral", "framehostnetwork", "framehoststorage",  "frameconsole", "framehostnics", "framesnapshots","frameperformance","frametplgeneral","framehome","frameconsole", "framepoolgeneral", "framelogs", "framesearch", "frameusers", "framemaps", "framehosthw")
+        frames = ("framestggeneral", "framememory", "framestgdisks", "framevmgeneral", "framevmstorage",
+                  "framevmnetwork", "framehostgeneral", "framehostnetwork", "framehoststorage",  "frameconsole",
+                  "framehostnics", "framesnapshots", "frameperformance", "frametplgeneral", "framehome", "frameconsole",
+                  "framepoolgeneral", "framelogs", "framesearch", "frameusers", "framemaps", "framehosthw")
         showframes = {
-            "pool" : ["framepoolgeneral", "framelogs", "framesearch", "framemaps"],
-            "home" : ["framehome"],
-            "vm"   : ["framevmgeneral", "framememory", "framevmstorage", "framevmnetwork", "framelogs", "framesnapshots","frameperformance"],
-            "host" : ["framesearch","framehostgeneral", "framehostnetwork", "framehoststorage", "framelogs", "frameconsole", "framehostnics", "frameperformance", "frameusers", "framemaps"],
-            "template" : ["frametplgeneral","framevmnetwork","framehostgeneral"],
-            "custom_template" : ["frametplgeneral","framevmnetwork", "framevmstorage", "framelogs"],
-            "storage" :  ["framestggeneral","framestgdisks", "framelogs"],
+            "pool": ["framepoolgeneral", "framelogs", "framesearch", "framemaps"],
+            "home": ["framehome"],
+            "vm": ["framevmgeneral", "framememory", "framevmstorage", "framevmnetwork", "framelogs", "framesnapshots",
+                   "frameperformance"],
+            "host": ["framesearch", "framehostgeneral", "framehostnetwork", "framehoststorage", "framelogs",
+                     "frameconsole", "framehostnics", "frameperformance", "frameusers", "framemaps"],
+            "template": ["frametplgeneral", "framevmnetwork", "framehostgeneral"],
+            "custom_template": ["frametplgeneral", "framevmnetwork", "framevmstorage", "framelogs"],
+            "storage":  ["framestggeneral", "framestgdisks", "framelogs"],
         } 
         if self.selected_type in showframes:
             [self.builder.get_object(frame).show() for frame in showframes[self.selected_type]]
@@ -658,20 +673,17 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 self.builder.get_object("frameconsole").show()
             else:
                 self.builder.get_object("frameconsole").hide()
-            self.xc_servers[self.selected_host].update_tab_vm_general(self.selected_ref, self.builder)     
+            self.xc_servers[self.selected_host].update_tab_vm_general(self.selected_ref, self.builder)
         elif self.selected_type == "host":
             self.xc_servers[self.selected_host].update_tab_host_general(self.selected_ref, self.builder)    
             if self.xc_servers[self.selected_host].has_hardware_script(self.selected_ref):
                 self.builder.get_object("framehosthw").show()
             else:
                 self.builder.get_object("framehosthw").hide()
-
-
         elif self.selected_type == "template":
-            self.xc_servers[self.selected_host].update_tab_template(self.selected_ref, self.builder)     
+            self.xc_servers[self.selected_host].update_tab_template(self.selected_ref, self.builder)
         elif self.selected_type == "custom_template":
             self.xc_servers[self.selected_host].update_tab_template(self.selected_ref, self.builder)     
-
         elif self.selected_type == "storage":
             operations = self.xc_servers[self.selected_host].all_storage[self.selected_ref]['allowed_operations']
             if operations.count("vdi_create"):
@@ -715,12 +727,11 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                     view.open(url)
                     browser.add_with_viewport(view)
                     tablabel = gtk.Label(tabname)
-                    self.delete_pages.append( \
-                        self.builder.get_object("tabbox").append_page(\
-                            browser, tablabel))
+                    self.delete_pages.append(self.builder.get_object("tabbox").append_page(browser, tablabel))
                     browser.show_all()
-        except:
+        except ImportError or RuntimeError:
             pass
+
     def process_xml(self, data, host, ref):
         dom = xml.dom.minidom.parseString(data)
         if dom.documentElement.nodeName != u'XenCenterPlugin':
@@ -736,44 +747,47 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             if search_uuid and tabname and url:
                 for search in [e for e in node.getElementsByTagName("Search") if e.getAttribute("uuid") == search_uuid]:
                     for query in search.getElementsByTagName("Query"):
-                        for queryscope in [e for e in query.getElementsByTagName("QueryScope")[0].childNodes if e.nodeType != dom.TEXT_NODE]:
+                        for queryscope in [e for e in query.getElementsByTagName("QueryScope")[0].childNodes
+                                           if e.nodeType != dom.TEXT_NODE]:
                             if queryscope.nodeName == "LocalSR":
                                 if self.selected_type == "storage":
-                                    shared =  self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
+                                    shared = \
+                                        self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
                                     if not shared:
                                         applicable = True
                             elif queryscope.nodeName == "RemoteSR":
                                 if self.selected_type == "storage":
-                                    shared =  self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
+                                    shared = \
+                                        self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
                                     if shared:
                                         applicable = True
-                            elif queryscope.nodeName == "Pool": # REVISE
+                            elif queryscope.nodeName == "Pool":  # REVISE
                                 if self.selected_type == "pool":
                                         applicable = True
-                            elif queryscope.nodeName == "Vm": # REVISE
+                            elif queryscope.nodeName == "Vm":  # REVISE
                                 if self.selected_type == "vm":
                                         applicable = True
-                            elif queryscope.nodeName == "Host": # REVISE
+                            elif queryscope.nodeName == "Host":  # REVISE
                                 if self.selected_type == "host":
                                         applicable = True
         if applicable:
                 for enumpropertyquery in query.getElementsByTagName("EnumPropertyQuery"):
                     data = None
                     if self.selected_type == "storage":
-                        data =  self.xc_servers[host].all_storage[ref]
+                        data = self.xc_servers[host].all_storage[ref]
                         pbds = data['PBDs']
                         ip = ""
                         if "target" in self.xc_servers[host].all_pbd[pbds[0]]["device_config"]:
-                            ip =  self.xc_servers[host].all_pbd[pbds[0]]["device_config"]['target']
+                            ip = self.xc_servers[host].all_pbd[pbds[0]]["device_config"]['target']
                         #ip = data["name_description"].split(" ")[2][1:]
                     elif self.selected_type == "vm":
-                        data =  self.xc_servers[host].all_vms[ref]
+                        data = self.xc_servers[host].all_vms[ref]
                         ip = self.selected_ip
                     if self.selected_type == "host":
-                        data =  self.xc_servers[host].all_hosts[ref]
+                        data = self.xc_servers[host].all_hosts[ref]
                         ip = self.selected_ip
                     if self.selected_type == "pool":
-                        data =  self.xc_servers[host].all_pools[ref]
+                        data = self.xc_servers[host].all_pools[ref]
                         ip = self.selected_ip
                     if data:
                         prop = enumpropertyquery.attributes.getNamedItem("property").value
@@ -782,8 +796,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         if prop in data:
                             if equals == "no":
                                 if isinstance(data[prop], str):
-                                    applicable = data[prop].count(value)>0
-                                else: # REVISE
+                                    applicable = data[prop].count(value) > 0
+                                else:  # REVISE
                                     applicable = False
                             else:
                                 applicable = (data == value)
@@ -801,7 +815,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         """
         applicable = False
         ip = None
-        for search in  nodes[0].getElementsByTagName("Search"):
+        for search in nodes[0].getElementsByTagName("Search"):
             if search.attributes.getNamedItem("uuid").value == search_uuid:
                 for query in search.getElementsByTagName("Query"):
                     queryscopes = query.getElementsByTagName("QueryScope")
@@ -809,37 +823,37 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         if queryscope.nodeName != "#text":
                             if queryscope.nodeName == "LocalSR":
                                 if self.selected_type == "storage":
-                                    shared =  self.xc_servers[host].all_storage[ref]['shared']
+                                    shared = self.xc_servers[host].all_storage[ref]['shared']
                                     if not shared:
                                         applicable = True
                             elif queryscope.nodeName == "RemoteSR":
                                 if self.selected_type == "storage":
-                                    shared =  self.xc_servers[host].all_storage[ref]['shared']
+                                    shared = self.xc_servers[host].all_storage[ref]['shared']
                                     if shared:
                                         applicable = True
-                            elif queryscope.nodeName == "Pool": # REVISE
+                            elif queryscope.nodeName == "Pool":  # REVISE
                                 if self.selected_type == "pool":
                                         applicable = True
-                            elif queryscope.nodeName == "Vm": # REVISE
+                            elif queryscope.nodeName == "Vm":  # REVISE
                                 if self.selected_type == "VM":
                                         applicable = True
-                            elif queryscope.nodeName == "Host": # REVISE
+                            elif queryscope.nodeName == "Host":  # REVISE
                                 if self.selected_type == "host":
                                         applicable = True
         if applicable:
             for enumpropertyquery in query.getElementsByTagName("EnumPropertyQuery"):
                 data = None
                 if self.selected_type == "storage":
-                    data =  self.xc_servers[host].all_storage[ref]
+                    data = self.xc_servers[host].all_storage[ref]
                     ip = data["name_description"].split(" ")[2][1:]
                 elif self.selected_type == "vm":
-                    data =  self.xc_servers[host].all_vms[ref]
+                    data = self.xc_servers[host].all_vms[ref]
                     ip = self.selected_ip
                 if self.selected_type == "host":
-                    data =  self.xc_servers[host].all_hosts[ref]
+                    data = self.xc_servers[host].all_hosts[ref]
                     ip = self.selected_ip
                 if self.selected_type == "pool":
-                    data =  self.xc_servers[host].all_pools[ref]
+                    data = self.xc_servers[host].all_pools[ref]
                     ip = self.selected_ip
                 if data:
                     prop = enumpropertyquery.attributes.getNamedItem("property").value
@@ -849,7 +863,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         if equals == "no":
                             if isinstance(data[prop], str):
                                 applicable = data[prop].count(value)>0
-                            else: # REVISE
+                            else:  # REVISE
                                 applicable = False
                         else:
                             applicable = (data == value)
@@ -865,7 +879,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if self.tunnel:
             self.tunnel.close()
 
-        for sh in  self.xc_servers:
+        for sh in self.xc_servers:
             # Stop the threads setting True the condition variables
             self.xc_servers[sh].halt = True
             self.xc_servers[sh].halt_search = True
@@ -884,22 +898,22 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if self.tunnel:
             self.tunnel.close()
 
-
     def count_list(self, model, path, iter_ref, user_data):
         """
         Function to count elements from list.. 
         """
         #TODO: remove and use __len__()
         self.nelements = self.nelements + 1
+
     def on_tabbox_focus_tab(self, widget, data=None, data2=None):
         """
         Function called when you click on a tab
         Tabbox contains all possible tabs, when you click on a tab first we will check the name
-        Depending of this name we will do differents actions
+        Depending of this name we will do different actions
         """
         # Get the Tab name
         #tab_label = widget.get_tab_label(widget.get_nth_page(data2)).name
-        tab_label =  gtk.Buildable.get_name(widget.get_tab_label(widget.get_nth_page(data2)))
+        tab_label = gtk.Buildable.get_name(widget.get_tab_label(widget.get_nth_page(data2)))
         # Set as selected
         self.selected_tab = tab_label
         if tab_label != "VM_Console":
@@ -907,7 +921,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 self.tunnel.close()
             # If vnc console was opened and we change to another, close it
             self.builder.get_object("menuitem_tools_cad").set_sensitive(False)
-            if hasattr(self,"vnc") and self.vnc and not self.noclosevnc:
+            if hasattr(self, "vnc") and self.vnc and not self.noclosevnc:
                 self.vnc.destroy()
                 self.builder.get_object("windowvncundock").hide()
                 self.vnc = None
@@ -924,7 +938,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if tab_label == "VM_Console":
             self.builder.get_object("menuitem_tools_cad").set_sensitive(True)
             self.treeview = self.builder.get_object("treevm") 
-            if hasattr(self,"vnc") and self.vnc:
+            if hasattr(self, "vnc") and self.vnc:
                 if self.tunnel:
                     self.tunnel.close()
                 self.vnc.destroy()
@@ -933,17 +947,16 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
             if self.treeview.get_cursor()[1]:
                 state = self.selected_state
-                host =  self.selected_host
+                host = self.selected_host
                 # First checks if VM is running
                 self.builder.get_object("btenterfullscreen").grab_focus()
                 self.builder.get_object("console_area").grab_focus()
-                if  state == "Running":
+                if state == "Running":
                     if sys.platform != "win32" and sys.platform != "darwin":
                         # Create a gtkvnc object
                         self.vnc = gtkvnc.Display()
                         # Add to gtkvnc to a console area
                         console_area = self.builder.get_object("console_area")
-
 
                         console_area.add(self.vnc)
                         console_area.show_all()
@@ -979,7 +992,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             # And open the connection
                             try:
                                 self.vnc.set_depth(1)
-                            except:
+                            except RuntimeError:
                                 pass
 
                             self.vnc.connect("vnc-server-cut-text", self.vnc_button_release) 
@@ -1001,7 +1014,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             port = self.tunnel.get_free_port()
                             Thread(target=self.tunnel.listen, args=(port,)).start()
                             time.sleep(1)
-                            os.spawnl(os.P_NOWAIT,"./vncviewer", "vncviewer", "localhost::%s" % port)
+                            os.spawnl(os.P_NOWAIT, "./vncviewer", "vncviewer", "localhost::%s" % port)
                             console_area = self.builder.get_object("console_area")
                             console_alloc = console_area.get_allocation()
                         else:
@@ -1014,7 +1027,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             ref = self.selected_ref
                         # Run vncviewer.exe with host, vm renf and session ref
                         param = self.xc_servers[host].get_connect_parameters(ref, self.selected_ip)
-                        os.spawnl(os.P_NOWAIT,"vncviewer.exe", "vncviewer.exe", "%s" % (param))
+                        os.spawnl(os.P_NOWAIT, "vncviewer.exe", "vncviewer.exe", "%s" % param)
                         console_area = self.builder.get_object("frameconsole")
                         console_area.realize()
                         console_alloc = console_area.get_allocation()
@@ -1022,10 +1035,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         x = console_alloc.x + window_alloc[0] + 10
                         y = console_alloc.y + window_alloc[1] + 47
                         # On windows we'll move the window.. 
-                        while win32gui.FindWindow(None, "HVMXEN-%s" % (self.selected_uuid)) == 0 \
-                              and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
+                        while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
+                                and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
                             pass
-                        self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % (self.selected_uuid))
+                        self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
                         if self.hWnd == 0:
                             self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
                         #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
@@ -1033,12 +1046,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                         win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
                         #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
                         
-                        
                 else:
-                    print  state
+                    print state
         if tab_label == "VM_Memory":
             self.update_memory_tab()
-            
 
         if tab_label == "VM_Storage":
             if self.treeview.get_cursor()[1]:
@@ -1047,13 +1058,11 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 # liststoragdvd contains the possibles dvd/isos to mount on VM
                 liststoragedvd = self.builder.get_object("listvmstoragedvd")
                 #liststoragedvd.set_sort_func(1, self.compare_data)
-                host =  self.selected_host
+                host = self.selected_host
                 # Fill liststorage
-                self.xc_servers[host].fill_vm_storage(self.selected_ref, \
-                                         liststorage)
+                self.xc_servers[host].fill_vm_storage(self.selected_ref, liststorage)
                 # Fill liststoragedvd, fill_vm_storage_dvd return the current dvd/iso mounted
-                active = self.xc_servers[host].fill_vm_storage_dvd(self.selected_ref, \
-                                         liststoragedvd)
+                active = self.xc_servers[host].fill_vm_storage_dvd(self.selected_ref, liststoragedvd)
                 # Flag variable to no emit signal
                 self.set_active = True
                 # Set as the active dvd/iso mounted
@@ -1064,10 +1073,9 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 treenetwork = self.builder.get_object("treevmnetwork")
                 # listvmnetwork contains the networks of a vm
                 listnetwork = self.builder.get_object("listvmnetwork")
-                host =  self.selected_host
+                host = self.selected_host
                 # Fill the list of networks
-                self.xc_servers[host].fill_vm_network(self.selected_ref, \
-                                         treenetwork, listnetwork)
+                self.xc_servers[host].fill_vm_network(self.selected_ref, treenetwork, listnetwork)
         elif tab_label == "VM_Snapshots":
             if self.treeview.get_cursor()[1]:
                 treevmsnapshots = self.builder.get_object("treevmsnapshots")
@@ -1075,8 +1083,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 listvmsnapshots = self.builder.get_object("listvmsnapshots")
                 host =  self.selected_host
                 # Fill the list of snapshots
-                self.xc_servers[host].fill_vm_snapshots(self.selected_ref, \
-                                         treevmsnapshots, listvmsnapshots)
+                self.xc_servers[host].fill_vm_snapshots(self.selected_ref, treevmsnapshots, listvmsnapshots)
         elif tab_label == "VM_Performance":
             if self.treeview.get_cursor()[1]:
                 # Thread to update performance images
@@ -1085,74 +1092,72 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 if self.selected_type == "vm":
                     self.builder.get_object("scrolledwindow50").show()
                     self.builder.get_object("labeldiskusage").show()
-                    Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref, \
-                                             self.selected_ip, False)).start()
+                    Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref,
+                                                                                  self.selected_ip, False)).start()
                 else:
                     self.builder.get_object("scrolledwindow50").hide()
                     self.builder.get_object("labeldiskusage").hide()
                     if self.selected_host and self.selected_ref in self.xc_servers[self.selected_host].host_vm:
                         uuid = self.xc_servers[self.selected_host].host_vm[self.selected_ref][1]
-                        Thread(target=self.xc_servers[host].update_performance, args=(uuid, ref, \
-                                                 self.selected_ip, True)).start()
+                        Thread(target=self.xc_servers[host].update_performance, args=(uuid, ref,
+                                                                                      self.selected_ip, True)).start()
 
         elif tab_label == "VM_Logs":
             if self.treeview.get_cursor()[1]:
                 treeviewlog = self.builder.get_object("treeviewlog")
                 # listlog contains the snapshots of a vm/host
                 listlog = self.builder.get_object("listlog")
-                host =  self.selected_host
+                host = self.selected_host
                 # Fill the list of logs
                 if self.selected_type == "vm":
-                    self.xc_servers[host].fill_vm_log(self.selected_uuid, \
-                                             treeviewlog, listlog)
+                    self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
                 else:
-                    self.xc_servers[host].fill_vm_log(self.selected_uuid, \
-                                             treeviewlog, listlog)
+                    self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
 
         elif tab_label == "HOST_Users":
             if self.selected_type == "pool":
                 name =  self.xc_servers[self.selected_host].all_pools[self.selected_ref]['name_label']
-                externalauth =  self.xc_servers[self.selected_host].get_external_auth(self.xc_servers[self.selected_host]['master'])
+                externalauth = self.xc_servers[self.selected_host].get_external_auth(
+                    self.xc_servers[self.selected_host]['master'])
             else:
                 name = self.xc_servers[self.selected_host].all_hosts[self.selected_ref]['name_label']
-                externalauth =  self.xc_servers[self.selected_host].get_external_auth(self.selected_ref)
-
+                externalauth = self.xc_servers[self.selected_host].get_external_auth(self.selected_ref)
 
             listusers = self.builder.get_object("listusers")
             self.xc_servers[self.selected_host].fill_domain_users(self.selected_ref, listusers)
 
-
             if externalauth[0] == "":
                 self.builder.get_object("btjoindomain").set_sensitive(True)
                 self.builder.get_object("btleavedomain").set_sensitive(False)
-                self.builder.get_object("lblusersdomain").set_text("AD is not currently configured for '" + self.selected_name + "'. To enable AD authentication, click Join.")
+                self.builder.get_object("lblusersdomain").set_text("AD is not currently configured for '" +
+                                                                   self.selected_name + "'. To enable AD "
+                                                                                        "authentication, click Join.")
             else:
                 self.builder.get_object("btleavedomain").set_sensitive(True)
                 self.builder.get_object("btjoindomain").set_sensitive(False)
-                self.builder.get_object("lblusersdomain").set_text("Pool/host " + self.selected_name + " belongs to domain '" + externalauth[1] + "'. To enable AD authentication, click Join.")
-
+                self.builder.get_object("lblusersdomain").set_text("Pool/host " + self.selected_name +
+                                                                   " belongs to domain '" + externalauth[1] +
+                                                                   "'. To enable AD authentication, click Join.")
 
         elif tab_label == "HOST_Storage":
             if self.treeview.get_cursor()[1]:
                 # listhoststorage contains the snapshots of a vm/host
                 liststorage = self.builder.get_object("listhoststorage")
-                host =  self.selected_host
+                host = self.selected_host
                 # Fill the list of storage
-                self.xc_servers[host].fill_host_storage(self.selected_ref, \
-                                         liststorage)
+                self.xc_servers[host].fill_host_storage(self.selected_ref, liststorage)
         elif tab_label == "HOST_Nics":
             if self.treeview.get_cursor()[1]:
-                """
-                liststorage = self.builder.get_object("listhostnics")
-                host =  self.selected_host
-                self.xc_servers[host].fill_host_nics(self.selected_ref, \
-                                         liststorage)
-                """
+
+                # liststorage = self.builder.get_object("listhostnics")
+                # host =  self.selected_host
+                # self.xc_servers[host].fill_host_nics(self.selected_ref, liststorage)
+
                 # Call to update_tab_host_nics to fill the host nics
                 self.update_tab_host_nics()
         elif tab_label == "HOST_Search":
             if self.treeview.get_cursor()[1]:
-                host =  self.selected_host
+                host = self.selected_host
                 self.xc_servers[host].halt_search = False
                 # Host_Search contains a live monitoring status of VM
                 # Create a thread to fill "listsearch"
@@ -1173,11 +1178,10 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 liststg = self.builder.get_object("liststg")
                 liststg.set_sort_func(1, self.compare_data)
                 liststg.set_sort_column_id(1, gtk.SORT_ASCENDING)
-                host =  self.selected_host
+                host = self.selected_host
                 # Fill the list of storage
                 if host:
-                    self.xc_servers[host].fill_local_storage(self.selected_ref, \
-                                    liststg)
+                    self.xc_servers[host].fill_local_storage(self.selected_ref, liststg)
         elif tab_label == "Maps":
             self.update_maps()
 
@@ -1198,44 +1202,55 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             if self.selected_host:
                 show_halted_vms = self.builder.get_object("check_show_halted_vms").get_active()
                 if self.builder.get_object("check_show_network").get_active():
-                    relation = self.xc_servers[self.selected_host].get_network_relation(self.selected_ref, show_halted_vms)
+                    relation = self.xc_servers[self.selected_host].get_network_relation(self.selected_ref,
+                                                                                        show_halted_vms)
                     for network in relation:
                         uuid, name = network.split("_", 1)
-                        safename = name.replace("&","&amp;").replace("<", "&lt;").replace("\"", "&quot;")
+                        safename = name.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
                         if self.builder.get_object("check_unused_network").get_active() or relation[network]:
-                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="images_map/network.png"/></td></tr><tr><td> </td></tr><tr><td>%s</td></tr></table>> tooltip="%s"];' % (uuid, safename, name)
+                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
+                                       'cellspacing="0"><tr><td><img src="images_map/network.png"/></td></tr><tr>' \
+                                       '<td> </td></tr><tr><td>%s</td></tr></table>> tooltip="%s"];' % \
+                                       (uuid, safename,name)
                             dotcode += "\n"
                         for vm in relation[network]:
                             uuid2, name2 = vm.split("_", 1)
-                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr><td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % (uuid2, name2, uuid2, name2)
+                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
+                                       'cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr>' \
+                                       '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
+                                       (uuid2, name2, uuid2, name2)
                             dotcode += "\n"
                             dotcode += '"%s" -> "%s"' % (uuid, uuid2)
                             dotcode += "\n"
 
                 if self.builder.get_object("check_show_storage").get_active():
                     dotcode += 'edge [color=forestgreen, fontname="Verdana", fontsize="5"];'
-                    relation = self.xc_servers[self.selected_host].get_storage_relation(self.selected_ref, show_halted_vms)
+                    relation = self.xc_servers[self.selected_host].get_storage_relation(self.selected_ref,
+                                                                                        show_halted_vms)
                     for storage in relation:
                         uuid, name = storage.split("_", 1)
-                        safename = name.replace("&","&amp;").replace("<", "&lt;").replace("\"", "&quot;")
+                        safename = name.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
                         if self.builder.get_object("check_unused_storage").get_active() or relation[storage]:
-                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="images_map/storage.png"/></td></tr><tr><td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % (uuid, safename, uuid, name)
+                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
+                                       'cellspacing="0"><tr><td><img src="images_map/storage.png"/></td></tr><tr>' \
+                                       '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
+                                       (uuid, safename, uuid, name)
                             dotcode += "\n"
                         for vm in relation[storage]:
                             uuid2, name2 = vm.split("_", 1)
-                            safename2 = name2.replace("&","&amp;").replace("<", "&lt;").replace("\"", "&quot;")
-                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr><td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % (uuid2, safename2, uuid2, name2)
+                            safename2 = name2.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
+                            dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
+                                       'cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr>' \
+                                       '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
+                                       (uuid2, safename2, uuid2, name2)
                             dotcode += "\n"
                             dotcode += '"%s" -> "%s"' % (uuid2, uuid)
                             dotcode += "\n"
 
-
-                dotcode += "}"                    
+                dotcode += "}"
 
                 self.windowmap.set_dotcode(dotcode)
                 self.builder.get_object("viewportmap").show_all()
-
-
 
     def on_btopenfile_activate(self, widget, data=None):
         """
@@ -1247,6 +1262,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             self.fileopen.hide()
         else:
             self.show_error_dlg("Select a file")
+
     def on_btsavefile_activate(self, widget, data=None):
         """
         Function called when you press "Export VM"
@@ -1256,11 +1272,13 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             # Call to export_vm function with vm renf and filename choosed
             if self.export_snap:
                 print "Export snap.."
-                self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(), self.selected_ref) 
+                self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(),
+                                                              self.selected_ref)
                 self.export_snap = False
-            elif  self.export_snap_vm:
+            elif self.export_snap_vm:
                 print "Export snap as VM.."
-                self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(), self.selected_ref, as_vm = True) 
+                self.xc_servers[self.selected_host].export_vm(self.selected_snap_ref,  filechooser.get_filename(),
+                                                              self.selected_ref, as_vm=True)
                 self.export_snap_vm = False
             else:
                 self.xc_servers[self.selected_host].export_vm(self.selected_ref,  filechooser.get_filename()) 
@@ -1268,6 +1286,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             self.builder.get_object("tabbox").set_current_page(17)
         else:
             self.show_error_dlg("Select a file")
+
     def on_filesave_confirm_overwrite(self, widget, data=None):
         """
         Not used function
@@ -1275,25 +1294,26 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         print widget
         print data
 
-            
     def on_btcancelsavefile_activate(self, widget, data=None):
         """
         If you press cancel on "Export VM" dialog, then close the dialog
         """
         self.export_snap = False
         self.filesave.hide()
+
     def on_btcancelopenfile_activate(self, widget, data=None):
         """
         Not used function
         """
         self.fileopen.hide()
+
     def on_treevm_button_press_event(self, widget, event):
         """
         Function is called when you do click (or double click) on left tree
         """
         x = int(event.x)
         y = int(event.y)
-        time = event.time
+        event_time = event.time
         if x == -10 and y == -10:
             pthinfo = [self.modelfilter.get_path(self.treeview.get_selection().get_selected()[1]), None, 0, 0]
         else:
@@ -1309,7 +1329,7 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             widget.grab_focus()
             widget.set_cursor( path, col, 0)
             path = self.modelfilter.convert_path_to_child_path(path)
-            iter_ref= self.treestore.get_iter(path)
+            iter_ref = self.treestore.get_iter(path)
             # Define selected variables
             self.selected_iter = iter_ref
             self.selected_name = self.treestore.get_value(iter_ref, 1)
@@ -1332,26 +1352,26 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             # Update menubar and tabs with new selection
             self.update_menubar() 
             self.update_tabs()
-            if self.selected_ref  != previous_ref:
+            if self.selected_ref != previous_ref:
                 # If you selected a different element than previous
                 # then select the correct tab for selected type
                 if self.selected_type == "vm": 
-                   self.builder.get_object("tabbox").set_current_page(5)
+                    self.builder.get_object("tabbox").set_current_page(5)
                 else:
-                   self.builder.get_object("tabbox").set_current_page(3)
+                    self.builder.get_object("tabbox").set_current_page(3)
                 if self.selected_type == "pool":
-                   self.builder.get_object("tabbox").set_current_page(0)
+                    self.builder.get_object("tabbox").set_current_page(0)
                 elif self.selected_type == "host": 
-                   self.builder.get_object("tabbox").set_current_page(1)
-                   self.builder.get_object("tabbox").set_current_page(4)
+                    self.builder.get_object("tabbox").set_current_page(1)
+                    self.builder.get_object("tabbox").set_current_page(4)
                 elif self.selected_type == "server": 
-                   self.builder.get_object("tabbox").set_current_page(2)
+                    self.builder.get_object("tabbox").set_current_page(2)
                 elif self.selected_type == "template": 
-                   self.builder.get_object("tabbox").set_current_page(2)
+                    self.builder.get_object("tabbox").set_current_page(2)
                 elif self.selected_type == "custom_template": 
-                   self.builder.get_object("tabbox").set_current_page(2)
+                    self.builder.get_object("tabbox").set_current_page(2)
                 elif self.selected_type == "storage": 
-                   self.builder.get_object("tabbox").set_current_page(1)
+                    self.builder.get_object("tabbox").set_current_page(1)
             if event.button == 3:
                 # On right click..
                 # Show the menu
@@ -1359,8 +1379,8 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                 collapsed = False
                 expanded = False
                 can_expand_or_collapse = False
-                for child in range(0,self.treestore.iter_n_children(self.selected_iter)):
-                    iter_ref= self.treestore.iter_nth_child(self.selected_iter, child)
+                for child in range(0, self.treestore.iter_n_children(self.selected_iter)):
+                    iter_ref = self.treestore.iter_nth_child(self.selected_iter, child)
                     if self.treestore.iter_n_children(iter_ref):
                         can_expand_or_collapse = True
                         path = self.treestore.get_path(iter_ref)
@@ -1387,20 +1407,19 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                     # Checks if "action" is on selected_actions"
                     typestg = None
                     pbdstg = 1
-                    broken = False
                     if self.selected_type == "storage":
                         typestg = self.xc_servers[self.selected_host].all_storage[self.selected_ref]["type"]
                         pbdstg = len(self.xc_servers[self.selected_host].all_storage[self.selected_ref]["PBDs"])
                     if gtk.Buildable.get_name(child)[0:2] == "m_":
                         if not self.selected_actions or \
-                                self.selected_actions.count(gtk.Buildable.get_name(child)[2:]) \
-                           == 0:
+                                self.selected_actions.count(gtk.Buildable.get_name(child)[2:]) == 0:
                             child.hide()
                         else:
                             # If selected_type is storage and typestg is not "lvm" or "udev"
                             if typestg != "lvm" and typestg != "udev":
                                 # If has not pbds.. then enable only "Reattach" and "Forget"
-                                if pbdstg == 0 and (gtk.Buildable.get_name(child) == "m_plug" or gtk.Buildable.get_name(child) == "m_forget"):
+                                if pbdstg == 0 and (gtk.Buildable.get_name(child) == "m_plug" or
+                                                    gtk.Buildable.get_name(child) == "m_forget"):
                                     child.show()
                                 else:
                                     # Disable else
@@ -1462,20 +1481,23 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
                             child.show()
                         else:
                             child.hide()
-                menu_vm.popup( None, None, None, event.button, time)
+                menu_vm.popup( None, None, None, event.button, event_time)
 
             # Update toolbar and set label/image on top right pane
             self.update_toolbar()
             self.headlabel.set_label(self.selected_name)
             self.headimage.set_from_pixbuf(self.treestore.get_value(iter_ref, 0))
+
     def vnc_disconnected(self, info): 
         print "VNC disconnected..", info
+
     def on_txttreefilter_changed(self, widget, data=None):
         """
         Function called when on left top entry you write text to filter
         """
         self.modelfilter.refilter()
         self.treeview.expand_all()
+
     def show_error_dlg(self, error_string, error_title="Error"):
         """This Function is used to show an error dialog when
         an error occurs.
@@ -1489,7 +1511,6 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
 
     def on_closewalert_clicked(self, widget, data=None):
         self.builder.get_object("walert").hide()
-
 
     def push_alert(self, alert):
         """
@@ -1516,14 +1537,14 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         Internal use only
         """
         for attr in dir(obj):
-           print "obj.%s = %s" % (attr, getattr(obj, attr))
+            print "obj.%s = %s" % (attr, getattr(obj, attr))
 
     def signal_handler(self):
         """
         Function called when oxc gets a signal
         """
         print "Exiting..."
-        for sh in  self.xc_servers:
+        for sh in self.xc_servers:
             self.xc_servers[sh].halt = True
             self.xc_servers[sh].halt_search = True
             self.xc_servers[sh].halt_performance = True
@@ -1532,17 +1553,16 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
         if self.hWnd != 0:
             win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
             self.hWnd = 0
+
     def on_delete_event(self, widget, event):
-         """
-         Returning True, the window will not be destroyed
-         """
-         widget.hide()
-         return True
+        # Returning True, the window will not be destroyed
+        widget.hide()
+        return True
+
     def convert_bytes(self, bytes):
-        """
-        Convert bytes to string
-        http://www.5dollarwhitebox.org/drupal/node/84
-        """
+        # Convert bytes to string
+        # http://www.5dollarwhitebox.org/drupal/node/84
+
         bytes = float(bytes)
         if bytes >= 1099511627776:
             terabytes = bytes / 1099511627776
@@ -1560,11 +1580,9 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             size = '%.1fb' % bytes
         return size
 
-
     def convert_bytes_mb(self, n):
-        """
-        Convert byes to mb string
-        """
+        # Convert bytes to mb string
+
         n = float(n)
         K, M = 1 << 10, 1 << 20
         if n >= M:
@@ -1573,11 +1591,3 @@ class oxcWindow(oxcWindowVM,oxcWindowHost,oxcWindowProperties,oxcWindowStorage,o
             return '%d' % (float(n) / K)
         else:
             return '%d' % n
-
-
-if __name__ == "__main__":
-    # Main function
-    gobject.threads_init()
-    gtk.gdk.threads_init()
-    wine = oxcWindow()
-    gtk.main()
