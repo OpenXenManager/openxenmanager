@@ -1,2 +1,1 @@
-#!/bin/sh
-/usr/bin/env python2 window.py
+/home/daniel/Development/openxenmanager/oxm.pyw
