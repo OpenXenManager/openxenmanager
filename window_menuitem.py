@@ -25,6 +25,9 @@ from oxcSERVER import *
 import xtea
 from thread import *
 import pdb
+import _version
+
+
 class oxcWindowMenuItem:
     """
     Class used to manage functions called from menuitems
@@ -1242,7 +1245,11 @@ class oxcWindowMenuItem:
         "About" menu item is pressed (Help)
         """
         # Show about dialog
-        self.builder.get_object("aboutdialog").show()
+        about = self.builder.get_object("aboutdialog")
+
+        about.set_version(_version.__version__)
+        about.show()
+
     def on_menuitem_pool_remove_server_activate(self, widget, data=None):
         """
         "Remove server" (from pool) menu item is pressed (pool)
