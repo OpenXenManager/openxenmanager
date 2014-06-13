@@ -62,4 +62,3 @@ messages_header['restartHost'] = "After applying this update, all servers must b
 messages_header['restartHVM'] = "After applying this update, all Linux VMs must be restarted."
 messages_header['restartPV'] = "After applying this update, all Windows VMs must be restarted."
 messages_header['restartXAPI'] = "After applying this update, all VMs must be restarted."
-
