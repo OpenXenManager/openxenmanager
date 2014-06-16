@@ -691,13 +691,13 @@ class oxcWindowMenuItem:
         if len(self.treestore.get_path(self.selected_iter)) == 2:
             self.treestore.remove(self.selected_iter)
         else:
-            path = (self.treestore.get_path(self.selected_iter)[0], self.treestore.get_path(self.selected_iter)[1])
-            iter = self.treestore.get_iter(path)
+            vm_path = (self.treestore.get_path(self.selected_iter)[0], self.treestore.get_path(self.selected_iter)[1])
+            iter = self.treestore.get_iter(vm_path)
             self.treestore.remove(iter)
         # Add again the ip/host name
         self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file(
             path.join(path.dirname(__file__), "images/tree_disconnected_16.png")), host, None, "server", "Disconnected",
-                                               None, None, ["connect", "forgetpw", "remove"], None]))
+            None, None, ["connect", "forgetpw", "remove"], None]))
         # If copy window is showed.. hide
         self.builder.get_object("windowcopyvm").hide()
         self.treeview.set_cursor((0, ), self.treeview.get_column(0))
