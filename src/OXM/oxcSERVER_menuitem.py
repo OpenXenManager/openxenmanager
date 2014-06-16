@@ -318,32 +318,32 @@ class oxcSERVERmenuitem:
 
     def fill_listnewvmhosts(self, list):
         list.clear()
-        path = 0
+        vm_path = 0
         i = 0
         for host in self.all_hosts.keys():
             resident_vms = self.all_hosts[host]['resident_VMs']
             host_memory = 0
             for resident_vm_uuid in resident_vms:
                 if self.all_vms[resident_vm_uuid]['is_control_domain']:
-                   host_memory =  self.all_vms[resident_vm_uuid]['memory_dynamic_max']
+                    host_memory = self.all_vms[resident_vm_uuid]['memory_dynamic_max']
             
             host_metrics_uuid = self.all_hosts[host]['metrics']
             host_metrics = self.all_host_metrics[host_metrics_uuid]
-            hostmemory = "%s free of %s available (%s total)"  % \
-                (self.convert_bytes(host_metrics['memory_free']), \
-                self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)), \
-                self.convert_bytes(host_metrics['memory_total']))
+            host_memory = "%s free of %s available (%s total)" % (self.convert_bytes(host_metrics['memory_free']),
+                                                                  self.convert_bytes(int(host_metrics['memory_total'])
+                                                                                     - int(host_memory)),
+                                                                  self.convert_bytes(host_metrics['memory_total']))
             if self.all_hosts[host]['enabled']:
-                path = i 
+                vm_path = i
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
                                                                     "images/tree_connected_16.png")),
-                             self.all_hosts[host]['name_label'], hostmemory, host])
+                             self.all_hosts[host]['name_label'], host_memory, host])
             else:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
                                                                     "images/tree_disconnected_16.png")),
-                             self.all_hosts[host]['name_label'], hostmemory, host])
-            i = i + 1
-        return path
+                             self.all_hosts[host]['name_label'], host_memory, host])
+            i += 1
+        return vm_path
 
     def set_default_storage(self, ref):
       pool_ref = self.all_pools.keys()[0]
