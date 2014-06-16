@@ -23,7 +23,7 @@ import xmlrpclib, urllib
 import asyncore, socket
 import select
 import gtk
-from os import chdir
+from os import chdir, path
 import platform
 import sys, shutil
 import datetime
@@ -35,7 +35,7 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
+from OXM.messages import messages, messages_header
 
 from oxcSERVER_host_nics import * 
 from oxcSERVER_host_network import * 
@@ -109,8 +109,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
         vms = self.connection.host.get_vms_which_prevent_evacuation(self.session_uuid, ref)["Value"]
         for vm in vms.keys():
             # vms[vm][0]
-            list.append([gtk.gdk.pixbuf_new_from_file("images/tree_running_16.png"), self.all_vms[vm]['name_label'], \
-                "Suspend or shutdown VM"])
+            list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__), "images/tree_running_16.png")),
+                         self.all_vms[vm]['name_label'], "Suspend or shutdown VM"])
     def enter_maintancemode(self, ref):
         res = self.connection.Async.host.evacuate(self.session_uuid, ref)
         if "Value" in res:

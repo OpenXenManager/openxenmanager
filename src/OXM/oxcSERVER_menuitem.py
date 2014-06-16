@@ -22,7 +22,7 @@ import xmlrpclib, urllib
 import asyncore, socket
 import select
 import gtk
-from os import chdir
+from os import chdir, path
 import platform
 import sys, shutil
 import datetime
@@ -34,8 +34,8 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
-from capabilities import capabilities_text
+from OXM.messages import messages, messages_header
+from OXM.capabilities import capabilities_text
 
 class oxcSERVERmenuitem:
     last_pool_data = []
@@ -211,43 +211,47 @@ class oxcSERVERmenuitem:
                   if checked: time1 = int(maxtime)
                   time= "%s-%s" % (mintime, maxtime)
 
-               list.append([ref, checked == "yes", name,  gtk.gdk.pixbuf_new_from_file("images/confidentiality%s.png" % confidentiality), 
-                            desc, size, time, size1, time1, int(confidentiality)])
+               list.append([ref, checked == "yes", name,  gtk.gdk.pixbuf_new_from_file(path.join(
+                   path.dirname(__file__), "images/confidentiality%s.png" % confidentiality)), desc, size, time, size1,
+                   time1, int(confidentiality)])
 
     def fill_list_templates(self, list):
         list.clear()
         for vm in  filter(self.filter_custom_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
             self.filter_uuid = vm["uuid"]
             if vm["is_a_snapshot"]:
-                list.append([gtk.gdk.pixbuf_new_from_file("images/snapshots.png"), vm["name_label"], self.vm_filter_uuid(), "Snapshots"])
+                list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__), "images/snapshots.png")),
+                             vm["name_label"], self.vm_filter_uuid(), "Snapshots"])
             else:
-                list.append([gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"), vm["name_label"], self.vm_filter_uuid(), "Custom"])
+                list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                    "images/user_template_16.png")), vm["name_label"],
+                             self.vm_filter_uuid(), "Custom"])
         for vm in  filter(self.filter_normal_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
             self.filter_uuid = vm["uuid"]
             if vm["name_label"].lower().count("centos"):
-                image = "images/centos.png"
+                image = path.join(path.dirname(__file__), "images/centos.png")
                 category = "CentOS"
             elif vm["name_label"].lower().count("windows"):
-                image = "images/windows.png"
+                image = path.join(path.dirname(__file__), "images/windows.png")
                 category = "Windows"
             elif vm["name_label"].lower().count("debian"):
-                image = "images/debian.png"
+                image = path.join(path.dirname(__file__), "images/debian.png")
                 category = "Debian"
             elif vm["name_label"].lower().count("red hat"):
-                image = "images/redhat.png"
+                image = path.join(path.dirname(__file__), "images/redhat.png")
                 category = "Red Hat"
             elif vm["name_label"].lower().count("suse"):
-                image = "images/suse.png"
+                image = path.join(path.dirname(__file__), "images/suse.png")
                 category = "SuSe"
             elif vm["name_label"].lower().count("oracle"):
-                image = "images/oracle.png"
+                image = path.join(path.dirname(__file__), "images/oracle.png")
                 category = "Oracle"
             elif vm["name_label"].lower().count("citrix"):
-                image = "images/xen.png"
+                image = path.join(path.dirname(__file__), "images/xen.png")
                 category = "Citrix"
 
             else:
-                image = "images/template_16.png"
+                image = path.join(path.dirname(__file__), "images/template_16.png")
                 category = "Misc"
             list.append([gtk.gdk.pixbuf_new_from_file(image), vm["name_label"], self.vm_filter_uuid(), category])
 
@@ -305,10 +309,12 @@ class oxcSERVERmenuitem:
                 network = self.all_network[self.all_pif[pif]['network']]['name_label']
                 if self.all_pif[pif]['device'][-1:] == "0":
                     text = "<b>Primary</b>" + "\n    <i>" + network + "</i>"
-                    list.append([pif, gtk.gdk.pixbuf_new_from_file("images/prop_networksettings.png"), text])
+                    list.append([pif, gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                             "images/prop_networksettings.png")), text])
                 else:
-                    text =  "<b>Interface " + str(self.all_pif[pif]['device'][-1:])  + "</b>\n     <i>" + network + "</i>"
-                    list.append([pif, gtk.gdk.pixbuf_new_from_file("images/prop_network.png"), text])
+                    text = "<b>Interface " + str(self.all_pif[pif]['device'][-1:]) + "</b>\n     <i>" + network + "</i>"
+                    list.append([pif, gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                             "images/prop_network.png")), text])
 
     def fill_listnewvmhosts(self, list):
         list.clear()
@@ -329,15 +335,13 @@ class oxcSERVERmenuitem:
                 self.convert_bytes(host_metrics['memory_total']))
             if self.all_hosts[host]['enabled']:
                 path = i 
-                list.append([gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_connected_16.png"), self.all_hosts[host]['name_label'],
-                                hostmemory, 
-                                host])
+                list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                    "images/tree_connected_16.png")),
+                             self.all_hosts[host]['name_label'], hostmemory, host])
             else:
-                list.append([gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_disconnected_16.png"), self.all_hosts[host]['name_label'],
-                                hostmemory,
-                                host])
+                list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                    "images/tree_disconnected_16.png")),
+                             self.all_hosts[host]['name_label'], hostmemory, host])
             i = i + 1
         return path
 
@@ -365,9 +369,13 @@ class oxcSERVERmenuitem:
             host = self.all_hosts[self.all_pbd[pbd_ref]["host"]]["name_label"]
             host_ref = self.all_pbd[pbd_ref]["host"]
             if not self.all_pbd[pbd_ref]['currently_attached']:
-                list.append([pbd_ref, gtk.gdk.pixbuf_new_from_file("images/storage_broken_16.png"), host, "<span foreground='red'><b>Unplugged</b></span>", host_ref, True])
+                list.append([pbd_ref, gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                             "images/storage_broken_16.png")), host,
+                             "<span foreground='red'><b>Unplugged</b></span>", host_ref, True])
             else:
-                list.append([pbd_ref, gtk.gdk.pixbuf_new_from_file("images//storage_shaped_16.png"), host, "<span foreground='green'><b>Connected</b></span>", host_ref, False])
+                list.append([pbd_ref, gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                             "images//storage_shaped_16.png")), host,
+                             "<span foreground='green'><b>Connected</b></span>", host_ref, False])
 
     def repair_storage(self, list, ref):
         error = False
@@ -514,22 +522,27 @@ class oxcSERVERmenuitem:
                     pass
                 else:
                     if self.default_sr == sr:
-                        list.append([gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"), sr, storage['name_label'],
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                            "images/storage_default_16.png")), sr,
+                                     storage['name_label'],
                          self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
                          self.convert_bytes(storage['physical_size'])])
 
                     else:
-                        list.append([gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"), sr, storage['name_label'],
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                            "images/storage_shaped_16.png")), sr,
+                                     storage['name_label'],
                          self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
                          self.convert_bytes(storage['physical_size'])])
-                """
-                else:
-                FIXME: set_sensitive(False) row
-                    list.append([gtk.gdk.pixbuf_new_from_file("images/storage_broken_16.png"), sr, storage['name_label'],
-                         self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
-                         self.convert_bytes(storage['physical_size'])])
-                else:
-                """
+
+                #else:  FIXME: set_sensitive(False) row
+                #    list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                #                                                        "images/storage_broken_16.png")), sr,
+                #                 storage['name_label'],
+                #         self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
+                #         self.convert_bytes(storage['physical_size'])])
+                #else:
+
                 i = i + 1
         return default_sr 
 

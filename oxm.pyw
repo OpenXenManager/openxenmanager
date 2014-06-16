@@ -2,7 +2,6 @@
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
-# Copyright (C) 2009 Alberto Gonzalez Rodriguez alberto@pesadilla.org
 # Copyright (C) 2014 Daniel Lintott <daniel@serverb.co.uk>
 #
 # This program is free software; you can redistribute it and/or
@@ -22,7 +21,7 @@
 # -----------------------------------------------------------------------
 
 import gtk
-from window import oxcWindow
+from OXM.window import oxcWindow
 
 if __name__ == "__main__":
     # Main function

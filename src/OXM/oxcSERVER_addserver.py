@@ -35,7 +35,7 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
+from OXM.messages import messages, messages_header
 
 class oxcSERVERaddserver(gobject.GObject):
     __gsignals__ = {

@@ -22,7 +22,7 @@
 # -----------------------------------------------------------------------
 
 import xml.dom.minidom
-import  pygtk_chart
+import pygtk_chart
 
 class XPORT:
     def __init__(self, filename):

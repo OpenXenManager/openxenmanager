@@ -67,24 +67,24 @@ else:
     gobject.threads_init()
 
 # Import the split classes for oxcWindow
-from window_vm import * 
-from window_host import * 
-from window_properties import * 
-from window_storage import * 
-from window_alerts import * 
-from window_addserver import * 
-from window_newvm import * 
-from window_menuitem import * 
-from window_tools import * 
-import xdot
+from window_vm import *
+from window_host import *
+from window_properties import *
+from window_storage import *
+from window_alerts import *
+from window_addserver import *
+from window_newvm import *
+from window_menuitem import *
+from window_tools import *
+from xdot import DotWindow
 
 
-class MyDotWindow(xdot.DotWindow):
+class MyDotWindow(DotWindow):
 
     def __init__(self, window, liststore, treestore):
         self.liststore = liststore
         self.treestore = treestore
-        xdot.DotWindow.__init__(self, window)
+        DotWindow.__init__(self, window)
         self.widget.connect('button_press_event', self.on_double_clicked)
 
     def on_double_clicked(self, widget, event):
@@ -174,7 +174,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             pathconfig = os.path.join(os.path.expanduser("~"), "openxenmanager", "oxc.conf")
 
         if not os.path.exists(pathconfig):
-            shutil.copy("oxc.conf", pathconfig)
+            shutil.copy(os.path.join(os.path.dirname(__file__), "oxc.conf"), pathconfig)
             
         self.config = ConfigObj(pathconfig) 
         self.pathconfig = dirconfig 
@@ -184,7 +184,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         else:
             self.config_hosts = {}
         # Define the glade file
-        self.gladefile = "oxc.glade"
+        #self.gladefile = os.getcwd() + "oxc.glade"
+        self.gladefile = os.path.join(os.path.dirname(__file__), "oxc.glade")
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
         # Add the file to gtk.Builder object
@@ -234,9 +235,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.treestore = gtk.TreeStore(gtk.gdk.Pixbuf, str, str, str, str, str, str, str, str)
                                            # Image,Name, uuid, type, state, host, ref, actions, ip
         # Append default logo on created TreeStore
-        self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file("images/xen.gif"), "OpenXenManager",
-                                                      None, "home", "home", None, None,
-                                                      ["addserver", "connectall", "disconnectall"], None]))
+        self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file(
+            os.path.join(os.path.dirname(__file__), "images/xen.gif")), "OpenXenManager", None, "home", "home", None,
+            None, ["addserver", "connectall", "disconnectall"], None]))
         
         # Model Filter is used but show/hide templates/custom templates/local storage..
         self.modelfilter = self.treestore.filter_new()
@@ -264,7 +265,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.headimage = self.builder.get_object("headimage")
         self.headlabel = self.builder.get_object("headlabel")
         self.headlabel.set_label(self.selected_name)
-        self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file("images/xen.gif"))
+        self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+                                                                                 "images/xen.gif")))
 
         if "show_hidden_vms" not in self.config["gui"]:
             self.config["gui"]["show_hidden_vms"] = "False"
@@ -289,9 +291,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         # Add to left tree the saved servers from configuration
         for host in self.config_hosts.keys():
             self.builder.get_object("listaddserverhosts").append([host])
-            self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file("images/tree_disconnected_16.png"),
-                                                   host, None, "server", "Disconnected", None, None,
-                                                   ["connect", "forgetpw", "remove"], None]))
+            self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file(
+                os.path.join(os.path.dirname(__file__), "images/tree_disconnected_16.png")), host, None, "server",
+                "Disconnected", None, None, ["connect", "forgetpw", "remove"], None]))
 
         # Expand left tree and update menubar, tabs and toolbar
         self.treeview.expand_all()
@@ -1209,16 +1211,23 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                         safename = name.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
                         if self.builder.get_object("check_unused_network").get_active() or relation[network]:
                             dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
-                                       'cellspacing="0"><tr><td><img src="images_map/network.png"/></td></tr><tr>' \
+                                       'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>> tooltip="%s"];' % \
-                                       (uuid, safename,name)
+                                       (uuid,
+                                        os.path.join(os.path.dirname(__file__), "images_map/network.png"),
+                                        safename,
+                                        name)
                             dotcode += "\n"
                         for vm in relation[network]:
                             uuid2, name2 = vm.split("_", 1)
                             dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
-                                       'cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr>' \
+                                       'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
-                                       (uuid2, name2, uuid2, name2)
+                                       (uuid2,
+                                        os.path.join(os.path.dirname(__file__), "images_map/server.png"),
+                                        name2,
+                                        uuid2,
+                                        name2)
                             dotcode += "\n"
                             dotcode += '"%s" -> "%s"' % (uuid, uuid2)
                             dotcode += "\n"
@@ -1232,17 +1241,25 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                         safename = name.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
                         if self.builder.get_object("check_unused_storage").get_active() or relation[storage]:
                             dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
-                                       'cellspacing="0"><tr><td><img src="images_map/storage.png"/></td></tr><tr>' \
+                                       'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
-                                       (uuid, safename, uuid, name)
+                                       (uuid,
+                                        os.path.join(os.path.dirname(__file__), "images_map/storage.png"),
+                                        safename,
+                                        uuid,
+                                        name)
                             dotcode += "\n"
                         for vm in relation[storage]:
                             uuid2, name2 = vm.split("_", 1)
                             safename2 = name2.replace("&", "&amp;").replace("<", "&lt;").replace("\"", "&quot;")
                             dotcode += '"%s"[shape=plaintext, label=<<table border="0" cellpadding="0" ' \
-                                       'cellspacing="0"><tr><td><img src="images_map/server.png"/></td></tr><tr>' \
+                                       'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
-                                       (uuid2, safename2, uuid2, name2)
+                                       (uuid2,
+                                        os.path.join(os.path.dirname(__file__), "images_map/server.png"),
+                                        safename2,
+                                        uuid2,
+                                        name2)
                             dotcode += "\n"
                             dotcode += '"%s" -> "%s"' % (uuid2, uuid)
                             dotcode += "\n"

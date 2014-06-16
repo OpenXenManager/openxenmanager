@@ -23,7 +23,7 @@ import xmlrpclib, urllib
 import asyncore, socket
 import select
 import gtk
-from os import chdir
+from os import chdir, path
 import platform
 import sys, shutil
 import datetime
@@ -35,7 +35,7 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
+from OXM.messages import messages, messages_header
 
 class oxcSERVERvmstorage:
     def vm_storagedetach(self, ref):
@@ -107,13 +107,18 @@ class oxcSERVERvmstorage:
        
         for sr in all_sr:
             if all_sr[sr]['type'] != "iso" and all_sr[sr]['content_type'] != "iso":
-                refattachdisk[sr] = list.append(None, [gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"), sr, all_sr[sr]["name_label"],"", False])   
+                refattachdisk[sr] = list.append(None, [gtk.gdk.pixbuf_new_from_file(
+                    path.join(path.dirname(__file__), "images/storage_default_16.png")), sr, all_sr[sr]["name_label"],
+                    "", False])
 
         all_vdi= self.connection.VDI.get_all_records\
                   (self.session_uuid)['Value']
         for vdi in all_vdi:
             if not all_vdi[vdi]['VBDs'] and all_vdi[vdi]['read_only'] == False:
-                 list.append(refattachdisk[all_vdi[vdi]['SR']], [gtk.gdk.pixbuf_new_from_file("images/user_template_16.png"), vdi, all_vdi[vdi]['name_label'], all_vdi[vdi]['name_description'] + " - " +  self.convert_bytes(all_vdi[vdi]['physical_utilisation']) + " used out of " + self.convert_bytes(all_vdi[vdi]['virtual_size']),True])
+                list.append(refattachdisk[all_vdi[vdi]['SR']], [gtk.gdk.pixbuf_new_from_file(
+                    path.join(path.dirname(__file__), "images/user_template_16.png")), vdi, all_vdi[vdi]['name_label'],
+                    all_vdi[vdi]['name_description'] + " - " + self.convert_bytes(all_vdi[vdi]['physical_utilisation'])
+                    + " used out of " + self.convert_bytes(all_vdi[vdi]['virtual_size']), True])
 
     def attach_disk_to_vm(self, ref, vdi, ro):
         userdevice = self.connection.VM.get_allowed_VBD_devices(self.session_uuid, ref)['Value'][0]

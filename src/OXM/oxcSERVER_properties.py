@@ -23,7 +23,7 @@ import xmlrpclib, urllib
 import asyncore, socket
 import select
 import gtk
-from os import chdir
+import os
 import platform
 import sys, shutil
 import datetime
@@ -35,7 +35,7 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
+from OXM.messages import messages, messages_header
 
 class oxcSERVERproperties:
     def get_vbd(self, ref):
@@ -362,10 +362,9 @@ class oxcSERVERproperties:
             if self.all_hosts[host]['enabled']:
                 if host == ref:
                     path = i 
-                list.append([host, gtk.gdk.pixbuf_new_from_file\
-                                ("images/tree_connected_16.png"), self.all_hosts[host]['name_label'],
-                                hostmemory, 
-                                ])
+                list.append([host, gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+                                                                             "images/tree_connected_16.png")),
+                             self.all_hosts[host]['name_label'], hostmemory, ])
             i = i + 1
         return path
 
@@ -382,18 +381,18 @@ class oxcSERVERproperties:
                     name = self.all_storage[sr]['name_label']
                 if len(self.all_storage[sr]['PBDs']) == 0 or self.all_pbd[self.all_storage[sr]['PBDs'][0]]['currently_attached'] == False \
                     or  len(self.all_storage[sr]['PBDs']) > 0 and self.all_storage[sr]["allowed_operations"].count("unplug") ==  0:
-                        list.append([sr, \
-                           gtk.gdk.pixbuf_new_from_file("images/storage_broken_16.png"),\
-                             name])
+                        list.append([sr, gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+                                                                                   "images/storage_broken_16.png")),
+                                     name])
                 else:
                     if sr == self.default_sr:
-                        list.append([sr, \
-                           gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"),\
-                             name])
+                        list.append([sr, gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+                                                                                   "images/storage_default_16.png")),
+                                     name])
                     else:
-                        list.append([sr,\
-                           gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"),\
-                             name])
+                        list.append([sr, gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+                                                                                   "images/storage_shaped_16.png")),
+                                     name])
                 i = i +1
         return selected
 

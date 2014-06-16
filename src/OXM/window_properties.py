@@ -23,6 +23,7 @@
 import hashlib
 import gtk
 import xml.dom.minidom
+from os import path
 
 class oxcWindowProperties:
     """
@@ -719,7 +720,9 @@ class oxcWindowProperties:
                     vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
                     device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
                     mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                    listprop.append([gtk.gdk.pixbuf_new_from_file("images/prop_stgvm.png"), "<b>NAME</b>", "stgvm", i])
+                    listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                            "images/prop_stgvm.png")), "<b>NAME</b>",
+                                     "stgvm", i])
                     iter = listprop.get_iter((i,))
                     mode = "Read / Write" if mode == "RW" else "Read Only"
                     vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']
@@ -733,7 +736,9 @@ class oxcWindowProperties:
                 vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
                 device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
                 mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                listprop.append([gtk.gdk.pixbuf_new_from_file("images/prop_stgvm.png"), "<b>NAME</b>", "stgvm", 9])
+                listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                        "images/prop_stgvm.png")), "<b>NAME</b>",
+                                 "stgvm", 9])
                 iter = listprop.get_iter((9,))
                 mode = "Read / Write" if mode == "RW" else "Read Only"
                 vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']

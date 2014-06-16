@@ -22,9 +22,9 @@
 #!/usr/bin/env python
 from window_host_nics import * 
 from window_host_network import * 
-from capabilities import capabilities_conf_text
+from OXM.capabilities import capabilities_conf_text
 from threading import Thread
-from messages import messages_header
+from OXM.messages import messages_header
 import gtk
 
 class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):

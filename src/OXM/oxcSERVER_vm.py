@@ -23,7 +23,7 @@ import xmlrpclib, urllib
 import asyncore, socket
 import select
 import gtk
-from os import chdir
+from os import chdir, path
 import platform
 import sys, shutil
 import datetime
@@ -35,7 +35,7 @@ import pdb
 import rrdinfo
 import time
 import gobject
-from messages import messages, messages_header
+from OXM.messages import messages, messages_header
 from oxcSERVER_vm_network import *
 from oxcSERVER_vm_storage import *
 from oxcSERVER_vm_snapshot import *
@@ -96,14 +96,18 @@ class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
                             pass
                 else:
                     if self.default_sr == sr:
-                        list.append([gtk.gdk.pixbuf_new_from_file("images/storage_default_16.png"), sr, storage['name_label'],
-                            self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
-                                    self.convert_bytes(storage['physical_size'])])
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                            "images/storage_default_16.png")), sr,
+                                     storage['name_label'], self.convert_bytes(int(storage['physical_size']) -
+                                                                               int(storage['virtual_allocation']))
+                                     + " free of " + self.convert_bytes(storage['physical_size'])])
 
                     else:
-                        list.append([gtk.gdk.pixbuf_new_from_file("images/storage_shaped_16.png"), sr, storage['name_label'],
-                            self.convert_bytes(int(storage['physical_size'])-int(storage['virtual_allocation'])) + " free of " + \
-                                    self.convert_bytes(storage['physical_size'])])
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                                                            "images/storage_shaped_16.png")), sr,
+                                     storage['name_label'], self.convert_bytes(int(storage['physical_size']) -
+                                                                               int(storage['virtual_allocation']))
+                                     + " free of " + self.convert_bytes(storage['physical_size'])])
                         i = i + 1
         return default_sr 
 
