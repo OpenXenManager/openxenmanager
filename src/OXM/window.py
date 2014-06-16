@@ -913,283 +913,279 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         Tabbox contains all possible tabs, when you click on a tab first we will check the name
         Depending of this name we will do different actions
         """
-        # Get the Tab name
-        #tab_label = widget.get_tab_label(widget.get_nth_page(data2)).name
-        tab_label = gtk.Buildable.get_name(widget.get_tab_label(widget.get_nth_page(data2)))
-        # Set as selected
-        self.selected_tab = tab_label
-        if tab_label != "VM_Console":
-            if self.tunnel and not self.noclosevnc:
-                self.tunnel.close()
-            # If vnc console was opened and we change to another, close it
-            self.builder.get_object("menuitem_tools_cad").set_sensitive(False)
-            if hasattr(self, "vnc") and self.vnc and not self.noclosevnc:
-                self.vnc.destroy()
-                self.builder.get_object("windowvncundock").hide()
-                self.vnc = None
-            # Same on Windows
-            if self.hWnd != 0:
-                win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
-                self.hWnd = 0
-        if tab_label != "HOST_Search" and self.selected_host:
-            # If we change tab to another different to HOST Search, then stop the filling thread
-                self.xc_servers[self.selected_host].halt_search = True
-        if tab_label != "VM_Performance" and self.selected_host:
-            self.xc_servers[self.selected_host].halt_performance = True
-            
-        if tab_label == "VM_Console":
-            self.builder.get_object("menuitem_tools_cad").set_sensitive(True)
-            self.treeview = self.builder.get_object("treevm") 
-            if hasattr(self, "vnc") and self.vnc:
-                if self.tunnel:
+        # Get the selected host
+        host = self.selected_host
+
+        # Check if we've actually selected a host
+        if host:
+            # Get the Tab name
+            #tab_label = widget.get_tab_label(widget.get_nth_page(data2)).name
+            tab_label = gtk.Buildable.get_name(widget.get_tab_label(widget.get_nth_page(data2)))
+            # Set as selected
+            self.selected_tab = tab_label
+            if tab_label != "VM_Console":
+                if self.tunnel and not self.noclosevnc:
                     self.tunnel.close()
-                self.vnc.destroy()
-                self.builder.get_object("windowvncundock").hide()
-                self.vnc = None
+                # If vnc console was opened and we change to another, close it
+                self.builder.get_object("menuitem_tools_cad").set_sensitive(False)
+                if hasattr(self, "vnc") and self.vnc and not self.noclosevnc:
+                    self.vnc.destroy()
+                    self.builder.get_object("windowvncundock").hide()
+                    self.vnc = None
+                # Same on Windows
+                if self.hWnd != 0:
+                    win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
+                    self.hWnd = 0
+                if tab_label != "HOST_Search" and host:
+                    # If we change tab to another different to HOST Search, then stop the filling thread
+                        self.xc_servers[host].halt_search = True
+                if tab_label != "VM_Performance" and host:
+                    self.xc_servers[host].halt_performance = True
+            
+            if tab_label == "VM_Console":
+                self.builder.get_object("menuitem_tools_cad").set_sensitive(True)
+                self.treeview = self.builder.get_object("treevm")
+                if hasattr(self, "vnc") and self.vnc:
+                    if self.tunnel:
+                        self.tunnel.close()
+                    self.vnc.destroy()
+                    self.builder.get_object("windowvncundock").hide()
+                    self.vnc = None
 
-            if self.treeview.get_cursor()[1]:
-                state = self.selected_state
-                host = self.selected_host
-                # First checks if VM is running
-                self.builder.get_object("btenterfullscreen").grab_focus()
-                self.builder.get_object("console_area").grab_focus()
-                if state == "Running":
-                    if sys.platform != "win32" and sys.platform != "darwin":
-                        # Create a gtkvnc object
-                        self.vnc = gtkvnc.Display()
-                        # Add to gtkvnc to a console area
-                        console_area = self.builder.get_object("console_area")
-
-                        console_area.add(self.vnc)
-                        console_area.show_all()
-
-                        self.vnc.activate()
-                        self.vnc.grab_focus()
-                        self.vnc.set_pointer_grab(False)
-                        self.vnc.set_pointer_local(False)
-                        self.vnc.set_keyboard_grab(True)
-                        self.vnc.set_shared_flag(True)
-                        self.vnc.connect("vnc-disconnected", self.vnc_disconnected)
-                        self.vnc.connect("key_press_event", self.on_console_area_key_press_event)
-                        from tunnel import Tunnel
-                        if self.selected_type == "host":
-                            ref = self.xc_servers[self.selected_host].host_vm[self.selected_ref][0]
-                        else:
-                            ref = self.selected_ref
-                        if self.xc_servers[self.selected_host].all_vms[ref]["consoles"]:
-                            nb_consoles = len(self.xc_servers[self.selected_host].all_vms[ref]["consoles"])
-                            location = None
-                            for i in range(nb_consoles):
-                                console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][i]
-                                protocol = self.xc_servers[self.selected_host].all_console[console_ref]["protocol"]
-                                if protocol == 'rfb':
-                                    location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
-                                    break
-                            if location is None:
-                                print "no VNC console found"
-                            self.tunnel = Tunnel(self.xc_servers[self.selected_host].session_uuid, location)
-                            port = self.tunnel.get_free_port()
-                            Thread(target=self.tunnel.listen, args=(port,)).start()
-                            time.sleep(1)
-                            # And open the connection
-                            try:
-                                self.vnc.set_depth(1)
-                            except RuntimeError:
-                                pass
-
-                            self.vnc.connect("vnc-server-cut-text", self.vnc_button_release) 
-                            self.vnc.open_host("localhost", str(port))
-                        else:
-                            print "No console available"
-
-                    elif sys.platform == "darwin":
-                        from tunnel import Tunnel
-                        if self.selected_type == "host":
-                            ref = self.xc_servers[self.selected_host].host_vm[self.selected_ref][0]
-                        else:
-                            ref = self.selected_ref
-                        # Run ./vncviewer with host, vm renf and session ref
-                        if self.xc_servers[self.selected_host].all_vms[ref]["consoles"]:
-                            console_ref = self.xc_servers[self.selected_host].all_vms[ref]["consoles"][0]
-                            location = self.xc_servers[self.selected_host].all_console[console_ref]["location"]
-                            self.tunnel = Tunnel(self.xc_servers[self.selected_host].session_uuid, location)
-                            port = self.tunnel.get_free_port()
-                            Thread(target=self.tunnel.listen, args=(port,)).start()
-                            time.sleep(1)
-                            os.spawnl(os.P_NOWAIT, "./vncviewer", "vncviewer", "localhost::%s" % port)
+                if self.treeview.get_cursor()[1]:
+                    state = self.selected_state
+                    # First checks if VM is running
+                    self.builder.get_object("btenterfullscreen").grab_focus()
+                    self.builder.get_object("console_area").grab_focus()
+                    if state == "Running":
+                        if sys.platform != "win32" and sys.platform != "darwin":
+                            # Create a gtkvnc object
+                            self.vnc = gtkvnc.Display()
+                            # Add to gtkvnc to a console area
                             console_area = self.builder.get_object("console_area")
-                            console_alloc = console_area.get_allocation()
+
+                            console_area.add(self.vnc)
+                            console_area.show_all()
+
+                            self.vnc.activate()
+                            self.vnc.grab_focus()
+                            self.vnc.set_pointer_grab(False)
+                            self.vnc.set_pointer_local(False)
+                            self.vnc.set_keyboard_grab(True)
+                            self.vnc.set_shared_flag(True)
+                            self.vnc.connect("vnc-disconnected", self.vnc_disconnected)
+                            self.vnc.connect("key_press_event", self.on_console_area_key_press_event)
+                            from tunnel import Tunnel
+                            if self.selected_type == "host":
+                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
+                            else:
+                                ref = self.selected_ref
+                            if self.xc_servers[host].all_vms[ref]["consoles"]:
+                                nb_consoles = len(self.xc_servers[host].all_vms[ref]["consoles"])
+                                location = None
+                                for i in range(nb_consoles):
+                                    console_ref = self.xc_servers[host].all_vms[ref]["consoles"][i]
+                                    protocol = self.xc_servers[host].all_console[console_ref]["protocol"]
+                                    if protocol == 'rfb':
+                                        location = self.xc_servers[host].all_console[console_ref]["location"]
+                                        break
+                                if location is None:
+                                    print "no VNC console found"
+                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
+                                port = self.tunnel.get_free_port()
+                                Thread(target=self.tunnel.listen, args=(port,)).start()
+                                time.sleep(1)
+                                # And open the connection
+                                try:
+                                    self.vnc.set_depth(1)
+                                except RuntimeError:
+                                    pass
+
+                                self.vnc.connect("vnc-server-cut-text", self.vnc_button_release)
+                                self.vnc.open_host("localhost", str(port))
+                            else:
+                                print "No console available"
+
+                        elif sys.platform == "darwin":
+                            from tunnel import Tunnel
+                            if self.selected_type == "host":
+                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
+                            else:
+                                ref = self.selected_ref
+                            # Run ./vncviewer with host, vm renf and session ref
+                            if self.xc_servers[host].all_vms[ref]["consoles"]:
+                                console_ref = self.xc_servers[host].all_vms[ref]["consoles"][0]
+                                location = self.xc_servers[host].all_console[console_ref]["location"]
+                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
+                                port = self.tunnel.get_free_port()
+                                Thread(target=self.tunnel.listen, args=(port,)).start()
+                                time.sleep(1)
+                                os.spawnl(os.P_NOWAIT, "./vncviewer", "vncviewer", "localhost::%s" % port)
+                                console_area = self.builder.get_object("console_area")
+                                console_alloc = console_area.get_allocation()
+                            else:
+                                print "No console available"
+
                         else:
-                            print "No console available"
+                            if self.selected_type == "host":
+                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
+                            else:
+                                ref = self.selected_ref
+                            # Run vncviewer.exe with host, vm renf and session ref
+                            param = self.xc_servers[host].get_connect_parameters(ref, self.selected_ip)
+                            os.spawnl(os.P_NOWAIT, "vncviewer.exe", "vncviewer.exe", "%s" % param)
+                            console_area = self.builder.get_object("frameconsole")
+                            console_area.realize()
+                            console_alloc = console_area.get_allocation()
+                            window_alloc = self.window.get_position()
+                            x = console_alloc.x + window_alloc[0] + 10
+                            y = console_alloc.y + window_alloc[1] + 47
+                            # On windows we'll move the window..
+                            while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
+                                    and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
+                                pass
+                            self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
+                            if self.hWnd == 0:
+                                self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
+                            #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
+
+                            win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
+                            #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
 
                     else:
-                        if self.selected_type == "host":
-                            ref = self.xc_servers[self.selected_host].host_vm[self.selected_ref][0]
-                        else:
-                            ref = self.selected_ref
-                        # Run vncviewer.exe with host, vm renf and session ref
-                        param = self.xc_servers[host].get_connect_parameters(ref, self.selected_ip)
-                        os.spawnl(os.P_NOWAIT, "vncviewer.exe", "vncviewer.exe", "%s" % param)
-                        console_area = self.builder.get_object("frameconsole")
-                        console_area.realize()
-                        console_alloc = console_area.get_allocation()
-                        window_alloc = self.window.get_position()
-                        x = console_alloc.x + window_alloc[0] + 10
-                        y = console_alloc.y + window_alloc[1] + 47
-                        # On windows we'll move the window.. 
-                        while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
-                                and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
-                            pass
-                        self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
-                        if self.hWnd == 0:
-                            self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
-                        #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
-                        
-                        win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
-                        #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
-                        
+                        print state
+            if tab_label == "VM_Memory":
+                self.update_memory_tab()
+
+            if tab_label == "VM_Storage":
+                if self.treeview.get_cursor()[1]:
+                    # liststorage contains the storage on VM
+                    liststorage = self.builder.get_object("listvmstorage")
+                    # liststoragdvd contains the possibles dvd/isos to mount on VM
+                    liststoragedvd = self.builder.get_object("listvmstoragedvd")
+                    #liststoragedvd.set_sort_func(1, self.compare_data)
+                    # Fill liststorage
+                    self.xc_servers[host].fill_vm_storage(self.selected_ref, liststorage)
+                    # Fill liststoragedvd, fill_vm_storage_dvd return the current dvd/iso mounted
+                    active = self.xc_servers[host].fill_vm_storage_dvd(self.selected_ref, liststoragedvd)
+                    # Flag variable to no emit signal
+                    self.set_active = True
+                    # Set as the active dvd/iso mounted
+                    self.builder.get_object("combovmstoragedvd").set_active(active)
+                    self.set_active = False
+            elif tab_label == "VM_Network":
+                if self.treeview.get_cursor()[1]:
+                    treenetwork = self.builder.get_object("treevmnetwork")
+                    # listvmnetwork contains the networks of a vm
+                    listnetwork = self.builder.get_object("listvmnetwork")
+                    # Fill the list of networks
+                    self.xc_servers[host].fill_vm_network(self.selected_ref, treenetwork, listnetwork)
+            elif tab_label == "VM_Snapshots":
+                if self.treeview.get_cursor()[1]:
+                    treevmsnapshots = self.builder.get_object("treevmsnapshots")
+                    # listvmsnapshots contains the snapshots of a vm
+                    listvmsnapshots = self.builder.get_object("listvmsnapshots")
+                    # Fill the list of snapshots
+                    self.xc_servers[host].fill_vm_snapshots(self.selected_ref, treevmsnapshots, listvmsnapshots)
+            elif tab_label == "VM_Performance":
+                if self.treeview.get_cursor()[1]:
+                    # Thread to update performance images
+                    ref = self.selected_ref
+                    if self.selected_type == "vm":
+                        self.builder.get_object("scrolledwindow50").show()
+                        self.builder.get_object("labeldiskusage").show()
+                        Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref,
+                                                                                      self.selected_ip, False)).start()
+                    else:
+                        self.builder.get_object("scrolledwindow50").hide()
+                        self.builder.get_object("labeldiskusage").hide()
+                        if host and self.selected_ref in self.xc_servers[host].host_vm:
+                            uuid = self.xc_servers[host].host_vm[self.selected_ref][1]
+                            Thread(target=self.xc_servers[host].update_performance,
+                                   args=(uuid, ref, self.selected_ip, True)).start()
+
+            elif tab_label == "VM_Logs":
+                if self.treeview.get_cursor()[1]:
+                    treeviewlog = self.builder.get_object("treeviewlog")
+                    # listlog contains the snapshots of a vm/host
+                    listlog = self.builder.get_object("listlog")
+                    # Fill the list of logs
+                    if self.selected_type == "vm":
+                        self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
+                    else:
+                        self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
+
+            elif tab_label == "HOST_Users":
+                if self.selected_type == "pool":
+                    name = self.xc_servers[host].all_pools[self.selected_ref]['name_label']
+                    externalauth = self.xc_servers[host].get_external_auth(
+                        self.xc_servers[host]['master'])
                 else:
-                    print state
-        if tab_label == "VM_Memory":
-            self.update_memory_tab()
+                    name = self.xc_servers[host].all_hosts[self.selected_ref]['name_label']
+                    externalauth = self.xc_servers[host].get_external_auth(self.selected_ref)
 
-        if tab_label == "VM_Storage":
-            if self.treeview.get_cursor()[1]:
-                # liststorage contains the storage on VM
-                liststorage = self.builder.get_object("listvmstorage")
-                # liststoragdvd contains the possibles dvd/isos to mount on VM
-                liststoragedvd = self.builder.get_object("listvmstoragedvd")
-                #liststoragedvd.set_sort_func(1, self.compare_data)
-                host = self.selected_host
-                # Fill liststorage
-                self.xc_servers[host].fill_vm_storage(self.selected_ref, liststorage)
-                # Fill liststoragedvd, fill_vm_storage_dvd return the current dvd/iso mounted
-                active = self.xc_servers[host].fill_vm_storage_dvd(self.selected_ref, liststoragedvd)
-                # Flag variable to no emit signal
-                self.set_active = True
-                # Set as the active dvd/iso mounted
-                self.builder.get_object("combovmstoragedvd").set_active(active)
-                self.set_active = False
-        elif tab_label == "VM_Network":
-            if self.treeview.get_cursor()[1]:
-                treenetwork = self.builder.get_object("treevmnetwork")
-                # listvmnetwork contains the networks of a vm
-                listnetwork = self.builder.get_object("listvmnetwork")
-                host = self.selected_host
-                # Fill the list of networks
-                self.xc_servers[host].fill_vm_network(self.selected_ref, treenetwork, listnetwork)
-        elif tab_label == "VM_Snapshots":
-            if self.treeview.get_cursor()[1]:
-                treevmsnapshots = self.builder.get_object("treevmsnapshots")
-                # listvmsnapshots contains the snapshots of a vm
-                listvmsnapshots = self.builder.get_object("listvmsnapshots")
-                host =  self.selected_host
-                # Fill the list of snapshots
-                self.xc_servers[host].fill_vm_snapshots(self.selected_ref, treevmsnapshots, listvmsnapshots)
-        elif tab_label == "VM_Performance":
-            if self.treeview.get_cursor()[1]:
-                # Thread to update performance images
-                ref = self.selected_ref
-                host = self.selected_host
-                if self.selected_type == "vm":
-                    self.builder.get_object("scrolledwindow50").show()
-                    self.builder.get_object("labeldiskusage").show()
-                    Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref,
-                                                                                  self.selected_ip, False)).start()
+                listusers = self.builder.get_object("listusers")
+                self.xc_servers[host].fill_domain_users(self.selected_ref, listusers)
+
+                if externalauth[0] == "":
+                    self.builder.get_object("btjoindomain").set_sensitive(True)
+                    self.builder.get_object("btleavedomain").set_sensitive(False)
+                    self.builder.get_object("lblusersdomain").set_text("AD is not currently configured for '" +
+                                                                       self.selected_name + "'. To enable AD "
+                                                                                            "authentication, click "
+                                                                                            "Join.")
                 else:
-                    self.builder.get_object("scrolledwindow50").hide()
-                    self.builder.get_object("labeldiskusage").hide()
-                    if self.selected_host and self.selected_ref in self.xc_servers[self.selected_host].host_vm:
-                        uuid = self.xc_servers[self.selected_host].host_vm[self.selected_ref][1]
-                        Thread(target=self.xc_servers[host].update_performance, args=(uuid, ref,
-                                                                                      self.selected_ip, True)).start()
+                    self.builder.get_object("btleavedomain").set_sensitive(True)
+                    self.builder.get_object("btjoindomain").set_sensitive(False)
+                    self.builder.get_object("lblusersdomain").set_text("Pool/host " + self.selected_name +
+                                                                       " belongs to domain '" + externalauth[1] +
+                                                                       "'. To enable AD authentication, click Join.")
 
-        elif tab_label == "VM_Logs":
-            if self.treeview.get_cursor()[1]:
-                treeviewlog = self.builder.get_object("treeviewlog")
-                # listlog contains the snapshots of a vm/host
-                listlog = self.builder.get_object("listlog")
-                host = self.selected_host
-                # Fill the list of logs
-                if self.selected_type == "vm":
-                    self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
-                else:
-                    self.xc_servers[host].fill_vm_log(self.selected_uuid, treeviewlog, listlog)
+            elif tab_label == "HOST_Storage":
+                if self.treeview.get_cursor()[1]:
+                    # listhoststorage contains the snapshots of a vm/host
+                    liststorage = self.builder.get_object("listhoststorage")
+                    # Fill the list of storage
+                    self.xc_servers[host].fill_host_storage(self.selected_ref, liststorage)
+            elif tab_label == "HOST_Nics":
+                if self.treeview.get_cursor()[1]:
 
-        elif tab_label == "HOST_Users":
-            if self.selected_type == "pool":
-                name =  self.xc_servers[self.selected_host].all_pools[self.selected_ref]['name_label']
-                externalauth = self.xc_servers[self.selected_host].get_external_auth(
-                    self.xc_servers[self.selected_host]['master'])
-            else:
-                name = self.xc_servers[self.selected_host].all_hosts[self.selected_ref]['name_label']
-                externalauth = self.xc_servers[self.selected_host].get_external_auth(self.selected_ref)
+                    # liststorage = self.builder.get_object("listhostnics")
+                    # self.xc_servers[host].fill_host_nics(self.selected_ref, liststorage)
 
-            listusers = self.builder.get_object("listusers")
-            self.xc_servers[self.selected_host].fill_domain_users(self.selected_ref, listusers)
+                    # Call to update_tab_host_nics to fill the host nics
+                    self.update_tab_host_nics()
+            elif tab_label == "HOST_Search":
+                if self.treeview.get_cursor()[1]:
+                    self.xc_servers[host].halt_search = False
+                    # Host_Search contains a live monitoring status of VM
+                    # Create a thread to fill "listsearch"
+                    self.xc_servers[host].thread_host_search(self.selected_ref, self.listsearch)
+                    # Expand "treesearch"
+                    self.treesearch.expand_all()
 
-            if externalauth[0] == "":
-                self.builder.get_object("btjoindomain").set_sensitive(True)
-                self.builder.get_object("btleavedomain").set_sensitive(False)
-                self.builder.get_object("lblusersdomain").set_text("AD is not currently configured for '" +
-                                                                   self.selected_name + "'. To enable AD "
-                                                                                        "authentication, click Join.")
-            else:
-                self.builder.get_object("btleavedomain").set_sensitive(True)
-                self.builder.get_object("btjoindomain").set_sensitive(False)
-                self.builder.get_object("lblusersdomain").set_text("Pool/host " + self.selected_name +
-                                                                   " belongs to domain '" + externalauth[1] +
-                                                                   "'. To enable AD authentication, click Join.")
-
-        elif tab_label == "HOST_Storage":
-            if self.treeview.get_cursor()[1]:
-                # listhoststorage contains the snapshots of a vm/host
-                liststorage = self.builder.get_object("listhoststorage")
-                host = self.selected_host
-                # Fill the list of storage
-                self.xc_servers[host].fill_host_storage(self.selected_ref, liststorage)
-        elif tab_label == "HOST_Nics":
-            if self.treeview.get_cursor()[1]:
-
-                # liststorage = self.builder.get_object("listhostnics")
-                # host =  self.selected_host
-                # self.xc_servers[host].fill_host_nics(self.selected_ref, liststorage)
-
-                # Call to update_tab_host_nics to fill the host nics
-                self.update_tab_host_nics()
-        elif tab_label == "HOST_Search":
-            if self.treeview.get_cursor()[1]:
-                host = self.selected_host
-                self.xc_servers[host].halt_search = False
-                # Host_Search contains a live monitoring status of VM
-                # Create a thread to fill "listsearch"
-                self.xc_servers[host].thread_host_search(self.selected_ref, self.listsearch)
-                # Expand "treesearch"
-                self.treesearch.expand_all()
-
-        elif tab_label == "HOST_Hardware":
-            if self.selected_host:
-                self.xc_servers[self.selected_host].fill_host_hardware(self.selected_ref)
-                
-        elif tab_label == "HOST_Network":
-            # Call to update_tab_host_network to fill the host networks
-            self.update_tab_host_network()
-        elif tab_label == "Local_Storage":
-            if self.treeview.get_cursor()[1]:
-                # liststg contains the vdi under storage
-                liststg = self.builder.get_object("liststg")
-                liststg.set_sort_func(1, self.compare_data)
-                liststg.set_sort_column_id(1, gtk.SORT_ASCENDING)
-                host = self.selected_host
-                # Fill the list of storage
+            elif tab_label == "HOST_Hardware":
                 if host:
-                    self.xc_servers[host].fill_local_storage(self.selected_ref, liststg)
-        elif tab_label == "Maps":
-            self.update_maps()
+                    self.xc_servers[host].fill_host_hardware(self.selected_ref)
+
+            elif tab_label == "HOST_Network":
+                # Call to update_tab_host_network to fill the host networks
+                self.update_tab_host_network()
+            elif tab_label == "Local_Storage":
+                if self.treeview.get_cursor()[1]:
+                    # liststg contains the vdi under storage
+                    liststg = self.builder.get_object("liststg")
+                    liststg.set_sort_func(1, self.compare_data)
+                    liststg.set_sort_column_id(1, gtk.SORT_ASCENDING)
+                    # Fill the list of storage
+                    if host:
+                        self.xc_servers[host].fill_local_storage(self.selected_ref, liststg)
+            elif tab_label == "Maps":
+                self.update_maps()
 
     def compare_data(self, model, iter1, iter2):
-        data1 = model.get_value(iter1,1)
-        data2 = model.get_value(iter2,1)
+        data1 = model.get_value(iter1, 1)
+        data2 = model.get_value(iter2, 1)
         return cmp(data1, data2)
 
     def update_maps(self):
