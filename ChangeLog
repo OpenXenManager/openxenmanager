@@ -1,3 +1,20 @@
+12/06/2014:
+- Project taken over from original OpenXenManager project
+- Apply patch from sourceforge bug tracker to fix issue with console not
+displaying correctly. Thanks to Alexis Bezverkhyy for the patch
+- Merge changes from the old SVN 0.1 branch to master
+- Remove embedded copy of configobj
+- Update license text to use newer GPL-2 license
+- Add proper version number
+- Create new python entry script and create new package directory
+    + Move all OXM files to their own package directory
+    + Update all references to linked files(images, glade, conf)
+    + Create setup.py to handle package installation
+- Various PEP8 formatting fixes and spelling fixes
+- Don't show default templates by default
+- Update the GUI to GTK+ 3 and replace deprecated items
+
+Old changes (pre-fork):
 04/06/2010:
 - Implemented "New Storage - AoE" (experimental mode) 
 
