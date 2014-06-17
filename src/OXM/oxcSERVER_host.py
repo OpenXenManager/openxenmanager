@@ -160,26 +160,30 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
         else:
             return ["", "", ""]
 
-    def fill_domain_users(self, ref, listusers):
-        users_logged = self.connection.session.get_all_subject_identifiers(self.session_uuid)['Value']
-        users = {}
-        if self.all_hosts[ref]['external_auth_type']:
-            listusers.append(("000", "", "-", "Local root account\n(Always granted access)"))
-            for user in self.all_subject:
-                users[self.all_subject[user]['subject_identifier']] = self.all_subject[user]['other_config']
-                roles = []
-                for role in self.all_subject[user]['roles']:
-                    roles.append(self.all_role[role]['name_label'])
+    def fill_domain_users(self, ref, list_users):
+        try:
+            users_logged = self.connection.session.get_all_subject_identifiers(self.session_uuid)['Value']
+            users = {}
+            if self.all_hosts[ref]['external_auth_type']:
+                list_users.append(("000", "", "-", "Local root account\n(Always granted access)"))
+                for user in self.all_subject:
+                    users[self.all_subject[user]['subject_identifier']] = self.all_subject[user]['other_config']
+                    roles = []
+                    for role in self.all_subject[user]['roles']:
+                        roles.append(self.all_role[role]['name_label'])
 
-                users[self.all_subject[user]['subject_identifier']]['roles'] = roles
-                users[self.all_subject[user]['subject_identifier']]['ref'] = user 
-                if self.all_subject[user]['subject_identifier'] in users_logged:
-                    logged = "Yes"
-                else:
-                    logged = "No"
+                    users[self.all_subject[user]['subject_identifier']]['roles'] = roles
+                    users[self.all_subject[user]['subject_identifier']]['ref'] = user
+                    if self.all_subject[user]['subject_identifier'] in users_logged:
+                        logged = "Yes"
+                    else:
+                        logged = "No"
 
-                listusers.append((user, " ".join(roles), logged, self.all_subject[user]['other_config']['subject-gecos'] + "\n" + self.all_subject[user]['other_config']['subject-name']))
-
+                    list_users.append((user, " ".join(roles), logged,
+                                       self.all_subject[user]['other_config']['subject-gecos'] + "\n" +
+                                       self.all_subject[user]['other_config']['subject-name']))
+        except KeyError:
+            pass
 
     def has_hardware_script(self, ref):
         error = self.connection.host.call_plugin(self.session_uuid, ref, "dmidecode", "test", {})
