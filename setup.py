@@ -22,7 +22,8 @@ if sys.platform.startswith('win'):  # Windows
           options={'py2exe': {
               'dll_excludes': ['MSVCP90.dll', 'POWRPROF.dll', 'MSWSOCK.dll'],
               'optimize': 1,
-              'packages': ['OXM', 'pygtk_chart']}
+              'packages': ['OXM', 'pygtk_chart'],
+              'includes': 'gio, atk'}
           })
 
 
