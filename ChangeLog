@@ -13,6 +13,7 @@ displaying correctly. Thanks to Alexis Bezverkhyy for the patch
 - Various PEP8 formatting fixes and spelling fixes
 - Don't show default templates by default
 - Update the GUI to GTK+ 3 and replace deprecated items
+- Use py2exe to generate windows binary
 
 Old changes (pre-fork):
 04/06/2010:
