@@ -44,17 +44,17 @@ else:  # Not Windows
                               'images/*',
                               'images_map/*']
                       },
-		classifiers=[
-		    'Development Status :: 4 - Beta',
-		    'Environment :: X11 Applications :: GTK',
-		    'Intended Audience :: Information Technology',
-		    'Intended Audience :: System Administrators',
-		    'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
-		    'Natural Language :: English',
-		    'Operating System :: POSIX :: Linux',
-		    'Programming Language :: Python :: 2.7',
-		    'Topic :: System :: Monitoring',
-		    'Topic :: System :: Systems Administration',
-		    'Topic :: Utilities'
-		]
+        classifiers=[
+            'Development Status :: 4 - Beta',
+            'Environment :: X11 Applications :: GTK',
+            'Intended Audience :: Information Technology',
+            'Intended Audience :: System Administrators',
+            'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
+            'Natural Language :: English',
+            'Operating System :: POSIX :: Linux',
+            'Programming Language :: Python :: 2.7',
+            'Topic :: System :: Monitoring',
+            'Topic :: System :: Systems Administration',
+            'Topic :: Utilities'
+        ]
     )
