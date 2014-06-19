@@ -22,6 +22,7 @@
 #!/usr/bin/env python
 
 from os import path
+import utils
 
 class oxcWindowAlerts:
     """
@@ -84,9 +85,9 @@ class oxcWindowAlerts:
         self.listalerts.foreach(self.count_list, self.nelements)
         self.builder.get_object("lblnalerts").set_text("System Alerts: " + str(self.nelements/2))
         if self.nelements:
-            self.builder.get_object("imagealerts").set_from_file(path.join(path.dirname(__file__), "images/alert.png"))
+            self.builder.get_object("imagealerts").set_from_file(path.join(utils.module_path(), "images/alert.png"))
             self.builder.get_object("lbltbalerts").set_markup("<span foreground='red'><b>  System Alerts: " + str(self.nelements/2) + "</b></span>")
         else:
-            self.builder.get_object("imagealerts").set_from_file(path.join(path.dirname(__file__), "images/ok.png"))
+            self.builder.get_object("imagealerts").set_from_file(path.join(utils.module_path(), "images/ok.png"))
             self.builder.get_object("lbltbalerts").set_markup("  No System Alerts: ")
  

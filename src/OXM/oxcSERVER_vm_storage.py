@@ -36,6 +36,7 @@ import rrdinfo
 import time
 import gobject
 from OXM.messages import messages, messages_header
+import utils
 
 class oxcSERVERvmstorage:
     def vm_storagedetach(self, ref):
@@ -108,7 +109,7 @@ class oxcSERVERvmstorage:
         for sr in all_sr:
             if all_sr[sr]['type'] != "iso" and all_sr[sr]['content_type'] != "iso":
                 refattachdisk[sr] = list.append(None, [gtk.gdk.pixbuf_new_from_file(
-                    path.join(path.dirname(__file__), "images/storage_default_16.png")), sr, all_sr[sr]["name_label"],
+                    path.join(utils.module_path(), "images/storage_default_16.png")), sr, all_sr[sr]["name_label"],
                     "", False])
 
         all_vdi= self.connection.VDI.get_all_records\
@@ -116,7 +117,7 @@ class oxcSERVERvmstorage:
         for vdi in all_vdi:
             if not all_vdi[vdi]['VBDs'] and all_vdi[vdi]['read_only'] == False:
                 list.append(refattachdisk[all_vdi[vdi]['SR']], [gtk.gdk.pixbuf_new_from_file(
-                    path.join(path.dirname(__file__), "images/user_template_16.png")), vdi, all_vdi[vdi]['name_label'],
+                    path.join(utils.module_path(), "images/user_template_16.png")), vdi, all_vdi[vdi]['name_label'],
                     all_vdi[vdi]['name_description'] + " - " + self.convert_bytes(all_vdi[vdi]['physical_utilisation'])
                     + " used out of " + self.convert_bytes(all_vdi[vdi]['virtual_size']), True])
 

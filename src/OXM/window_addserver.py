@@ -25,6 +25,7 @@ import xtea
 import re
 from OXM.oxcSERVER import *
 from os import path
+import utils
 
 
 def idle(func):
@@ -224,7 +225,7 @@ class oxcWindowAddServer:
                 if server.all_pools[pool]['name_label']:
                     poolroot = self.treestore.append(self.treeroot,
                                                       [gtk.gdk.pixbuf_new_from_file(path.join(
-                                                          path.dirname(__file__), "images/poolconnected_16.png")),
+                                                          utils.module_path(), "images/poolconnected_16.png")),
                                                        server.all_pools[pool]['name_label'], pool, "pool", "Running",
                                                        server.host, pool,
                                                        ['newvm', 'newstorage', 'importvm', 'disconnect'], server.host])
@@ -244,7 +245,7 @@ class oxcWindowAddServer:
                     host_address = server.all_hosts[h]['address']
                     if host_enabled:
                         hostroot[h] = self.treestore.append(
-                            poolroot, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                            poolroot, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                               "images/tree_connected_16.png")), host,
                                        host_uuid, "host", "Running", server.host, h, ['newvm', 'importvm', 'newstorage',
                                                                                       'clean_reboot', 'clean_shutdown',
@@ -252,7 +253,7 @@ class oxcWindowAddServer:
                     else:
                         hostroot[h] = self.treestore.append(
                             poolroot,
-                            [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                            [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                     "images/tree_disabled_16.png")), host, host_uuid,
                              "host", "Disconnected", server.host, h, [], host_address])
                 root = poolroot
@@ -263,14 +264,14 @@ class oxcWindowAddServer:
                 host_enabled = server.all_hosts[server.all_hosts.keys()[0]]['enabled']
                 if host_enabled:
                     hostroot[server.all_hosts.keys()[0]] = self.treestore.append(
-                        self.treeroot, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                        self.treeroot, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                "images/tree_connected_16.png")), host,
                                         host_uuid, "host", "Running", server.host, server.all_hosts.keys()[0],
                                         ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown',
                                          'shutdown', 'disconnect'], host_address])
                 else:
                     hostroot[server.all_hosts.keys()[0]] = self.treestore.append(
-                        self.treeroot, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                        self.treeroot, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                "images/tree_disabled_16.png")), host,
                                         host_uuid, "host", "Running", server.host, server.all_hosts.keys()[0],
                                         ['newvm', 'importvm', 'newstorage', 'clean_reboot', 'clean_shutdown',
@@ -304,7 +305,7 @@ class oxcWindowAddServer:
                 if server.all_storage[sr]['name_label'] != "XenServer Tools":
                     if len(server.all_storage[sr]['PBDs']) == 0:
                         server.last_storage_iter = self.treestore.append(
-                            root, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                            root, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                           "images/storage_detached_16.png")),
                                    server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'], "storage",
                                    None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
@@ -314,7 +315,7 @@ class oxcWindowAddServer:
                         if not server.all_pbd[pbd_ref]['currently_attached']:
                             broken = True
                             server.last_storage_iter = self.treestore.append(
-                                root, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                root, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                               "images/storage_broken_16.png")),
                                        server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],"storage",
                                        None, server.host, sr, server.all_storage[sr]['allowed_operations'], None])
@@ -322,14 +323,14 @@ class oxcWindowAddServer:
                         if server.all_storage[sr]['shared']:
                             if sr == server.default_sr:
                                 server.last_storage_iter = self.treestore.append(
-                                    root, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                    root, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                   "images/storage_default_16.png")),
                                            server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                            "storage", None, server.host, sr,
                                            server.all_storage[sr]['allowed_operations'], None])
                             else:
                                 server.last_storage_iter = self.treestore.append(
-                                    root, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                    root, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
                                            server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                            "storage", None, server.host, sr,
@@ -341,7 +342,7 @@ class oxcWindowAddServer:
                                     if server.all_pbd[pbd]['host'] in hostroot:
                                         server.last_storage_iter = self.treestore.append(
                                             hostroot[server.all_pbd[pbd]['host']],
-                                            [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                            [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                     "images/storage_default_16.png")),
                                              server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                              "storage", None, server.host, sr,
@@ -349,7 +350,7 @@ class oxcWindowAddServer:
                                     else:
                                         server.last_storage_iter = self.treestore.append(
                                             root, [gtk.gdk.pixbuf_new_from_file(path.join(
-                                                path.dirname(__file__), "images/storage_shaped_16.png")),
+                                                utils.module_path(), "images/storage_shaped_16.png")),
                                                 server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                                 "storage", None, server.host, sr,
                                                 server.all_storage[sr]['allowed_operations'], None])
@@ -358,7 +359,7 @@ class oxcWindowAddServer:
                                     if server.all_pbd[pbd]['host'] in hostroot:
                                         server.last_storage_iter = self.treestore.append(
                                             hostroot[server.all_pbd[pbd]['host']],
-                                            [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                                            [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                     "images/storage_shaped_16.png")),
                                              server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                              "storage", None, server.host, sr,
@@ -366,7 +367,7 @@ class oxcWindowAddServer:
                                     else:
                                         server.last_storage_iter = self.treestore.append(
                                             root, [gtk.gdk.pixbuf_new_from_file(path.join(
-                                                path.dirname(__file__), "images/storage_shaped_16.png")),
+                                                utils.module_path(), "images/storage_shaped_16.png")),
                                                 server.all_storage[sr]['name_label'], server.all_storage[sr]['uuid'],
                                                 "storage", None, server.host, sr,
                                                 server.all_storage[sr]['allowed_operations'], None])
@@ -374,7 +375,7 @@ class oxcWindowAddServer:
             for tpl in server.all_vms_keys:
                 if server.all_vms[tpl]['is_a_template'] and not server.all_vms[tpl]['is_a_snapshot']: 
                     if server.all_vms[tpl]['last_booted_record'] == "":
-                        self.treestore.append(root, [gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                        self.treestore.append(root, [gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                             "images/template_16.png")),
                                                      server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],
                                                      "template", None, server.host, tpl,
@@ -385,13 +386,13 @@ class oxcWindowAddServer:
                         if tpl_affinity in hostroot:
                             self.treestore.append(hostroot[tpl_affinity],
                                                   [gtk.gdk.pixbuf_new_from_file(
-                                                      path.join(path.dirname(__file__), "images/user_template_16.png")),
+                                                      path.join(utils.module_path(), "images/user_template_16.png")),
                                                    server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'],
                                                    "custom_template", None, server.host, tpl,
                                                    server.all_vms[tpl]['allowed_operations'], None])
                         else:
                             self.treestore.append(root, [gtk.gdk.pixbuf_new_from_file(path.join(
-                                path.dirname(__file__), "images/user_template_16.png")),
+                                utils.module_path(), "images/user_template_16.png")),
                                 server.all_vms[tpl]['name_label'], server.all_vms[tpl]['uuid'], "custom_template", None,
                                 server.host, tpl, server.all_vms[tpl]['allowed_operations'], None])
 

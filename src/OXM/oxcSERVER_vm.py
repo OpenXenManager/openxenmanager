@@ -39,6 +39,7 @@ from OXM.messages import messages, messages_header
 from oxcSERVER_vm_network import *
 from oxcSERVER_vm_storage import *
 from oxcSERVER_vm_snapshot import *
+import utils
 
 class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
     def thread_import_vm(self, ref, file):
@@ -96,14 +97,14 @@ class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
                             pass
                 else:
                     if self.default_sr == sr:
-                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                             "images/storage_default_16.png")), sr,
                                      storage['name_label'], self.convert_bytes(int(storage['physical_size']) -
                                                                                int(storage['virtual_allocation']))
                                      + " free of " + self.convert_bytes(storage['physical_size'])])
 
                     else:
-                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                        list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                             "images/storage_shaped_16.png")), sr,
                                      storage['name_label'], self.convert_bytes(int(storage['physical_size']) -
                                                                                int(storage['virtual_allocation']))

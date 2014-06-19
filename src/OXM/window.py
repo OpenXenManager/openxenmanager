@@ -22,6 +22,7 @@
 # -----------------------------------------------------------------------
 import sys
 import os
+import utils
 
 if os.path.dirname(sys.argv[0]):
     os.chdir(os.path.dirname(sys.argv[0]))
@@ -174,7 +175,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             pathconfig = os.path.join(os.path.expanduser("~"), "openxenmanager", "oxc.conf")
 
         if not os.path.exists(pathconfig):
-            shutil.copy(os.path.join(os.path.dirname(__file__), "oxc.conf"), pathconfig)
+            shutil.copy(os.path.join(utils.module_path(), "oxc.conf"), pathconfig)
             
         self.config = ConfigObj(pathconfig) 
         self.pathconfig = dirconfig 
@@ -185,7 +186,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             self.config_hosts = {}
         # Define the glade file
         #self.gladefile = os.getcwd() + "oxc.glade"
-        self.gladefile = os.path.join(os.path.dirname(__file__), "oxc.glade")
+        self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
         # Add the file to gtk.Builder object
@@ -236,7 +237,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                            # Image,Name, uuid, type, state, host, ref, actions, ip
         # Append default logo on created TreeStore
         self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file(
-            os.path.join(os.path.dirname(__file__), "images/xen.gif")), "OpenXenManager", None, "home", "home", None,
+            os.path.join(utils.module_path(), "images/xen.gif")), "OpenXenManager", None, "home", "home", None,
             None, ["addserver", "connectall", "disconnectall"], None]))
         
         # Model Filter is used but show/hide templates/custom templates/local storage..
@@ -265,7 +266,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.headimage = self.builder.get_object("headimage")
         self.headlabel = self.builder.get_object("headlabel")
         self.headlabel.set_label(self.selected_name)
-        self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__),
+        self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                  "images/xen.gif")))
 
         if "show_hidden_vms" not in self.config["gui"]:
@@ -292,7 +293,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         for host in self.config_hosts.keys():
             self.builder.get_object("listaddserverhosts").append([host])
             self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file(
-                os.path.join(os.path.dirname(__file__), "images/tree_disconnected_16.png")), host, None, "server",
+                os.path.join(utils.module_path(), "images/tree_disconnected_16.png")), host, None, "server",
                 "Disconnected", None, None, ["connect", "forgetpw", "remove"], None]))
 
         # Expand left tree and update menubar, tabs and toolbar
@@ -1210,7 +1211,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                        'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>> tooltip="%s"];' % \
                                        (uuid,
-                                        os.path.join(os.path.dirname(__file__), "images_map/network.png"),
+                                        os.path.join(utils.module_path(), "images_map/network.png"),
                                         safename,
                                         name)
                             dotcode += "\n"
@@ -1220,7 +1221,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                        'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
                                        (uuid2,
-                                        os.path.join(os.path.dirname(__file__), "images_map/server.png"),
+                                        os.path.join(utils.module_path(), "images_map/server.png"),
                                         name2,
                                         uuid2,
                                         name2)
@@ -1240,7 +1241,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                        'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
                                        (uuid,
-                                        os.path.join(os.path.dirname(__file__), "images_map/storage.png"),
+                                        os.path.join(utils.module_path(), "images_map/storage.png"),
                                         safename,
                                         uuid,
                                         name)
@@ -1252,7 +1253,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                        'cellspacing="0"><tr><td><img src="%s"/></td></tr><tr>' \
                                        '<td> </td></tr><tr><td>%s</td></tr></table>>URL="%s" tooltip="%s"];' % \
                                        (uuid2,
-                                        os.path.join(os.path.dirname(__file__), "images_map/server.png"),
+                                        os.path.join(utils.module_path(), "images_map/server.png"),
                                         safename2,
                                         uuid2,
                                         name2)

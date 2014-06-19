@@ -27,6 +27,7 @@ from thread import *
 import pdb
 from version import __version__
 from os import path
+import utils
 
 
 class oxcWindowMenuItem:
@@ -149,7 +150,7 @@ class oxcWindowMenuItem:
                 pool_ref = self.xc_servers[server].all_pools.keys()[0]
                 if self.xc_servers[server].all_pools[pool_ref]["name_label"] == "":
                     image = gtk.Image()
-                    image.set_from_file(path.join(path.dirname(__file__), "images/tree_running_16.png"))
+                    image.set_from_file(path.join(utils.module_path(), "images/tree_running_16.png"))
                     item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
                     item.use_underline = False
                     item.set_image(image)
@@ -171,7 +172,7 @@ class oxcWindowMenuItem:
                 pool_ref = self.xc_servers[server].all_pools.keys()[0]
                 if self.xc_servers[server].all_pools[pool_ref]["name_label"] != "":
                     image = gtk.Image()
-                    image.set_from_file(path.join(path.dirname(__file__), "images/poolconnected_16.png"))
+                    image.set_from_file(path.join(utils.module_path(), "images/poolconnected_16.png"))
                     item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
                     item.use_underline = False
                     item.set_image(image)
@@ -192,7 +193,7 @@ class oxcWindowMenuItem:
                 pool_ref = self.xc_servers[server].all_pools.keys()[0]
                 if self.xc_servers[server].all_pools[pool_ref]["name_label"] == "":
                     image = gtk.Image()
-                    image.set_from_file(path.join(path.dirname(__file__), "images/tree_running_16.png"))
+                    image.set_from_file(path.join(utils.module_path(), "images/tree_running_16.png"))
                     item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
                     item.use_underline = False
                     item.set_image(image)
@@ -213,7 +214,7 @@ class oxcWindowMenuItem:
                 pool_ref = self.xc_servers[server].all_pools.keys()[0]
                 if self.xc_servers[server].all_pools[pool_ref]["name_label"] != "":
                     image = gtk.Image()
-                    image.set_from_file(path.join(path.dirname(__file__), "images/poolconnected_16.png"))
+                    image.set_from_file(path.join(utils.module_path(), "images/poolconnected_16.png"))
                     item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
                     item.use_underline = False
                     item.set_image(image)
@@ -233,7 +234,7 @@ class oxcWindowMenuItem:
         # Go all servers and add to submenu (right menu)
         for h in  self.xc_servers[self.selected_host].all_hosts:
             image = gtk.Image()
-            image.set_from_file(path.join(path.dirname(__file__), "images/xen.gif"))
+            image.set_from_file(path.join(utils.module_path(), "images/xen.gif"))
             item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
             item.use_underline = False
             item.set_image(image)
@@ -269,7 +270,7 @@ class oxcWindowMenuItem:
         # Go all servers and add to submenu (right menu)
         for h in  self.xc_servers[self.selected_host].all_hosts:
             image = gtk.Image()
-            image.set_from_file(path.join(path.dirname(__file__), "images/xen.gif"))
+            image.set_from_file(path.join(utils.module_path(), "images/xen.gif"))
             item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
             item.use_underline = False
             item.set_image(image)
@@ -306,7 +307,7 @@ class oxcWindowMenuItem:
         # Go all servers and add to submenu (right menu)
         for h in  self.xc_servers[self.selected_host].all_hosts:
             image = gtk.Image()
-            image.set_from_file(path.join(path.dirname(__file__), "images/xen.gif"))
+            image.set_from_file(path.join(utils.module_path(), "images/xen.gif"))
             item = gtk.ImageMenuItem(gtk.STOCK_HELP,None)
             item.use_underline = False
             item.set_image(image)
@@ -577,12 +578,12 @@ class oxcWindowMenuItem:
             # If we are connected to this server
             if host in self.xc_servers:
                 # Then add to list
-                listimportservers.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                listimportservers.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                                  "images/tree_connected_16.png")),
                                           self.xc_servers[host].hostname, True, host])
             """
             else:
-                listimportservers.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                listimportservers.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                 "images/tree_disconnected_16.png")),
                     host,False]);
             """
@@ -696,7 +697,7 @@ class oxcWindowMenuItem:
             self.treestore.remove(iter)
         # Add again the ip/host name
         self.treestore.append(self.treeroot, ([gtk.gdk.pixbuf_new_from_file(
-            path.join(path.dirname(__file__), "images/tree_disconnected_16.png")), host, None, "server", "Disconnected",
+            path.join(utils.module_path(), "images/tree_disconnected_16.png")), host, None, "server", "Disconnected",
             None, None, ["connect", "forgetpw", "remove"], None]))
         # If copy window is showed.. hide
         self.builder.get_object("windowcopyvm").hide()

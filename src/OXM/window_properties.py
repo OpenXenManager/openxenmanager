@@ -24,6 +24,7 @@ import hashlib
 import gtk
 import xml.dom.minidom
 from os import path
+import utils
 
 
 class oxcWindowProperties:
@@ -730,7 +731,7 @@ class oxcWindowProperties:
                     vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
                     device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
                     mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                    listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                    listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                             "images/prop_stgvm.png")), "<b>NAME</b>",
                                      "stgvm", i])
                     iter = listprop.get_iter((i,))
@@ -746,7 +747,7 @@ class oxcWindowProperties:
                 vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
                 device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
                 mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(path.dirname(__file__),
+                listprop.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                         "images/prop_stgvm.png")), "<b>NAME</b>",
                                  "stgvm", 9])
                 iter = listprop.get_iter((9,))
