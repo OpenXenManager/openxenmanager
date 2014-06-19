@@ -25,6 +25,7 @@ import gtk
 import xml.dom.minidom
 from os import path
 
+
 class oxcWindowProperties:
     """
     Class to manage the properties window (vm, template, host, network, storage..) and window options
@@ -33,6 +34,7 @@ class oxcWindowProperties:
     selected_prop_path = None
     freedevices = {}
     other_config = None
+
     def on_addcustomfield_clicked(self, widget, data=None):
         """
         Function called when you press "Add" on custom fields window
@@ -115,6 +117,7 @@ class oxcWindowProperties:
         """
         # Hide options dialog
         self.builder.get_object("dialogoptions").hide()
+
     def on_btvmpropcancel_activate(self, widget, data=None):
         """
         Function called when you cancel changes on "properties" window
@@ -125,6 +128,7 @@ class oxcWindowProperties:
         self.selected_widget = None
         self.changes = {}
         self.freedevices = {}
+
     def on_treebootorder_button_press_event(self, widget, event):
         """
         Function called when you select a element on bootorder tree 
@@ -134,18 +138,19 @@ class oxcWindowProperties:
         time = event.time
         pthinfo = widget.get_path_at_pos(x, y)
         if pthinfo is not None:
-           path, col, cellx, celly = pthinfo
-           iter = self.builder.get_object("listpropbootorder").get_iter(path)
-           # If is not separated line
-           if self.builder.get_object("listpropbootorder").get_value(iter, 2):
-               # If is the first disable "up" button, else enable it
-               self.builder.get_object("btmoveup").set_sensitive(path[0] != 0)
-               # If is the last disable "down" button, else enable it
-               self.builder.get_object("btmovedown").set_sensitive(path[0] != 0)
-           else:
+            path, col, cellx, celly = pthinfo
+            iter = self.builder.get_object("listpropbootorder").get_iter(path)
+            # If is not separated line
+            if self.builder.get_object("listpropbootorder").get_value(iter, 2):
+                # If is the first disable "up" button, else enable it
+                self.builder.get_object("btmoveup").set_sensitive(path[0] != 0)
+                # If is the last disable "down" button, else enable it
+                self.builder.get_object("btmovedown").set_sensitive(path[0] != 0)
+            else:
                # Disable both buttons
-               self.builder.get_object("btmoveup").set_sensitive(False)
-               self.builder.get_object("btmovedown").set_sensitive(False)
+                self.builder.get_object("btmoveup").set_sensitive(False)
+                self.builder.get_object("btmovedown").set_sensitive(False)
+
     def on_btmoveup_clicked(self, widget, data=None):
         """
         Function called when you press "Up" button
@@ -161,6 +166,7 @@ class oxcWindowProperties:
             # If is the first now, disable "up" button and enable "down" button
             self.builder.get_object("btmoveup").set_sensitive(False)
             self.builder.get_object("btmovedown").set_sensitive(True)
+
     def on_btmovedown_clicked(self, widget, data=None):
         """
         Function called when you press "Down" button
@@ -175,6 +181,7 @@ class oxcWindowProperties:
             # If is the last now, disable "down" button and enable "up" button
             self.builder.get_object("btmovedown").set_sensitive(False)
             self.builder.get_object("btmoveup").set_sensitive(True)
+
     def prop_visible_func(self, model, iter, user_data=None):
         """
         Function to know if a menu element should be showed or hidden
@@ -183,12 +190,12 @@ class oxcWindowProperties:
         aka =  self.listprop.get_value(iter, 2)
         # List of menu options to show
         vm = ["general", "custom", "cpumemory", "startup", "homeserver"]
-        host = ["general","custom", "multipath", "logdest"]
-        storage = ["general","custom"]
-        network = ["general","custom","networksettings"]
-        vdi = ["general","custom","sizelocation","stgvm"]
+        host = ["general", "custom", "multipath", "logdest"]
+        storage = ["general", "custom"]
+        network = ["general", "custom", "networksettings"]
+        vdi = ["general", "custom", "sizelocation", "stgvm"]
         pool = ["general", "custom"]
-        # For different elements show or hidde menu options
+        # For different elements show or hidden menu options
         # If return false, element will be not showed, else will be showed
         if self.selected_type == "host":
             if self.selected_widget and gtk.Buildable.get_name(self.selected_widget) == "bthostnetworkproperties":
@@ -199,8 +206,8 @@ class oxcWindowProperties:
             else:
                 if not host.count(aka):
                     return False
-        elif self.selected_widget and (gtk.Buildable.get_name(self.selected_widget) == "btstorageproperties" or 
-                gtk.Buildable.get_name(self.selected_widget) == "btstgproperties"):
+        elif self.selected_widget and (gtk.Buildable.get_name(self.selected_widget) == "btstorageproperties" or
+                                               gtk.Buildable.get_name(self.selected_widget) == "btstgproperties"):
             # same
             if not vdi.count(aka):
                 return False
@@ -227,6 +234,7 @@ class oxcWindowProperties:
             if not vm.count(aka):
                 return False
         return True
+
     def on_combostgmodeposition_changed(self, widget, data=None):
         """
         Function called when you change element on combostgmode or combostgposition
@@ -322,6 +330,7 @@ class oxcWindowProperties:
         # spin get value from 0 to 10, but priority goes from 1 to 64000 (less or more)
         # then 2 ^ (2 * spin value) gets the real priority
         self.builder.get_object("spinpropvmprio").set_value(2**(2*int(data2)))
+
     def on_treeprop_button_press_event(self,widget, event):
         """
         Function called when you select a left property option
@@ -332,66 +341,67 @@ class oxcWindowProperties:
         time = event.time
         pthinfo = widget.get_path_at_pos(x, y)
         if pthinfo is not None:
-           path, col, cellx, celly = pthinfo
-           widget.grab_focus()
-           widget.set_cursor( path, col, 0)
-           path = self.propmodelfilter.convert_path_to_child_path(path)
-           self.selected_prop_path = path
-           iter = self.listprop.get_iter(path)
-           if path[0] < 9 or self.listprop.get_value(iter, 2) == "advancedoptions":
-               self.builder.get_object("tabprops").set_current_page(self.listprop.get_value(iter, 3))
-           else:
-               self.builder.get_object("tabprops").set_current_page(9)
-           if path[0] > 8 and self.listprop.get_value(iter, 2) != "advancedoptions":
-               if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-                   liststorage = self.builder.get_object("liststg")
-                   treestorage = self.builder.get_object("treestg")
-                   column = 0
-               else:
-                   liststorage = self.builder.get_object("listvmstorage")
-                   treestorage = self.builder.get_object("treevmstorage")
-                   column = 10
-               selection = treestorage.get_selection()
-               iter = selection.get_selected()[1]
-               ref = liststorage.get_value(iter,column)
-               if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-                   ref = self.xc_servers[self.selected_host].all_vdi[ref]['VBDs'][path[0]-9]
-                   vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
-                   device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
-                   type = self.xc_servers[self.selected_host].all_vbd[ref]['type']
-                   mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                   bootable = self.xc_servers[self.selected_host].all_vbd[ref]['bootable']
-                   vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']
-                   self.builder.get_object("lblpropstgvm").set_label(vm_name)
-                   if mode == "RW":
-                       self.builder.get_object("combostgmode").set_active(0)
-                   else:
-                       self.builder.get_object("combostgmode").set_active(1)
-                   if device[0] != "x":
-                       self.builder.get_object("combostgposition").set_sensitive(True)
-                       self.builder.get_object("combostgposition").set_active(int(device))
-                   else:
-                       self.builder.get_object("combostgposition").set_sensitive(False)
-                   self.builder.get_object("combostgmode").set_sensitive(type == "Disk")
-                   self.builder.get_object("checkisbootable").set_active(bootable)
-               else:
-                   device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
-                   mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
-                   bootable = self.xc_servers[self.selected_host].all_vbd[ref]['bootable']
-                   vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
-                   vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']
-                   self.builder.get_object("lblpropstgvm").set_label(vm_name)
-                   if mode == "RW":
-                       self.builder.get_object("combostgmode").set_active(0)
-                   else:
-                       self.builder.get_object("combostgmode").set_active(1)
-                   self.builder.get_object("combostgposition").set_active(int(device))
-                   self.builder.get_object("checkisbootable").set_active(bootable)
+            path, col, cellx, celly = pthinfo
+            widget.grab_focus()
+            widget.set_cursor( path, col, 0)
+            path = self.propmodelfilter.convert_path_to_child_path(path)
+            self.selected_prop_path = path
+            iter = self.listprop.get_iter(path)
+            if path[0] < 9 or self.listprop.get_value(iter, 2) == "advancedoptions":
+                self.builder.get_object("tabprops").set_current_page(self.listprop.get_value(iter, 3))
+            else:
+                self.builder.get_object("tabprops").set_current_page(9)
+            if path[0] > 8 and self.listprop.get_value(iter, 2) != "advancedoptions":
+                if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
+                    liststorage = self.builder.get_object("liststg")
+                    treestorage = self.builder.get_object("treestg")
+                    column = 0
+                else:
+                    liststorage = self.builder.get_object("listvmstorage")
+                    treestorage = self.builder.get_object("treevmstorage")
+                    column = 10
+                selection = treestorage.get_selection()
+                iter = selection.get_selected()[1]
+                ref = liststorage.get_value(iter,column)
+                if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
+                    ref = self.xc_servers[self.selected_host].all_vdi[ref]['VBDs'][path[0]-9]
+                    vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
+                    device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
+                    type = self.xc_servers[self.selected_host].all_vbd[ref]['type']
+                    mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
+                    bootable = self.xc_servers[self.selected_host].all_vbd[ref]['bootable']
+                    vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']
+                    self.builder.get_object("lblpropstgvm").set_label(vm_name)
+                    if mode == "RW":
+                        self.builder.get_object("combostgmode").set_active(0)
+                    else:
+                        self.builder.get_object("combostgmode").set_active(1)
+                    if device[0] != "x":
+                        self.builder.get_object("combostgposition").set_sensitive(True)
+                        self.builder.get_object("combostgposition").set_active(int(device))
+                    else:
+                        self.builder.get_object("combostgposition").set_sensitive(False)
+                    self.builder.get_object("combostgmode").set_sensitive(type == "Disk")
+                    self.builder.get_object("checkisbootable").set_active(bootable)
+                else:
+                    device = self.xc_servers[self.selected_host].all_vbd[ref]['userdevice']
+                    mode = self.xc_servers[self.selected_host].all_vbd[ref]['mode']
+                    bootable = self.xc_servers[self.selected_host].all_vbd[ref]['bootable']
+                    vm_ref = self.xc_servers[self.selected_host].all_vbd[ref]['VM']
+                    vm_name = self.xc_servers[self.selected_host].all_vms[vm_ref]['name_label']
+                    self.builder.get_object("lblpropstgvm").set_label(vm_name)
+                    if mode == "RW":
+                        self.builder.get_object("combostgmode").set_active(0)
+                    else:
+                        self.builder.get_object("combostgmode").set_active(1)
+                    self.builder.get_object("combostgposition").set_active(int(device))
+                    self.builder.get_object("checkisbootable").set_active(bootable)
+
     def on_btvmpropaccept_activate(self, widget, data=None):
         """ 
         Function called when you accept window properties
         """
-        # TODO: comment codea
+        # TODO: comment code
 
         if self.selected_widget and gtk.Buildable.get_name(self.selected_widget) == "bthostnetworkproperties":
             liststorage = self.builder.get_object("listhostnetwork")
@@ -566,7 +576,7 @@ class oxcWindowProperties:
                 self.xc_servers[self.selected_host].set_pool_other_config(self.selected_ref, other_config)
 
         elif self.selected_type == "vm" or self.selected_type == "template" or self.selected_type == "custom_template":
-            vm =  self.xc_servers[self.selected_host].all_vms[self.selected_ref]
+            vm = self.xc_servers[self.selected_host].all_vms[self.selected_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != vm['name_label']:
                 self.xc_servers[self.selected_host].set_vm_name_label(self.selected_ref,
@@ -990,7 +1000,7 @@ class oxcWindowProperties:
            for ch in self.builder.get_object("vboxcustomfields").get_children():
                self.builder.get_object("vboxcustomfields").remove(ch)
             
-           dom =  xml.dom.minidom.parseString(
+           dom = xml.dom.minidom.parseString(
                    self.xc_servers[self.selected_host].all_pools[pool_ref]["gui_config"]["XenCenter.CustomFields"])
            for node in dom.getElementsByTagName("CustomFieldDefinition"):
                name = node.attributes.getNamedItem("name").value

@@ -1,0 +1,8 @@
+include oxm.pyw
+include vncviewer.exe
+include ChangeLog
+include TODO
+recursive-include scripts *
+recursive-include plugins *
+recursive-include src/OXM *.glade *.conf images/* images_map/*
+recursive-include src/pygtk_chart/data *.color

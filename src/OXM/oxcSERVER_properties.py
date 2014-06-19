@@ -269,12 +269,12 @@ class oxcSERVERproperties:
            else:
                print res
 
-    def set_vm_vcpus(self, ref, vcpus):
-       res = self.connection.VM.set_VCPUs_at_startup(self.session_uuid, ref, str(int(vcpus)))
-       if "Value" in res:
-          self.track_tasks[res['Value']] = ref
-       else:
-           print res        
+    def set_vm_vcpus(self, ref, vcpus):  # FIXME! Something is wrong with setting the number of vCPU's
+        res = self.connection.VM.set_VCPUs_at_startup(self.session_uuid, ref, str(int(vcpus)))
+        if "Value" in res:
+            self.track_tasks[res['Value']] = ref
+        else:
+            print res       # TODO: Add error handling code
 
     def set_vm_prio(self, ref, prio):
        prio = {
