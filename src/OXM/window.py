@@ -1046,8 +1046,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                     print 'No VNC console found'
                                 self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
                                 port = self.tunnel.get_free_port()
+                                print "Tunnel Port: " + str(port)
                                 if port is not None:
-                                    Thread(target=self.tunnel.listen(), args=(port,)).start()
+                                    Thread(target=self.tunnel.listen(port=port)).start()
                                     time.sleep(1)
                                     # And open the connection
                                     # FIXME: Don't hard code this path
