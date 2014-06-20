@@ -1066,6 +1066,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                     x = console_alloc.x + window_alloc[0] + 10
                                     y = console_alloc.y + window_alloc[1] + 47
                                     # On windows we'll move the window..
+                                    # FIXME: What's happening here... it seems we get stuck in a loop
+                                    # FindWindow tries to find the window by it's name... This seems to fail
+                                    # on Windows 7...
+                                    # http://stackoverflow.com/questions/18516026/win32gui-findwindow-doesnt-work-win7
+
                                     while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
                                             and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
                                         pass
