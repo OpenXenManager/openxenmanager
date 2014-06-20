@@ -185,7 +185,6 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         else:
             self.config_hosts = {}
         # Define the glade file
-        #self.gladefile = os.getcwd() + "oxc.glade"
         self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
@@ -1028,30 +1027,58 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                 print "No console available"
 
                         else:
+                            from tunnel import Tunnel
                             if self.selected_type == "host":
                                 ref = self.xc_servers[host].host_vm[self.selected_ref][0]
                             else:
                                 ref = self.selected_ref
-                            # Run vncviewer.exe with host, vm renf and session ref
-                            param = self.xc_servers[host].get_connect_parameters(ref, self.selected_ip)
-                            os.spawnl(os.P_NOWAIT, "vncviewer.exe", "vncviewer.exe", "%s" % param)
-                            console_area = self.builder.get_object("frameconsole")
-                            console_area.realize()
-                            console_alloc = console_area.get_allocation()
-                            window_alloc = self.window.get_position()
-                            x = console_alloc.x + window_alloc[0] + 10
-                            y = console_alloc.y + window_alloc[1] + 47
-                            # On windows we'll move the window..
-                            while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
-                                    and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
-                                pass
-                            self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
-                            if self.hWnd == 0:
-                                self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
-                            #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
 
-                            win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
-                            #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
+                            if self.xc_servers[host].all_vms[ref]['consoles']:
+                                nb_consoles = len(self.xc_servers[host].all_vms[ref]['consoles'])
+                                location = None
+                                for i in range(nb_consoles):
+                                    console_ref = self.xc_servers[host].all_vms[ref]['consoles'][i]
+                                    protocol = self.xc_servers[host].all_console[console_ref]['protocol']
+                                    if protocol == 'rfb':
+                                        location = self.xc_servers[host].all_console[console_ref]['location']
+                                        break
+                                if location is None:
+                                    print 'No VNC console found'
+                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
+                                port = self.tunnel.get_free_port()
+                                if port is not None:
+                                    Thread(target=self.tunnel.listen(), args=(port,)).start()
+                                    time.sleep(1)
+                                    # And open the connection
+                                    # FIXME: Don't hard code this path
+                                    viewer = os.path.join('C:\\', 'Program Files', 'TightVNC', 'tvnviewer.exe')
+                                    # Tight VNC Options
+                                    # Start the viewer and connect to the specified host:
+                                    # tvnviewer hostname::port [OPTIONS]
+                                    param = 'localhost::' + str(port)
+
+                                    pid = Popen([viewer, param])
+                                    console_area = self.builder.get_object("frameconsole")
+                                    console_area.realize()
+                                    console_alloc = console_area.get_allocation()
+                                    window_alloc = self.window.get_position()
+                                    x = console_alloc.x + window_alloc[0] + 10
+                                    y = console_alloc.y + window_alloc[1] + 47
+                                    # On windows we'll move the window..
+                                    while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
+                                            and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0:
+                                        pass
+                                    self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
+                                    if self.hWnd == 0:
+                                        self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
+                                    #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
+
+                                    win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
+                                    #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
+                                else:
+                                    print 'Could not get a free port'
+                            else:
+                                print 'No console available'
 
                     else:
                         print state
