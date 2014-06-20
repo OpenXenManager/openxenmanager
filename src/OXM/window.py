@@ -1048,7 +1048,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                 port = self.tunnel.get_free_port()
                                 print "Tunnel Port: " + str(port)
                                 if port is not None:
-                                    Thread(target=self.tunnel.listen(port=port)).start()
+                                    Thread(target=self.tunnel.listen, args=(port,)).start()
                                     time.sleep(1)
                                     # And open the connection
                                     # FIXME: Don't hard code this path
