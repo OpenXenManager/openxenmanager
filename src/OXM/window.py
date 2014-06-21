@@ -1078,10 +1078,12 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                     if self.hWnd == 0:
                                         self.hWnd = win32gui.FindWindow(
                                             None, 'XenServer Virtual Terminal - TightVNC Viewer')
-                                    #win32gui.ShowWindow(self.hWnd, win32con.SW_HIDE)
-                                    # TODO: Check if we've managed to grab the ID of the VNC window
-                                    win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10, console_alloc.height-5, 1)
-                                    #win32gui.ShowWindow(self.hWnd, win32con.SW_SHOW)
+
+                                    if self.hWnd == 0:
+                                        win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10,
+                                                            console_alloc.height-5, 1)
+                                    else:
+                                        print 'Could not retrieve the window ID'
                                 else:
                                     print 'Could not get a free port'
                             else:
