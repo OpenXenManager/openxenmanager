@@ -1051,8 +1051,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                     Thread(target=self.tunnel.listen, args=(port,)).start()
                                     time.sleep(1)
                                     # And open the connection
-                                    # FIXME: Don't hard code this path
-                                    viewer = os.path.join('C:\\', 'Program Files', 'TightVNC', 'tvnviewer.exe')
+                                    # TODO: Add the capability to change this path in the options and save to config
+                                    #viewer = os.path.join('C:\\', 'Program Files', 'TightVNC', 'tvnviewer.exe')
+                                    viewer = self.config['options']['vnc_viewer']
                                     # Tight VNC Options
                                     # Start the viewer and connect to the specified host:
                                     # tvnviewer hostname::port [OPTIONS]
