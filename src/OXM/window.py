@@ -932,7 +932,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     self.builder.get_object("windowvncundock").hide()
                     self.vnc = None
                 # Same on Windows
-                if sys.platform.startswith('win') and self.hWnd != 0:
+                if sys.platform == 'win32' and self.hWnd != 0:
                     win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
                     self.hWnd = 0
                 if self.tunnel and not self.noclosevnc:
