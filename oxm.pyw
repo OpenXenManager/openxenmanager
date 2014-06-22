@@ -23,9 +23,7 @@
 import gtk
 import sys
 
-# This allows the source distribution to be run under Windows
-if sys.platform.startswith('win'):
-    sys.path.append('./src')
+sys.path.append('./src')
 
 from OXM.window import oxcWindow
 
