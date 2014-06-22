@@ -933,7 +933,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     self.vnc = None
                 # Same on Windows
                 if sys.platform == 'win32' and self.hWnd != 0:
-                    win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
+                    if win32gui.IsWindow(self.hWnd):
+                        win32gui.PostMessage(self.hWnd, win32con.WM_CLOSE, 0, 0)
                     self.hWnd = 0
                 if self.tunnel and not self.noclosevnc:
                     self.tunnel.close()
