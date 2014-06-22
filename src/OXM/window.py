@@ -924,18 +924,19 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             # Set as selected
             self.selected_tab = tab_label
             if tab_label != "VM_Console":
-                if self.tunnel and not self.noclosevnc:
-                    self.tunnel.close()
                 # If vnc console was opened and we change to another, close it
+                # Disable the send ctrl-alt-del menu item
                 self.builder.get_object("menuitem_tools_cad").set_sensitive(False)
                 if hasattr(self, "vnc") and self.vnc and not self.noclosevnc:
                     self.vnc.destroy()
                     self.builder.get_object("windowvncundock").hide()
                     self.vnc = None
                 # Same on Windows
-                if self.hWnd != 0:
+                if sys.platform.startswith('win') and self.hWnd != 0:
                     win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
                     self.hWnd = 0
+                if self.tunnel and not self.noclosevnc:
+                    self.tunnel.close()
                 if tab_label != "HOST_Search" and host:
                     # If we change tab to another different to HOST Search, then stop the filling thread
                         self.xc_servers[host].halt_search = True
