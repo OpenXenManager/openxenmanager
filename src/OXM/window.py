@@ -1081,7 +1081,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                         self.hWnd = win32gui.FindWindow(
                                             None, 'XenServer Virtual Terminal - TightVNC Viewer')
 
-                                    if self.hWnd == 0:
+                                    if self.hWnd != 0:
                                         win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10,
                                                             console_alloc.height-5, 1)
                                     else:
