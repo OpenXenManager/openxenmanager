@@ -23,6 +23,7 @@
 import sys
 import os
 import utils
+from tunnel import Tunnel
 
 if os.path.dirname(sys.argv[0]):
     os.chdir(os.path.dirname(sys.argv[0]))
@@ -960,39 +961,32 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     self.builder.get_object("btenterfullscreen").grab_focus()
                     self.builder.get_object("console_area").grab_focus()
                     if state == "Running":
-                        if sys.platform != "win32" and sys.platform != "darwin":
-                            # Create a gtkvnc object
-                            self.vnc = gtkvnc.Display()
-                            # Add to gtkvnc to a console area
-                            console_area = self.builder.get_object("console_area")
+                        if self.selected_type == "host":
+                            ref = self.xc_servers[host].host_vm[self.selected_ref][0]
+                        else:
+                            ref = self.selected_ref
 
-                            console_area.add(self.vnc)
-                            console_area.show_all()
+                        location = self.get_console_location(host, ref)
 
-                            self.vnc.activate()
-                            self.vnc.grab_focus()
-                            self.vnc.set_pointer_grab(False)
-                            self.vnc.set_pointer_local(False)
-                            self.vnc.set_keyboard_grab(True)
-                            self.vnc.set_shared_flag(True)
-                            self.vnc.connect("vnc-disconnected", self.vnc_disconnected)
-                            self.vnc.connect("key_press_event", self.on_console_area_key_press_event)
-                            from tunnel import Tunnel
-                            if self.selected_type == "host":
-                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
-                            else:
-                                ref = self.selected_ref
-                            if self.xc_servers[host].all_vms[ref]["consoles"]:
-                                nb_consoles = len(self.xc_servers[host].all_vms[ref]["consoles"])
-                                location = None
-                                for i in range(nb_consoles):
-                                    console_ref = self.xc_servers[host].all_vms[ref]["consoles"][i]
-                                    protocol = self.xc_servers[host].all_console[console_ref]["protocol"]
-                                    if protocol == 'rfb':
-                                        location = self.xc_servers[host].all_console[console_ref]["location"]
-                                        break
-                                if location is None:
-                                    print "no VNC console found"
+                        if location is not None:
+                            if sys.platform != "win32" and sys.platform != "darwin":
+                                # Create a gtkvnc object
+                                self.vnc = gtkvnc.Display()
+                                # Add to gtkvnc to a console area
+                                console_area = self.builder.get_object("console_area")
+
+                                console_area.add(self.vnc)
+                                console_area.show_all()
+
+                                self.vnc.activate()
+                                self.vnc.grab_focus()
+                                self.vnc.set_pointer_grab(False)
+                                self.vnc.set_pointer_local(False)
+                                self.vnc.set_keyboard_grab(True)
+                                self.vnc.set_shared_flag(True)
+                                self.vnc.connect("vnc-disconnected", self.vnc_disconnected)
+                                self.vnc.connect("key_press_event", self.on_console_area_key_press_event)
+
                                 self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
                                 port = self.tunnel.get_free_port()
                                 Thread(target=self.tunnel.listen, args=(port,)).start()
@@ -1005,20 +999,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
 
                                 self.vnc.connect("vnc-server-cut-text", self.vnc_button_release)
                                 self.vnc.open_host("localhost", str(port))
-                            else:
-                                print "No console available"
 
-                        elif sys.platform == "darwin":
-                            from tunnel import Tunnel
-                            if self.selected_type == "host":
-                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
-                            else:
-                                ref = self.selected_ref
-                            # Run ./vncviewer with host, vm renf and session ref
-                            #TODO: Add console finder code, perhaps it should be a function... we use it three times!
-                            if self.xc_servers[host].all_vms[ref]["consoles"]:
-                                console_ref = self.xc_servers[host].all_vms[ref]["consoles"][0]
-                                location = self.xc_servers[host].all_console[console_ref]["location"]
+                            elif sys.platform == "darwin":
+                                # Run ./vncviewer with host, vm renf and session ref
                                 self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
                                 port = self.tunnel.get_free_port()
                                 Thread(target=self.tunnel.listen, args=(port,)).start()
@@ -1026,27 +1009,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                 os.spawnl(os.P_NOWAIT, "./vncviewer", "vncviewer", "localhost::%s" % port)
                                 console_area = self.builder.get_object("console_area")
                                 console_alloc = console_area.get_allocation()
-                            else:
-                                print "No console available"
 
-                        else:
-                            from tunnel import Tunnel
-                            if self.selected_type == "host":
-                                ref = self.xc_servers[host].host_vm[self.selected_ref][0]
                             else:
-                                ref = self.selected_ref
-
-                            if self.xc_servers[host].all_vms[ref]['consoles']:
-                                nb_consoles = len(self.xc_servers[host].all_vms[ref]['consoles'])
-                                location = None
-                                for i in range(nb_consoles):
-                                    console_ref = self.xc_servers[host].all_vms[ref]['consoles'][i]
-                                    protocol = self.xc_servers[host].all_console[console_ref]['protocol']
-                                    if protocol == 'rfb':
-                                        location = self.xc_servers[host].all_console[console_ref]['location']
-                                        break
-                                if location is None:
-                                    print 'No VNC console found'
                                 self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
                                 port = self.tunnel.get_free_port()
                                 print "Tunnel Port: " + str(port)
@@ -1090,11 +1054,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                         print 'Could not retrieve the window ID'
                                 else:
                                     print 'Could not get a free port'
-                            else:
-                                print 'No console available'
-
+                        else:
+                            print 'No console available'
                     else:
                         print state
+
             if tab_label == "VM_Memory":
                 self.update_memory_tab()
 
@@ -1223,6 +1187,20 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                         self.xc_servers[host].fill_local_storage(self.selected_ref, liststg)
             elif tab_label == "Maps":
                 self.update_maps()
+
+    def get_console_location(self, host, ref):
+        location = None
+        if self.xc_servers[host].all_vms[ref]['consoles']:
+            nb_consoles = len(self.xc_servers[host].all_vms[ref]['consoles'])
+            for i in range(nb_consoles):
+                console_ref = self.xc_servers[host].all_vms[ref]['consoles'][i]
+                protocol = self.xc_servers[host].all_console[console_ref]['protocol']
+                if protocol == 'rfb':
+                    location = self.xc_servers[host].all_console[console_ref]['location']
+                    break
+            if location is None:
+                print 'No VNC console found'
+        return location
 
     def compare_data(self, model, iter1, iter2):
         data1 = model.get_value(iter1, 1)
