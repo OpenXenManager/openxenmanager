@@ -1014,6 +1014,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                             else:
                                 ref = self.selected_ref
                             # Run ./vncviewer with host, vm renf and session ref
+                            #TODO: Add console finder code, perhaps it should be a function... we use it three times!
                             if self.xc_servers[host].all_vms[ref]["consoles"]:
                                 console_ref = self.xc_servers[host].all_vms[ref]["consoles"][0]
                                 location = self.xc_servers[host].all_console[console_ref]["location"]
@@ -1072,7 +1073,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                     while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
                                             and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0 \
                                             and win32gui.FindWindow(
-                                                    None, "XenServer Virtual Terminal - TightVNC Viewer") == 0:
+                                            None, "XenServer Virtual Terminal - TightVNC Viewer") == 0:
                                         pass
                                     self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
                                     if self.hWnd == 0:
