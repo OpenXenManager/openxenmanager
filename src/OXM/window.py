@@ -441,6 +441,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         if str(self.config["gui"]["save_password"]) == "True":
             self.builder.get_object("masterpassword").show()
 
+        if sys.platform == 'win32' or sys.platform == 'darwin':
+            self.builder.get_object('consolescale').hide()
+
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
         
     def adjust_scrollbar_performance(self):

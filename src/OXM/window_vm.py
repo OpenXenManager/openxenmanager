@@ -96,6 +96,16 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
     def clear_cb(self, clipboard, data, user=None):
         return
 
+    def on_consolescale_toggled(self, widget):
+        """
+        Function called when toggle the console scale option
+        """
+        if hasattr(self, 'vnc'):
+            if widget.get_active():
+                self.vnc.set_scaling(True)
+            else:
+                self.vnc.set_scaling(False)
+
     def on_btcopytext_clicked(self, widget, data=None):
         """
         Function called when you press "Copy selected text" on console tab

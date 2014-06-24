@@ -5811,7 +5811,6 @@ XenServer will always attempt to use the resources of the home if it can.</prope
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkFileFilter" id="filefilterbackupserver"/>
   <object class="GtkFileChooserDialog" id="filebackupserver">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -5881,7 +5880,6 @@ XenServer will always attempt to use the resources of the home if it can.</prope
       <action-widget response="0">cancelfilebackupserver</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkFileFilter" id="filefilterimportvm"/>
   <object class="GtkFileChooserDialog" id="filedownloadlogs">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -6016,6 +6014,8 @@ XenServer will always attempt to use the resources of the home if it can.</prope
       <action-widget response="0">cancelfileexportmap</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkFileFilter" id="filefilterbackupserver"/>
+  <object class="GtkFileFilter" id="filefilterimportvm"/>
   <object class="GtkFileFilter" id="filefilterrestoreserver"/>
   <object class="GtkFileChooserDialog" id="filelicensekey">
     <property name="can_focus">False</property>
@@ -6082,6 +6082,73 @@ XenServer will always attempt to use the resources of the home if it can.</prope
     <action-widgets>
       <action-widget response="0">openfilelicensekey</action-widget>
       <action-widget response="0">cancelfilelicensekey</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkFileChooserDialog" id="filenewupdate">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Select new update file</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">normal</property>
+    <property name="filter">filterfilenewupdate</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox91">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area90">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="acceptfilenewupdate">
+                <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_acceptfilenewupdate_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="cancelfilenewupdate">
+                <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_cancelfilenewupdate_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">acceptfilenewupdate</action-widget>
+      <action-widget response="0">cancelfilenewupdate</action-widget>
     </action-widgets>
   </object>
   <object class="GtkFileChooserDialog" id="fileopen">
@@ -6564,73 +6631,6 @@ XenServer will always attempt to use the resources of the home if it can.</prope
   </object>
   <object class="GtkFileFilter" id="filterfilelicensekey"/>
   <object class="GtkFileFilter" id="filterfilenewupdate"/>
-  <object class="GtkFileChooserDialog" id="filenewupdate">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Select new update file</property>
-    <property name="window_position">center</property>
-    <property name="type_hint">normal</property>
-    <property name="filter">filterfilenewupdate</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox91">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area90">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="acceptfilenewupdate">
-                <property name="label">gtk-ok</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_acceptfilenewupdate_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="cancelfilenewupdate">
-                <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_cancelfilenewupdate_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">acceptfilenewupdate</action-widget>
-      <action-widget response="0">cancelfilenewupdate</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkFileFilter" id="filterfilepoolbackupdb"/>
   <object class="GtkMessageDialog" id="forcejoinpool">
     <property name="can_focus">False</property>
@@ -24051,30 +24051,67 @@ XenServer Tools needs to be installed.</property>
                                         <property name="can_focus">False</property>
                                         <child>
                                           <object class="GtkFixed" id="fixed139">
-                                            <property name="height_request">25</property>
+                                            <property name="height_request">37</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkButton" id="btsendctraltdel">
-                                                <property name="label" translatable="yes">Send Ctrl-Alt-Del</property>
+                                              <object class="GtkCheckButton" id="consolescale">
+                                                <property name="label" translatable="yes">Scale</property>
                                                 <property name="use_action_appearance">False</property>
-                                                <property name="height_request">20</property>
+                                                <property name="height_request">32</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="receives_default">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
                                                 <property name="use_action_appearance">False</property>
                                                 <property name="xalign">0</property>
-                                                <signal name="clicked" handler="on_btsendctraltdel_clicked" swapped="no"/>
+                                                <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_consolescale_toggled" swapped="no"/>
                                               </object>
                                               <packing>
-                                                <property name="y">5</property>
+                                                <property name="x">521</property>
+                                                <property name="y">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="btundockconsole">
+                                                <property name="label" translatable="yes">Undock</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <property name="width_request">100</property>
+                                                <property name="height_request">32</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_btundockconsole_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="x">417</property>
+                                                <property name="y">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="btcopytext">
+                                                <property name="label" translatable="yes">Copy selected text</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <property name="width_request">142</property>
+                                                <property name="height_request">32</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_btcopytext_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="x">144</property>
+                                                <property name="y">3</property>
                                               </packing>
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="btenterfullscreen">
                                                 <property name="label" translatable="yes">Enter fullscreen</property>
                                                 <property name="use_action_appearance">False</property>
-                                                <property name="height_request">20</property>
+                                                <property name="width_request">123</property>
+                                                <property name="height_request">32</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="receives_default">False</property>
@@ -24083,42 +24120,26 @@ XenServer Tools needs to be installed.</property>
                                                 <signal name="clicked" handler="on_btenterfullscreen_clicked" swapped="no"/>
                                               </object>
                                               <packing>
-                                                <property name="x">140</property>
-                                                <property name="y">5</property>
+                                                <property name="x">290</property>
+                                                <property name="y">3</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="btcopytext">
-                                                <property name="label" translatable="yes">Copy selected text</property>
+                                              <object class="GtkButton" id="btsendctraltdel">
+                                                <property name="label" translatable="yes">Send Ctrl-Alt-Del</property>
                                                 <property name="use_action_appearance">False</property>
-                                                <property name="width_request">130</property>
-                                                <property name="height_request">20</property>
+                                                <property name="width_request">137</property>
+                                                <property name="height_request">32</property>
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="receives_default">True</property>
                                                 <property name="use_action_appearance">False</property>
-                                                <signal name="clicked" handler="on_btcopytext_clicked" swapped="no"/>
+                                                <property name="xalign">0</property>
+                                                <signal name="clicked" handler="on_btsendctraltdel_clicked" swapped="no"/>
                                               </object>
                                               <packing>
-                                                <property name="x">270</property>
-                                                <property name="y">5</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btundockconsole">
-                                                <property name="label" translatable="yes">Undock</property>
-                                                <property name="use_action_appearance">False</property>
-                                                <property name="width_request">100</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="use_action_appearance">False</property>
-                                                <signal name="clicked" handler="on_btundockconsole_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">420</property>
-                                                <property name="y">5</property>
+                                                <property name="x">3</property>
+                                                <property name="y">3</property>
                                               </packing>
                                             </child>
                                           </object>
