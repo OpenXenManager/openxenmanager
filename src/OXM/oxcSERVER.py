@@ -131,9 +131,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
         return relation
 
-    def export_vm(self, uuid):
-        vm_uuid = self.connection.VM.get_by_uuid(self.session_uuid, uuid)['Value']
-        print "GET /export?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (vm_uuid,self.session_uuid)
     def get_seconds(self, toconvert):
         converted = datetime.datetime.strptime(str(toconvert), "%Y%m%dT%H:%M:%SZ")
         totime = time.mktime(converted.timetuple())
