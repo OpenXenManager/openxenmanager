@@ -18,25 +18,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import xmlrpclib, urllib
-import asyncore, socket
-import select
 import gtk
-from os import chdir, path
-import platform
-import sys, shutil
-import datetime
-from threading import Thread
-from configobj import ConfigObj
-import xml.dom.minidom 
+from os import path
+import xml.dom.minidom
 from operator import itemgetter
-import pdb
-import rrdinfo
-import time
 import gobject
-from OXM.messages import messages, messages_header
 from OXM.capabilities import capabilities_text
 import utils
+
 
 class oxcSERVERmenuitem:
     last_pool_data = []
@@ -46,6 +35,7 @@ class oxcSERVERmenuitem:
             self.track_tasks[res['Value']] = ref
         else:
             print res
+
 
     def unsuspend_vm(self, ref):
         res = self.connection.Async.VM.unsuspend(self.session_uuid, ref)

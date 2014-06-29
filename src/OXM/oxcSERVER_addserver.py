@@ -19,23 +19,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import xmlrpclib, urllib
-import asyncore, socket
-import select
-import gtk
-from os import chdir
-import platform
-import sys, shutil
-import datetime
+import xmlrpclib
+import sys
 from threading import Thread
-from configobj import ConfigObj
-import xml.dom.minidom 
-from operator import itemgetter
-import pdb
-import rrdinfo
-import time
 import gobject
-from OXM.messages import messages, messages_header
 
 class oxcSERVERaddserver(gobject.GObject):
     __gsignals__ = {
@@ -47,15 +34,15 @@ class oxcSERVERaddserver(gobject.GObject):
     }
 
     connectThread = None
-    
-    def __init__(self):
-         self.__gobject_init__()
+
+    def __init__(self, *args, **kwargs):
+        self.__gobject_init__()
 
     def connect_server_async(self):
         # begin connecting
         self.connectThread = Thread(target=self.connect_server)
         self.connectThread.start()
-            
+
     def connect_server(self):
         protocol = ["http", "https"][self.ssl]
         self.url = "%s://%s:%d" % (protocol, self.host, self.port)

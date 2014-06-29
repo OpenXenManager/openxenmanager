@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -19,11 +20,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
-import os
 import gtk
 from threading import Thread
-import time
+
+
 class oxcWindowVMPerformance:
     """
     Class to manage "performance" of a VM/host

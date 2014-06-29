@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -20,10 +21,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
 import xtea
 import re
-from OXM.oxcSERVER import *
+from oxcSERVER import *
 from os import path
 import utils
 

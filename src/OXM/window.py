@@ -20,14 +20,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import sys
 import os
-import utils
+import sys
+import shutil
+from configobj import ConfigObj
 from tunnel import Tunnel
 
 if os.path.dirname(sys.argv[0]):
     os.chdir(os.path.dirname(sys.argv[0]))
-import pygtk
 
 # On next releases we will use gettext for translations TODO: Investigate translations
 APP = 'oxc'
@@ -47,18 +47,11 @@ else:
     import win32gui
     import win32con
 
-import gobject
-# For md5 and xtea
-import hashlib
-import xtea
 from oxcSERVER import *
-from pprint import pprint
 import signal
 import atexit
-import re
 # For a TreeView Cell with image+text
 from PixbufTextCellRenderer import PixbufTextCellRenderer
-#import locale
 import gettext
 gettext.install('oxc', localedir="./locale")
 if sys.platform != "win32":

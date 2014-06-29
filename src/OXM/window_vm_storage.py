@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -19,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
+
 
 class oxcWindowVMStorage:
     """

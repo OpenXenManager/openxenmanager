@@ -19,27 +19,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import xmlrpclib, urllib
-import asyncore, socket
-import select
-import gtk
-from os import chdir, path
-import platform
-import sys, shutil
-import datetime
 from threading import Thread
-from configobj import ConfigObj
-import xml.dom.minidom 
-from operator import itemgetter
-import pdb
-import rrdinfo
-import time
-import gobject
-from OXM.messages import messages, messages_header
 from oxcSERVER_vm_network import *
 from oxcSERVER_vm_storage import *
 from oxcSERVER_vm_snapshot import *
 import utils
+
 
 class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
     def thread_import_vm(self, ref, file):

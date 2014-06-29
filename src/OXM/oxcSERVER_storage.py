@@ -19,24 +19,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import xmlrpclib, urllib
-import asyncore, socket
-import select
-import gtk
-from os import chdir
-import platform
-import sys, shutil
-import datetime
-from threading import Thread
-from configobj import ConfigObj
-import xml.dom.minidom 
-from operator import itemgetter
-import pdb
-import rrdinfo
-import time
-import gobject
-from OXM.messages import messages, messages_header
+import xml.dom.minidom
 import xml.sax.saxutils as saxutils
+
 
 class oxcSERVERstorage:
     stg_ref = None

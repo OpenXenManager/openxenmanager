@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -19,13 +20,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
-from window_host_nics import * 
-from window_host_network import * 
-from OXM.capabilities import capabilities_conf_text
-from threading import Thread
-from OXM.messages import messages_header
 import gtk
+from threading import Thread
+from window_host_nics import *
+from window_host_network import * 
+from capabilities import capabilities_conf_text
+from messages import messages_header
+
 
 class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
     """

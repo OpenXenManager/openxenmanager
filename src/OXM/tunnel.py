@@ -20,10 +20,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import socket, select
+import socket
+import select
 import sys
 from threading import Thread
 import traceback
+
 
 class Tunnel:
     def __init__(self, session, location):

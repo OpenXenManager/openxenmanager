@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# -----------------------------------------------------------------------
 # OpenXenManager
 #
 # Copyright (C) 2009 Alberto Gonzalez Rodriguez alberto@pesadilla.org
@@ -19,12 +20,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
-import gtk
-from OXM.oxcSERVER import *
+from oxcSERVER import *
 import xtea
-from thread import *
-import pdb
 from version import __version__
 from os import path
 import utils

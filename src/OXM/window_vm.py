@@ -27,6 +27,8 @@ from window_vm_performance import *
 import gtk
 import time
 selection = None
+
+
 class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcWindowVMPerformance):
     """
     Class to manage window actions

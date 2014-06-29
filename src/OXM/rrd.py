@@ -20,9 +20,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-
 import xml.dom.minidom
-import pygtk_chart
+
 
 class XPORT:
     def __init__(self, filename):

@@ -20,31 +20,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-import xmlrpclib, urllib
-import asyncore, socket
+# System Imports
 import httplib
-import select
-import gtk
-import os
-import platform
-import sys, shutil
-import datetime
-import xml.dom.minidom 
-import pdb
-import rrdinfo
-import time
-import put
-import gobject
-from rrd import RRD, XPORT
-import xml.sax.saxutils as saxutils
+import xml.dom.minidom
 import traceback
+import datetime
+import time
+import urllib
+import socket
 
-from threading import Thread
-from configobj import ConfigObj
-from operator import itemgetter
-from pygtk_chart import line_chart
+# Local Imports
 from messages import messages, messages_header
-
 from oxcSERVER_vm import *
 from oxcSERVER_host import *
 from oxcSERVER_properties import *
@@ -53,8 +39,12 @@ from oxcSERVER_alerts import *
 from oxcSERVER_addserver import *
 from oxcSERVER_newvm import *
 from oxcSERVER_menuitem import *
-from capabilities import capabilities_text
+from pygtk_chart import line_chart
+from rrd import RRD, XPORT
+import put
+import rrdinfo
 import utils
+
 
 class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,oxcSERVERalerts,oxcSERVERaddserver,oxcSERVERnewvm,oxcSERVERmenuitem):
     session_uuid = None
@@ -80,7 +70,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     hostroot = {}
     last_storage_iter = None
     pbdcreate = []
-    
+
     def __init__(self, host, user, password, wine, ssl = False, port = 80):
         super(oxcSERVER, self).__init__()
         self.host = host
@@ -90,7 +80,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         self.password = password
         self.ssl = ssl
         self.port = port
-        
+
     def logout(self):
         self.halt_search = True
         self.halt = True
