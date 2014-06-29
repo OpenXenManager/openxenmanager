@@ -64,7 +64,7 @@ class oxcWindowTools:
         if self.builder.get_object("fileossxenconfig").get_filename():
             print self.builder.get_object("fileossxenconfig").get_filename()
             params = {}
-            execfile(options.config,params)
+            execfile(options.config,params)  # TODO: Check this, where does options come from?
             if "name" in params: machine.set_name( params['name'] )
             if "vpus" in params: machine.set_vcpus( params['vcpus'] )
             if "kernel" in params:
@@ -106,7 +106,7 @@ class oxcWindowTools:
             if "acpi" in params and params['acpi'] == 0:
                 machine.set_acpi(False)
             if "nx" in params and params['nx'] == 1:
-                machine.set_nx(options.nx)
+                machine.set_nx(options.nx)  # TODO: Check this, where does options come from?
             if "pae" in params and params['pae'] == 0:
                 machine.set_pae(False)
         else:

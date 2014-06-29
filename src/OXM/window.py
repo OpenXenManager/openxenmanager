@@ -453,7 +453,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             adj.set_value(adj.upper - adj.page_size)
 
     def func_cell_data_treesearch(self, column, cell, model, iter_ref, user_data):
-        # Test function don't used
+        # Test function don't used TODO: Can this be removed?
         print column, cell, model, iter_ref, user_data
 
     def set_window_defaults(self):

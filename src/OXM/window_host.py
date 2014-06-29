@@ -36,43 +36,43 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
         """
         Press "Leave Domain" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_btjoindomain_clicked(self, widget, data=None):
         """
         Press "Join Domain" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_btadduser_clicked(self, widget, data=None):
         """
         Press "Add user" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_btremoveuser_clicked(self, widget, data=None):
         """
         Press "Remove user" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_btlogoutuser_clicked(self, widget, data=None):
         """
         Press "Logout User" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_treeusers_cursor_changed(self, widget, data=None):
         """
         Selected row in treeusers treeview
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_btchangerole_clicked(self, widget, data=None):
         """
         Press "Join Domain" on Users tab
         """
-        pass
+        pass  # TODO - Should this do something
 
     def on_cancelfileexportmap_clicked(self, widget, data=None):
         """

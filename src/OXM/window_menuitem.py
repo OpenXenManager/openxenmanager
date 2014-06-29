@@ -1235,7 +1235,7 @@ class oxcWindowMenuItem:
                         hotfix.append("hotfix_" + server.all_pool_patch[host_patch["pool_patch"]]["uuid"] + "=1")
                     else:
                         hotfix.append("hotfix_" + server.all_pool_patch[host_patch["pool_patch"]]["uuid"] + "=0")
-
+        # TODO: Get the server version from the server, to generate correct URL
         url = "http://updates.xensource.com/XenServer/5.5.2/XenCenter?%s;%s" % (";".join(pool), ";".join(hotfix))
         import webbrowser
         webbrowser.open(url)

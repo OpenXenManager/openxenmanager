@@ -646,12 +646,12 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         for task_ref in filter(self.task_filter_uuid, self.tasks):
             task = self.all_tasks[task_ref]
             if "snapshot" in task:
-               self.add_box_log(task['snapshot']['name_label'], str(task['snapshot']['created']), "%s %s" % (task["snapshot"]["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['snapshot']['created']), task['ref'], task, float(task['snapshot']['progress']),i%2)
+               self.add_box_log(task['snapshot']['name_label'], str(task['snapshot']['created']), "%s %s" % (task["snapshot"]["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['snapshot']['created']), task['ref'], task, float(task['snapshot']['progress']),i%2)  # TODO: Check variable type float vs int
             else:
                if "ref" in task:
-                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['created']), self.get_task_ref_by_uuid(task['uuid']), task, float(task['progress']),i%2)
+                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['created']), self.get_task_ref_by_uuid(task['uuid']), task, float(task['progress']),i%2)  # TODO: Check variable type float vs int
                else:
-                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], task["name_description"]), str(task['created']), task_ref, task, float(task['progress']),i%2)
+                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], task["name_description"]), str(task['created']), task_ref, task, float(task['progress']),i%2)  # TODO: Check variable type float vs int
                i = i + 1
         for log in sorted(filter(self.log_filter_uuid, self.all_messages.values()),  key=itemgetter("timestamp"), reverse=True):
             timestamp = str(log['timestamp'])
