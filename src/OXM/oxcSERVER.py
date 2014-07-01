@@ -1378,10 +1378,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 labels["lblvmautoboot"] = "No"
 
             if not self.all_vms[ref]['HVM_boot_policy']:
-                labels['lblvmboot'] = "Boot order:"
+                labels['lblvmboot'] = "OS boot parameters:"
                 labels["lblvmparameters"] = self.all_vms[ref]['PV_args']
             else:
-                labels['lblvmboot'] = "OS boot parameters:"
+                labels['lblvmboot'] = "Boot order:"
                 labels['lblvmparameters'] = ""
                 for param in list(self.all_vms[ref]['HVM_boot_params']['order']):
                         if param == 'c':
