@@ -1503,20 +1503,27 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def dump(self, obj):
       for attr in dir(obj):
         print "obj.%s = %s" % (attr, getattr(obj, attr))
-    def humanize_time(self, secs):
+
+    @staticmethod
+    def humanize_time(seconds):
         string = ""
-        mins, secs = divmod(secs, 60)
-        hours, mins = divmod(mins, 60)
+        minutes, seconds = divmod(seconds, 60)
+        hours, minutes = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
         if days:
-            string += "%02d days " % (days)
+            string += "%02d days " % days
+        else:
+            string += "00 days"
         if hours:
-            string += "%02d hours " % (hours)
-        if mins:
-            string += "%02d minutes " % (mins)
-        if secs:
-            string += "%02d seconds " % (secs)
+            string += "%02d hours " % hours
+        else:
+            string += "00 hours"
+        if minutes:
+            string += "%02d minutes " % minutes
+        else:
+            string += "00 minutes"
         return string
+
     def convert_bytes(self, n):
         """
         http://www.5dollarwhitebox.org/drupal/node/84
