@@ -411,7 +411,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             all_snapshots = self.all_vms[uuid]['snapshots']
             for snapshot_uuid in all_snapshots:
                 snapshot_name = self.all_vms[snapshot_uuid]['name_label']
-                snapshot_time = self.all_vms[snapshot_uuid]['snapshot_time']
+                snapshot_time = self.format_date(self.all_vms[snapshot_uuid]['snapshot_time'])
                 snapshot_of = self.all_vms[snapshot_uuid]['snapshot_of']
                 snapshot_size = 0 
                 for vbd in self.all_vms[snapshot_uuid]['VBDs']:
