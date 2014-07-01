@@ -295,8 +295,12 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.update_tabs() 
         self.update_toolbar()
 
-        # Create a TreeStore for SERVER->Search tab 
-        self.listsearch = gtk.TreeStore(gtk.gdk.Pixbuf, str, object, str, object, str, str, str, str, str,
+        # Create a TreeStore for SERVER->Search tab
+        # (image, name, loadimg, loadtext,
+        #  memimg, memtext, disks, network, address, uptime
+        #  color)
+        self.listsearch = gtk.TreeStore(gtk.gdk.Pixbuf, str, object, str,
+                                        object, str, str, str, str, str,
                                         gtk.gdk.Color)
         self.treesearch.set_model(self.listsearch)
         #self.treesearch.get_column(0).set_cell_data_func(self.func_cell_data_treesearch, self.treesearch.get_cell(0))
