@@ -1013,10 +1013,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if self.all_vdi[vdi]['name_label'] != "base copy":
                     list.append([vdi, self.all_vdi[vdi]['name_label'], self.all_vdi[vdi]['name_description'], \
                             self.convert_bytes(self.all_vdi[vdi]['virtual_size']) + " (" + str(pct) + "% on disk)", vm])
-    def fill_vm_storage(self, ref, list):
+
+    def fill_vm_storage(self, ref, storage_list):
         self.filter_ref = ref
         all_vbds = filter(self.filter_vbd_ref, self.all_vbd.values())
-        list.clear()
+        storage_list.clear()
         if ref not in self.all_vms:
             return
         for vbd_ref in self.all_vms[ref]['VBDs']:
@@ -1030,19 +1031,18 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     self.filter_vdi = vbd['VDI']
                     vdi = self.all_vdi[self.filter_vdi_ref()]
                     vdi_name_label = vdi['name_label'] 
-                    vdi_name_description =  vdi['name_description']
-                    vdi_virtual_size =  vdi['virtual_size']
+                    vdi_name_description = vdi['name_description']
+                    vdi_virtual_size = vdi['virtual_size']
                     vdi_sr = vdi['SR'] 
                     sr_name = self.all_storage[vdi_sr]['name_label']
-                    list.append((vdi_name_label, \
-                         vdi_name_description, \
-                         sr_name, \
-                         vbd['userdevice'], \
-                         self.convert_bytes(vdi_virtual_size), \
-                         ro, \
-                         "0 (Highest) ", \
-                         str(vbd['currently_attached']), \
-                         "/dev/" + vbd['device'], vbd['VDI'], vbd_ref, vbd['bootable']))
+                    storage_list.append((vdi_name_label, vdi_name_description,
+                                         sr_name, vbd['userdevice'],
+                                         self.convert_bytes(vdi_virtual_size),
+                                         ro, "0 (Lowest) ",
+                                         str(vbd['currently_attached']),
+                                         "/dev/" + vbd['device'], vbd['VDI'],
+                                         vbd_ref, vbd['bootable']))
+
     def fill_vm_storage_dvd(self, ref, list):
         i = 0
         active = 0
