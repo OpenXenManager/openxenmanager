@@ -189,7 +189,7 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
                         found = True
                         timestamp = self.xc_servers[self.selected_host].all_host_patch[host_patch]['timestamp_applied'] 
                         patch_text = "<span foreground='green'>%s - applied (%s)</span>" % (name, \
-                            self.xc_servers[self.selected_host].format_date(timestamp))
+                            str(self.xc_servers[self.selected_host].format_date(timestamp)))
                         listupdatestatus.append([host, patch_text, False])
                         
                 if not found:

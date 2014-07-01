@@ -121,26 +121,28 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
         return relation
 
-    def get_seconds(self, toconvert):
-        converted = datetime.datetime.strptime(str(toconvert), "%Y%m%dT%H:%M:%SZ")
-        totime = time.mktime(converted.timetuple())
-        #FIXME
-        return totime
-    def format_date(self, toconvert):
-        converted = datetime.datetime.strptime(str(toconvert), "%Y%m%dT%H:%M:%SZ")
-        #totime = time.mktime(converted.timetuple())
-        return str(converted)
-    #FIXME
-    def get_seconds_difference_reverse(self, toconvert):
-        converted = datetime.datetime.strptime(str(toconvert), "%Y%m%dT%H:%M:%SZ")
-        totime = time.mktime(converted.timetuple())
-        #FIXME
-        return totime-time.time()-3600
-    def get_seconds_difference(self, toconvert):
-        converted = datetime.datetime.strptime(str(toconvert), "%Y%m%dT%H:%M:%SZ")
-        totime = time.mktime(converted.timetuple())
-        #FIXME
-        return time.time()-totime-3600
+    def get_seconds(self, to_convert):
+        converted = self.format_date(to_convert)
+        to_time = int(time.mktime(converted.timetuple()))
+        return to_time
+
+    @staticmethod
+    def format_date(to_convert):
+        converted = datetime.datetime.strptime(str(to_convert), "%Y%m%dT%H:%M:%SZ")
+        return converted
+
+    def get_seconds_difference_reverse(self, to_convert):
+        converted = self.format_date(to_convert)
+        now_time = datetime.datetime.now()
+        time_diff = (converted - now_time).total_seconds() - 3600
+        return time_diff
+
+    def get_seconds_difference(self, to_convert):
+        converted = self.format_date(to_convert)
+        now_time = datetime.datetime.now()
+        time_diff = (now_time - converted).total_seconds() - 3600
+        return time_diff
+
     def get_dmesg(self, ref):
         return self.connection.host.dmesg(self.session_uuid, ref)["Value"]
 
@@ -263,14 +265,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                     "images/info.gif")),
                                              self.hostname, messages_header[message['name']],
-                                             self.format_date(str(message['timestamp'])), ref, self.host])
+                                             str(self.format_date(str(message['timestamp']))), ref, self.host])
                 list.prepend(parent, [None, "", messages[message['name']] % (self.hostname), "",
                     ref, self.host])
             else:
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                        "images/info.gif")),
                                              self.hostname, message['name'],
-                                             self.format_date(str(message['timestamp'])), ref, self.host])
+                                             str(self.format_date(str(message['timestamp']))), ref, self.host])
                 list.prepend(parent, [None, "", message['name'], "",
                     ref, self.host])
         elif message['name'] == "ALARM":
@@ -292,7 +294,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                            "images/warn.gif")),
                                                  self.hostname, messages_header["alert_" + alert],
-                                                 self.format_date(str(message['timestamp'])), ref, self.host])
+                                                 str(self.format_date(str(message['timestamp']))), ref, self.host])
                     list.prepend(parent, [None, "", messages["alert_" + alert] % \
                             (self.all_vms[self.vm_filter_uuid()]['name_label'], float(value)*100, int(period), float(level)*100), "",
                             ref, self.host])
@@ -307,7 +309,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                                                            "images/warn.gif")),
                                                  self.hostname,
                                                  messages_header["host_alert_" + alert] % ("Control Domain"),
-                                                 self.format_date(str(message['timestamp'])), ref, self.host])
+                                                 str(self.format_date(str(message['timestamp']))), ref, self.host])
                     list.prepend(parent, [None, "", messages["host_alert_" + alert] % \
                             ("Control Domain", self.hostname, float(value)), "",
                             ref, self.host])
@@ -651,7 +653,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 self.add_box_log(log['name'], timestamp, log['body'], str(log['timestamp']),alt=i%2)
             i = i + 1
     def add_box_log(self, title, date, description, time, id=None, task=None, progress=0, alt=0):
-        date = self.format_date(date)
+        date = str(self.format_date(date))
         vboxframe = gtk.Frame()
         vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#d5e5f7"))
         if task:
@@ -716,7 +718,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     self.vboxchildprogress[id].set_label("Error: %s" % task["error_info"])
             else:
                 if ("snapshot" in task and task["snapshot"]["finished"]) or task["finished"]:
-                    vboxchildlabel4.set_label("Finished: %s"  % self.format_date(str(task["finished"])))
+                    vboxchildlabel4.set_label("Finished: %s" % str(self.format_date(str(task["finished"]))))
 
 
             vboxchild.put(self.vboxchildprogress[id], 25, 72)
