@@ -229,7 +229,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                 auto = "no"
                 if "automatic" in network['other_config']:
                     if network['other_config']['automatic'] == "true":
-                        auto = "yes"
+                        auto = "Yes"
                     else:
                         auto = "No"
                 pifs = filter(lambda lista: lista["network"] == network_key, self.all_pif.values())
