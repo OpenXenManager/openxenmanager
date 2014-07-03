@@ -237,6 +237,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                 linkstatus = "-"
                 macaddress = "-"
                 nic = "-"
+                mtu = "-"
                 for pif in pifs:
                     if pif['host'] == ref:
                         nic = "NIC " + pif['device'][-1:]
@@ -251,8 +252,11 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                             if macaddress != "-" and linkstatus == "-":
                                 linkstatus = "Disconnected"
 
+                            mtu = pif['MTU']
+
                 # FIXME: not bond networks
-                list_ref.append((name, desc, nic, vlan, auto, linkstatus, macaddress, network_key))
+                net_tuple = (name, desc, nic, vlan, auto, linkstatus, macaddress, mtu, network_key)
+                list_ref.append(net_tuple)
 
     def fill_host_nics(self, ref, list_ref):
         list_ref.clear()

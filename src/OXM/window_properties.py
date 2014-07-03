@@ -409,7 +409,7 @@ class oxcWindowProperties:
             treestorage = self.builder.get_object("treehostnetwork")
             selection = treestorage.get_selection()
             iter = selection.get_selected()[1]
-            ref = liststorage.get_value(iter,7)
+            ref = liststorage.get_value(iter, 8)
             network = self.xc_servers[self.selected_host].all_network[ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != network['name_label']:

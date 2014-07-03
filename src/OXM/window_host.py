@@ -378,7 +378,7 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
             treehostnetwork.get_selection().select_path((0, 0))
             iter = listhostnetwork.get_iter((0,0))
             # Get the reference of first selected
-            ref = self.builder.get_object("listhostnetwork").get_value(iter, 7)
+            ref = self.builder.get_object("listhostnetwork").get_value(iter, 8)
             # Get the pifs from selected network 
             network_pifs = self.xc_servers[self.selected_host].all_network[ref]['PIFs']
             # Enable "remove network" by default
@@ -388,6 +388,7 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
                 if self.xc_servers[self.selected_host].all_pif[pif]['physical'] == True:
                     self.builder.get_object("bthostnetworkremove").set_sensitive(False)
                     break
+
     def on_radiomgmtipmanual_toggled(self, widget, data=None):
         """
         On "management interface" radio "manual ip" selected

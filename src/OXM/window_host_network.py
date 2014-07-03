@@ -38,7 +38,7 @@ class oxcWindowHostNetwork:
            path, col, cellx, celly = pthinfo
            iter = self.builder.get_object("listhostnetwork").get_iter(path)
            # Get the network reference
-           ref = self.builder.get_object("listhostnetwork").get_value(iter, 7)
+           ref = self.builder.get_object("listhostnetwork").get_value(iter, 8)
            # Get all pifs on selected network
            pifs = self.xc_servers[self.selected_host].all_network[ref]['PIFs']
            # By default all networks could be removed
@@ -75,7 +75,7 @@ class oxcWindowHostNetwork:
         selection = treehostnetwork.get_selection()
         if selection.get_selected()[1] != None:
             iter = selection.get_selected()[1]
-            ref = listhostnetwork.get_value(iter,7)
+            ref = listhostnetwork.get_value(iter,8)
             # Call to function to remove selected network
             self.xc_servers[self.selected_host].delete_network(ref, self.selected_ref)
         # Hide the confirmation dialog
