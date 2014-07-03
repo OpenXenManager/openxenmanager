@@ -218,16 +218,13 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
         self.wine.builder.get_object("hosttablehw").add(vboxframe)
         self.wine.builder.get_object("hosttablehw").show_all()
 
-
-    def fill_host_network(self, ref, list):
-        list.clear()
+    def fill_host_network(self, ref, list_ref):
+        list_ref.clear()
         for network_key in self.all_network.keys():
             network = self.all_network[network_key]
-            #for pif in network['PIFs']:
-            #    if self.all_pif[pif]['host'] == ref:
-            #        on_host = True
-            if network['bridge'] != "xapi0":
-                name = network['name_label'].replace('Pool-wide network associated with eth','Network ')
+
+            if network['bridge'] != "xenapi":
+                name = network['name_label'].replace('Pool-wide network associated with eth', 'Network ')
                 desc = network['name_description']
                 auto = "no"
                 if "automatic" in network['other_config']:
@@ -246,7 +243,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         if pif:
                             if pif['VLAN'] != "-1":
                                 vlan = pif['VLAN']
-                            if pif['metrics'] in self.all_pif_metrics and self.all_pif_metrics[pif['metrics']]['carrier']: # Link status 
+                            if pif['metrics'] in self.all_pif_metrics and \
+                                    self.all_pif_metrics[pif['metrics']]['carrier']:  # Link status
                                 linkstatus = "Connected" 
                             if pif['MAC'] != "fe:ff:ff:ff:ff:ff":
                                 macaddress = pif['MAC']
@@ -254,7 +252,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                                 linkstatus = "Disconnected"
 
                 # FIXME: not bond networks
-                list.append((name, desc, nic, vlan, auto, linkstatus, macaddress,network_key))
+                list_ref.append((name, desc, nic, vlan, auto, linkstatus, macaddress, network_key))
 
     def fill_host_nics(self, ref, list_ref):
         list_ref.clear()
