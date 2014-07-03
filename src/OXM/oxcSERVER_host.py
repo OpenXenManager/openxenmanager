@@ -256,8 +256,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                 # FIXME: not bond networks
                 list.append((name, desc, nic, vlan, auto, linkstatus, macaddress,network_key))
 
-    def fill_host_nics(self, ref, list):
-        list.clear()
+    def fill_host_nics(self, ref, list_ref):
+        list_ref.clear()
         for pif_key in self.all_pif.keys():
             if self.all_pif[pif_key]['host'] == ref:
                 if self.all_pif[pif_key]['metrics'] != "OpaqueRef:NULL":
@@ -265,7 +265,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         continue
                     pif_metric = self.all_pif_metrics[self.all_pif[pif_key]['metrics']]
                     pif = self.all_pif[pif_key]
-                    #pif = filter(lambda lista: lista["metrics"] == pif_key, self.all_pif.values())
+
                     if pif_metric['duplex']:
                         duplex = "full"
                     else:
@@ -282,19 +282,21 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                             speed = pif_metric['speed'] + " mbit/s"
                         else:
                             speed = ""
-                        if pif_metric['pci_bus_path'] != "N/A":
-                            list.append(("NIC %s" % pif['device'][-1:],mac,connected,
-                                       speed, duplex, pif_metric['vendor_name'],
-                                       pif_metric['device_name'], pif_metric['pci_bus_path'],pif_key))
+                        if pif_metric['pci_bus_path'] != "N/A" and pif['physical'] is not False:
+                            list_ref.append(("NIC %s" % pif['device'][-1:], mac, connected,
+                                             speed, duplex, pif_metric['vendor_name'],
+                                             pif_metric['device_name'], pif_metric['pci_bus_path'],
+                                             pif_key))
                         else:
                             if pif['bond_master_of']:
                                 devices = []
                                 for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
                                     devices.append(self.all_pif[slave]['device'][-1:])
                                 devices.sort() 
-                                list.append(("Bond %s" % ('+'.join(devices)),mac,connected,
-                                           speed, duplex, pif_metric['vendor_name'],
-                                           pif_metric['device_name'], pif_metric['pci_bus_path'],pif_key))
+                                list_ref.append(("Bond %s" % ('+'.join(devices)), mac, connected,
+                                                 speed, duplex, pif_metric['vendor_name'],
+                                                 pif_metric['device_name'], pif_metric['pci_bus_path'],
+                                                 pif_key))
                             else:
                                 pass
                                 #print pif, pif_metric
@@ -307,15 +309,12 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                     connected = "Disconnected"
                     if pif['bond_master_of']:
                         devices = []
-                        if pif['bond_master_of'][0] in  self.all_bond:
+                        if pif['bond_master_of'][0] in self.all_bond:
                             for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
                                 devices.append(self.all_pif[slave]['device'][-1:])
                             devices.sort() 
-                            list.append(("Bond %s" % ('+'.join(devices)),mac,connected,
-                                       "-", "-", "-",
-                                       "-", "-",pif_key))
+                            list_ref.append(("Bond %s" % ('+'.join(devices)), mac, connected,
+                                             "-", "-", "-", "-", "-", pif_key))
                     else:
-                        list.append(("NIC %s" % pif['device'][-1:],mac,connected,
-                                   "-", "-", "-",
-                                   "-", "-",pif_key))
-
+                        list_ref.append(("NIC %s" % pif['device'][-1:], mac, connected,
+                                         "-", "-", "-", "-", "-", pif_key))
