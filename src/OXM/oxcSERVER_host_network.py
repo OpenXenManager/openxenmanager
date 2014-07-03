@@ -22,25 +22,26 @@
 
 
 class oxcSERVERhostnetwork:
-    def fill_listnetworknic(self, list):
-        list.clear()
+    def fill_listnetworknic(self, list_ref):
+        list_ref.clear()
         vlan = [0]
         for pif_key in self.all_pif:
             pif = self.all_pif[pif_key]
-            if pif['currently_attached']:
+            if self.all_pif_metrics[pif['metrics']]['carrier']:
                 if len(pif['bond_master_of']):
                     devices = []
                     for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
                         devices.append(self.all_pif[slave]['device'][-1:])
                     devices.sort()
-                    list.append([pif_key,"Bond %s" % '+'.join(devices)])
+                    list_ref.append([pif_key, "Bond %s" % '+'.join(devices)])
 
                 else:
-                    if pif['VLAN'] == "-1":
-                        list.append([pif_key,"NIC %s" % pif['device'][-1:]])
-                    else:
+                    if pif['VLAN'] != "-1":
                         vlan.append(pif['VLAN'])
+                    if pif['physical']:
+                        list_ref.append([pif_key, "NIC %s" % pif['device'][-1:]])
         return int(max(vlan))+1
+
     def delete_network(self, ref_network, ref_vm):
         print self.all_network[ref_network]
         for ref_pif in self.all_network[ref_network]['PIFs']:
