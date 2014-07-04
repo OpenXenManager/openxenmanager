@@ -1513,13 +1513,13 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if days:
             string += "%02d days " % days
         else:
-            string += "00 days"
+            string += "00 days "
         if hours:
             string += "%02d hours " % hours
         else:
-            string += "00 hours"
+            string += "00 hours "
         if minutes:
-            string += "%02d minutes " % minutes
+            string += "%02d minutes" % minutes
         else:
             string += "00 minutes"
         return string
