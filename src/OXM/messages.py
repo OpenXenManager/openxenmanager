@@ -24,7 +24,8 @@ messages = {}
 messages_header = {}
 messages_header['PBD_PLUG_FAILED_ON_SERVER_START'] = "Failed to attach storage on server boot"
 messages['PBD_PLUG_FAILED_ON_SERVER_START'] = "\
-A storage repository could not be attached when server '%s' started.\n \
+A storage repository could not be attached when \n \
+server '%s' started.\n \
 You may be able to fix this using the 'Repair Storage'\n \
 option in the Storage menu."
 messages_header['HOST_SYNC_DATA_FAILED'] = "XenServer statistics synchronization failed"
