@@ -19,19 +19,19 @@ Running OpenXenManager
 To launch OpenXenManager simply run the "openxenmanager" script.
 
 Requirements:
-* Python 2.4
+* Python 2.7
 * pyGTK 2.16
 * GTK-VNC (Linux only)
 
-OpenXenManager runs on Windows or Linux. Mac is not officially supported,
-though you may be able to get it to work.
+OpenXenManager runs has been tested to run on Linux or Windows and should work
+on MacOSX as well.
 
 
 Help / bug reports
 ==================
 
 If you have found a bug, please file a detailed report in our bug tracker:
-  http://sourceforge.net/tracker/?group_id=327385&atid=1374139
+  https://github.com/OpenXenManager/openxenmanager/issues
 
 For help you can:
 
@@ -41,8 +41,5 @@ For help you can:
 * Send an email in the mailing list:
   https://lists.sourceforge.net/lists/listinfo/openxenmanager-users
 
-* Or drop in to our IRC channel:
-  #openxenmanager on irc.freenode.net
-
-
- - Cheng Sun <chengsun9@gmail.com>
+ - Updated by: Daniel Lintott <daniel@serverb.co.uk>
+ - Original Author: Cheng Sun <chengsun9@gmail.com>
