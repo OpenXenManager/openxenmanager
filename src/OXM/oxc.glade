@@ -18545,7 +18545,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -18562,7 +18562,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18582,7 +18582,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18601,7 +18601,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18719,7 +18719,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -18759,7 +18759,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -18913,7 +18913,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -18930,7 +18930,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18950,7 +18950,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18969,7 +18969,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -18989,7 +18989,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19009,7 +19009,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19029,7 +19029,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19186,7 +19186,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -19203,7 +19203,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19287,7 +19287,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -19440,7 +19440,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -19457,7 +19457,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19477,7 +19477,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19496,7 +19496,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19608,7 +19608,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -19625,7 +19625,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19645,7 +19645,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -19746,7 +19746,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -19776,7 +19776,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20309,7 +20309,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -20340,7 +20340,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20376,7 +20376,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20396,7 +20396,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20415,7 +20415,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20434,7 +20434,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20454,7 +20454,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20474,7 +20474,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20618,7 +20618,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -20636,7 +20636,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20658,7 +20658,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20757,7 +20757,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -20777,7 +20777,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20947,7 +20947,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -20964,7 +20964,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -20984,7 +20984,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21004,7 +21004,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21024,7 +21024,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21044,7 +21044,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21065,7 +21065,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21086,7 +21086,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21108,7 +21108,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21293,7 +21293,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -21308,7 +21308,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21389,7 +21389,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -21405,7 +21405,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21423,7 +21423,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21518,7 +21518,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -21534,7 +21534,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21553,7 +21553,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21648,7 +21648,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -21664,7 +21664,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21683,7 +21683,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21702,7 +21702,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             <packing>
@@ -21814,7 +21814,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -21876,7 +21876,7 @@ Check your settings and try again.</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
-                                                            <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                            <attribute name="foreground" value="darkblue"/>
                                                             </attributes>
                                                             </object>
                                                             </child>
@@ -22800,7 +22800,7 @@ XenServer Tools needs to be installed.</property>
                                                         <attributes>
                                                           <attribute name="weight" value="bold"/>
                                                           <attribute name="stretch" value="ultra-condensed"/>
-                                                          <attribute name="foreground" value="#0e0e0e0e4040"/>
+                                                          <attribute name="foreground" value="darkblue"/>
                                                         </attributes>
                                                       </object>
                                                       <packing>
