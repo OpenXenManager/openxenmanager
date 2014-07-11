@@ -1062,7 +1062,7 @@ Daniel Lintott</property>
                     <property name="label" translatable="yes">The password you typed was incorrect</property>
                     <attributes>
                       <attribute name="size" value="8500"/>
-                      <attribute name="foreground" value="#ffff00000000"/>
+                      <attribute name="foreground" value="red"/>
                     </attributes>
                   </object>
                   <packing>
@@ -1627,7 +1627,7 @@ Are you sure you want to detach this storage repository?</property>
                     <attributes>
                       <attribute name="style" value="normal"/>
                       <attribute name="size" value="7800"/>
-                      <attribute name="foreground" value="#5eb352d952d9"/>
+                      <attribute name="foreground" value="darkgrey"/>
                     </attributes>
                   </object>
                   <packing>
@@ -1705,7 +1705,7 @@ Quality of Server (QoS)</property>
                     <attributes>
                       <attribute name="style" value="normal"/>
                       <attribute name="size" value="7800"/>
-                      <attribute name="foreground" value="#5eb352d952d9"/>
+                      <attribute name="foreground" value="darkgrey"/>
                     </attributes>
                   </object>
                   <packing>
@@ -2435,7 +2435,7 @@ Are you sure you want to continue?</property>
                     <attributes>
                       <attribute name="style" value="normal"/>
                       <attribute name="size" value="7800"/>
-                      <attribute name="foreground" value="#5eb352d952d9"/>
+                      <attribute name="foreground" value="darkgrey"/>
                     </attributes>
                   </object>
                   <packing>
@@ -2513,7 +2513,7 @@ Quality of Server (QoS)</property>
                     <attributes>
                       <attribute name="style" value="normal"/>
                       <attribute name="size" value="7800"/>
-                      <attribute name="foreground" value="#5eb352d952d9"/>
+                      <attribute name="foreground" value="darkgrey"/>
                     </attributes>
                   </object>
                   <packing>
@@ -4832,7 +4832,7 @@ XenServer will always attempt to use the resources of the home if it can.</prope
                                                             </child>
                                                             <child>
                                                             <object class="GtkCellRendererText" id="cellrenderertext74">
-                                                            <property name="foreground_gdk">#842184218421</property>
+                                                            <property name="foreground_gdk">lightgrey</property>
                                                             <property name="size">8000</property>
                                                             </object>
                                                             <attributes>
@@ -5513,7 +5513,7 @@ XenServer will always attempt to use the resources of the home if it can.</prope
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">The selected device position is currently in use or is invalid.</property>
                                                 <attributes>
-                                                  <attribute name="foreground" value="#ffff00000000"/>
+                                                  <attribute name="foreground" value="red"/>
                                                 </attributes>
                                               </object>
                                               <packing>
@@ -8582,7 +8582,7 @@ and transition it into maintenance mode.</property>
                                 </child>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext90">
-                                    <property name="foreground_gdk">#c76000000000</property>
+                                    <property name="foreground_gdk">red</property>
                                   </object>
                                   <attributes>
                                     <attribute name="text">2</attribute>
@@ -8748,7 +8748,7 @@ and transition it into maintenance mode.</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">The password you typed was incorrect.</property>
                 <attributes>
-                  <attribute name="foreground" value="#ffff00000000"/>
+                  <attribute name="foreground" value="red"/>
                 </attributes>
               </object>
               <packing>
@@ -9455,7 +9455,7 @@ and transition it into maintenance mode.</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                   <attribute name="size" value="12000"/>
-                                  <attribute name="foreground" value="#ffffffffffff"/>
+                                  <attribute name="foreground" value="white"/>
                                 </attributes>
                               </object>
                               <packing>
@@ -10883,7 +10883,7 @@ This can be used as a private connection between VMs.</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">The specified VLAN tag is already in use!</property>
                 <attributes>
-                  <attribute name="foreground" value="#ffff00000000"/>
+                  <attribute name="foreground" value="red"/>
                 </attributes>
               </object>
               <packing>
@@ -11040,7 +11040,7 @@ creating new VMs using the New VM Wizard </property>
                     </child>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext86">
-                        <property name="foreground_gdk">#a94aa94aa94a</property>
+                        <property name="foreground_gdk">lightgrey</property>
                       </object>
                       <attributes>
                         <attribute name="sensitive">4</attribute>
@@ -15392,7 +15392,7 @@ a more detailed error message.</property>
                             </child>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext56">
-                                <property name="foreground_gdk">#525250505050</property>
+                                <property name="foreground_gdk">darkgrey</property>
                                 <property name="scale">0.90000000000000002</property>
                               </object>
                               <attributes>
@@ -16133,7 +16133,7 @@ available server will be used</property>
                                                             </child>
                                                             <child>
                                                             <object class="GtkCellRendererText" id="cellrenderertext81">
-                                                            <property name="foreground_gdk">#98da9ad091ff</property>
+                                                            <property name="foreground_gdk">grey</property>
                                                             </object>
                                                             <attributes>
                                                             <attribute name="text">3</attribute>
@@ -26106,7 +26106,7 @@ your server or Resource Pool with virtual machines</property>
                                             <property name="label" translatable="yes">Template details</property>
                                             <attributes>
                                               <attribute name="weight" value="ultrabold"/>
-                                              <attribute name="foreground" value="#00000000ffff"/>
+                                              <attribute name="foreground" value="blue"/>
                                             </attributes>
                                           </object>
                                         </child>
@@ -27405,7 +27405,7 @@ This process may take several minutes.</property>
                 <property name="label" translatable="yes">System alerts: 0</property>
                 <attributes>
                   <attribute name="weight" value="heavy"/>
-                  <attribute name="foreground" value="#ffff00000000"/>
+                  <attribute name="foreground" value="red"/>
                 </attributes>
               </object>
               <packing>
@@ -27639,7 +27639,7 @@ This process may take several minutes.</property>
                                     </child>
                                     <child>
                                       <object class="GtkCellRendererText" id="cellrenderertext67">
-                                        <property name="foreground_gdk">#98da9ad091ff</property>
+                                        <property name="foreground_gdk">grey</property>
                                       </object>
                                       <attributes>
                                         <attribute name="text">3</attribute>
@@ -27668,7 +27668,7 @@ This process may take several minutes.</property>
                 <property name="use_markup">True</property>
                 <attributes>
                   <attribute name="style" value="normal"/>
-                  <attribute name="foreground" value="#24cc7d50cf41"/>
+                  <attribute name="foreground" value="blue"/>
                 </attributes>
               </object>
             </child>
