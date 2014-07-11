@@ -1449,7 +1449,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 else:
                     state = "<b>Tools not installed</b>"    
                 labels["lblvmvirtstate"] = state
-                if "name" in guest_metrics["os_version"]:
+                if "os_version" in guest_metrics and "name" in guest_metrics["os_version"]:
                     labels["lblvmdistro"] = guest_metrics["os_version"]["name"]
             else:
                 state = "<span foreground='red'><b>Tools not installed</b></span>"
