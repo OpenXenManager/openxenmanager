@@ -355,36 +355,44 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         self.all_vms[ref]['allowed_operations'] = actions
         return actions
 
-    def fill_vm_network(self, ref, tree, list):
-        #self.filter_ref = ref
-        #vm_vifs = filter(self.filter_vif_ref, self.all_vif.values())
-        list.clear()
+    def fill_vm_network(self, ref, tree, list1):
+        list1.clear()
         if ref in self.all_vms:
             guest_metrics = self.all_vms[ref]['guest_metrics']
 
             for vif_ref in self.all_vms[ref]['VIFs']:
                 vif = self.all_vif[vif_ref]
+
+                # QOS Parameters
                 if "kbps" in vif['qos_algorithm_params']:
-                    limit =  vif['qos_algorithm_params']['kbps']
+                    limit = vif['qos_algorithm_params']['kbps']
                 else:
                     limit = ""
-                ip = ""
-                if guest_metrics in self.all_vm_guest_metrics and vif['device'] + "/ip" in self.all_vm_guest_metrics[guest_metrics]['networks']:
-                    ip = self.all_vm_guest_metrics[guest_metrics]['networks'][vif['device'] + "/ip"]
 
+                # IP Addresses
+                if guest_metrics in self.all_vm_guest_metrics and \
+                        len(self.all_vm_guest_metrics[guest_metrics]['networks']) > 0:
+                    net_addrs = self.all_vm_guest_metrics[guest_metrics]['networks']
+                    addresses = []
+                    for key in net_addrs:
+                        if key == vif['device'] + "/ip":
+                            addresses.append(net_addrs[key])
+                        elif not str(net_addrs[key]).startswith('fe80'):
+                            addresses.append(net_addrs[key])
                 else:
-                    ip = ""
-                #FIXME
+                    addresses = []
+
+                #FIXME - Fix what?
+                # Network name
                 if vif['network'] in self.all_network:
-                    network =  self.all_network[vif['network']]['name_label'].replace('Pool-wide network associated with eth','Network ')
+                    network = self.all_network[vif['network']]['name_label'].\
+                        replace('Pool-wide network associated with eth', 'Network ')
                 else:
                     network = ""
-                list.append((vif['device'], \
-                        vif['MAC'], \
-                        limit, \
-                        network, \
-                        ip, \
-                        str(vif['currently_attached']), vif_ref))
+
+                list1.append((vif['device'], vif['MAC'], limit, network,
+                             '\n'.join(addresses),
+                             str(vif['currently_attached']), vif_ref))
         else:
             print "VM not found %s" % ref 
 
