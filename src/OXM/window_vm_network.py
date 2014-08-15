@@ -29,7 +29,7 @@ class oxcWindowVMNetwork:
     """
     def on_acceptdialognetworkrestart_clicked(self, widget, data=None):
         """
-        Function called when you accept "changes will take efect when you next restart the VM.." dialog
+        Function called when you accept "changes will take effect when you next restart the VM.." dialog
         """
         self.builder.get_object("dialognetworkrestart").hide()
 

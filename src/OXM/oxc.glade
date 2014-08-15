@@ -2913,7 +2913,7 @@ Quality of Server (QoS)</property>
           <object class="GtkLabel" id="label264">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">The virtual network device changes will take efect when you next restart the VM.</property>
+            <property name="label" translatable="yes">The virtual network device changes will take effect when you next restart the VM.</property>
           </object>
           <packing>
             <property name="expand">True</property>
