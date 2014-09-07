@@ -179,11 +179,18 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         else:
             self.config_hosts = {}
         # Define the glade file
-        self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
+        glade_dir = os.path.join(utils.module_path(), 'ui')
+        glade_files = []
+        for g_file in os.listdir(glade_dir):
+            if g_file.endswith('.glade'):
+                glade_files.append(os.path.join(glade_dir, g_file))
+
+        #self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
-        # Add the file to gtk.Builder object
-        self.builder.add_from_file(self.gladefile)
+        # Add the glade files to gtk.Builder object
+        for g_file in glade_files:
+            self.builder.add_from_file(g_file)
 
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button
