@@ -3,440 +3,6 @@
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkAccelGroup" id="accelgroup1"/>
-  <object class="GtkMenu" id="context_menu_vm">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkMenuItem" id="m_start">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Start</property>
-        <signal name="activate" handler="on_m_start_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_repair_storage">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Repair Storage</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_m_repair_storage_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_connect">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Connect</property>
-        <signal name="activate" handler="on_m_connect_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_disconnect">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Disconnect</property>
-        <signal name="activate" handler="on_m_disconnect_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_forgetpw">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Forget Saved Password</property>
-        <signal name="activate" handler="on_m_forget_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_remove">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Remove</property>
-        <signal name="activate" handler="on_m_remove_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_resume">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Resume</property>
-        <signal name="activate" handler="on_m_resume_activate" swapped="no"/>
-        <signal name="activate" handler="on_m_unpause_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_start_on">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Start On..</property>
-        <signal name="activate" handler="on_m_start_on_activate" swapped="no"/>
-        <child type="submenu">
-          <object class="GtkMenu" id="menu_start_on">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="startonhome">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Home Server</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSeparatorMenuItem" id="separatormenuitem18">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_resume_on">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Resume On..</property>
-        <signal name="activate" handler="on_m_resume_on_activate" swapped="no"/>
-        <child type="submenu">
-          <object class="GtkMenu" id="menu_resume_on">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="resumeonhome">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Home Server</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSeparatorMenuItem" id="separatormenuitem19">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_newvm">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">New VM</property>
-        <signal name="activate" handler="on_m_newvm_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_importvm">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Import VM</property>
-        <signal name="activate" handler="on_m_importvm_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_newstorage">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">New Storage Repository</property>
-        <signal name="activate" handler="on_menuitem_stg_new_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_add_to_pool">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Add To Pool</property>
-        <signal name="activate" handler="on_m_add_to_pool_activate" swapped="no"/>
-        <child type="submenu">
-          <object class="GtkMenu" id="menu_add_to_pool">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="menuitem9">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Pools</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSeparatorMenuItem" id="separatormenuitem25">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_addserver">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Add Server</property>
-        <signal name="activate" handler="on_m_addserver_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_clean_shutdown">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Shutdown</property>
-        <signal name="activate" handler="on_m_clean_shutdown_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_suspend">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Suspend</property>
-        <signal name="activate" handler="on_m_suspend_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_pause">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Pause</property>
-        <signal name="activate" handler="on_m_pause_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_unsuspend">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Unsuspend</property>
-        <signal name="activate" handler="on_m_unsuspend_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_unpause">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Resume</property>
-        <signal name="activate" handler="on_m_unpause_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_clean_reboot">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Reboot</property>
-        <signal name="activate" handler="on_m_clean_reboot_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_snapshot">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Snapshot</property>
-        <signal name="activate" handler="on_m_snapshot_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="separator2">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="installxenservertools">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Install XenServer Tools</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_installxenservertools_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="separator1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_pool_add_server">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Add Server</property>
-        <signal name="activate" handler="on_m_pool_add_server_activate" swapped="no"/>
-        <child type="submenu">
-          <object class="GtkMenu" id="menu_m_add_server">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="menuitem12">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Servers</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSeparatorMenuItem" id="separatormenuitem26">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_hard_shutdown">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Force Shutdown</property>
-        <signal name="activate" handler="on_m_hard_shutdown_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_hard_reboot">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Force reboot</property>
-        <signal name="activate" handler="on_m_hard_reboot_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_unplug">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Detach Storage</property>
-        <signal name="activate" handler="on_m_unplug_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_plug">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Reattach Storage</property>
-        <signal name="activate" handler="on_m_reattach_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_forget">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Forget Storage</property>
-        <signal name="activate" handler="on_m_forget_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_copy">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Copy</property>
-        <signal name="activate" handler="on_m_copy_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_export">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Export</property>
-        <signal name="activate" handler="on_m_export_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_make_into_template">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Convert to template</property>
-        <signal name="activate" handler="on_m_make_into_template_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_destroy">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Delete</property>
-        <signal name="activate" handler="on_m_destroy_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="delete">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Delete</property>
-        <signal name="activate" handler="on_menuitem_delete_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_connectall">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Connect All</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_menuitem_connectall_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_disconnectall">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Disconnect All</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_menuitem_disconnectall_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem5">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="expandall">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Expand All</property>
-        <signal name="activate" handler="on_expandall_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="collapsechildren">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Collapse Children</property>
-        <signal name="activate" handler="on_collapsechildren_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="properties">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Properties</property>
-        <signal name="activate" handler="on_properties_activate" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="m_pool_migrate">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Migrate to Server</property>
-        <signal name="activate" handler="on_m_pool_migrate_activate" swapped="no"/>
-        <child type="submenu">
-          <object class="GtkMenu" id="menu_pool_migrate">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkMenuItem" id="migrateonhome">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Home Server</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkSeparatorMenuItem" id="separatormenuitem23">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkImage" id="image10">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -636,6 +202,515 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">../images/menu/server_go.png</property>
+  </object>
+  <object class="GtkImage" id="image41">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-media-play</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image42">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-clear</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image43">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-home</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image44">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-home</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image45">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-new</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image46">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-add</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image47">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-stop</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image48">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-cdrom</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image49">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-convert</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkMenu" id="context_menu_vm">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImageMenuItem" id="m_start">
+        <property name="label" translatable="yes">Start</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image41</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_start_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_repair_storage">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Repair Storage</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_m_repair_storage_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_connect">
+        <property name="label">gtk-connect</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_m_connect_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_disconnect">
+        <property name="label">gtk-disconnect</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_m_disconnect_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_forgetpw">
+        <property name="label" translatable="yes">Forget Saved Password</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image42</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_forget_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_remove">
+        <property name="label">gtk-remove</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_m_remove_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_resume">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Resume</property>
+        <signal name="activate" handler="on_m_resume_activate" swapped="no"/>
+        <signal name="activate" handler="on_m_unpause_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_start_on">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Start On..</property>
+        <signal name="activate" handler="on_m_start_on_activate" swapped="no"/>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu_start_on">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImageMenuItem" id="startonhome">
+                <property name="label" translatable="yes">Home Server</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="image">image43</property>
+                <property name="use_stock">False</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem18">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_resume_on">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Resume On..</property>
+        <signal name="activate" handler="on_m_resume_on_activate" swapped="no"/>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu_resume_on">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImageMenuItem" id="resumeonhome">
+                <property name="label" translatable="yes">Home Server</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="image">image44</property>
+                <property name="use_stock">False</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem19">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_newvm">
+        <property name="label" translatable="yes">New VM</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image45</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_newvm_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_importvm">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Import VM</property>
+        <signal name="activate" handler="on_m_importvm_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_newstorage">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">New Storage Repository</property>
+        <signal name="activate" handler="on_menuitem_stg_new_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_add_to_pool">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Add To Pool</property>
+        <signal name="activate" handler="on_m_add_to_pool_activate" swapped="no"/>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu_add_to_pool">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkMenuItem" id="menuitem9">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Pools</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem25">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_addserver">
+        <property name="label" translatable="yes">Add Server</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image46</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_addserver_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_clean_shutdown">
+        <property name="label" translatable="yes">Shutdown</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image47</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_clean_shutdown_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_suspend">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Suspend</property>
+        <signal name="activate" handler="on_m_suspend_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_pause">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Pause</property>
+        <signal name="activate" handler="on_m_pause_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_unsuspend">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Unsuspend</property>
+        <signal name="activate" handler="on_m_unsuspend_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_unpause">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Resume</property>
+        <signal name="activate" handler="on_m_unpause_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_clean_reboot">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Reboot</property>
+        <signal name="activate" handler="on_m_clean_reboot_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_snapshot">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Snapshot</property>
+        <signal name="activate" handler="on_m_snapshot_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separator2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="installxenservertools">
+        <property name="label" translatable="yes">Install XenServer Tools</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image48</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_installxenservertools_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separator1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_pool_add_server">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Add Server</property>
+        <signal name="activate" handler="on_m_pool_add_server_activate" swapped="no"/>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu_m_add_server">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkMenuItem" id="menuitem12">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Servers</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem26">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_hard_shutdown">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Force Shutdown</property>
+        <signal name="activate" handler="on_m_hard_shutdown_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_hard_reboot">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Force reboot</property>
+        <signal name="activate" handler="on_m_hard_reboot_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_unplug">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Detach Storage</property>
+        <signal name="activate" handler="on_m_unplug_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_plug">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Reattach Storage</property>
+        <signal name="activate" handler="on_m_reattach_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_forget">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Forget Storage</property>
+        <signal name="activate" handler="on_m_forget_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_copy">
+        <property name="label">gtk-copy</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_stock">True</property>
+        <signal name="activate" handler="on_m_copy_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_export">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Export</property>
+        <signal name="activate" handler="on_m_export_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="m_make_into_template">
+        <property name="label" translatable="yes">Convert to template</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="image">image49</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_m_make_into_template_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_destroy">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Delete</property>
+        <signal name="activate" handler="on_m_destroy_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="delete">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Delete</property>
+        <signal name="activate" handler="on_menuitem_delete_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_connectall">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Connect All</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_menuitem_connectall_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_disconnectall">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Disconnect All</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_menuitem_disconnectall_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="menuitem5">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="expandall">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Expand All</property>
+        <signal name="activate" handler="on_expandall_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="collapsechildren">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Collapse Children</property>
+        <signal name="activate" handler="on_collapsechildren_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="properties">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Properties</property>
+        <signal name="activate" handler="on_properties_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="m_pool_migrate">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Migrate to Server</property>
+        <signal name="activate" handler="on_m_pool_migrate_activate" swapped="no"/>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu_pool_migrate">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkMenuItem" id="migrateonhome">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Home Server</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem23">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
