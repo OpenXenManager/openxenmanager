@@ -18,6 +18,7 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
+import time
 """
 Contains the LineChart widget.
 
@@ -178,6 +179,11 @@ class RangeCalculator:
     def get_ranges(self, xaxis, yaxis):
         xrange = self._xrange
         if xrange == RANGE_AUTO:
+            #waiting for data
+            tries=50
+            while self._data_xrange is None and tries:
+                time.sleep(0.1)
+                tries-=1
             xrange = self._data_xrange
             if xrange[0] == xrange[1]:
                 xrange = (xrange[0], xrange[0] + 0.1)
@@ -201,12 +207,20 @@ class RangeCalculator:
 
     def set_yrange(self, yrange):
         self._yrange = yrange
+        
+        
+    def _calc_yscale(self, yrange):
+        #prevent division by zero
+        yscale = (yrange[1] - yrange[0])
+        if yscale == 0.0:
+            yscale=1.0
+        return yscale
 
     def get_absolute_zero(self, rect, xaxis, yaxis):
         xrange, yrange = self.get_ranges(xaxis, yaxis)
-
+        yscale=self._calc_yscale(yrange)
         xfactor = float(rect.width * (1 - 2 * GRAPH_PADDING)) / (xrange[1] - xrange[0])
-        yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / (yrange[1] - yrange[0])
+        yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / yscale
         zx = (rect.width * GRAPH_PADDING) - xrange[0] * xfactor
         zy = rect.height - ((rect.height * GRAPH_PADDING) - yrange[0] * yfactor)
 
@@ -215,9 +229,9 @@ class RangeCalculator:
     def get_absolute_point(self, rect, x, y, xaxis, yaxis):
         (zx, zy) = self.get_absolute_zero(rect, xaxis, yaxis)
         xrange, yrange = self.get_ranges(xaxis, yaxis)
-
+        yscale=self._calc_yscale(yrange)
         xfactor = float(rect.width * (1 - 2 * GRAPH_PADDING)) / (xrange[1] - xrange[0])
-        yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / (yrange[1] - yrange[0])
+        yfactor = float(rect.height * (1 - 2 * GRAPH_PADDING)) / yscale
 
         ax = zx + x * xfactor
         ay = zy - y * yfactor
@@ -263,7 +277,11 @@ class RangeCalculator:
         (zx, zy) = self.get_absolute_zero(rect, xaxis, yaxis)
         (xrange, yrange) = self.get_ranges(xaxis, yaxis)
         delta = yrange[1] - yrange[0]
-        exp = int(math.log10(delta)) - 1
+        #wa for log of zero
+        if delta==0:
+            exp=-99.0
+        else:
+            exp = int(math.log10(delta)) - 1
 
         first_n = int(yrange[0] / (10 ** exp))
         last_n = int(yrange[1] / (10 ** exp))
