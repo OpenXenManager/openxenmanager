@@ -1414,7 +1414,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             if event.button == 3:
                 # On right click..
                 # Show the menu
-                menu_vm = self.builder.get_object("menu_vm")
+                menu_vm = self.builder.get_object("context_menu_vm")
                 collapsed = False
                 expanded = False
                 can_expand_or_collapse = False
