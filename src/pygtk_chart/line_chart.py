@@ -179,14 +179,14 @@ class RangeCalculator:
         xrange = self._xrange
         if xrange == RANGE_AUTO:
             xrange = self._data_xrange
-            if xrange[0] == xrange[1]:
-                xrange = (xrange[0], xrange[0] + 0.1)
+        if xrange[0] == xrange[1]:
+            xrange = (xrange[0], xrange[0] + 0.1)
 
         yrange = self._yrange
         if yrange == RANGE_AUTO:
             yrange = self._data_yrange
-            if yrange[0] == yrange[1]:
-                yrange = (yrange[0], yrange[0] + 0.1)
+        if yrange[0] == yrange[1]:
+            yrange = (yrange[0], yrange[0] + 0.1)
                 
                 
         if xaxis.get_logarithmic():
