@@ -185,7 +185,6 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             if g_file.endswith('.glade'):
                 glade_files.append(os.path.join(glade_dir, g_file))
 
-        #self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
         # Add the glade files to gtk.Builder object
