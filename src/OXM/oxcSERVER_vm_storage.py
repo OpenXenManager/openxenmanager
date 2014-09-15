@@ -45,47 +45,47 @@ class oxcSERVERvmstorage:
                 self.track_tasks[res['Value']] = vm
 
     def add_disk_to_vm(self, name, description, sr, virtual_size, vmuuid, vm_ref):
-       vdi_cfg = {
-            'name_label': name,
-            'name_description': description, 
-            'SR': sr,
-            'virtual_size': str(virtual_size),
-            'type': "user",
-            'sharable': False,
-            'read_only': False,
-            'other_config': {},
-            'xenstore_data': {},
-            'smconfig': {"vmhint" : vmuuid }
-       }
-       vdi = self.connection.VDI.create(self.session_uuid, vdi_cfg)
-       if vm_ref:
-           userdevice = self.connection.VM.get_allowed_VBD_devices(self.session_uuid, vm_ref)['Value'][0]
-           vbd_cfg = {
-                'VM': vm_ref, 
-                'VDI': vdi['Value'],
-                'userdevice': userdevice,
-                'bootable': False,
-                'mode': "RW",
-                'type': "Disk",
-                'unplugabble': "0",
-                'storage_lock': "0",
-                'empty': False,
-                'currently_attached': "0",
-                'status_code': "0",
-                'other_config': {},
-                'qos_algorithm_type': "",
-                'qos_algorithm_params': {}
-           }
-           res = self.connection.VBD.create(self.session_uuid, vbd_cfg)
-           if "Value" in res:
-                self.track_tasks[res['Value']] = vm_ref 
-           else:
-                print res
-           res = self.connection.Async.VBD.plug(self.session_uuid, res['Value'])
-           if "Value" in res:
-                self.track_tasks[res['Value']] = vm_ref 
-           else:
-                print res  
+        vdi_cfg = {
+             'name_label': name,
+             'name_description': description, 
+             'SR': sr,
+             'virtual_size': str(virtual_size),
+             'type': "user",
+             'sharable': False,
+             'read_only': False,
+             'other_config': {},
+             'xenstore_data': {},
+             'smconfig': {"vmhint" : vmuuid }
+        }
+        vdi = self.connection.VDI.create(self.session_uuid, vdi_cfg)
+        if vm_ref:
+            userdevice = self.connection.VM.get_allowed_VBD_devices(self.session_uuid, vm_ref)['Value'][0]
+            vbd_cfg = {
+                 'VM': vm_ref, 
+                 'VDI': vdi['Value'],
+                 'userdevice': userdevice,
+                 'bootable': False,
+                 'mode': "RW",
+                 'type': "Disk",
+                 'unplugabble': "0",
+                 'storage_lock': "0",
+                 'empty': False,
+                 'currently_attached': "0",
+                 'status_code': "0",
+                 'other_config': {},
+                 'qos_algorithm_type': "",
+                 'qos_algorithm_params': {}
+            }
+            res = self.connection.VBD.create(self.session_uuid, vbd_cfg)
+            if "Value" in res:
+                 self.track_tasks[res['Value']] = vm_ref 
+            else:
+                 print res
+            res = self.connection.Async.VBD.plug(self.session_uuid, res['Value'])
+            if "Value" in res:
+                 self.track_tasks[res['Value']] = vm_ref 
+            else:
+                 print res  
     def fill_vm_storageattach(self, list):
         list.clear() 
         refattachdisk = {}                                
