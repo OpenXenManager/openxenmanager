@@ -263,7 +263,7 @@ class oxcWindowVMStorage:
         # Add new disk with the selected options (size, name, description..)
         self.xc_servers[self.selected_host].add_disk_to_vm(
             name, description, sr, virtual_size, self.selected_uuid,
-            self.selected_ref)
+            self.selected_ref if self.selected_type=='vm' else None)
         self.builder.get_object("vmaddnewdisk").hide()
 
 
