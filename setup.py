@@ -100,7 +100,7 @@ else:  # Not Windows
         author='Daniel Lintott',
         author_email='daniel@serverb.co.uk',
         description='Opensource XenServer/XCP Management GUI',
-        requires=['configobj'],
+        requires=['configobj', 'pygtk'],
         scripts=['openxenmanager'],
         package_data={'OXM': ['oxc.glade',
                               'oxc.conf',
