@@ -74,7 +74,8 @@ if sys.platform.startswith('win'):  # Windows
                   ('', glob('src\OXM\oxc.conf')),
                   ('images', glob(r'src\OXM\images\*')),
                   ('images_map', glob(r'src\OXM\images_map\*')),
-                  ('', glob('vncviewer.exe'))]  # TODO: Don't ship vncviewer with oxm... install it, and use that!
+                  ('', glob('vncviewer.exe')),  # TODO: Don't ship vncviewer with oxm... install it, and use that!
+                  ('data', glob('src\pygtk_chart\data\tango.color'))]
     data_files += generate_data_files(GTK_RUNTIME_DIR, GTK_THEME_DEFAULT)
     data_files += generate_data_files(GTK_RUNTIME_DIR, GTK_THEME_WINDOWS)
     data_files += generate_data_files(GTK_RUNTIME_DIR, GTK_WIMP_DIR)
@@ -105,8 +106,8 @@ else:  # Not Windows
         package_data={'OXM': ['oxc.glade',
                               'oxc.conf',
                               'images/*',
-                              'images_map/*']
-                      },
+                              'images_map/*'],
+                      'pygtk_chart': ['data/tango.color']},
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: X11 Applications :: GTK',
