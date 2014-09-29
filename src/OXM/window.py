@@ -54,12 +54,8 @@ import atexit
 from PixbufTextCellRenderer import PixbufTextCellRenderer
 import gettext
 gettext.install('oxc', localedir="./locale")
-if sys.platform != "win32":
-    # On unix is recommended run threads from gtk.gdk
-    gtk.gdk.threads_init()
-else:
-    # On windows is needed run gobject threads
-    gobject.threads_init()
+
+gobject.threads_init()
 
 # Import the split classes for oxcWindow
 from window_vm import *
