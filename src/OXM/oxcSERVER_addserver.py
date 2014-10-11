@@ -50,11 +50,11 @@ class oxcSERVERaddserver(gobject.GObject):
         self.connection = xmlrpclib.Server(self.url)
         self.connection_events = xmlrpclib.Server(self.url)
         try:
-            self.session = self.connection.session.login_with_password(self.user, self.password) 
+            self.session = self.connection.session.login_with_password(self.user, self.password)
             if self.session['Status']  == "Success":
                 self.is_connected = True
                 self.session_uuid = self.session['Value']
-                self.session_events = self.connection_events.session.login_with_password(self.user, self.password) 
+                self.session_events = self.connection_events.session.login_with_password(self.user, self.password)
                 self.session_events_uuid = self.session_events['Value']
                 self.connection_events.event.register(self.session_events_uuid, ["*"])
                 # tell the controller that we've finished
@@ -63,7 +63,7 @@ class oxcSERVERaddserver(gobject.GObject):
                 self.emit("connect-failure", self.session['ErrorDescription'][2])
         except:
             self.emit("connect-failure", sys.exc_info()[1])
-        
+
     def thread_event_next(self):
         Thread(target=self.event_next, args=()).start()
         return True
@@ -80,7 +80,7 @@ class oxcSERVERaddserver(gobject.GObject):
         for ref in rkeys:
             message = self.all_messages[relacion[ref]]
             self.add_alert(message, relacion[ref], list)
-    
+
     def sync(self):
         try:
             # Get all vm records
@@ -92,20 +92,20 @@ class oxcSERVERaddserver(gobject.GObject):
                     error = "The host server \"%s\" is a slave in a pool; please connect to the master server at \"%s\"." % (self.host, result["ErrorDescription"][1])
                 else:
                     error = "Unknown error:\n%s" % str(result["ErrorDescription"])
-                self.emit("sync-failure", self, error)
+                self.emit("sync-failure", error)
                 return
-            
+
             self.all_vms = result.get('Value')
 
             self.emit("sync-progress", "Retrieving hosts")
             self.all_hosts = self.connection.host.get_all_records(self.session_uuid).get('Value')
-            
+
             # DEBUG
             for ref in self.all_hosts:
                 print "Server version is %s" % (["%s" % (self.all_hosts[ref]['software_version'].get(x))
                                                  for x in ('product_brand', 'product_version', 'xapi')] +
                                                 [self.all_hosts[ref]['license_params'].get('sku_marketing_name')])
-            
+
             self.emit("sync-progress", "Retrieving pools")
             self.all_pools = self.connection.pool.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving SRs")
@@ -115,14 +115,14 @@ class oxcSERVERaddserver(gobject.GObject):
             self.all_tasks = self.connection.task.get_all_records(self.session_uuid).get('Value')
             for task in self.all_tasks.keys():
                 self.tasks[task] = self.all_tasks[task]
-            
+
             self.emit("sync-progress", "Retrieving VBDs")
             self.all_vbd = self.connection.VBD.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving VBD metrics")
             self.all_vbd_metrics = self.connection.VBD_metrics.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving VDIs")
             self.all_vdi = self.connection.VDI.get_all_records(self.session_uuid).get('Value')
-            
+
             self.emit("sync-progress", "Retrieving networks")
             self.all_network = self.connection.network.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving PIFs")
@@ -132,7 +132,7 @@ class oxcSERVERaddserver(gobject.GObject):
 
             self.emit("sync-progress", "Retrieving PBDs")
             self.all_pbd = self.connection.PBD.get_all_records(self.session_uuid).get('Value')
-            
+
             self.emit("sync-progress", "Retrieving VIFs")
             self.all_vif = self.connection.VIF.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving VIF metrics")
@@ -155,7 +155,7 @@ class oxcSERVERaddserver(gobject.GObject):
             self.all_pool_patch = self.connection.pool_patch.get_all_records(self.session_uuid).get('Value')
             self.emit("sync-progress", "Retrieving host patches")
             self.all_host_patch = self.connection.host_patch.get_all_records(self.session_uuid).get('Value')
-            
+
             self.emit("sync-progress", "Retrieving consoles")
             self.all_console = self.connection.console.get_all_records(self.session_uuid).get('Value')
 
