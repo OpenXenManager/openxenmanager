@@ -1230,6 +1230,60 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="listvmnetwork">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name mac -->
+      <column type="gchararray"/>
+      <!-- column-name limit -->
+      <column type="gchararray"/>
+      <!-- column-name network -->
+      <column type="gchararray"/>
+      <!-- column-name ip -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmsnapshots">
+    <columns>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmstorage">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name storagerepository -->
+      <column type="gchararray"/>
+      <!-- column-name deviceposition -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+      <!-- column-name readonly -->
+      <column type="gchararray"/>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name vbdref -->
+      <column type="gchararray"/>
+      <!-- column-name bootable -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1024</property>
     <property name="visible">True</property>
@@ -4173,6 +4227,7 @@ Reboot</property>
                                                           <object class="GtkTreeView" id="treestg">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="model">liststg</property>
                                                             <property name="headers_clickable">False</property>
                                                             <property name="search_column">0</property>
                                                             <signal name="button-press-event" handler="on_treestg_button_press_event" swapped="no"/>
@@ -4310,6 +4365,7 @@ Reboot</property>
                                       <object class="GtkTreeView" id="treesearch">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="model">listsearch</property>
                                         <property name="reorderable">True</property>
                                         <child>
                                           <object class="GtkTreeViewColumn" id="treeviewcolumn58">
@@ -7156,6 +7212,7 @@ XenServer Tools needs to be installed.</property>
                                                       <object class="GtkTreeView" id="treevmstorage">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
+                                                        <property name="model">listvmstorage</property>
                                                         <property name="headers_clickable">False</property>
                                                         <property name="search_column">0</property>
                                                         <signal name="cursor-changed" handler="on_treevmstorage_cursor_changed" swapped="no"/>
@@ -7375,6 +7432,7 @@ XenServer Tools needs to be installed.</property>
                                                           <object class="GtkTreeView" id="treehoststorage">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="model">listhoststorage</property>
                                                             <property name="headers_clickable">False</property>
                                                             <property name="search_column">0</property>
                                                             <child>
@@ -7551,6 +7609,7 @@ XenServer Tools needs to be installed.</property>
                                                   <object class="GtkTreeView" id="treehostnics">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
+                                                    <property name="model">listhostnics</property>
                                                     <property name="headers_clickable">False</property>
                                                     <property name="search_column">0</property>
                                                     <property name="hover_expand">True</property>
@@ -8057,6 +8116,7 @@ XenServer Tools needs to be installed.</property>
                                                       <object class="GtkTreeView" id="treevmnetwork">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
+                                                        <property name="model">listvmnetwork</property>
                                                         <property name="headers_clickable">False</property>
                                                         <property name="search_column">0</property>
                                                         <signal name="cursor-changed" handler="on_treevmnetwork_cursor_changed" swapped="no"/>
@@ -9045,6 +9105,7 @@ at next login.</property>
                                                   <object class="GtkTreeView" id="treevmsnapshots">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
+                                                    <property name="model">listvmsnapshots</property>
                                                     <property name="headers_visible">False</property>
                                                     <property name="headers_clickable">False</property>
                                                     <property name="search_column">0</property>
@@ -9661,60 +9722,6 @@ your server or Resource Pool with virtual machines</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="listvmnetwork">
-    <columns>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name mac -->
-      <column type="gchararray"/>
-      <!-- column-name limit -->
-      <column type="gchararray"/>
-      <!-- column-name network -->
-      <column type="gchararray"/>
-      <!-- column-name ip -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmsnapshots">
-    <columns>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmstorage">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name storagerepository -->
-      <column type="gchararray"/>
-      <!-- column-name deviceposition -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name readonly -->
-      <column type="gchararray"/>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name vbdref -->
-      <column type="gchararray"/>
-      <!-- column-name bootable -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkListStore" id="listvmstoragedvd">
     <columns>
