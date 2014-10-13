@@ -11,11 +11,12 @@ import gobject
 
 PAD = 3
 
+
 class PixbufTextCellRenderer(gtk.GenericCellRenderer):
 
     __gproperties__ = {
         "pixbuf": (gobject.TYPE_PYOBJECT, "Pixbuf", 
-                    "Pixbuf image", gobject.PARAM_READWRITE),
+                   "Pixbuf image", gobject.PARAM_READWRITE),
         "text": (gobject.TYPE_STRING, "Text", "Text string", None,
                  gobject.PARAM_READWRITE),
         'background': (gtk.gdk.Color, 'Background', 'The background color', gobject.PARAM_READWRITE)
@@ -42,7 +43,7 @@ class PixbufTextCellRenderer(gtk.GenericCellRenderer):
     def on_render(self, window, widget, background_area,
                   cell_area, expose_area, flags):
         self.update_properties()
-        ypad = self.get_property('ypad')
+        #ypad = self.get_property('ypad')
         px, py, pw, ph = self.prend.get_size(widget, cell_area)
         px += cell_area.x
         prect = (px, cell_area.y, pw, ph)
@@ -67,25 +68,3 @@ class PixbufTextCellRenderer(gtk.GenericCellRenderer):
         return xoff, yoff, width, height
 
 gobject.type_register(PixbufTextCellRenderer)
-
-if __name__ == "__main__":
-    w = gtk.Window()
-    ls = gtk.ListStore(str, object)
-    tv = gtk.TreeView(ls)
-    pbtcell = PixbufTextCellRenderer()
-    pbtcell.set_property('xpad', 5)
-    pbtcell.set_property('ypad', 3)
-    tvc = gtk.TreeViewColumn('Icons', pbtcell, text=0, pixbuf=1, background=2)
-    tv.append_column(tvc)
-    w.add(tv)
-    ls.append(['Error',
-               gtk.gdk.pixbuf_new_from_file('usagebar_1.png')])
-    ls.append(['Warning',
-               gtk.gdk.pixbuf_new_from_file('usagebar_2.png')])
-    ls.append(['Info',
-               gtk.gdk.pixbuf_new_from_file('usagebar_3.png')])
-    ls.append(['Question',
-               gtk.gdk.pixbuf_new_from_file('usagebar_4.png')])
-    w.show_all()
-    gtk.main()
-
