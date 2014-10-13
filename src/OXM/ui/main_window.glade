@@ -284,6 +284,7 @@
         <property name="label">gtk-connect</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_m_connect_activate" swapped="no"/>
       </object>
@@ -293,6 +294,7 @@
         <property name="label">gtk-disconnect</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_m_disconnect_activate" swapped="no"/>
       </object>
@@ -312,6 +314,7 @@
         <property name="label">gtk-remove</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_m_remove_activate" swapped="no"/>
       </object>
@@ -598,6 +601,7 @@
         <property name="label">gtk-copy</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_m_copy_activate" swapped="no"/>
       </object>
@@ -7769,6 +7773,7 @@ XenServer Tools needs to be installed.</property>
                                                           <object class="GtkTreeView" id="treehostnetwork">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="model">listhostnetwork</property>
                                                             <property name="headers_clickable">False</property>
                                                             <property name="search_column">0</property>
                                                             <signal name="button-press-event" handler="on_treehostnetwork_button_press_event" swapped="no"/>
