@@ -2523,9 +2523,10 @@ Reboot</property>
               <object class="GtkSeparatorToolItem" id="separatortoolitem2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="draw">False</property>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
               </packing>
             </child>
             <child>
