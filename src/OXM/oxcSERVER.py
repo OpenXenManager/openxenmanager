@@ -778,6 +778,12 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             self.convert_bytes(storage['virtual_allocation'])))
 
     def fill_host_search(self, ref, list):
+        """
+        Populate the treestore with the XenServer hosts for the HOST_search tab
+
+        :param ref:
+        :param list:
+        """
         while not self.halt_search:
             gobject.idle_add(lambda: list.clear() and False)
             position = 0
@@ -792,29 +798,37 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     memory_img = 0
                 else:
                     memory = str(((memory_total-memory_free)*100)/memory_total) + "% used of " + \
-                        self.convert_bytes(memory_total)
+                        self.convert_bytes(memory_total)  # Column 5
                     memory_img = int((((memory_total-memory_free)*100)/memory_total)/10)
+
                 start_time = self.all_hosts[host]['other_config']['boot_time'][:-1]
                 uptime = self.humanize_time(time.time() - int(start_time))
-                hosts[host] = position
-                gobject.idle_add(lambda item: list.append(None, item) and False, ([gtk.gdk.pixbuf_new_from_file(
-                    os.path.join(utils.module_path(), "images/tree_connected_16.png")),
-                    "<b>" +
-                    self.all_hosts[host]['name_label'] + "</b>\n<i>" + self.all_hosts[host]['name_description'] +
-                    "</i>", gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                      "images/usagebar_5.png")), "",
-                    gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/usagebar_%s.png" %
-                                                              str(memory_img))), memory, "-", "",
-                    self.all_hosts[host]['address'], uptime, None]))
 
-                position = position + 1
+                # Prepare the variables for the treestore
+                img_connected = os.path.join(utils.module_path(), "images/tree_connected_16.png")  # Column 0
+                name = "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" + \
+                       self.all_hosts[host]['name_description'] + "</i>"  # Column 1
+                load_img = os.path.join(utils.module_path(), "images/usagebar_5.png")  # Column 2
+                load_txt = ""  # Column 3
+                mem_img = os.path.join(utils.module_path(), "images/usagebar_%s.png" % str(memory_img))  # Column 4
+                net_address = self.all_hosts[host]['address']
+
+                hosts[host] = position
+                gobject.idle_add(lambda item: list.append(None, item) and False,
+                                 ([gtk.gdk.pixbuf_new_from_file(img_connected), name,
+                                   gtk.gdk.pixbuf_new_from_file(load_img), load_txt,
+                                   gtk.gdk.pixbuf_new_from_file(mem_img), memory, "-", "",
+                                   net_address, uptime, None]))
+
+                position += 1
 
             for host in self.all_hosts.keys():
-                Thread(target=self.fill_vm_search, args=(host,list,hosts)).start()
-            for i in range(0,60):
+                Thread(target=self.fill_vm_search, args=(host, list, hosts)).start()
+            for i in range(0, 60):
                 if not self.halt_search:
                     time.sleep(1)
-    def fill_vm_search(self, host,list, hosts):
+
+    def fill_vm_search(self, host, list, hosts):
         rrd_updates = rrdinfo.RRDUpdates("http://%s/rrd_updates?session_id=%s&start=%d&cf=AVERAGE&interval=5&host=true" % (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
         rrd_updates.refresh()
         for uuid in rrd_updates.get_vm_list():
