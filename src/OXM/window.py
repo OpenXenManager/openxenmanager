@@ -1523,8 +1523,21 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
 
             # Update toolbar and set label/image on top right pane
             self.update_toolbar()
-            self.headlabel.set_label(self.selected_name)
+            self.headlabel.set_label(self.calc_headlabel_text())
             self.headimage.set_from_pixbuf(self.treestore.get_value(iter_ref, 0))
+
+    def calc_headlabel_text(self):
+        """
+        Work out the text to display on the headlabel
+
+        :return: Headlabel text
+        :rtype: str
+        """
+        if self.selected_type == 'vm':
+            txt = '%s on %s' % (self.selected_name, self.selected_host)
+        else:
+            txt = self.selected_name
+        return txt
 
     def vnc_disconnected(self, info): 
         print "VNC disconnected..", info
