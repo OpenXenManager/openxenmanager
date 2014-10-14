@@ -1335,7 +1335,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
         # TODO: list hotfix applied
         for label in labels.keys():
-            builder.get_object(label).set_label(labels[label])
+            try:
+                builder.get_object(label).set_label(labels[label])
+            except AttributeError:
+                print '%s does not exist' % label
+
     def update_tab_pool_general(self, ref, builder):
         labels = {}
         if ref not in  self.all_pools: 
