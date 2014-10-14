@@ -1277,7 +1277,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         labels['lblhostpool'] = ""
         #str(self.connection.session.get_pool(
         #             self.session_uuid, self.session['Value'])['Value'])
-        logging =  self.all_hosts[ref]['logging']
+        logging = self.all_hosts[ref]['logging']
         if "syslog_destination" in logging:
             labels['lblhostlog'] = logging['syslog_destination']
         else:
@@ -1287,8 +1287,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         tool_boot_time = self.humanize_time(time.time() - int(host_other_config['agent_start_time'][:-1]))
         labels['lblhostuptime'] = boot_time
         labels['lblhosttooluptime'] = tool_boot_time
-        labels['lblhostdns'] =  self.all_hosts[ref]['hostname']
-        labels['lblhostprimary'] =  self.all_hosts[ref]['address']
+        labels['lblhostuuid'] = self.all_hosts[ref]['uuid']
+        labels['lblhostdns'] = self.all_hosts[ref]['hostname']
+        labels['lblhostprimary'] = self.all_hosts[ref]['address']
         resident_vms = self.all_hosts[ref]['resident_VMs']
         host_vms_memory = ""
         for resident_vm_uuid in resident_vms:
@@ -1319,8 +1320,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         for host_cpu_uuid in host_cpus:
             cpus += "Vendor: %s\nModel: %s\nSpeed: %s\n" % \
                 (self.all_host_cpu[host_cpu_uuid]['vendor'],
-                self.all_host_cpu[host_cpu_uuid]['modelname'],
-                self.all_host_cpu[host_cpu_uuid]['speed'])
+                 self.all_host_cpu[host_cpu_uuid]['modelname'],
+                 self.all_host_cpu[host_cpu_uuid]['speed'])
                  
         labels['lblhostcpus'] = cpus
 
