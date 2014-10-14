@@ -1204,21 +1204,20 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if "folder" in other_config:
             labels['lbltplfolder'] = other_config['folder']
         else:
-            labels['lbltplfolder'] = ""
+            labels['lbltplfolder'] = "<None>"
 
         labels["lbltplmemory"] = self.convert_bytes(self.all_vms[ref]['memory_dynamic_max'])
 
         if self.all_vms[ref]['tags']:
             labels["lbltpltags"] = ", ".join(self.all_vms[ref]['tags'])
         else:
-            labels["lbltpltags"] = "" 
+            labels["lbltpltags"] = "<None>"
 
         labels["lbltplcpu"] = self.all_vms[ref]['VCPUs_at_startup']
         if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
             labels["lbltplautoboot"] = "Yes"
         else:
             labels["lbltplautoboot"] = "No"
-
 
         priority = self.all_vms[ref]["VCPUs_params"]
         if "weight" in priority:
@@ -1249,25 +1248,29 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
         metric = self.all_vms[ref]['metrics']
         if metric not in self.all_vm_metrics:
-           res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
-           if "Value" in res:
-               self.all_vm_metrics[ref] = res["Value"]
+            res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
+            if "Value" in res:
+                self.all_vm_metrics[ref] = res["Value"]
         
         for label in labels.keys():
             builder.get_object(label).set_label(labels[label])
         pass
+
     def update_tab_host_general(self, ref, builder):
         labels = {}
         software_version = self.all_hosts[ref]['software_version']
         license_params = self.all_hosts[ref]['license_params']
         labels['lblhostname'] = self.all_hosts[ref]['name_label']
         labels['lblhostdescription'] = self.all_hosts[ref]['name_description']
-        labels['lblhosttags'] = ", ".join(self.all_hosts[ref]['tags'])
+        if len(self.all_hosts[ref]['tags']) == 0:
+            labels['lblhosttags'] = '<None>'
+        else:
+            labels['lblhosttags'] = ", ".join(self.all_hosts[ref]['tags'])
         host_other_config = self.all_hosts[ref]['other_config']
         if "folder" in host_other_config:
             labels['lblhostfolder'] = host_other_config['folder']
         else:
-            labels['lblhostfolder'] = "" 
+            labels['lblhostfolder'] = '<None>'
         # FIXME
         if "iscsi_iqn" in host_other_config:
             labels['lblhostiscsi'] = host_other_config['iscsi_iqn'] 
@@ -1350,11 +1353,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if self.all_pools[ref]['tags']:
             labels["lblpooltags"] = ", ".join(self.all_pools[ref]['tags'])
         else:
-            labels["lblpooltags"] = "" 
+            labels["lblpooltags"] = "<None>"
         if "folder" in other_config:
             labels["lblpoolfolder"] = other_config['folder']
         else:
-            labels["lblpoolfolder"] = ""
+            labels["lblpoolfolder"] = "<None>"
 
         fullpatchs = ""
         partialpatchs = ""
@@ -1396,7 +1399,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if self.all_vms[ref]['tags']:
                 labels["lblvmtags"] = ", ".join(self.all_vms[ref]['tags'])
             else:
-                labels["lblvmtags"] = "" 
+                labels["lblvmtags"] = "<None>"
             labels["lblvmcpu"] = self.all_vms[ref]['VCPUs_at_startup']
             other_config = self.all_vms[ref]['other_config']
             if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
@@ -1457,7 +1460,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 else:
                     labels["lblvmstartup"] = "never started up"
             else:
-                labels["lblvmstartup"] =  "" 
+                labels["lblvmstartup"] = ""
             labels['lblvmdistro'] = ""
             if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all_vm_guest_metrics:
                 guest_metrics = self.all_vm_guest_metrics[metric_guest]
@@ -1484,11 +1487,12 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if "folder" in other_config:
                 labels["lblvmfolder"] = other_config['folder']
             else:
-                labels["lblvmfolder"] = ""
+                labels["lblvmfolder"] = "<None>"
                 
             for label in labels.keys():
                 builder.get_object(label).set_label(labels[label])
-    def export_vm(self, ref, destination, ref2=None, as_vm = False):
+
+    def export_vm(self, ref, destination, ref2=None, as_vm=False):
         if ref2:
             task_uuid = self.connection.task.create(self.session_uuid, "Exporting snapshot", "Exporting snapshot " + destination)
         else:
@@ -1501,14 +1505,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def download_export(self, url, destination, ref, as_vm):
         #print "Saving %s to %s" % (url, destination)
         if as_vm:
-             self.connection.VM.set_is_a_template(self.session_uuid, ref, False)
+            self.connection.VM.set_is_a_template(self.session_uuid, ref, False)
         urllib.urlretrieve(url, destination)
         if as_vm:
-             self.connection.VM.set_is_a_template(self.session_uuid, ref, True)
-    
-    
+            self.connection.VM.set_is_a_template(self.session_uuid, ref, True)
+
     def get_actions(self, ref):
-        return self.all_vms[ref]['allowed_operations'] 
+        return self.all_vms[ref]['allowed_operations']
+
     def get_connect_string(self, ref):
         #FIXME
         """
@@ -1517,6 +1521,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         console  = self.connection.console.get_record(self.session_uuid,consoles['Value'][0])
         """
         return "CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (ref,self.session_uuid)
+
     def get_connect_parameters(self, ref, host):
         """
         vm_uuid  = self.connection.VM.get_by_uuid(self.session_uuid,uuid)
@@ -2155,42 +2160,45 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
     def vm_filter_uuid(self):
         for vm in self.all_vms:
-           if self.all_vms[vm]["uuid"] == self.filter_uuid:
-               return vm   
+            if self.all_vms[vm]["uuid"] == self.filter_uuid:
+                return vm
         return None
 
     def storage_filter_uuid(self):
         for stg in self.all_storage:
-           if self.all_storage[stg]["uuid"] == self.filter_uuid:
-               return stg   
+            if self.all_storage[stg]["uuid"] == self.filter_uuid:
+                return stg
         return None
 
     def host_filter_uuid(self):
         for host in self.all_hosts:
-           if self.all_hosts[host]["uuid"] == self.filter_uuid:
-               return host
+            if self.all_hosts[host]["uuid"] == self.filter_uuid:
+                return host
         return None
 
     def filter_custom_template(self, item):
         if not item["is_a_template"]:
             return False
-        if  item["name_label"][:7] == "__gui__":
+        if item["name_label"][:7] == "__gui__":
             return False
         if item["last_booted_record"] != "":
             return True 
         return False
+
     def filter_normal_template(self, item):
         if not item["is_a_template"]:
             return False
-        elif  item["name_label"][:7] == "__gui__":
+        elif item["name_label"][:7] == "__gui__":
             return False
         elif item["last_booted_record"] == "":
             return True 
         return False
+
     def filter_vdi_ref(self):
         for vdi in self.all_vdi.keys():
             if vdi == self.filter_vdi:
                 return vdi
+
     def search_in_liststore(self, list, ref, field):
         """
         Function retrns iter of element found or None
