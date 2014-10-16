@@ -1363,7 +1363,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                                      (self.convert_bytes(host_metrics['memory_free']),
                                       self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)),
                                       self.convert_bytes(host_metrics['memory_total']))
-        labels['lblhostmemoryvms'] = host_vms_memory
+        labels['lblhostmemoryvms'] = self.strip_last_newline(host_vms_memory)
         labels['lblhostmemory'] = self.convert_bytes(host_memory)
         labels['lblhostversiondate'] = software_version['date']
         labels['lblhostversionbuildnumber'] = software_version['build_number']
@@ -1380,8 +1380,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                 (self.all_host_cpu[host_cpu_uuid]['vendor'],
                  self.all_host_cpu[host_cpu_uuid]['modelname'],
                  self.all_host_cpu[host_cpu_uuid]['speed'])
-                 
-        labels['lblhostcpus'] = cpus
+
+        labels['lblhostcpus'] = self.strip_last_newline(cpus)
 
         host_patchs = self.all_hosts[ref]['patches']
         patchs = ""
@@ -1389,7 +1389,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             pool_patch = self.all_host_patch[host_cpu_patch]['pool_patch']
             patchs += self.all_pool_patch[pool_patch]['name_label'] + "\n"
 
-        labels['lblhostpatchs'] = patchs
+        labels['lblhostpatchs'] = self.strip_last_newline(patchs)
 
         # TODO: list hotfix applied
         for label in labels.keys():
@@ -1429,8 +1429,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             else:
                 partialpatchs += self.all_pool_patch[patch]["name_label"] + "\n"
 
-        labels["lblpoolfullpatchs"] = fullpatchs
-        labels["lblpoolpartialpatchs"] = partialpatchs
+        labels["lblpoolfullpatchs"] = self.strip_last_newline(fullpatchs)
+        labels["lblpoolpartialpatchs"] = self.strip_last_newline(partialpatchs)
 
         for label in labels.keys():
             builder.get_object(label).set_label(labels[label])
@@ -1631,6 +1631,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             return '%.2fK' % (float(n) / K)
         else:
             return '%d' % n
+
+    @staticmethod
+    def strip_last_newline(string):
+        """
+        Strip the last newline character from the end of a string
+
+        :param str string: The string from which to strip the newline character
+        :return: The string without a newline character at the end
+        """
+        if string.endswith('\n'):
+            return string[0:len(string) - 1]
     # }
 
     def thread_host_search(self, ref, list):
