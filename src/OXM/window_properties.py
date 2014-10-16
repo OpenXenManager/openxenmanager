@@ -770,16 +770,16 @@ class oxcWindowProperties:
         treeprop = self.builder.get_object("treeprop")
         treeprop.set_cursor((0,), treeprop.get_column(0))
         treeprop.get_selection().select_path((0,))
-        liststorage = self.builder.get_object("listhostnetwork")
-        treestorage = self.builder.get_object("treehostnetwork")
-        selection = treestorage.get_selection()
-        if selection.get_selected()[1] != None:
+        listnetwork = self.builder.get_object("listhostnetwork")
+        treenetwork = self.builder.get_object("treehostnetwork")
+        selection = treenetwork.get_selection()
+        if selection.get_selected()[1] is not None:
             self.builder.get_object("dialogvmprop").show()
-            iter = selection.get_selected()[1]
-            network = self.xc_servers[self.selected_host].all_network[liststorage.get_value(iter,7)]
+            tree_iter = selection.get_selected()[1]
+            network = self.xc_servers[self.selected_host].all_network[listnetwork.get_value(tree_iter, 8)]
 
-            iter = listprop.get_iter((0,))
-            listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + network['name_label'] + "</i>")
+            tree_iter = listprop.get_iter((0,))
+            listprop.set_value(tree_iter, 1, "<b>General</b>\n   <i>" + network['name_label'] + "</i>")
             self.builder.get_object("txtpropvmname").set_text(network['name_label'])
             self.builder.get_object("txtpropvmdesc").get_buffer().set_text(network['name_description'])
             if "automatic" in network['other_config'] and network['other_config']['automatic'] == "true":
