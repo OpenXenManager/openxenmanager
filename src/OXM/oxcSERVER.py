@@ -1652,7 +1652,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                     for event in eventn["Value"]:
                         if event['class'] == "vm":
                             if event['operation'] == "add":
-                                self.all_vms[event["ref"]] =  event['snapshot']
+                                self.all_vms[event["ref"]] = event['snapshot']
                                 if not self.all_vms[event["ref"]]["is_a_snapshot"]:
                                     gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
                                 else:
