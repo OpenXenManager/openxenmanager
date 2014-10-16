@@ -1020,7 +1020,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                                 port = self.tunnel.get_free_port()
                                 Thread(target=self.tunnel.listen, args=(port,)).start()
                                 time.sleep(1)
-                                os.spawnl(os.P_NOWAIT, "./vncviewer", "vncviewer", "localhost::%s" % port)
+                                viewer = self.config['options']['vnc_viewer']
+                                os.spawnl(os.P_NOWAIT, viewer, "vncviewer", "localhost::%s" % port)
                                 console_area = self.builder.get_object("console_area")
                                 console_alloc = console_area.get_allocation()
 
