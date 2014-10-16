@@ -1350,20 +1350,21 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         labels['lblhostdns'] = self.all_hosts[ref]['hostname']
         labels['lblhostprimary'] = self.all_hosts[ref]['address']
         resident_vms = self.all_hosts[ref]['resident_VMs']
-        host_vms_memory = ""
+        host_vms_memory = []
         for resident_vm_uuid in resident_vms:
             if self.all_vms[resident_vm_uuid]['is_control_domain']:
                 host_memory = self.all_vms[resident_vm_uuid]['memory_target']
             else:
-                host_vms_memory += self.all_vms[resident_vm_uuid]['name_label'] \
-                    + ": using " + self.convert_bytes(self.all_vms[resident_vm_uuid]['memory_dynamic_max']) + "\n"
+                host_vms_memory.append(self.all_vms[resident_vm_uuid]['name_label']
+                                       + ": using " +
+                                       self.convert_bytes(self.all_vms[resident_vm_uuid]['memory_dynamic_max']))
         host_metrics_uuid = self.all_hosts[ref]['metrics']
         host_metrics = self.all_host_metrics[host_metrics_uuid]
         labels['lblhostmemserver'] = "%s free of %s available (%s total)" % \
                                      (self.convert_bytes(host_metrics['memory_free']),
                                       self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)),
                                       self.convert_bytes(host_metrics['memory_total']))
-        labels['lblhostmemoryvms'] = self.strip_last_newline(host_vms_memory)
+        labels['lblhostmemoryvms'] = '\n'.join(host_vms_memory)
         labels['lblhostmemory'] = self.convert_bytes(host_memory)
         labels['lblhostversiondate'] = software_version['date']
         labels['lblhostversionbuildnumber'] = software_version['build_number']
@@ -1374,22 +1375,22 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         labels['lblhostliccode'] = license_params['productcode']
         labels['lblhostlicserial'] = license_params['serialnumber']
         host_cpus = self.all_hosts[ref]['host_CPUs']
-        cpus = ""
+        cpus = []
         for host_cpu_uuid in host_cpus:
-            cpus += "Vendor: %s\nModel: %s\nSpeed: %s\n" % \
-                (self.all_host_cpu[host_cpu_uuid]['vendor'],
-                 self.all_host_cpu[host_cpu_uuid]['modelname'],
-                 self.all_host_cpu[host_cpu_uuid]['speed'])
+            cpus.append("Vendor: %s\nModel: %s\nSpeed: %s" % (
+                self.all_host_cpu[host_cpu_uuid]['vendor'],
+                self.all_host_cpu[host_cpu_uuid]['modelname'],
+                self.all_host_cpu[host_cpu_uuid]['speed']))
 
-        labels['lblhostcpus'] = self.strip_last_newline(cpus)
+        labels['lblhostcpus'] = '\n'.join(cpus)
 
         host_patchs = self.all_hosts[ref]['patches']
-        patchs = ""
+        patchs = []
         for host_cpu_patch in host_patchs:
             pool_patch = self.all_host_patch[host_cpu_patch]['pool_patch']
-            patchs += self.all_pool_patch[pool_patch]['name_label'] + "\n"
+            patchs.append(self.all_pool_patch[pool_patch]['name_label'])
 
-        labels['lblhostpatchs'] = self.strip_last_newline(patchs)
+        labels['lblhostpatchs'] = '\n'.join(sorted(patchs))
 
         # TODO: list hotfix applied
         for label in labels.keys():
@@ -1414,8 +1415,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         else:
             labels["lblpoolfolder"] = "<None>"
 
-        fullpatchs = ""
-        partialpatchs = ""
+        fullpatchs = []
+        partialpatchs = []
         for patch in self.all_pool_patch:
             hosts = {}
             for host_patch in self.all_pool_patch[patch]["host_patches"]:
@@ -1425,12 +1426,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
 
                 hosts[host] += self.all_pool_patch[patch]["host_patches"]
             if hosts.keys() == self.all_hosts.keys():
-                fullpatchs += self.all_pool_patch[patch]["name_label"] + "\n"
+                fullpatchs.append(self.all_pool_patch[patch]["name_label"])
             else:
-                partialpatchs += self.all_pool_patch[patch]["name_label"] + "\n"
+                partialpatchs.append(self.all_pool_patch[patch]["name_label"])
 
-        labels["lblpoolfullpatchs"] = self.strip_last_newline(fullpatchs)
-        labels["lblpoolpartialpatchs"] = self.strip_last_newline(partialpatchs)
+        labels["lblpoolfullpatchs"] = '\n'.join(sorted(fullpatchs))
+        labels["lblpoolpartialpatchs"] = '\n'.join(sorted(partialpatchs))
 
         for label in labels.keys():
             builder.get_object(label).set_label(labels[label])
@@ -1631,17 +1632,6 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             return '%.2fK' % (float(n) / K)
         else:
             return '%d' % n
-
-    @staticmethod
-    def strip_last_newline(string):
-        """
-        Strip the last newline character from the end of a string
-
-        :param str string: The string from which to strip the newline character
-        :return: The string without a newline character at the end
-        """
-        if string.endswith('\n'):
-            return string[0:len(string) - 1]
     # }
 
     def thread_host_search(self, ref, list):
