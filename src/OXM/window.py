@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -33,7 +32,7 @@ if os.path.dirname(sys.argv[0]):
 APP = 'oxc'
 DIR = 'locale'
 if sys.platform != "win32" and sys.platform != "darwin":
-    # If sys.platform is linux or unix
+    # If sys.platform is Linux or Unix
     import gtkvnc
     # Only needed for translations
     import gtk.glade
@@ -175,11 +174,17 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         else:
             self.config_hosts = {}
         # Define the glade file
-        self.gladefile = os.path.join(utils.module_path(), "oxc.glade")
+        glade_dir = os.path.join(utils.module_path(), 'ui')
+        glade_files = []
+        for g_file in os.listdir(glade_dir):
+            if g_file.endswith('.glade'):
+                glade_files.append(os.path.join(glade_dir, g_file))
+
         self.builder = gtk.Builder()
         self.builder.set_translation_domain("oxc")
-        # Add the file to gtk.Builder object
-        self.builder.add_from_file(self.gladefile)
+        # Add the glade files to gtk.Builder object
+        for g_file in glade_files:
+            self.builder.add_from_file(g_file)
 
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button
@@ -257,6 +262,10 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.headlabel.set_label(self.selected_name)
         self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                  "images/xen.gif")))
+
+        if 'pane_position' in self.config['gui']:
+            pane = self.builder.get_object('main_pane')
+            pane.set_position(int(self.config['gui']['pane_position']))
 
         if "show_hidden_vms" not in self.config["gui"]:
             self.config["gui"]["show_hidden_vms"] = "False"
@@ -890,12 +899,21 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         if self.hWnd != 0:
             win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
             self.hWnd = 0
+        # Get the position of the main window pane
+        self.save_pane_position()
         # Save unsaved changes
         self.config.write()
         # Exit!
         gtk.main_quit()
         if self.tunnel:
             self.tunnel.close()
+
+    def save_pane_position(self):
+        """
+        Save the position of the main window HPaned
+        """
+        pane = self.builder.get_object('main_pane')
+        self.config['gui']['pane_position'] = pane.get_position()
 
     def count_list(self, model, path, iter_ref, user_data):
         """
@@ -1403,7 +1421,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             if event.button == 3:
                 # On right click..
                 # Show the menu
-                menu_vm = self.builder.get_object("menu_vm")
+                menu_vm = self.builder.get_object("context_menu_vm")
                 collapsed = False
                 expanded = False
                 can_expand_or_collapse = False
@@ -1513,8 +1531,21 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
 
             # Update toolbar and set label/image on top right pane
             self.update_toolbar()
-            self.headlabel.set_label(self.selected_name)
+            self.headlabel.set_label(self.calc_headlabel_text())
             self.headimage.set_from_pixbuf(self.treestore.get_value(iter_ref, 0))
+
+    def calc_headlabel_text(self):
+        """
+        Work out the text to display on the headlabel
+
+        :return: Headlabel text
+        :rtype: str
+        """
+        if self.selected_type == 'vm':
+            txt = '%s on %s' % (self.selected_name, self.selected_host)
+        else:
+            txt = self.selected_name
+        return txt
 
     def vnc_disconnected(self, info): 
         print "VNC disconnected..", info

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 ## Author: David Markey <david.markey@citrix.com>, Citrix Systems.
 
 ## Licence: GNU LESSER GENERAL PUBLIC LICENSE V3, http://www.gnu.org/licenses/lgpl-3.0.txt
@@ -577,7 +575,7 @@ if __name__ == "__main__":
     parser.add_option("--sparse", action="store_true", dest="sparse", help="Attempt sparse mode(detecting chunks that are zero)", default=False)
 
     params = OptionGroup(parser, "Virtual Machine Parameters",
-                    "These options are only read when you dont specify a config file with -c")
+                    "These options are only read when you don't specify a config file with -c")
 
 
 

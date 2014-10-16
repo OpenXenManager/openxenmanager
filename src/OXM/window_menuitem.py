@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -73,7 +72,7 @@ class oxcWindowMenuItem:
 
     def on_m_forget_activate(self, widget, data=None):
         """
-        Forget password: dont remember password for server
+        Forget password: don't remember password for server
         """
         # Only put to "" the server password on oxc.conf
         if self.selected_name in self.config_hosts:
@@ -789,7 +788,7 @@ class oxcWindowMenuItem:
         for i in range(1, 8):
             self.builder.get_object("lblnewvm" + str(i)).set_markup("  <b>%-35s</b>" % labels[i-1])
 
-        # Show the "new vm" assistent
+        # Show the "new vm" assistant
         self.newvm.show()
 
     # MENUBAR checks
@@ -951,10 +950,10 @@ class oxcWindowMenuItem:
         self.builder.get_object("txtmgmtip").set_text(pif['IP'])
         self.builder.get_object("txtmgmtmask").set_text(pif['netmask'])
         self.builder.get_object("txtmgmtgw").set_text(pif['gateway'])
-        # If ip configuration is with dhcp set appropiate radio enabled
+        # If ip configuration is with dhcp set appropriate radio enabled
         self.builder.get_object("radiomgmtipdhcp").set_active(pif['ip_configuration_mode'] == "DHCP")
         self.builder.get_object("radiomgmtipmanual").set_active(pif['ip_configuration_mode'] != "DHCP")
-        # If dns configuration is with dhcp set appropiate radio enabled
+        # If dns configuration is with dhcp set appropriate radio enabled
         self.builder.get_object("radiomgmtdnsdhcp").set_active(pif['DNS'] == "")
         self.builder.get_object("radiomgmtdnsmanual").set_active(pif['DNS'] != "")
         # If dns is manual..

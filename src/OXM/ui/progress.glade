@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.24"/>
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkWindow" id="wprogressconnect">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">Connecting....</property>
+    <property name="modal">True</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">splashscreen</property>
+    <property name="urgency_hint">True</property>
+    <child>
+      <object class="GtkEventBox" id="eventbox52">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFixed" id="fixed85">
+            <property name="width_request">350</property>
+            <property name="height_request">100</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkProgressBar" id="progressconnect">
+                <property name="width_request">300</property>
+                <property name="height_request">30</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="x">25</property>
+                <property name="y">60</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblprogessconnect">
+                <property name="width_request">300</property>
+                <property name="height_request">40</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Synchronizing</property>
+              </object>
+              <packing>
+                <property name="x">25</property>
+                <property name="y">5</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="wprogressimportvm">
+    <property name="can_focus">False</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">OpenXenManager</property>
+    <property name="window_position">center</property>
+    <child>
+      <object class="GtkEventBox" id="eventbox48">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkFixed" id="fixed78">
+            <property name="width_request">300</property>
+            <property name="height_request">100</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="lblimportVM">
+                <property name="width_request">250</property>
+                <property name="height_request">20</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Preparing for import VM</property>
+              </object>
+              <packing>
+                <property name="x">25</property>
+                <property name="y">39</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkProgressBar" id="progressfreedevices1">
+                <property name="width_request">250</property>
+                <property name="height_request">20</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="x">25</property>
+                <property name="y">75</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
