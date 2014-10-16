@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -----------------------------------------------------------------------
 # OpenXenManager
 #
@@ -33,7 +32,7 @@ if os.path.dirname(sys.argv[0]):
 APP = 'oxc'
 DIR = 'locale'
 if sys.platform != "win32" and sys.platform != "darwin":
-    # If sys.platform is linux or unix
+    # If sys.platform is Linux or Unix
     import gtkvnc
     # Only needed for translations
     import gtk.glade

@@ -2,8 +2,6 @@
 # Original Author: John Finlay <finlay at moeraki.com>
 # http://www.daa.com.au/pipermail/pygtk/2004-September/008685.html
 
-#!/usr/bin/env python
-
 import pygtk
 pygtk.require('2.0')
 import gtk

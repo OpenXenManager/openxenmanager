@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
-#!/usr/bin/env python
 from window_vm_network import *
 from window_vm_storage import *
 from window_vm_snapshot import *
