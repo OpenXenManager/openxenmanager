@@ -46,7 +46,8 @@ import rrdinfo
 import utils
 
 
-class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,oxcSERVERalerts,oxcSERVERaddserver,oxcSERVERnewvm,oxcSERVERmenuitem):
+class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorage, oxcSERVERalerts, oxcSERVERaddserver,
+                oxcSERVERnewvm, oxcSERVERmenuitem):
     session_uuid = None
     is_connected = False 
     host_vm = {}
@@ -71,7 +72,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     last_storage_iter = None
     pbdcreate = []
 
-    def __init__(self, host, user, password, wine, ssl = False, port = 80):
+    def __init__(self, host, user, password, wine, ssl=False, port=80):
         super(oxcSERVER, self).__init__()
         self.host = host
         self.hostname = host
@@ -93,13 +94,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         # Get network -> VM relation
         relation = {}
         for network in self.all_network:
-            network_name = self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')
+            network_name = self.all_network[network]['name_label'].replace('Pool-wide network associated with eth',
+                                                                           'Network ')
             vms = []
             for vif in self.all_network[network]['VIFs']:
                 vm = self.all_vif[vif]['VM']
-                if not vms.count(vm + "_" +  self.all_vms[vm]['name_label']):
-                    if show_halted_vms or  self.all_vms[vm]['power_state'] == "Running":
-                        vms.append(vm + "_" +  self.all_vms[vm]['name_label'])
+                if not vms.count(vm + "_" + self.all_vms[vm]['name_label']):
+                    if show_halted_vms or self.all_vms[vm]['power_state'] == "Running":
+                        vms.append(vm + "_" + self.all_vms[vm]['name_label'])
             relation[network + "_" + network_name] = vms
 
         return relation
@@ -114,10 +116,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 vbds = self.all_vdi[vdi]['VBDs']
                 for vbd in vbds:
                     vm = self.all_vbd[vbd]['VM']
-                    if not vms.count(vm + "_" +  self.all_vms[vm]['name_label']):
-                        if show_halted_vms or  self.all_vms[vm]['power_state'] == "Running":
-                            vms.append(vm + "_" +  self.all_vms[vm]['name_label'])
-            relation[storage+ "_" + storage_name] = vms
+                    if not vms.count(vm + "_" + self.all_vms[vm]['name_label']):
+                        if show_halted_vms or self.all_vms[vm]['power_state'] == "Running":
+                            vms.append(vm + "_" + self.all_vms[vm]['name_label'])
+            relation[storage + "_" + storage_name] = vms
 
         return relation
 
@@ -148,55 +150,63 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
     def restore_server(self, ref, file, name):
         #<?xml version="1.0"?><methodCall><methodName>task.create</methodName><params><param><value><string>OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param><param><value><string>uploadTask</string></value></param><param><value><string>http://83.165.161.223/host_restore?session_id=OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param></params></methodCall>
-        task_uuid = self.connection.task.create(self.session_uuid, "Restoring Server", "Restoring Server %s from %s " % (name,file))
+        task_uuid = self.connection.task.create(self.session_uuid, "Restoring Server", "Restoring Server %s from %s " %
+                                                (name, file))
         self.track_tasks[task_uuid['Value']] = "Restore.Server"
         #size=os.stat(file)[6] 
 
-
-        fp=open(file, 'rb')
+        fp = open(file, 'rb')
         url = self.wine.selected_ip
-        put.putfile(fp, 'http://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
+        put.putfile(fp, 'http://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
+                                                                                                   task_uuid['Value']))
         return 
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid, task_uuid['Value']))
+        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
+                                                                                        task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
         conn.endheaders()
 
-        blocknum=0
-        uploaded=0
-        blocksize=4096
+        blocknum = 0
+        uploaded = 0
+        blocksize = 4096
         while not self.halt_import:
-            bodypart=fp.read(blocksize)
-            blocknum+=1
+            bodypart = fp.read(blocksize)
+            blocknum += 1
             if blocknum % 10 == 0:
-                uploaded+=len(bodypart)
+                uploaded += len(bodypart)
 
-            if not bodypart: break
+            if not bodypart:
+                break
             conn.send(bodypart)
 
         fp.close()
+
     def save_screenshot(self, ref, filename):
         url = "http://" + self.wine.selected_ip + '/vncsnapshot?session_id=%s&ref=%s' % (self.session_uuid, ref)
         urllib.urlretrieve(url, filename)
 
-
     def pool_backup_database(self, ref, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Backup Pool database", "Backing up database pool " + name)
+        task_uuid = self.connection.task.create(self.session_uuid, "Backup Pool database",
+                                                "Backing up database pool " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Pool"
-        url = "http://" + self.wine.selected_ip+ '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid, task_uuid['Value'])
+        url = "http://" + self.wine.selected_ip + '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid,
+                                                                                                task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def pool_restore_database(self, ref, filename, name, dry_run="true"):
-        task_uuid = self.connection.task.create(self.session_uuid, "Restore Pool database", "Restoring database pool " + filename)
+        task_uuid = self.connection.task.create(self.session_uuid, "Restore Pool database",
+                                                "Restoring database pool " + filename)
         self.track_tasks[task_uuid['Value']] = "Restore.Pool"
 
-        size=os.path.getsize(filename)
+        size = os.path.getsize(filename)
         url = self.wine.selected_ip
-        fp=open(filename, 'r')
-        put.putfile(fp, 'http://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' % (self.session_uuid, task_uuid['Value'], dry_run))
+        fp = open(filename, 'r')
+        put.putfile(fp, 'http://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
+                    (self.session_uuid, task_uuid['Value'], dry_run))
         return
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' % (self.session_uuid, task_uuid['Value'], dry_run))
+        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
+                        (self.session_uuid, task_uuid['Value'], dry_run))
         conn.putheader('Content-Length', str(size))
         conn.endheaders()
         total = 0
@@ -209,52 +219,61 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             else:
                 break
         fp.close()
+
     def host_download_logs(self, ref, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Downloading host logs", "Downloading logs from host " + name)
+        task_uuid = self.connection.task.create(self.session_uuid, "Downloading host logs",
+                                                "Downloading logs from host " + name)
         self.track_tasks[task_uuid['Value']] = "Download.Logs"
-        url = "http://" + self.wine.selected_ip + '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value'])
+        url = "http://" + self.wine.selected_ip + '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % \
+                                                  (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def host_download_status_report(self, ref, refs, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Downloading status report", "Downloading status report from host " + name)
-        self.track_tasks[task_uuid['Value']] =  self.host_vm[ref][0]
-        url = "https://" + self.wine.selected_ip + '/system-status?session_id=%s&entries=%s&task_id=%s&output=tar' % (self.session_uuid, refs, task_uuid['Value'])
+        task_uuid = self.connection.task.create(self.session_uuid, "Downloading status report",
+                                                "Downloading status report from host " + name)
+        self.track_tasks[task_uuid['Value']] = self.host_vm[ref][0]
+        url = "https://" + self.wine.selected_ip + '/system-status?session_id=%s&entries=%s&task_id=%s&output=tar' % \
+                                                   (self.session_uuid, refs, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def backup_server(self, ref, filename, name):
         task_uuid = self.connection.task.create(self.session_uuid, "Backup Server", "Backing up server " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Server"
-        url = "http://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value'])
+        url = "http://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % \
+                                                  (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def import_vm(self, ref, filename):
         task_uuid = self.connection.task.create(self.session_uuid, "Importing VM", "Importing VM " + filename)
         self.track_tasks[task_uuid['Value']] = "Import.VM"
 
-        size=os.stat(filename)[6] 
+        size = os.stat(filename)[6]
         url = self.wine.selected_ip
-        fp=open(filename, 'r')
-        put.putfile(fp, 'http://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value']))
+        fp = open(filename, 'r')
+        put.putfile(fp, 'http://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' %
+                    (self.session_uuid, ref, task_uuid['Value']))
         return
 
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/import?session_id=%s&sr_id=%s&task_id=%s' % (self.session_uuid, ref, task_uuid['Value']))
+        conn.putrequest('PUT', '/import?session_id=%s&sr_id=%s&task_id=%s' %
+                        (self.session_uuid, ref, task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
         conn.putheader('Content-Length', str(size))
         conn.endheaders()
-        fp=open(file, 'rb')
-        blocknum=0
-        uploaded=0
-        blocksize=4096
+        fp = open(file, 'rb')
+        blocknum = 0
+        uploaded = 0
+        blocksize = 4096
         while not self.halt_import:
-            bodypart=fp.read(blocksize)
-            blocknum+=1
+            bodypart = fp.read(blocksize)
+            blocknum += 1
             if blocknum % 10 == 0:
-                uploaded+=len(bodypart)
+                uploaded += len(bodypart)
             if blocknum % 1000 == 0:
                 time.sleep(0.1) 
 
-            if not bodypart: break
+            if not bodypart:
+                break
             conn.send(bodypart)
 
         fp.close()
@@ -263,11 +282,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if message['cls'] == "Host":
             if message['name'] in messages:
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                    "images/info.gif")),
+                                                                                       "images/info.gif")),
                                              self.hostname, messages_header[message['name']],
                                              str(self.format_date(str(message['timestamp']))), ref, self.host])
-                list.prepend(parent, [None, "", messages[message['name']] % (self.hostname), "",
-                    ref, self.host])
+                list.prepend(parent, [None, "", messages[message['name']] % self.hostname, "",
+                                      ref, self.host])
             else:
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                        "images/info.gif")),
@@ -295,9 +314,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                                                            "images/warn.gif")),
                                                  self.hostname, messages_header["alert_" + alert],
                                                  str(self.format_date(str(message['timestamp']))), ref, self.host])
-                    list.prepend(parent, [None, "", messages["alert_" + alert] % \
-                            (self.all_vms[self.vm_filter_uuid()]['name_label'], float(value)*100, int(period), float(level)*100), "",
-                            ref, self.host])
+                    list.prepend(parent, [None, "", messages["alert_" + alert] %
+                                          (self.all_vms[self.vm_filter_uuid()]['name_label'],
+                                           float(value)*100, int(period), float(level)*100), "",
+                                          ref, self.host])
                 else:
                     print message['name']
                     print message['body']
@@ -308,16 +328,17 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                            "images/warn.gif")),
                                                  self.hostname,
-                                                 messages_header["host_alert_" + alert] % ("Control Domain"),
+                                                 messages_header["host_alert_" + alert] % "Control Domain",
                                                  str(self.format_date(str(message['timestamp']))), ref, self.host])
-                    list.prepend(parent, [None, "", messages["host_alert_" + alert] % \
-                            ("Control Domain", self.hostname, float(value)), "",
-                            ref, self.host])
+                    list.prepend(parent, [None, "", messages["host_alert_" + alert] %
+                                          ("Control Domain", self.hostname, float(value)), "",
+                                          ref, self.host])
                 else:
                     print message['name']
                     print message['body']
+
     def add_vm_to_tree(self, vm):
-        if  self.all_vms[vm]['resident_on'] != "OpaqueRef:NULL" and self.all_vms[vm]['resident_on'] in self.hostroot:
+        if self.all_vms[vm]['resident_on'] != "OpaqueRef:NULL" and self.all_vms[vm]['resident_on'] in self.hostroot:
             resident = self.all_vms[vm]['resident_on']
             self.treestore.prepend(self.hostroot[self.all_vms[vm]['resident_on']], [
                 gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/tree_%s_16.png" %
@@ -327,13 +348,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 vm, self.all_vms[vm]['allowed_operations'],  self.all_hosts[resident]['address']])
 
         elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" and self.all_vms[vm]['affinity'] in self.hostroot:
-              affinity = self.all_vms[vm]['affinity']
-              self.treestore.prepend(self.hostroot[self.all_vms[vm]['affinity']], [
-                  gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/tree_%s_16.png" %
-                                                            self.all_vms[vm]['power_state'].lower())),
-                  self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
-                  "vm", self.all_vms[vm]['power_state'], self.host,   
-                  vm, self.all_vms[vm]['allowed_operations'], self.all_hosts[affinity]['address']])
+            affinity = self.all_vms[vm]['affinity']
+            self.treestore.prepend(self.hostroot[self.all_vms[vm]['affinity']],
+                                   [gtk.gdk.pixbuf_new_from_file(
+                                       os.path.join(utils.module_path(), "images/tree_%s_16.png" %
+                                                    self.all_vms[vm]['power_state'].lower())),
+                                    self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'], "vm",
+                                    self.all_vms[vm]['power_state'], self.host, vm,
+                                    self.all_vms[vm]['allowed_operations'], self.all_hosts[affinity]['address']])
         else:
             if self.poolroot:
                 self.treestore.prepend(self.poolroot, [
@@ -397,21 +419,19 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             print "VM not found %s" % ref 
 
     def set_vif_limit(self, ref, limit, vm_ref):
-      qos_algorithm_params = {
-        'kbps': str(limit)
-      }
-      res = self.connection.VIF.set_qos_algorithm_params(self.session_uuid, ref, qos_algorithm_params)
-      if "Value" in res:
-          self.track_tasks[res['Value']] = vm_ref
-      else:
-          print res
-    def set_vif_to_manual(self, ref, vm_ref):
-      res = self.connection.VIF.set_MAC_autogenerated(self.session_uuid, ref, False)
-      if "Value" in res:
-          self.track_tasks[res['Value']] = vm_ref
-      else:
-          print res
+        qos_algorithm_params = {'kbps': str(limit)}
+        res = self.connection.VIF.set_qos_algorithm_params(self.session_uuid, ref, qos_algorithm_params)
+        if "Value" in res:
+            self.track_tasks[res['Value']] = vm_ref
+        else:
+            print res
 
+    def set_vif_to_manual(self, ref, vm_ref):
+        res = self.connection.VIF.set_MAC_autogenerated(self.session_uuid, ref, False)
+        if "Value" in res:
+            self.track_tasks[res['Value']] = vm_ref
+        else:
+            print res
 
     def fill_vm_snapshots(self, uuid, tree=None, list=None):
         list.clear()
@@ -425,9 +445,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 for vbd in self.all_vms[snapshot_uuid]['VBDs']:
                     vbd_data = self.all_vbd[vbd]
                     if vbd_data['type'] == 'Disk':
-                        snapshot_size += int(self.connection.VDI.get_record(self.session_uuid,vbd_data['VDI'])['Value']['physical_utilisation'])
-                list.append([snapshot_uuid, "<b>" + snapshot_name + "</b>\n\nTaken on: " + str(snapshot_time) + "\n\nSize: " + \
-                        self.convert_bytes(snapshot_size) + "\n\n" + "Used by: " + self.wine.selected_name + "\n"])
+                        snapshot_size += int(self.connection.VDI.get_record(
+                            self.session_uuid,vbd_data['VDI'])['Value']['physical_utilisation'])
+                list.append([snapshot_uuid, "<b>" + snapshot_name + "</b>\n\nTaken on: " +
+                             str(snapshot_time) + "\n\nSize: " + self.convert_bytes(snapshot_size) +
+                             "\n\n" + "Used by: " + self.wine.selected_name + "\n"])
 
     def update_performance(self, uuid, ref, ip, host=False, period=5):
         # Default three hours of period
@@ -436,7 +458,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if self.wine.builder.get_object(widget).get_children()[0].get_children():
                 #gobject.idle_add(lambda:  self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0]) and False)
                 gtk.gdk.threads_enter()
-                self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0])
+                self.wine.builder.get_object(widget).get_children()[0].remove(
+                    self.wine.builder.get_object(widget).get_children()[0].get_children()[0])
                 gtk.gdk.threads_leave()
 
         if host:
@@ -454,18 +477,21 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if not name[:3] in ds.keys():
                     ds[name[:3]] = []
             if ds[name[:3]].count([name, desc]) == 0:
-                if name not in ("memory_internal_free", "xapi_free_memory_kib", "xapi_memory_usage_kib",  "xapi_live_memory_kib") \
+                if name not in ("memory_internal_free", "xapi_free_memory_kib",
+                                "xapi_memory_usage_kib",  "xapi_live_memory_kib") \
                         and name[:6] != "pif___":
                             ds[name[:3]].append([name, desc])
         if host:
             if os.path.exists(os.path.join(self.wine.pathconfig, "host_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
-            urllib.urlretrieve("http://%s/host_rrds?session_id=%s" % (ip, self.session_uuid), os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
+            urllib.urlretrieve("http://%s/host_rrds?session_id=%s" % (ip, self.session_uuid),
+                               os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
         else:
             if os.path.exists(os.path.join(self.wine.pathconfig, "vm_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
-            urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid), os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
+            urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid),
+                               os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
         rrdinfo = rrd.get_data(period)
 
@@ -478,7 +504,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         def hovered(chart, graph, (x, y)):
             #print chart.get_title()
             self.wine.builder.get_object("lblperf" + graph.get_title()[:3].lower()).set_label(
-                    "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S", time.localtime(x)),  graph.get_title(), y))
+                "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S", time.localtime(x)),  graph.get_title(), y))
 
             # Chart
         chart = {}
@@ -502,13 +528,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if key[:3] == "cpu":
                 data = rrdinfo[key]["values"]
                 for i in range(len(data)):
-                    data[i][1] = data[i][1]*100
+                    data[i][1] *= 100
                 graph[key] = line_chart.Graph(key, key, data)
                 graph[key].set_show_title(False)
                 chart["cpu"].add_graph(graph[key])
                 
         chart["cpu"].set_size_request(len(data)*20, 250)
-        gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow47").add_with_viewport(chart["cpu"]) and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow47").add_with_viewport(chart["cpu"])
+                         and False)
         gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow47").show_all() and False)
         
         # Memory
@@ -523,7 +550,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
         
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"])
+                             and False)
             gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
         elif "memory_total_kib" in rrdinfo and "xapi_free_memory_kib" in rrdinfo:
             chart["mem"].set_yrange((0, int(rrdinfo["memory_total_kib"]["max_value"])/1024/1024))
@@ -536,23 +564,25 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
         
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"])
+                             and False)
             gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
 
         else:
             label = gtk.Label()
-            label.set_markup("<b>No data availaible</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(label) and False)
+            label.set_markup("<b>No data available</b>")
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(label)
+                             and False)
             gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
         
         # Network
         max_value = 0
         data = None
         for key in rrdinfo.keys():
-            if key[:3] == "vif" or  key[:3] == "pif":
+            if key[:3] == "vif" or key[:3] == "pif":
                 data = rrdinfo[key]["values"]
                 for i in range(len(data)):
-                    data[i][1] = data[i][1]/1024
+                    data[i][1] /= 1024
                     if data[i][1] > max_value:
                         max_value = data[i][1]
                 graph[key] = line_chart.Graph(key, key, data)
@@ -562,12 +592,14 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             chart["vif"].set_yrange((0, max_value))
             chart["vif"].set_size_request(len(data)*20, 250)
             
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(chart["vif"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(chart["vif"])
+                             and False)
             gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").show_all() and False)
         else:
             label = gtk.Label()
-            label.set_markup("<b>No data availaible</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(label) and False)
+            label.set_markup("<b>No data available</b>")
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(label)
+                             and False)
             gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").show_all() and False)
  
         # Disk
@@ -578,7 +610,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if key[:3] == "vbd":
                     data = rrdinfo[key]["values"]
                     for i in range(len(data)):
-                        data[i][1] = data[i][1]/1024
+                        data[i][1] /= 1024
                     graph[key] = line_chart.Graph(key, key, data)
                     graph[key].set_show_title(False)
                     chart["vbd"].add_graph(graph[key])
@@ -588,17 +620,21 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             chart["vbd"].set_yrange((0, max_value))
             chart["vbd"].set_size_request(len(data)*20, 250)
             if data: 
-                gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow50").add_with_viewport(chart["vbd"]) and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object(
+                    "scrolledwindow50").add_with_viewport(chart["vbd"]) and False)
                 gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow50").show_all() and False)
             
-        if max_value == 0: max_value = 1
+        if max_value == 0:
+            max_value = 1
         gobject.idle_add(lambda: self.wine.adjust_scrollbar_performance() and False)
         
         time.sleep(5)
         while not self.halt_performance:
             if os.path.exists(os.path.join(self.wine.pathconfig, "update.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "update.rrd"))
-            urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" % (ip, self.session_uuid, int(time.time())-10, uuid), os.path.join(self.wine.pathconfig, "update.rrd"))
+            urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" %
+                               (ip, self.session_uuid, int(time.time())-10, uuid),
+                               os.path.join(self.wine.pathconfig, "update.rrd"))
             rrd = XPORT(os.path.join(self.wine.pathconfig, "update.rrd"))
             rrdinfo = rrd.get_data()
             
@@ -606,24 +642,24 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if key in graph:
                     if rrdinfo[key]['values']:
                         if key[:3] == "cpu":
-                           data = rrdinfo[key]["values"]
-                           for i in range(len(data)):
-                               data[i][1] = data[i][1]*100
+                            data = rrdinfo[key]["values"]
+                            for i in range(len(data)):
+                                data[i][1] *= 100
 
-                           graph[key].add_data(data)
-                           chart[key[:3]].queue_draw()
+                            graph[key].add_data(data)
+                            chart[key[:3]].queue_draw()
                         elif key[:3] == "vif":
-                           data = rrdinfo[key]["values"]
-                           for i in range(len(data)):
-                                data[i][1] = data[i][1]/1024
-                           graph[key].add_data(data)
-                           chart[key[:3]].queue_draw()
+                            data = rrdinfo[key]["values"]
+                            for i in range(len(data)):
+                                data[i][1] /= 1024
+                            graph[key].add_data(data)
+                            chart[key[:3]].queue_draw()
                         elif key[:3] == "vbd":
-                           data = rrdinfo[key]["values"]
-                           for i in range(len(data)):
-                                data[i][1] = data[i][1]/1024
-                           graph[key].add_data(data)
-                           chart[key[:3]].queue_draw()
+                            data = rrdinfo[key]["values"]
+                            for i in range(len(data)):
+                                data[i][1] /= 1024
+                            graph[key].add_data(data)
+                            chart[key[:3]].queue_draw()
             if "memory_internal_free" in rrdinfo:
                 data = rrdinfo["memory"]["values"]
                 data2 = rrdinfo["memory_internal_free"]["values"]
@@ -635,6 +671,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             for i in range(5):
                 if not self.halt_performance:
                     time.sleep(1)
+
     def fill_vm_log(self, uuid, tree=None, list=None, thread=False):
         self.filter_uuid = uuid
         self.filter_ref = self.wine.selected_ref
@@ -642,32 +679,47 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         for ch in self.wine.builder.get_object("vmtablelog").get_children():
             gobject.idle_add(lambda: self.wine.builder.get_object("vmtablelog").remove(ch) and False)
 
-
         for task_ref in filter(self.task_filter_uuid, self.tasks):
             task = self.all_tasks[task_ref]
             if "snapshot" in task:
-               self.add_box_log(task['snapshot']['name_label'], str(task['snapshot']['created']), "%s %s" % (task["snapshot"]["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['snapshot']['created']), task['ref'], task, float(task['snapshot']['progress']),i%2)  # TODO: Check variable type float vs int
+                self.add_box_log(task['snapshot']['name_label'], str(task['snapshot']['created']),
+                                 "%s %s" % (task["snapshot"]["name_label"],
+                                            self.all_vms[self.track_tasks[task["ref"]]]["name_label"]),
+                                 str(task['snapshot']['created']), task['ref'], task,
+                                 float(task['snapshot']['progress']), i % 2)  # TODO: Check variable type float vs int
             else:
-               if "ref" in task:
-                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], self.all_vms[self.track_tasks[task["ref"]]]["name_label"]), str(task['created']), self.get_task_ref_by_uuid(task['uuid']), task, float(task['progress']),i%2)  # TODO: Check variable type float vs int
-               else:
-                   self.add_box_log(task['name_label'], str(task['created']), "%s %s" % (task["name_label"], task["name_description"]), str(task['created']), task_ref, task, float(task['progress']),i%2)  # TODO: Check variable type float vs int
-               i = i + 1
-        for log in sorted(filter(self.log_filter_uuid, self.all_messages.values()),  key=itemgetter("timestamp"), reverse=True):
+                if "ref" in task:
+                    self.add_box_log(task['name_label'], str(task['created']),
+                                     "%s %s" % (task["name_label"],
+                                                self.all_vms[self.track_tasks[task["ref"]]]["name_label"]),
+                                     str(task['created']), self.get_task_ref_by_uuid(task['uuid']), task,
+                                     float(task['progress']), i % 2)  # TODO: Check variable type float vs int
+                else:
+                    self.add_box_log(task['name_label'], str(task['created']),
+                                     "%s %s" % (task["name_label"], task["name_description"]),
+                                     str(task['created']), task_ref, task,
+                                     float(task['progress']), i % 2)  # TODO: Check variable type float vs int
+                i += 1
+        for log in sorted(filter(self.log_filter_uuid, self.all_messages.values()),
+                          key=itemgetter("timestamp"), reverse=True):
             timestamp = str(log['timestamp'])
             if thread: 
-                gobject.idle_add(lambda: self.add_box_log(log['name'], timestamp, log['body'], str(log['timestamp']),alt=i%2) and False)
+                gobject.idle_add(lambda: self.add_box_log(log['name'], timestamp,
+                                                          log['body'], str(log['timestamp']),
+                                                          alt=i % 2) and False)
             else:
-                self.add_box_log(log['name'], timestamp, log['body'], str(log['timestamp']),alt=i%2)
-            i = i + 1
+                self.add_box_log(log['name'], timestamp, log['body'],
+                                 str(log['timestamp']), alt=i % 2)
+            i += 1
+
     def add_box_log(self, title, date, description, time, id=None, task=None, progress=0, alt=0):
         date = str(self.format_date(date))
         vboxframe = gtk.Frame()
         vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#d5e5f7"))
         if task:
-            vboxframe.set_size_request(700,100)
+            vboxframe.set_size_request(700, 100)
         else:
-            vboxframe.set_size_request(700,80)
+            vboxframe.set_size_request(700, 80)
         vboxchild = gtk.Fixed()
         vboxevent = gtk.EventBox()
         vboxevent.add(vboxchild)
@@ -678,7 +730,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         vboxchildlabel2.set_selectable(True)
         vboxchildlabel3 = gtk.Label()
         vboxchildlabel3.set_selectable(True)
-        vboxchildlabel3.set_size_request(600,-1)
+        vboxchildlabel3.set_size_request(600, -1)
         vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
@@ -690,7 +742,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         else:
             vboxchildlabel1.set_label(title)
         if title in messages:
-            vboxchildlabel3.set_label(messages[title] % (self.wine.selected_name))
+            vboxchildlabel3.set_label(messages[title] % self.wine.selected_name)
         else:
             vboxchildlabel3.set_label(description)
         vboxchildlabel1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("blue"))
@@ -708,9 +760,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             self.vboxchildprogressbar[id] = gtk.ProgressBar()
             self.vboxchildprogress[id] = gtk.Label()
             self.vboxchildprogress[id].set_selectable(True)
-            self.vboxchildprogressbar[id].set_size_request(500,20)
+            self.vboxchildprogressbar[id].set_size_request(500, 20)
             self.vboxchildprogressbar[id].set_fraction(progress)
-            if ("snapshot" in task and (task["snapshot"]["status"] != "failure" and task["snapshot"]["status"] != "success")) or \
+            if ("snapshot" in task and (task["snapshot"]["status"] != "failure"
+                                        and task["snapshot"]["status"] != "success")) or \
                     (task["status"] != "failure" and task["status"] != "success"):
                 vboxchild.put(self.vboxchildcancel[id], 500, 32)
                 self.vboxchildcancel[id].set_label("Cancel")
@@ -728,9 +781,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if ("snapshot" in task and task["snapshot"]["finished"]) or task["finished"]:
                     vboxchildlabel4.set_label("Finished: %s" % str(self.format_date(str(task["finished"]))))
 
-
             vboxchild.put(self.vboxchildprogress[id], 25, 72)
-            if ("snapshot" in task and task["snapshot"]["status"] == "success"):
+            if "snapshot" in task and task["snapshot"]["status"] == "success":
                 self.vboxchildcancel[id].hide()
                 self.vboxchildprogressbar[id].hide()
             if task["status"] == "success":
@@ -763,19 +815,19 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if "physical_size" in storage:
                     if int(storage['physical_size']) > 0:
                         usage = "%d%% (%s used)" % \
-                                (((float(storage['physical_utilisation'])/1073741824)  / \
-                                (float(storage['physical_size'])/1073741824) * 100), \
-                                self.convert_bytes(storage['physical_utilisation']))
+                                (((float(storage['physical_utilisation'])/1073741824) /
+                                (float(storage['physical_size'])/1073741824) * 100),
+                                    self.convert_bytes(storage['physical_utilisation']))
                     else:
                         usage = "0% (0B Used)"      
                     if storage['name_label'] != "XenServer Tools":
                         list.append((storage['name_label'],
-                            storage['name_description'],
-                            storage['type'],
-                            str(storage['shared']),
-                            usage,
-                            self.convert_bytes(storage['physical_size']),
-                            self.convert_bytes(storage['virtual_allocation'])))
+                                     storage['name_description'],
+                                     storage['type'],
+                                     str(storage['shared']),
+                                     usage,
+                                     self.convert_bytes(storage['physical_size']),
+                                     self.convert_bytes(storage['virtual_allocation'])))
 
     def fill_host_search(self, ref, list):
         """
@@ -829,7 +881,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     time.sleep(1)
 
     def fill_vm_search(self, host, list, hosts):
-        rrd_updates = rrdinfo.RRDUpdates("http://%s/rrd_updates?session_id=%s&start=%d&cf=AVERAGE&interval=5&host=true" % (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
+        rrd_updates = rrdinfo.RRDUpdates("http://%s/rrd_updates?session_id=%s&"
+                                         "start=%d&cf=AVERAGE&interval=5&host=true" %
+                                         (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
         rrd_updates.refresh()
         for uuid in rrd_updates.get_vm_list():
             for vm in self.all_vms:
@@ -859,56 +913,56 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             memory = 0
             memory_total = 0
             for param in rrd_updates.get_vm_param_list(uuid):
-                    data=[0]
-                    media=0.0
+                    data = [0]
+                    media = 0.0
                     i = 0
                     row = None
                     for row in range(rrd_updates.get_nrows()):
-                           value1 = rrd_updates.get_vm_data(uuid,param,row)
-                           if value1 != "NaN":
-                                data.append(value1)
-                                media += value1
-                                i += 1
-                    if i == 0: i=1
+                        value1 = rrd_updates.get_vm_data(uuid, param, row)
+                        if value1 != "NaN":
+                            data.append(value1)
+                            media += value1
+                            i += 1
+                    if i == 0:
+                        i = 1
                     if row:
                         if param.count("cpu") > 0:
-                            cpu = cpu + 1
-                            cpu_pct = cpu_pct + int(rrd_updates.get_vm_data(uuid,param,row)*100)
+                            cpu += 1
+                            cpu_pct += int(rrd_updates.get_vm_data(uuid, param, row) * 100)
                         elif param.count("vbd") > 0 and param.count("write"):
                             try:
                                 vbd_write_avg += int((media/i)/1024)
                                 vbd_write_max += int(max(data)/1024)
-                            except:
+                            except:  # TODO: Identify Exception Type
                                 vbd_write_avg += 0
                                 vbd_write_max += 0
                         elif param.count("vbd") > 0 and param.count("read"):
                             try:
                                 vbd_read_avg += int((media/i)/1024)
                                 vbd_read_max += int(max(data)/1024)
-                            except:
+                            except:  # TODO: Identify Exception Type
                                 vbd_read_avg += 0
                                 vbd_read_max += 0
                         elif param.count("vif") > 0 and param.count("tx"):
                             try:
                                 vif_write_avg += int((media/i)/1024)
                                 vif_write_max += int(max(data)/1024)
-                            except:
+                            except:  # TODO: Identify Exception Type
                                 vif_write_avg += 0
                                 vif_write_max += 0
                         elif param.count("vif") > 0 and param.count("rx"):
                             try:
                                 vif_read_avg += int((media/i)/1024)
                                 vif_read_max += int(max(data)/1024)
-                            except:
+                            except:  # TODO: Identify Exception Type
                                 vif_read_avg += 0
                                 vif_read_max += 0
                         elif param.count("memory_internal_free") > 0:
-                            memory =  int(rrd_updates.get_vm_data(uuid,param,row))*1024
+                            memory = int(rrd_updates.get_vm_data(uuid, param, row))*1024
                             memory_total = int(self.all_vms[vm]['memory_dynamic_max'])
                         else:
                             #print str(media/i) + "/" + str(max(data))
                             #print "last: " + str(rrd_updates.get_vm_data(uuid,param,row))
-                            
                             pass
 
                         if cpu:
@@ -928,59 +982,57 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 if parent == "OpaqueRef:NULL": 
                     parent = self.all_vms[vm]['affinity']
                 if not self.all_vms[vm]['is_control_domain']:
-                    if self.all_vms[vm]['metrics'] not in  self.all_vm_metrics:
-                        self.all_vm_metrics[self.all_vms[vm]['metrics']] = self.connection.VM_metrics.get_record(self.session_uuid, self.all_vms[vm]['metrics'])['Value']
+                    if self.all_vms[vm]['metrics'] not in self.all_vm_metrics:
+                        self.all_vm_metrics[self.all_vms[vm]['metrics']] = \
+                            self.connection.VM_metrics.get_record(self.session_uuid,
+                                                                  self.all_vms[vm]['metrics'])['Value']
                     start_time = self.all_vm_metrics[self.all_vms[vm]['metrics']]['start_time']
                     uptime = self.humanize_time(self.get_seconds_difference(start_time))
                     if parent != "OpaqueRef:NULL":
                         if int(load_img) > 10:
-                          load_img = "10"
+                            load_img = "10"
                         elif int(load_img) < 0:
-                          load_img = "0"
+                            load_img = "0"
                         if int(memory_img) > 10:
-                          memory_img = "10"
+                            memory_img = "10"
                         elif int(memory_img) < 0:
-                          memory_img = "0"
+                            memory_img = "0"
 
                         if with_tools:
-                             gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item) and False,
-                                hosts[parent],
-                                ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                            gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item)
+                                             and False, hosts[parent],
+                                             ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/tree_running_16.png")),
-                                  self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] +
-                                  "</i>", gtk.gdk.pixbuf_new_from_file(
-                                      os.path.join(utils.module_path(), "images/usagebar_%s.png" % load_img)),
-                                  load + "% of " + str(cpu) + " cpus",
-                                  gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                                               self.all_vms[vm]['name_label'] + "\n<i>" +
+                                               self.all_vms[vm]['name_description'] + "</i>",
+                                               gtk.gdk.pixbuf_new_from_file(
+                                                   os.path.join(utils.module_path(),
+                                                                "images/usagebar_%s.png" % load_img)),
+                                               load + "% of " + str(cpu) + " cpus",
+                                               gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/usagebar_%s.png" %
                                                                             abs(int(memory_img)))),
-                                  memory_used + "% of " + self.convert_bytes(memory_total),
-                                  str(vbd_write_avg) + "/" + str(vbd_write_max) + " | " + str(vbd_read_avg) + "/" +
-                                  str(vbd_read_max),
-                                  str(vif_write_avg) + "/" + str(vif_write_max) + " | " + str(vif_read_avg) + "/" +
-                                  str(vif_read_max),
-                                  "\n".join(ips),
-                                  uptime,
-                                  None
-                              ]))
+                                               memory_used + "% of " + self.convert_bytes(memory_total),
+                                               str(vbd_write_avg) + "/" + str(vbd_write_max) + " | " +
+                                               str(vbd_read_avg) + "/" + str(vbd_read_max),
+                                               str(vif_write_avg) + "/" + str(vif_write_max) + " | " +
+                                               str(vif_read_avg) + "/" + str(vif_read_max),
+                                               "\n".join(ips), uptime, None]))
                         else:
-                            gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item) and False,
-                                hosts[parent],
-                                ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                            gobject.idle_add(lambda parent_path, item: list.append(list.get_iter(parent_path), item)
+                                             and False, hosts[parent],
+                                             ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/tree_running_16.png")),
-                                  self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>", 
-                                  gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                                               self.all_vms[vm]['name_label'] + "\n<i>" +
+                                               self.all_vms[vm]['name_description'] + "</i>",
+                                               gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/usagebar_%s.png" % load_img)),
-                                  load + "% of " + str(cpu) + " cpus",
-                                  gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                                               load + "% of " + str(cpu) + " cpus",
+                                               gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/usagebar_0.png")),
-                                  "",
-                                  "<span foreground='red'><b>XenServer tools</b></span>",
-                                  "<span foreground='red'><b>not installed</b></span>",
-                                  "-",
-                                  uptime,
-                                  None
-                               ]))
+                                               "", "<span foreground='red'><b>XenServer tools</b></span>",
+                                               "<span foreground='red'><b>not installed</b></span>", "-",
+                                               uptime, None]))
                     else:
                         pass
                         """
@@ -1012,8 +1064,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                       str(vif_read_avg) + "/" + str(vif_read_max)) and False)
             gobject.idle_add(lambda: self.wine.treesearch.expand_all() and False)
 
-
-
     def fill_local_storage(self, ref, list):
         list.clear()
         """
@@ -1033,8 +1083,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     vm += " (snapshot)"
                 #FIXME
                 if self.all_vdi[vdi]['name_label'] != "base copy":
-                    list.append([vdi, self.all_vdi[vdi]['name_label'], self.all_vdi[vdi]['name_description'], \
-                            self.convert_bytes(self.all_vdi[vdi]['virtual_size']) + " (" + str(pct) + "% on disk)", vm])
+                    list.append([vdi, self.all_vdi[vdi]['name_label'],
+                                 self.all_vdi[vdi]['name_description'],
+                                 self.convert_bytes(self.all_vdi[vdi]['virtual_size']) +
+                                 " (" + str(pct) + "% on disk)", vm])
 
     def fill_vm_storage(self, ref, storage_list):
         self.filter_ref = ref
@@ -1073,39 +1125,41 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         vmvdi = ""
         for vbd in all_vbds:
             if vbd['type'] == "CD":
-               vmvdi = vbd['VDI']
+                vmvdi = vbd['VDI']
         list.clear()
         list.append(["<empty>", "empty", True, True])
         list.append(["DVD drives", "", False, True])
         for sr in self.all_storage:
             if self.all_storage[sr]['type'] == "udev" and self.all_storage[sr]['sm_config']["type"] == "cd":
                 if len(self.all_storage[sr]['VDIs']):
-                    i = i + 1
+                    i += 1
                     if self.all_storage[sr]['VDIs'][0] == vmvdi:
-                            active = i  
+                            active = i
                     if self.all_storage[sr]['VDIs'][0] in self.all_vdi:
                         info = self.all_vdi[self.all_storage[sr]['VDIs'][0]]
-                        list.append(["\tDVD Drive " + info['location'][-1:],  self.all_storage[sr]['VDIs'][0], True, False])
+                        list.append(["\tDVD Drive " + info['location'][-1:],
+                                     self.all_storage[sr]['VDIs'][0], True, False])
                     else:
                         list.append(["\tDVD Drive",  self.all_storage[sr]['VDIs'][0], True, False])
         for sr in self.all_storage:
             if self.all_storage[sr]['type'] == "iso":
 
                 list.append([self.all_storage[sr]['name_label'], sr, False, True])
-                i = i + 1
+                i += 1
                 isos = {}
                 for vdi in self.all_storage[sr]['VDIs']:
                     isos[str(self.all_vdi[vdi]['name_label'])] = vdi
                 for vdi_ref in sorted(isos):
                     vdi = isos[vdi_ref]
                     list.append(["\t" + self.all_vdi[vdi]['name_label'], vdi, True, False])
-                    i = i + 1
+                    i += 1
                     if vdi == vmvdi:
                         active = i  
         if active == 0:
             return active
         else:
-            return active+1
+            return active + 1
+
     def update_tab_storage(self, ref, builder):
         labels = {}
         labels['lblstgname'] = self.all_storage[ref]['name_label']
@@ -1115,16 +1169,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if "folder" in stg_other_config:
             labels['lblstgfolder'] = stg_other_config['folder']
         else:
-            labels['lblstgfolder'] = ""
+            labels['lblstgfolder'] = "<None>"
         labels['lblstgtype'] = self.all_storage[ref]['type'].upper()
         labels['lblstgsize'] = "%s used of %s total (%s allocated)" % \
-                (self.convert_bytes(self.all_storage[ref]['physical_utilisation']),
-                 self.convert_bytes(self.all_storage[ref]['physical_size']),
-                 self.convert_bytes(self.all_storage[ref]['virtual_allocation'])
-                )
+                               (self.convert_bytes(self.all_storage[ref]['physical_utilisation']),
+                                self.convert_bytes(self.all_storage[ref]['physical_size']),
+                                self.convert_bytes(self.all_storage[ref]['virtual_allocation']))
+
         if "devserial" in self.all_storage[ref]['sm_config']:
-            devserial =  self.all_storage[ref]['sm_config']['devserial'].split("-",2)
-            labels['lblstgserial'] =  devserial[0].upper() + " ID:"
+            devserial = self.all_storage[ref]['sm_config']['devserial'].split("-", 2)
+            labels['lblstgserial'] = devserial[0].upper() + " ID:"
             if len(devserial) > 1:
                     labels['lblstgscsi'] = devserial[1]
             else:
@@ -1159,15 +1213,17 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             labels['lblstgmultipath'] = "No"
         else:
             pbd = self.all_pbd[self.all_storage[ref]['PBDs'][0]]
-            if "multipathed" in pbd['other_config'] and  pbd['other_config']["multipathed"] == "true":
+            if "multipathed" in pbd['other_config'] and pbd['other_config']["multipathed"] == "true":
                 if "SCSIid" in pbd['device_config']:
                     #{'uuid': '232b7d15-d8cb-e183-3838-dfd33f6bd597', 'SR': 'OpaqueRef:1832f6e1-73fa-b43d-fcd2-bac969abf867', 'other_config': {'mpath-3600a0b8000294d50000045784b85e36f': '[1, 1, -1, -1]', 'multipathed': 'true'}, 'host': 'OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d', 'currently_attached': True, 'device_config': {'SCSIid': '3600a0b8000294d50000045784b85e36f'}}
                     scsiid = pbd['device_config']["SCSIid"] 
                     paths = eval(pbd["other_config"]["mpath-" + scsiid])
                     if paths[0] == paths[1]:
-                        labels['lblstgmultipath'] = "<span foreground='green'>%s of %s paths active</span>" % (paths[0], paths[1])
+                        labels['lblstgmultipath'] = "<span foreground='green'>%s of %s paths active</span>" % \
+                                                    (paths[0], paths[1])
                     else:
-                        labels['lblstgmultipath'] = "<span foreground='red'>%s of %s paths active</span>" % (paths[0], paths[1])
+                        labels['lblstgmultipath'] = "<span foreground='red'>%s of %s paths active</span>" % \
+                                                    (paths[0], paths[1])
                 else:
                     labels['lblstgmultipath'] = "Yes"
             else:
@@ -1297,17 +1353,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         host_vms_memory = ""
         for resident_vm_uuid in resident_vms:
             if self.all_vms[resident_vm_uuid]['is_control_domain']:
-               host_memory =  self.all_vms[resident_vm_uuid]['memory_target']
+                host_memory = self.all_vms[resident_vm_uuid]['memory_target']
             else:
-               host_vms_memory += self.all_vms[resident_vm_uuid]['name_label'] \
-                    + ": using " + \
-                    self.convert_bytes(self.all_vms[resident_vm_uuid]['memory_dynamic_max']) + "\n"
+                host_vms_memory += self.all_vms[resident_vm_uuid]['name_label'] \
+                    + ": using " + self.convert_bytes(self.all_vms[resident_vm_uuid]['memory_dynamic_max']) + "\n"
         host_metrics_uuid = self.all_hosts[ref]['metrics']
         host_metrics = self.all_host_metrics[host_metrics_uuid]
-        labels['lblhostmemserver'] = "%s free of %s available (%s total)"  % \
-                (self.convert_bytes(host_metrics['memory_free']), \
-                self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)), \
-                self.convert_bytes(host_metrics['memory_total']))
+        labels['lblhostmemserver'] = "%s free of %s available (%s total)" % \
+                                     (self.convert_bytes(host_metrics['memory_free']),
+                                      self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)),
+                                      self.convert_bytes(host_metrics['memory_total']))
         labels['lblhostmemoryvms'] = host_vms_memory
         labels['lblhostmemory'] = self.convert_bytes(host_memory)
         labels['lblhostversiondate'] = software_version['date']
@@ -1345,7 +1400,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
     def update_tab_pool_general(self, ref, builder):
         labels = {}
-        if ref not in  self.all_pools: 
+        if ref not in self.all_pools:
             return
         labels["lblpoolname"] = self.all_pools[ref]['name_label']
         labels["lblpooldescription"] = self.all_pools[ref]['name_description']
@@ -1449,9 +1504,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
             metric = self.all_vms[ref]['metrics']
             if metric not in self.all_vm_metrics:
-               res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
-               if "Value" in res:
-                   self.all_vm_metrics[ref] = res["Value"]
+                res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
+                if "Value" in res:
+                    self.all_vm_metrics[ref] = res["Value"]
             
             if metric in self.all_vm_metrics:
                 if self.all_vm_metrics[metric]['start_time'] != "19700101T00:00:00Z":
@@ -1494,13 +1549,16 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
 
     def export_vm(self, ref, destination, ref2=None, as_vm=False):
         if ref2:
-            task_uuid = self.connection.task.create(self.session_uuid, "Exporting snapshot", "Exporting snapshot " + destination)
+            task_uuid = self.connection.task.create(self.session_uuid, "Exporting snapshot",
+                                                    "Exporting snapshot " + destination)
         else:
-            task_uuid = self.connection.task.create(self.session_uuid, "Exporting VM", "Exporting VM " + destination)
+            task_uuid = self.connection.task.create(self.session_uuid, "Exporting VM",
+                                                    "Exporting VM " + destination)
         self.track_tasks[task_uuid['Value']] = ref2 if ref2 else ref
-        url = "http://%s/export?ref=%s&session_id=%s&task_id=%s" % (self.wine.selected_host,  
-                               ref, self.session_uuid, task_uuid['Value'])
-        Thread(target=self.download_export, args=(url,destination, ref, as_vm)).start()
+        url = "http://%s/export?ref=%s&session_id=%s&task_id=%s" % (self.wine.selected_host,
+                                                                    ref, self.session_uuid,
+                                                                    task_uuid['Value'])
+        Thread(target=self.download_export, args=(url, destination, ref, as_vm)).start()
        
     def download_export(self, url, destination, ref, as_vm):
         #print "Saving %s to %s" % (url, destination)
@@ -1520,7 +1578,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         consoles = self.connection.VM.get_consoles(self.session_uuid, vm_uuid['Value'])
         console  = self.connection.console.get_record(self.session_uuid,consoles['Value'][0])
         """
-        return "CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (ref,self.session_uuid)
+        return "CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (ref, self.session_uuid)
 
     def get_connect_parameters(self, ref, host):
         """
@@ -1532,9 +1590,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         
     # TODO: these should *not* be here
     # {
+    @staticmethod
     def dump(self, obj):
-      for attr in dir(obj):
-        print "obj.%s = %s" % (attr, getattr(obj, attr))
+        for attr in dir(obj):
+            print "obj.%s = %s" % (attr, getattr(obj, attr))
 
     @staticmethod
     def humanize_time(seconds):
@@ -1562,7 +1621,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         """
         n = float(n)
         K, M, G, T = 1 << 10, 1 << 20, 1 << 30, 1 << 40
-        if   n >= T:
+        if n >= T:
             return '%.2fT' % (float(n) / T)
         elif n >= G:
             return '%.2fG' % (float(n) / G)
@@ -1577,9 +1636,11 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
     def thread_host_search(self, ref, list):
         Thread(target=self.fill_host_search, args=(ref, list)).start()
         return True
+
     def search_ref(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 6) == user_data:
             self.found_iter = iter_ref
+
     def event_next(self):
         print "Entering event loop"
         
@@ -1594,9 +1655,9 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                 if not self.all_vms[event["ref"]]["is_a_snapshot"]:
                                     gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
                                 else:
-                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                         self.wine.builder.get_object("treevmsnapshots"), \
-                                         self.wine.builder.get_object("listvmsnapshots")) and False)
+                                    gobject.idle_add(lambda: self.fill_vm_snapshots(
+                                        self.wine.selected_ref, self.wine.builder.get_object("treevmsnapshots"),
+                                        self.wine.builder.get_object("listvmsnapshots")) and False)
 
                                 gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
                                 gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
@@ -1624,17 +1685,18 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                         gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
                                     del self.all_vms[event["ref"]]
                                 else:
-                                    gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                         self.wine.builder.get_object("treevmsnapshots"), \
-                                         self.wine.builder.get_object("listvmsnapshots")) and False)
+                                    gobject.idle_add(lambda: self.fill_vm_snapshots(
+                                        self.wine.selected_ref, self.wine.builder.get_object("treevmsnapshots"),
+                                        self.wine.builder.get_object("listvmsnapshots")) and False)
                                     del self.all_vms[event["ref"]]
 
                             else:
                                 self.filter_uuid = event['snapshot']['uuid']
                                 if self.vm_filter_uuid():
                                     #make into a template
-                                    if event['snapshot']['is_a_template']  != self.all_vms[self.vm_filter_uuid()]['is_a_template']:
-                                        self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
+                                    if event['snapshot']['is_a_template'] != \
+                                            self.all_vms[self.vm_filter_uuid()]['is_a_template']:
+                                        self.all_vms[self.vm_filter_uuid()] = event['snapshot']
                                         self.found_iter = None 
                                         self.treestore.foreach(self.search_ref, event["ref"])
                                         if self.found_iter and event['snapshot']['is_a_template']:
@@ -1645,28 +1707,33 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                                 "custom_template") and False)
                                             gobject.idle_add(lambda: self.wine.update_tabs() and False)
                                     else:
-                                        if event['snapshot']['resident_on'] !=  self.all_vms[self.vm_filter_uuid()]['resident_on']:
+                                        if event['snapshot']['resident_on'] != \
+                                                self.all_vms[self.vm_filter_uuid()]['resident_on']:
                                             self.found_iter = None 
-                                            gobject.idle_add(lambda: self.treestore.foreach(self.search_ref, event["ref"]) and False)
+                                            gobject.idle_add(lambda: self.treestore.foreach(self.search_ref,
+                                                                                            event["ref"]) and False)
                                             if self.found_iter:
-                                                gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
+                                                gobject.idle_add(lambda: self.treestore.remove(self.found_iter)
+                                                                 and False)
                                                 self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
                                                 gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
          
-                                        if event['snapshot']['affinity'] !=  self.all_vms[self.vm_filter_uuid()]['affinity']:
+                                        if event['snapshot']['affinity'] != \
+                                                self.all_vms[self.vm_filter_uuid()]['affinity']:
                                             print "migrate or start on or resume on2"
-                                        self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
+                                        self.all_vms[self.vm_filter_uuid()] = event['snapshot']
                                 else:
                                     if event["ref"] in self.track_tasks:
-                                        self.all_vms[self.track_tasks[event["ref"]]] =  event['snapshot']
+                                        self.all_vms[self.track_tasks[event["ref"]]] = event['snapshot']
 
                                     else:
-                                        self.all_vms[event["ref"]] =  event['snapshot']
-                                self.all_vms[event["ref"]] =  event['snapshot']
+                                        self.all_vms[event["ref"]] = event['snapshot']
+                                self.all_vms[event["ref"]] = event['snapshot']
                                 self.treestore.foreach(self.update_vm_status, "")
                                 gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
                         elif event['class'] == "vm_guest_metrics":
-                            self.all_vm_guest_metrics[event['ref']] = self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
+                            self.all_vm_guest_metrics[event['ref']] = \
+                                self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
                         elif event['class'] == "task":
                             #print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                             self.all_tasks[event["ref"]] = event["snapshot"]
@@ -1675,45 +1742,71 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                 #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                 pass
                             if event["snapshot"]["status"] == "success":
-                               if event["ref"] in self.vboxchildprogressbar:
-                                   self.vboxchildprogress[event["ref"]].hide()
-                                   self.vboxchildprogressbar[event["ref"]].hide()
-                                   self.vboxchildcancel[event["ref"]].hide()
+                                if event["ref"] in self.vboxchildprogressbar:
+                                    self.vboxchildprogress[event["ref"]].hide()
+                                    self.vboxchildprogressbar[event["ref"]].hide()
+                                    self.vboxchildcancel[event["ref"]].hide()
                             if event["snapshot"]["error_info"]:
                                 if event["ref"] in self.track_tasks:
                                     if self.track_tasks[event["ref"]] in self.all_vms:
-                                        gobject.idle_add(lambda: self.wine.push_error_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], event["snapshot"]["error_info"])) and False)
-                                        eref =  event["ref"] 
+                                        gobject.idle_add(lambda: self.wine.push_error_alert(
+                                            "%s %s %s" % (event["snapshot"]["name_label"],
+                                                          self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                          event["snapshot"]["error_info"])) and False)
+                                        eref = event["ref"]
                                         if eref in self.vboxchildcancel:
                                             self.vboxchildcancel[eref].hide()
                                             self.vboxchildprogressbar[eref].hide()
                                             self.vboxchildprogress[eref].set_label(str(event["snapshot"]["error_info"]))
-                                            self.vboxchildprogress[eref].modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse('#FF0000'))
+                                            self.vboxchildprogress[eref].modify_fg(gtk.STATE_NORMAL,
+                                                                                   gtk.gdk.color_parse('#FF0000'))
 
                                     else:
                                         self.wine.builder.get_object("wprogressimportvm").hide()
                                         self.wine.builder.get_object("tabboximport").set_current_page(2)
-                                        gobject.idle_add(lambda: self.wine.push_error_alert("%s: %s" % (event["snapshot"]["name_description"], event["snapshot"]["error_info"])) and False)
+                                        gobject.idle_add(lambda: self.wine.push_error_alert(
+                                            "%s: %s" % (event["snapshot"]["name_description"],
+                                                        event["snapshot"]["error_info"])) and False)
                             else:
                                 if event["ref"] in self.track_tasks:
                                     if self.track_tasks[event["ref"]] in self.all_vms:
                                         if event["snapshot"]["status"] == "success":
-                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s completed" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"])) and False)
+                                            gobject.idle_add(lambda: self.wine.push_alert(
+                                                "%s %s completed" % (
+                                                    event["snapshot"]["name_label"],
+                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"]))
+                                                and False)
                                         else:
-                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                            gobject.idle_add(lambda: self.wine.push_alert(
+                                                "%s %s %s" % (
+                                                    event["snapshot"]["name_label"],
+                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                    (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                and False)
                                     else:
-                                        vm = self.connection.VM.get_record(self.session_uuid, self.track_tasks[event["ref"]])
+                                        vm = self.connection.VM.get_record(self.session_uuid,
+                                                                           self.track_tasks[event["ref"]])
                                         if "Value" in vm:
                                             self.all_vms[self.track_tasks[event["ref"]]] = vm['Value']
                                             #self.add_vm_to_tree(self.track_tasks[event["ref"]])
                                             gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
                                             gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
-                                            gobject.idle_add(lambda: self.wine.push_alert("%s %s %s" % (event["snapshot"]["name_label"], self.all_vms[self.track_tasks[event["ref"]]]["name_label"], (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                            gobject.idle_add(lambda: self.wine.push_alert(
+                                                "%s %s %s" % (
+                                                    event["snapshot"]["name_label"],
+                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                    (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                and False)
                                         else:
-                                            gobject.idle_add(lambda: self.wine.push_alert("%s: %s %s" % (event["snapshot"]["name_label"], event["snapshot"]["name_description"],  (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))) and False)
+                                            gobject.idle_add(lambda: self.wine.push_alert(
+                                                "%s: %s %s" % (
+                                                    event["snapshot"]["name_label"],
+                                                    event["snapshot"]["name_description"],
+                                                    (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                                and False)
                                 else:
-                                     pass  #FIXME?
-                                     #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
+                                    pass  # FIXME?
+                                    #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
                             if event["snapshot"]["status"] == "success":
                                 if event["snapshot"]["name_label"] == "Async.VIF.create":
                                     dom = xml.dom.minidom.parseString(event['snapshot']['result'])
@@ -1721,9 +1814,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     vif_ref = nodes[0].childNodes[0].data
                                     self.connection.VIF.plug(self.session_uuid, vif_ref)
                                     if self.wine.selected_tab == "VM_Network":
-                                        gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref,
-                                                self.wine.builder.get_object("treevmnetwork"),
-                                                self.wine.builder.get_object("listvmnetwork")) and False)
+                                        gobject.idle_add(lambda: self.fill_vm_network(
+                                            self.wine.selected_ref,
+                                            self.wine.builder.get_object("treevmnetwork"),
+                                            self.wine.builder.get_object("listvmnetwork")) and False)
                                 if event["snapshot"]["name_label"] == "Async.VM.revert":
                                     self.start_vm(self.track_tasks[event["ref"]])
 
@@ -1733,27 +1827,37 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     vm_ref = nodes[0].childNodes[0].data
                                     #self.add_vm_to_tree(vm_ref)
                                     if event["ref"] in self.set_descriptions:
-                                        self.connection.VM.set_name_description(self.session_uuid, vm_ref, self.set_descriptions[event["ref"]])
-                                if event["snapshot"]["name_label"] in ("Async.VM.provision", "Async.VM.clone", "Async.VM.copy"):
+                                        self.connection.VM.set_name_description(self.session_uuid, vm_ref,
+                                                                                self.set_descriptions[event["ref"]])
+                                if event["snapshot"]["name_label"] in ("Async.VM.provision", "Async.VM.clone",
+                                                                       "Async.VM.copy"):
                                     self.filter_uuid = event['snapshot']['uuid']
                                     # TODO
                                     # Detect VM with event["ref"]
-                                    if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in self.all_vms:
+                                    if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in \
+                                            self.all_vms:
                                         for vbd in self.all_vms[self.track_tasks[event["ref"]]]['VBDs']:
-                                            self.all_storage[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
+                                            self.all_storage[vbd] = self.connection.VBD.get_record(self.session_uuid,
+                                                                                                   vbd)['Value']
                                         for vif in self.all_vms[self.track_tasks[event["ref"]]]['VIFs']:
-                                            self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid, vif)['Value']
-                                    if self.vm_filter_uuid() != None:
+                                            self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid,
+                                                                                               vif)['Value']
+                                    if self.vm_filter_uuid() is not None:
                                         self.all_vms[self.vm_filter_uuid()]['allowed_operations'] = \
-                                            self.connection.VM.get_allowed_operations(self.session_uuid, self.vm_filter_uuid())['Value']
+                                            self.connection.VM.get_allowed_operations(self.session_uuid,
+                                                                                      self.vm_filter_uuid())['Value']
                                     else:
                                         if event["ref"] in self.track_tasks:
                                             self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'] = \
-                                                self.connection.VM.get_allowed_operations(self.session_uuid, self.track_tasks[event["ref"]])['Value']
-                                            if self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'].count("start"):
+                                                self.connection.VM.get_allowed_operations(
+                                                    self.session_uuid, self.track_tasks[event["ref"]])['Value']
+                                            if self.all_vms[self.track_tasks[event["ref"]]][
+                                               'allowed_operations'].count("start"):
                                                 if self.track_tasks[event["ref"]] in self.autostart:
                                                     host_start = self.autostart[self.track_tasks[event["ref"]]]
-                                                    res = self.connection.Async.VM.start_on(self.session_uuid, self.track_tasks[event["ref"]], host_start, False, False)
+                                                    res = self.connection.Async.VM.start_on(
+                                                        self.session_uuid, self.track_tasks[event["ref"]],
+                                                        host_start, False, False)
                                                     if "Value" in res:
                                                         self.track_tasks[res['Value']] = self.track_tasks[event["ref"]]
                                                     else:
@@ -1766,22 +1870,26 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                         nodes = dom.getElementsByTagName("value")
                                         snapshot_ref = nodes[0].childNodes[0].data
                                         #self.all_vms[vm_uuid]['snapshots'].append(snapshot_ref)
-                                        self.all_vms[snapshot_ref] = self.connection.VM.get_record(self.session_uuid, snapshot_ref)['Value']
+                                        self.all_vms[snapshot_ref] = self.connection.VM.get_record(
+                                            self.session_uuid, snapshot_ref)['Value']
                                         for vbd in self.all_vms[snapshot_ref]['VBDs']:
                                             #FIXME
-                                            self.all_vbd[vbd] = self.connection.VBD.get_record(self.session_uuid, vbd)['Value']
+                                            self.all_vbd[vbd] = self.connection.VBD.get_record(
+                                                self.session_uuid, vbd)['Value']
 
                                         if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                            self.wine.selected_tab == "VM_Snapshots":
-                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("treevmsnapshots"), \
-                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                           self.wine.selected_tab == "VM_Snapshots":
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("treevmsnapshots"),
+                                                    self.wine.builder.get_object("listvmsnapshots")) and False)
                                 if event["snapshot"]["name_label"] == "VM.Async.snapshot": 
                                         if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                            self.wine.selected_tab == "VM_Snapshots":
-                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("treevmsnapshots"), \
-                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                           self.wine.selected_tab == "VM_Snapshots":
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("treevmsnapshots"),
+                                                    self.wine.builder.get_object("listvmsnapshots")) and False)
                                 if event["snapshot"]["name_label"] == "Importing VM": 
                                         if self.import_start:
                                             self.start_vm(self.track_tasks[event["ref"]])
@@ -1789,69 +1897,81 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                             self.make_into_template(self.track_tasks[event["ref"]])
                                 if event["snapshot"]["name_label"] == "VM.destroy": 
                                         if self.wine.selected_tab == "VM_Snapshots":
-                                                gobject.idle_add(lambda: self.fill_vm_snapshots(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("treevmsnapshots"), \
-                                                     self.wine.builder.get_object("listvmsnapshots")) and False)
+                                                gobject.idle_add(lambda: self.fill_vm_snapshots(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("treevmsnapshots"),
+                                                    self.wine.builder.get_object("listvmsnapshots")) and False)
                                 if event["snapshot"]["name_label"] == "VIF.destroy": 
                                         if self.wine.selected_tab == "VM_Network":
-                                                gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("treevmnetwork"), \
-                                                     self.wine.builder.get_object("listvmnetwork")) and False)
+                                                gobject.idle_add(lambda: self.fill_vm_network(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("treevmnetwork"),
+                                                    self.wine.builder.get_object("listvmnetwork")) and False)
                                 if event["snapshot"]["name_label"] == "VIF.plug": 
                                         if self.wine.selected_tab == "VM_Network":
-                                                gobject.idle_add(lambda: self.fill_vm_network(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("treevmnetwork"), \
-                                                     self.wine.builder.get_object("listvmnetwork")) and False)
+                                                gobject.idle_add(lambda: self.fill_vm_network(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("treevmnetwork"),
+                                                    self.wine.builder.get_object("listvmnetwork")) and False)
 
                                 if event["snapshot"]["name_label"] in ("VBD.create", "VBD.destroy"): 
                                         if self.wine.selected_tab == "VM_Storage":
                                                 #print "fill_vm_storage start"
-                                                gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("listvmstorage")) and False)
+                                                gobject.idle_add(lambda: self.fill_vm_storage(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("listvmstorage")) and False)
                                                 #print pdb.set_trace()
                                                 #print "fill_vm_storage end"
                                 if event["snapshot"]["name_label"] in ("VDI.create", "VDI.destroy"): 
                                         if self.wine.selected_tab == "Local_Storage":
-                                                gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref, \
-                                                     self.wine.builder.get_object("liststg")) and False)
+                                                gobject.idle_add(lambda: self.fill_local_storage(
+                                                    self.wine.selected_ref,
+                                                    self.wine.builder.get_object("liststg")) and False)
                                 if event["snapshot"]["name_label"] in ("network.create", "network.destroy"): 
                                         if self.wine.selected_tab == "HOST_Network":
                                             gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
 
                                 if event["snapshot"]["name_label"] in ("Async.Bond.create", "Bond.create",
                                                                        "Async.Bond.destroy", "Bond.destroy"): 
-                                         if self.wine.selected_tab == "HOST_Nics":
+                                        if self.wine.selected_tab == "HOST_Nics":
                                             gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
                             if event["ref"] in self.track_tasks:
                                 self.tasks[event["ref"]] = event
                             if event["ref"] in self.vboxchildprogressbar:
-                                 self.vboxchildprogressbar[event["ref"]].set_fraction(float(event["snapshot"]["progress"]))
+                                self.vboxchildprogressbar[event["ref"]].set_fraction(
+                                    float(event["snapshot"]["progress"]))
                                         
                             else:
-                               if event["ref"] in self.track_tasks:
+                                if event["ref"] in self.track_tasks:
                                     self.tasks[event["ref"]] = event
                                     if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
-                                        self.wine.selected_tab == "VM_Logs":
-                                        if event["ref"] in self.track_tasks and event["ref"] not in self.vboxchildprogressbar:
-                                            gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
-                               else:
-                                   if event["snapshot"]["name_label"] == "Exporting VM" and event["ref"] not in self.vboxchildprogressbar:
-                                       self.track_tasks[event["ref"]] = self.wine.selected_ref 
-                                       self.tasks[event["ref"]] = event
-                                       gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid, thread=True) and False)
-                                   else:
+                                       self.wine.selected_tab == "VM_Logs":
+                                        if event["ref"] in self.track_tasks \
+                                                and event["ref"] not in self.vboxchildprogressbar:
+                                            gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid,
+                                                                                      thread=True) and False)
+                                else:
+                                    if event["snapshot"]["name_label"] == "Exporting VM" \
+                                            and event["ref"] not in self.vboxchildprogressbar:
+                                        self.track_tasks[event["ref"]] = self.wine.selected_ref
+                                        self.tasks[event["ref"]] = event
+                                        gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid,
+                                                                                  thread=True) and False)
+                                    else:
                                         #print event
-                                       pass
+                                        pass
 
                         elif event["class"] == "vdi":
                             self.all_vdi[event["ref"]] = event["snapshot"]
                             if self.wine.selected_tab == "Local_Storage":
                                 liststg = self.wine.builder.get_object("liststg")
-                                gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref,liststg) and False)
+                                gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref, liststg)
+                                                 and False)
                             if self.wine.selected_tab == "VM_Storage":
-                                gobject.idle_add(lambda: self.fill_vm_storage(self.wine.selected_ref, \
-                                        self.wine.builder.get_object("listvmstorage")) and False)
+                                gobject.idle_add(lambda: self.fill_vm_storage(
+                                    self.wine.selected_ref,
+                                    self.wine.builder.get_object("listvmstorage")) and False)
 
                         elif event["class"] == "vbd":
                             self.all_vbd[event["ref"]] = event["snapshot"]
@@ -1860,17 +1980,17 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                 self.last_vbd = event["ref"]
                             """  
                         elif event["class"] == "pif":
-                           self.all_pif[event["ref"]]  = event["snapshot"]
-                           if self.wine.selected_tab == "HOST_Nics":
-                               gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
+                            self.all_pif[event["ref"]] = event["snapshot"]
+                            if self.wine.selected_tab == "HOST_Nics":
+                                gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
                         elif event["class"] == "bond":
-                           if event["operation"] == "del":
-                               del self.all_bond[event["ref"]]
-                           else:
-                               self.all_bond[event["ref"]]  = event["snapshot"]
-                           if self.wine.selected_tab == "HOST_Nics":
-                               gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
+                            if event["operation"] == "del":
+                                del self.all_bond[event["ref"]]
+                            else:
+                                self.all_bond[event["ref"]] = event["snapshot"]
+                            if self.wine.selected_tab == "HOST_Nics":
+                                gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
                         elif event["class"] == "vif":
                             if event["operation"] == "del":
@@ -1878,10 +1998,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             else:
                                 if event["operation"] == "add":
                                     self.connection.VIF.plug(self.session_uuid, event["ref"])
-                                self.all_vif[event["ref"]]  = event["snapshot"]
+                                self.all_vif[event["ref"]] = event["snapshot"]
                         elif event["class"] == "sr":
                             self.filter_uuid = event['snapshot']['uuid']
-                            self.all_storage[event["ref"]]  = event["snapshot"]
+                            self.all_storage[event["ref"]] = event["snapshot"]
                             self.treestore.foreach(self.update_storage_status, "")
                             if event["operation"] == "del":
                                 self.filter_uuid = event['snapshot']['uuid']
@@ -1903,7 +2023,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     gobject.idle_add(lambda: self.treestore.append(self.hostroot[host], [
                                         gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
-                                        self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],\
+                                        self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
                                         "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'],
                                         None]) and False)
 
@@ -1913,25 +2033,26 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                                     gobject.idle_add(lambda: self.wine.treestore.remove(self.poolroot) and False)
                                 else:
                                     for host_ref in self.hostroot.keys():
-                                        gobject.idle_add(lambda: self.wine.treestore.remove(self.hostroot[host_ref]) and False)
+                                        gobject.idle_add(lambda: self.wine.treestore.remove(self.hostroot[host_ref])
+                                                         and False)
 
                                 self.sync()
                             if self.all_pools[event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
-                                self.treestore.foreach(self.update_default_sr, \
-                                       [self.all_pools[event["ref"]]['default_SR'], event["snapshot"]["default_SR"]])
-                            self.all_pools[event["ref"]]  = event["snapshot"]
+                                self.treestore.foreach(self.update_default_sr,
+                                                       [self.all_pools[event["ref"]]['default_SR'],
+                                                        event["snapshot"]["default_SR"]])
+                            self.all_pools[event["ref"]] = event["snapshot"]
                             if self.wine.selected_type == "pool":
                                 self.update_tab_pool_general(self.wine.selected_ref, self.wine.builder)
                         elif event["class"] == "message":
-                           if event["operation"] == "del":
-                               del self.all_messages[event["ref"]]
-                           elif event["operation"] == "add":
-                               self.all_messages[event["ref"]] = event["snapshot"]
-                               self.add_alert(event["snapshot"], event["ref"], 
-                                       self.wine.listalerts)
-                               self.wine.update_n_alerts()
-                           else:
-                               print event
+                            if event["operation"] == "del":
+                                del self.all_messages[event["ref"]]
+                            elif event["operation"] == "add":
+                                self.all_messages[event["ref"]] = event["snapshot"]
+                                self.add_alert(event["snapshot"], event["ref"], self.wine.listalerts)
+                                self.wine.update_n_alerts()
+                            else:
+                                print event
                         elif event["class"] == "vm_guest_metrics":
                             self.all_vm_guest_metrics[event["ref"]] = event["snapshot"] 
                         elif event["class"] == "network":
@@ -1942,24 +2063,24 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             if self.wine.selected_tab == "HOST_Network":
                                 gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
                         elif event["class"] == "vlan":
-                           if event["operation"] == "del":
-                               if event["ref"] in self.all_vlan:
-                                   del self.all_vlan[event["ref"]]
-                           self.all_vlan[event["ref"]] = event["snapshot"] 
+                            if event["operation"] == "del":
+                                if event["ref"] in self.all_vlan:
+                                    del self.all_vlan[event["ref"]]
+                            self.all_vlan[event["ref"]] = event["snapshot"]
 
                         elif event["class"] == "host":
-                           if event["operation"] == "del":
-                               self.filter_uuid = event['snapshot']['uuid']
-                               self.treestore.foreach(self.delete_host, "")
-                               del self.all_hosts[event["ref"]]
+                            if event["operation"] == "del":
+                                self.filter_uuid = event['snapshot']['uuid']
+                                self.treestore.foreach(self.delete_host, "")
+                                del self.all_hosts[event["ref"]]
 
-                           elif event["operation"] == "add":
-                               self.all_hosts[event["ref"]] = event["snapshot"] 
-                               self.wine.show_error_dlg("Host added, please reconnect for sync all info")
-                           else:
-                               self.filter_uuid = event['snapshot']['uuid']
-                               self.all_hosts[event["ref"]] = event["snapshot"] 
-                               self.treestore.foreach(self.update_host_status, "")
+                            elif event["operation"] == "add":
+                                self.all_hosts[event["ref"]] = event["snapshot"]
+                                self.wine.show_error_dlg("Host added, please reconnect for sync all info")
+                            else:
+                                self.filter_uuid = event['snapshot']['uuid']
+                                self.all_hosts[event["ref"]] = event["snapshot"]
+                                self.treestore.foreach(self.update_host_status, "")
                         elif event["class"] == "pif_metrics":
                             self.all_pif_metrics[event["ref"]] = event["snapshot"] 
                         elif event["class"] == "host_metrics":
@@ -1974,30 +2095,30 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                             self.all_console[event["ref"]] = event["snapshot"]
                         elif event["class"] == "host_patch":
                             if event["operation"] == "del":
-                               del self.all_host_patch[event["ref"]]
+                                del self.all_host_patch[event["ref"]]
                             else:
-                               self.all_host_patch[event["ref"]] = event["snapshot"]
+                                self.all_host_patch[event["ref"]] = event["snapshot"]
                         elif event["class"] == "pool_patch":
                             if event["operation"] == "del":
-                               del self.all_pool_patch[event["ref"]]
+                                del self.all_pool_patch[event["ref"]]
                             else:
-                               self.all_pool_patch[event["ref"]] = event["snapshot"]
+                                self.all_pool_patch[event["ref"]] = event["snapshot"]
                         elif event["class"] == "pbd":
                             self.all_pbd[event["ref"]] = event["snapshot"]
                             if event["operation"] == "add":
                                 sr = event["snapshot"]["SR"]
                                 host = event["snapshot"]["host"]
-                                gobject.idle_add(lambda: self.treestore.insert_after(self.hostroot[host],
-                                                                                     self.last_storage_iter, [
-                                        gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                  "images/storage_shaped_16.png")),
-                                        self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
-                                        "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'],
-                                        None]) and False)
+                                gobject.idle_add(lambda: self.treestore.insert_after(
+                                    self.hostroot[host], self.last_storage_iter,
+                                    [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
+                                                                               "images/storage_shaped_16.png")),
+                                     self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
+                                     "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None])
+                                    and False)
                         elif event["class"] == "host_cpu":
                             self.all_host_cpu[event["ref"]] = event["snapshot"]
                         else:
-                            print event["class"] + " => ",event
+                            print event["class"] + " => ", event
             except socket, msg:
                 self.halt = True
                 # FIXME TODO
@@ -2011,7 +2132,6 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 print traceback.print_exc()
                 
         print "Exiting event loop"
-
 
     def update_default_sr(self, model, path, iter_ref, user_data):
         """
@@ -2072,8 +2192,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, storage['name_label']) and False)
             if self.wine.selected_ref == self.treestore.get_value(iter_ref, 6):
                 gobject.idle_add(lambda: self.wine.update_tabs() and False)
-                gobject.idle_add(lambda: self.wine.builder.get_object("headimage").set_from_pixbuf(self.treestore.get_value(iter_ref, 0)) and False)
-                gobject.idle_add(lambda: self.wine.builder.get_object("headlabel").set_label(self.treestore.get_value(iter_ref,  1)) and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object("headimage").set_from_pixbuf(
+                    self.treestore.get_value(iter_ref, 0)) and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object("headlabel").set_label(
+                    self.treestore.get_value(iter_ref,  1)) and False)
             sr = self.treestore.get_value(iter_ref, 6)
             if len(self.all_storage[sr]['PBDs']) == 0:
                 gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
@@ -2096,9 +2218,7 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
                 if self.treestore.get_value(iter_ref, 1):
                     host = self.all_hosts[self.host_filter_uuid()]
-                    gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, \
-                       host['name_label']
-                       ) and False)
+                    gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, host['name_label']) and False)
                     if host["enabled"]:
                         gobject.idle_add(lambda: self.treestore.set_value(iter_ref, 0,  gtk.gdk.pixbuf_new_from_file(
                             os.path.join(utils.module_path(), "images/tree_connected_16.png"))) and False)
@@ -2108,8 +2228,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                     gobject.idle_add(lambda: self.wine.update_tabs() and False)
                     gobject.idle_add(lambda: self.wine.update_toolbar() and False)
                     gobject.idle_add(lambda: self.wine.update_menubar()  and False)
-                    gobject.idle_add(lambda: self.wine.builder.get_object("headimage").set_from_pixbuf(self.treestore.get_value(iter_ref, 0)) and False)
-                    gobject.idle_add(lambda: self.wine.builder.get_object("headlabel").set_label(self.treestore.get_value(iter_ref,  1)) and False)
+                    gobject.idle_add(lambda: self.wine.builder.get_object("headimage").set_from_pixbuf(
+                        self.treestore.get_value(iter_ref, 0)) and False)
+                    gobject.idle_add(lambda: self.wine.builder.get_object("headlabel").set_label(
+                        self.treestore.get_value(iter_ref,  1)) and False)
 
     def delete_host(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
@@ -2176,7 +2298,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
                 return host
         return None
 
-    def filter_custom_template(self, item):
+    @staticmethod
+    def filter_custom_template(item):
         if not item["is_a_template"]:
             return False
         if item["name_label"][:7] == "__gui__":
@@ -2185,7 +2308,8 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             return True 
         return False
 
-    def filter_normal_template(self, item):
+    @staticmethod
+    def filter_normal_template(item):
         if not item["is_a_template"]:
             return False
         elif item["name_label"][:7] == "__gui__":
@@ -2199,9 +2323,10 @@ class oxcSERVER(oxcSERVERvm,oxcSERVERhost,oxcSERVERproperties,oxcSERVERstorage,o
             if vdi == self.filter_vdi:
                 return vdi
 
-    def search_in_liststore(self, list, ref, field):
+    @staticmethod
+    def search_in_liststore(list, ref, field):
         """
-        Function retrns iter of element found or None
+        Function returns iter of element found or None
         """
         print list.__len__()
         for i in range(0, list.__len__()):
