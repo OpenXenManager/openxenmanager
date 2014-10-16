@@ -807,6 +807,483 @@
     <property name="label" translatable="yes">  No System Alerts</property>
     <property name="use_markup">True</property>
   </object>
+  <object class="GtkLabel" id="lbltreehostnetwork1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Name</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Description</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">NIC</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">VLAN</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Auto</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Link Status</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnetwork7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">MAC</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">NIC</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">MAC</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Link Status</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">speed</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Duplex</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Vendor</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Device</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehostnics8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">PCI Bus</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Name</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Description</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Type</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Shared</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Usage</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Size</property>
+  </object>
+  <object class="GtkLabel" id="lbltreehoststorage7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Virtual Alloc</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Name</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Disks
+(avg / max KB's)</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Network
+(avg / max KB's)</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Address</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Uptime</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">CPU Usage</property>
+  </object>
+  <object class="GtkLabel" id="lbltreesearch7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Used memory</property>
+  </object>
+  <object class="GtkLabel" id="lbltreestg1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Name</property>
+  </object>
+  <object class="GtkLabel" id="lbltreestg2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Description</property>
+  </object>
+  <object class="GtkLabel" id="lbltreestg3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Size</property>
+  </object>
+  <object class="GtkLabel" id="lbltreestg4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">VM</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Device</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">MAC</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Limit</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Network</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">IP Address</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmnetwork6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Active</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Name</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage10">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Bootable</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Description</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Storage repository</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Pos.</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Size</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Read Only</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Priority</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Active</property>
+  </object>
+  <object class="GtkLabel" id="lbltreevmstorage9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">Device Path</property>
+  </object>
+  <object class="GtkListStore" id="listhostnetwork">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name desc -->
+      <column type="gchararray"/>
+      <!-- column-name nic -->
+      <column type="gchararray"/>
+      <!-- column-name vlan -->
+      <column type="gchararray"/>
+      <!-- column-name auto -->
+      <column type="gchararray"/>
+      <!-- column-name linkstatus -->
+      <column type="gchararray"/>
+      <!-- column-name mac -->
+      <column type="gchararray"/>
+      <!-- column-name mtu -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listhostnics">
+    <columns>
+      <!-- column-name nic -->
+      <column type="gchararray"/>
+      <!-- column-name mac -->
+      <column type="gchararray"/>
+      <!-- column-name linkstatus -->
+      <column type="gchararray"/>
+      <!-- column-name speed -->
+      <column type="gchararray"/>
+      <!-- column-name duplex -->
+      <column type="gchararray"/>
+      <!-- column-name vendor -->
+      <column type="gchararray"/>
+      <!-- column-name device1 -->
+      <column type="gchararray"/>
+      <!-- column-name pcibus -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listhoststorage">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name type -->
+      <column type="gchararray"/>
+      <!-- column-name shared -->
+      <column type="gchararray"/>
+      <!-- column-name usage -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+      <!-- column-name valloc -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listimportnetworkcolumn">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listisoimage">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name parent -->
+      <column type="gboolean"/>
+      <!-- column-name sensitive -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listlog">
+    <columns>
+      <!-- column-name datetime -->
+      <column type="gchararray"/>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+      <!-- column-name action -->
+      <column type="gchararray"/>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listphydvd">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkTreeStore" id="listsearch">
+    <columns>
+      <!-- column-name image -->
+      <column type="GdkPixbuf"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name loadimg -->
+      <column type="GObject"/>
+      <!-- column-name loadtext -->
+      <column type="gchararray"/>
+      <!-- column-name memimg -->
+      <column type="GObject"/>
+      <!-- column-name memtext -->
+      <column type="gchararray"/>
+      <!-- column-name disks -->
+      <column type="gchararray"/>
+      <!-- column-name network -->
+      <column type="gchararray"/>
+      <!-- column-name address -->
+      <column type="gchararray"/>
+      <!-- column-name uptime -->
+      <column type="gchararray"/>
+      <!-- column-name color -->
+      <column type="GObject"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststg">
+    <columns>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+      <!-- column-name VM -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listusers">
+    <columns>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name roles -->
+      <column type="gchararray"/>
+      <!-- column-name logged -->
+      <column type="gchararray"/>
+      <!-- column-name subject-name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkTreeStore" id="listvm">
+    <columns>
+      <!-- column-name image -->
+      <column type="GdkPixbuf"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name uuid -->
+      <column type="gchararray"/>
+      <!-- column-name type -->
+      <column type="gchararray"/>
+      <!-- column-name state -->
+      <column type="gchararray"/>
+      <!-- column-name host -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name actions -->
+      <column type="gchararray"/>
+      <!-- column-name ip -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmnetwork">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name mac -->
+      <column type="gchararray"/>
+      <!-- column-name limit -->
+      <column type="gchararray"/>
+      <!-- column-name network -->
+      <column type="gchararray"/>
+      <!-- column-name ip -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmsnapshots">
+    <columns>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmstorage">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name storagerepository -->
+      <column type="gchararray"/>
+      <!-- column-name deviceposition -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+      <!-- column-name readonly -->
+      <column type="gchararray"/>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name vbdref -->
+      <column type="gchararray"/>
+      <!-- column-name bootable -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1024</property>
     <property name="visible">True</property>
@@ -2081,7 +2558,7 @@ Reboot</property>
             <property name="left_padding">3</property>
             <property name="right_padding">3</property>
             <child>
-              <object class="GtkHPaned" id="hpaned1">
+              <object class="GtkHPaned" id="main_pane">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
@@ -2418,8 +2895,7 @@ Reboot</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Tags:
-</property>
+                                                            <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -2439,8 +2915,7 @@ Reboot</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Description:
-</property>
+                                                            <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -4882,9 +5357,6 @@ Reboot</property>
                                                             </child>
                                                           </object>
                                                         </child>
-                                                        <child>
-                                                          <placeholder/>
-                                                        </child>
                                                       </object>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -5017,9 +5489,6 @@ Reboot</property>
                                                             </object>
                                                             </child>
                                                           </object>
-                                                        </child>
-                                                        <child>
-                                                          <placeholder/>
                                                         </child>
                                                       </object>
                                                       <packing>
@@ -9965,483 +10434,6 @@ your server or Resource Pool with virtual machines</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Name</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Description</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">NIC</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">VLAN</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Auto</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Link Status</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnetwork7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">MAC</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">NIC</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">MAC</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Link Status</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">speed</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Duplex</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Vendor</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Device</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehostnics8">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">PCI Bus</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Name</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Description</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Type</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Shared</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Usage</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Size</property>
-  </object>
-  <object class="GtkLabel" id="lbltreehoststorage7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Virtual Alloc</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Name</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Disks
-(avg / max KB's)</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Network
-(avg / max KB's)</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Address</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Uptime</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">CPU Usage</property>
-  </object>
-  <object class="GtkLabel" id="lbltreesearch7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Used memory</property>
-  </object>
-  <object class="GtkLabel" id="lbltreestg1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Name</property>
-  </object>
-  <object class="GtkLabel" id="lbltreestg2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Description</property>
-  </object>
-  <object class="GtkLabel" id="lbltreestg3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Size</property>
-  </object>
-  <object class="GtkLabel" id="lbltreestg4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">VM</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Device</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">MAC</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Limit</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Network</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">IP Address</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmnetwork6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Active</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Name</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage10">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Bootable</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Description</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Storage repository</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Pos.</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Size</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Read Only</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage7">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Priority</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage8">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Active</property>
-  </object>
-  <object class="GtkLabel" id="lbltreevmstorage9">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="label" translatable="yes">Device Path</property>
-  </object>
-  <object class="GtkListStore" id="listhostnetwork">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name desc -->
-      <column type="gchararray"/>
-      <!-- column-name nic -->
-      <column type="gchararray"/>
-      <!-- column-name vlan -->
-      <column type="gchararray"/>
-      <!-- column-name auto -->
-      <column type="gchararray"/>
-      <!-- column-name linkstatus -->
-      <column type="gchararray"/>
-      <!-- column-name mac -->
-      <column type="gchararray"/>
-      <!-- column-name mtu -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listhostnics">
-    <columns>
-      <!-- column-name nic -->
-      <column type="gchararray"/>
-      <!-- column-name mac -->
-      <column type="gchararray"/>
-      <!-- column-name linkstatus -->
-      <column type="gchararray"/>
-      <!-- column-name speed -->
-      <column type="gchararray"/>
-      <!-- column-name duplex -->
-      <column type="gchararray"/>
-      <!-- column-name vendor -->
-      <column type="gchararray"/>
-      <!-- column-name device1 -->
-      <column type="gchararray"/>
-      <!-- column-name pcibus -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listhoststorage">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name type -->
-      <column type="gchararray"/>
-      <!-- column-name shared -->
-      <column type="gchararray"/>
-      <!-- column-name usage -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name valloc -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listimportnetworkcolumn">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listisoimage">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name parent -->
-      <column type="gboolean"/>
-      <!-- column-name sensitive -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listlog">
-    <columns>
-      <!-- column-name datetime -->
-      <column type="gchararray"/>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-      <!-- column-name action -->
-      <column type="gchararray"/>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listphydvd">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkTreeStore" id="listsearch">
-    <columns>
-      <!-- column-name image -->
-      <column type="GdkPixbuf"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name loadimg -->
-      <column type="GObject"/>
-      <!-- column-name loadtext -->
-      <column type="gchararray"/>
-      <!-- column-name memimg -->
-      <column type="GObject"/>
-      <!-- column-name memtext -->
-      <column type="gchararray"/>
-      <!-- column-name disks -->
-      <column type="gchararray"/>
-      <!-- column-name network -->
-      <column type="gchararray"/>
-      <!-- column-name address -->
-      <column type="gchararray"/>
-      <!-- column-name uptime -->
-      <column type="gchararray"/>
-      <!-- column-name color -->
-      <column type="GObject"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="liststg">
-    <columns>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name VM -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listusers">
-    <columns>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name roles -->
-      <column type="gchararray"/>
-      <!-- column-name logged -->
-      <column type="gchararray"/>
-      <!-- column-name subject-name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkTreeStore" id="listvm">
-    <columns>
-      <!-- column-name image -->
-      <column type="GdkPixbuf"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name uuid -->
-      <column type="gchararray"/>
-      <!-- column-name type -->
-      <column type="gchararray"/>
-      <!-- column-name state -->
-      <column type="gchararray"/>
-      <!-- column-name host -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name actions -->
-      <column type="gchararray"/>
-      <!-- column-name ip -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmnetwork">
-    <columns>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name mac -->
-      <column type="gchararray"/>
-      <!-- column-name limit -->
-      <column type="gchararray"/>
-      <!-- column-name network -->
-      <column type="gchararray"/>
-      <!-- column-name ip -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmsnapshots">
-    <columns>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmstorage">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name storagerepository -->
-      <column type="gchararray"/>
-      <!-- column-name deviceposition -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name readonly -->
-      <column type="gchararray"/>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name vbdref -->
-      <column type="gchararray"/>
-      <!-- column-name bootable -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkListStore" id="listvmstoragedvd">
     <columns>
