@@ -267,6 +267,10 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.headimage.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                  "images/xen.gif")))
 
+        if 'pane_position' in self.config['gui']:
+            pane = self.builder.get_object('main_pane')
+            pane.set_position(int(self.config['gui']['pane_position']))
+
         if "show_hidden_vms" not in self.config["gui"]:
             self.config["gui"]["show_hidden_vms"] = "False"
             self.config.write()
@@ -899,12 +903,21 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         if self.hWnd != 0:
             win32gui.PostMessage(self.hWnd, win32con.WM_QUIT, 0, 0)
             self.hWnd = 0
+        # Get the position of the main window pane
+        self.save_pane_position()
         # Save unsaved changes
         self.config.write()
         # Exit!
         gtk.main_quit()
         if self.tunnel:
             self.tunnel.close()
+
+    def save_pane_position(self):
+        """
+        Save the position of the main window HPaned
+        """
+        pane = self.builder.get_object('main_pane')
+        self.config['gui']['pane_position'] = pane.get_position()
 
     def count_list(self, model, path, iter_ref, user_data):
         """
