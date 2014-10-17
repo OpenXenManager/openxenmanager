@@ -227,8 +227,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.builder.connect_signals(self)
 
         # Create a new TreeStore
-        self.treestore = gtk.TreeStore(gtk.gdk.Pixbuf, str, str, str, str, str, str, str, str)
-                                           # Image,Name, uuid, type, state, host, ref, actions, ip
+        self.treestore = gtk.TreeStore(gtk.gdk.Pixbuf, str, str, str, str, str, str, object, str)
+                                       # Image, Name, uuid, type, state, host, ref, actions, ip
         # Append default logo on created TreeStore
         self.treeroot = self.treestore.append(None, ([gtk.gdk.pixbuf_new_from_file(
             os.path.join(utils.module_path(), "images/xen.gif")), "OpenXenManager", None, "home", "home", None,

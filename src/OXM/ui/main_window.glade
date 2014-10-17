@@ -2664,14 +2664,6 @@ Reboot</property>
                                       </attributes>
                                     </child>
                                     <child>
-                                      <object class="GtkCellRendererText" id="actions">
-                                        <property name="visible">False</property>
-                                      </object>
-                                      <attributes>
-                                        <attribute name="text">7</attribute>
-                                      </attributes>
-                                    </child>
-                                    <child>
                                       <object class="GtkCellRendererText" id="ip">
                                         <property name="visible">False</property>
                                       </object>
