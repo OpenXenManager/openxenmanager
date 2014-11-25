@@ -105,7 +105,9 @@ else:  # Not Windows
         scripts=['openxenmanager'],
         package_data={'OXM': ['oxc.glade',
                               'oxc.conf',
-                              'images/*',
+                              'images/*.gif',
+                              'images/*.png',
+                              'images/menu/*.png',
                               'images_map/*'],
                       'pygtk_chart': ['data/tango.color']},
         classifiers=[
