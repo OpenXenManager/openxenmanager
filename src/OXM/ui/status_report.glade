@@ -285,7 +285,6 @@
                   <object class="GtkLinkButton" id="linkbutton3">
                     <property name="label" translatable="yes">Citrix Privacy Statement</property>
                     <property name="width_request">180</property>
-                    <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -296,7 +295,7 @@
                   </object>
                   <packing>
                     <property name="x">450</property>
-                    <property name="y">60</property>
+                    <property name="y">53</property>
                   </packing>
                 </child>
                 <child>
@@ -459,7 +458,6 @@
                   <object class="GtkButton" id="clearallstatusreport">
                     <property name="label" translatable="yes">Clear All</property>
                     <property name="width_request">100</property>
-                    <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -467,14 +465,13 @@
                   </object>
                   <packing>
                     <property name="x">200</property>
-                    <property name="y">450</property>
+                    <property name="y">445</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkButton" id="selectallstatusreport">
                     <property name="label" translatable="yes">Select All</property>
                     <property name="width_request">100</property>
-                    <property name="height_request">20</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -482,7 +479,7 @@
                   </object>
                   <packing>
                     <property name="x">310</property>
-                    <property name="y">450</property>
+                    <property name="y">445</property>
                   </packing>
                 </child>
                 <child>
