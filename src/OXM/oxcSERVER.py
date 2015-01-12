@@ -157,7 +157,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
 
         fp = open(file, 'rb')
         url = self.wine.selected_ip
-        put.putfile(fp, 'http://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
+        put.putfile(fp, 'https://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
                                                                                                    task_uuid['Value']))
         return 
         conn = httplib.HTTP(url)
@@ -182,14 +182,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         fp.close()
 
     def save_screenshot(self, ref, filename):
-        url = "http://" + self.wine.selected_ip + '/vncsnapshot?session_id=%s&ref=%s' % (self.session_uuid, ref)
+        url = "https://" + self.wine.selected_ip + '/vncsnapshot?session_id=%s&ref=%s' % (self.session_uuid, ref)
         urllib.urlretrieve(url, filename)
 
     def pool_backup_database(self, ref, filename, name):
         task_uuid = self.connection.task.create(self.session_uuid, "Backup Pool database",
                                                 "Backing up database pool " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Pool"
-        url = "http://" + self.wine.selected_ip + '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid,
+        url = "https://" + self.wine.selected_ip + '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid,
                                                                                                 task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
@@ -201,7 +201,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         size = os.path.getsize(filename)
         url = self.wine.selected_ip
         fp = open(filename, 'r')
-        put.putfile(fp, 'http://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
+        put.putfile(fp, 'https://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
                     (self.session_uuid, task_uuid['Value'], dry_run))
         return
         conn = httplib.HTTP(url)
@@ -224,7 +224,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         task_uuid = self.connection.task.create(self.session_uuid, "Downloading host logs",
                                                 "Downloading logs from host " + name)
         self.track_tasks[task_uuid['Value']] = "Download.Logs"
-        url = "http://" + self.wine.selected_ip + '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % \
+        url = "https://" + self.wine.selected_ip + '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % \
                                                   (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
@@ -239,7 +239,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
     def backup_server(self, ref, filename, name):
         task_uuid = self.connection.task.create(self.session_uuid, "Backup Server", "Backing up server " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Server"
-        url = "http://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % \
+        url = "https://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % \
                                                   (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
@@ -250,7 +250,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         size = os.stat(filename)[6]
         url = self.wine.selected_ip
         fp = open(filename, 'r')
-        put.putfile(fp, 'http://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' %
+        put.putfile(fp, 'https://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' %
                     (self.session_uuid, ref, task_uuid['Value']))
         return
 
@@ -484,13 +484,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         if host:
             if os.path.exists(os.path.join(self.wine.pathconfig, "host_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
-            urllib.urlretrieve("http://%s/host_rrds?session_id=%s" % (ip, self.session_uuid),
+            urllib.urlretrieve("https://%s/host_rrds?session_id=%s" % (ip, self.session_uuid),
                                os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
         else:
             if os.path.exists(os.path.join(self.wine.pathconfig, "vm_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
-            urllib.urlretrieve("http://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid),
+            urllib.urlretrieve("https://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid),
                                os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
         rrdinfo = rrd.get_data(period)
@@ -632,7 +632,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         while not self.halt_performance:
             if os.path.exists(os.path.join(self.wine.pathconfig, "update.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "update.rrd"))
-            urllib.urlretrieve("http://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" %
+            urllib.urlretrieve("https://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" %
                                (ip, self.session_uuid, int(time.time())-10, uuid),
                                os.path.join(self.wine.pathconfig, "update.rrd"))
             rrd = XPORT(os.path.join(self.wine.pathconfig, "update.rrd"))
@@ -881,7 +881,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                     time.sleep(1)
 
     def fill_vm_search(self, host, list, hosts):
-        rrd_updates = rrdinfo.RRDUpdates("http://%s/rrd_updates?session_id=%s&"
+        rrd_updates = rrdinfo.RRDUpdates("https://%s/rrd_updates?session_id=%s&"
                                          "start=%d&cf=AVERAGE&interval=5&host=true" %
                                          (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
         rrd_updates.refresh()
@@ -1556,7 +1556,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             task_uuid = self.connection.task.create(self.session_uuid, "Exporting VM",
                                                     "Exporting VM " + destination)
         self.track_tasks[task_uuid['Value']] = ref2 if ref2 else ref
-        url = "http://%s/export?ref=%s&session_id=%s&task_id=%s" % (self.wine.selected_host,
+        url = "https://%s/export?ref=%s&session_id=%s&task_id=%s" % (self.wine.selected_host,
                                                                     ref, self.session_uuid,
                                                                     task_uuid['Value'])
         Thread(target=self.download_export, args=(url, destination, ref, as_vm)).start()
