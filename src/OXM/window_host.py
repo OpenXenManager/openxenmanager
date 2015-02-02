@@ -244,8 +244,11 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
             self.builder.get_object("lblreportdesc").set_label(listreport.get_value(iter, 4))
             self.builder.get_object("lblreportsize").set_label(listreport.get_value(iter, 5))
             self.builder.get_object("lblreporttime").set_label(listreport.get_value(iter, 6) + " seconds")
-            conf = listreport.get_value(iter, 9)
-            self.builder.get_object("lblreportconf").set_label(capabilities_conf_text[conf-1])
+            conf = listreport.get_value(iter, 9) - 1
+            conf_text = "These files %s contain %s personally identifiable " \
+                        "information %s" % capabilities_conf_text[conf]
+            report_conf_lbl = self.builder.get_object("lblreportconf")
+            report_conf_lbl.set_label(conf_text)
 
     def on_acceptstatusreport_clicked(self, widget, data=None):
         """
