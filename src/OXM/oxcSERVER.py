@@ -25,7 +25,7 @@
 import httplib
 import xml.dom.minidom
 import traceback
-import datetime
+from datetime import datetime
 import time
 import urllib
 import socket
@@ -132,7 +132,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     if not vms.count(vm + "_" +
                                      self.all_vms[vm]['name_label']):
                         if show_halted_vms or self.is_vm_running(vm):
-                            vms.append(vm + "_" + self.all_vms[vm]['name_label'])
+                            vms.append(vm + "_" +
+                                       self.all_vms[vm]['name_label'])
             relation[storage + "_" + storage_name] = vms
 
         return relation
@@ -144,39 +145,48 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     @staticmethod
     def format_date(to_convert):
-        converted = datetime.datetime.strptime(str(to_convert), "%Y%m%dT%H:%M:%SZ")
+        converted = datetime.strptime(str(to_convert), "%Y%m%dT%H:%M:%SZ")
         return converted
 
     def get_seconds_difference_reverse(self, to_convert):
         converted = self.format_date(to_convert)
-        now_time = datetime.datetime.now()
+        now_time = datetime.now()
         time_diff = (converted - now_time).total_seconds() - 3600
         return time_diff
 
     def get_seconds_difference(self, to_convert):
         converted = self.format_date(to_convert)
-        now_time = datetime.datetime.now()
+        now_time = datetime.now()
         time_diff = (now_time - converted).total_seconds() - 3600
         return time_diff
 
     def get_dmesg(self, ref):
         return self.connection.host.dmesg(self.session_uuid, ref)["Value"]
 
-    def restore_server(self, ref, file, name):
-        #<?xml version="1.0"?><methodCall><methodName>task.create</methodName><params><param><value><string>OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param><param><value><string>uploadTask</string></value></param><param><value><string>http://83.165.161.223/host_restore?session_id=OpaqueRef:149c1416-9934-3955-515a-d644aaddc38f</string></value></param></params></methodCall>
-        task_uuid = self.connection.task.create(self.session_uuid, "Restoring Server", "Restoring Server %s from %s " %
-                                                (name, file))
+    def restore_server(self, ref, filename, name):
+        # <?xml version="1.0"?><methodCall><methodName>task.create</methodName>
+        # <params><param><value><string>OpaqueRef:149c1416-9934-3955-515a-d644a
+        # addc38f</string></value></param><param><value><string>uploadTask
+        # </string></value></param><param><value><string>http://83.165.161.223
+        # /host_restore?session_id=OpaqueRef:149c1416-9934-3955-515a-d644aaddc
+        # 38f</string></value></param></params></methodCall>
+        task_uuid = self.connection.task.create(self.session_uuid,
+                                                "Restoring Server",
+                                                "Restoring Server %s from "
+                                                "%s " % (name, filename))
         self.track_tasks[task_uuid['Value']] = "Restore.Server"
-        #size=os.stat(file)[6]
+        # size=os.stat(file)[6]
 
-        fp = open(file, 'rb')
+        fp = open(filename, 'rb')
         url = self.wine.selected_ip
-        put.putfile(fp, 'https://' + url + '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
-                                                                                                   task_uuid['Value']))
-        return
+        put.putfile(fp, 'https://' + url +
+                    '/host_restore?session_id=%s&task_id=%s&dry_run=true' %
+                    (self.session_uuid, task_uuid['Value']))
+        return  # TODO: Is this meant to be here?
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s&dry_run=true' % (self.session_uuid,
-                                                                                        task_uuid['Value']))
+        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s'
+                               '&dry_run=true' % (self.session_uuid,
+                                                  task_uuid['Value']))
         conn.putheader('Content-Type', 'text/plain')
         conn.endheaders()
 
@@ -196,31 +206,37 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         fp.close()
 
     def save_screenshot(self, ref, filename):
-        url = "https://" + self.wine.selected_ip + '/vncsnapshot?session_id=%s&ref=%s' % (self.session_uuid, ref)
+        url = "https://" + self.wine.selected_ip + \
+              '/vncsnapshot?session_id=%s&ref=%s' % (self.session_uuid, ref)
         urllib.urlretrieve(url, filename)
 
     def pool_backup_database(self, ref, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Backup Pool database",
-                                                "Backing up database pool " + name)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Backup Pool database",
+            "Backing up database pool " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Pool"
-        url = "https://" + self.wine.selected_ip + '/pool/xmldbdump?session_id=%s&task_id=%s' % (self.session_uuid,
-                                                                                                task_uuid['Value'])
+        url = "https://" + self.wine.selected_ip + \
+              '/pool/xmldbdump?session_id=%s&task_id=%s' % \
+              (self.session_uuid, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def pool_restore_database(self, ref, filename, name, dry_run="true"):
-        task_uuid = self.connection.task.create(self.session_uuid, "Restore Pool database",
-                                                "Restoring database pool " + filename)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Restore Pool database",
+            "Restoring database pool " + filename)
         self.track_tasks[task_uuid['Value']] = "Restore.Pool"
 
         size = os.path.getsize(filename)
         url = self.wine.selected_ip
         fp = open(filename, 'r')
-        put.putfile(fp, 'https://' + url + '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
+        put.putfile(fp, 'https://' + url +
+                    '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
                     (self.session_uuid, task_uuid['Value'], dry_run))
-        return
+        return  # TODO: Is this meant to be here?
         conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
-                        (self.session_uuid, task_uuid['Value'], dry_run))
+        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s'
+                               '&dry_run=%s' % (self.session_uuid,
+                                                task_uuid['Value'], dry_run))
         conn.putheader('Content-Length', str(size))
         conn.endheaders()
         total = 0
@@ -235,38 +251,46 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         fp.close()
 
     def host_download_logs(self, ref, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Downloading host logs",
-                                                "Downloading logs from host " + name)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Downloading host logs",
+            "Downloading logs from host " + name)
         self.track_tasks[task_uuid['Value']] = "Download.Logs"
-        url = "https://" + self.wine.selected_ip + '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % \
-                                                  (self.session_uuid, ref, task_uuid['Value'])
+        url = "https://" + self.wine.selected_ip + \
+              '/host_logs_download?session_id=%s&sr_id=%s&task_id=%s' % \
+              (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def host_download_status_report(self, ref, refs, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Downloading status report",
-                                                "Downloading status report from host " + name)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Downloading status report",
+            "Downloading status report from host " + name)
         self.track_tasks[task_uuid['Value']] = self.host_vm[ref][0]
-        url = "https://" + self.wine.selected_ip + '/system-status?session_id=%s&entries=%s&task_id=%s&output=tar' % \
-                                                   (self.session_uuid, refs, task_uuid['Value'])
+        url = "https://" + self.wine.selected_ip + \
+              '/system-status?session_id=%s&entries=%s&task_id=%s' \
+              '&output=tar' % (self.session_uuid, refs, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def backup_server(self, ref, filename, name):
-        task_uuid = self.connection.task.create(self.session_uuid, "Backup Server", "Backing up server " + name)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Backup Server", "Backing up server " + name)
         self.track_tasks[task_uuid['Value']] = "Backup.Server"
-        url = "https://" + self.wine.selected_ip + '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % \
-                                                  (self.session_uuid, ref, task_uuid['Value'])
+        url = "https://" + self.wine.selected_ip + \
+              '/host_backup?session_id=%s&sr_id=%s&task_id=%s' % \
+              (self.session_uuid, ref, task_uuid['Value'])
         urllib.urlretrieve(url, filename)
 
     def import_vm(self, ref, filename):
-        task_uuid = self.connection.task.create(self.session_uuid, "Importing VM", "Importing VM " + filename)
+        task_uuid = self.connection.task.create(
+            self.session_uuid, "Importing VM", "Importing VM " + filename)
         self.track_tasks[task_uuid['Value']] = "Import.VM"
 
         size = os.stat(filename)[6]
         url = self.wine.selected_ip
         fp = open(filename, 'r')
-        put.putfile(fp, 'https://' + url + '/import?session_id=%s&sr_id=%s&task_id=%s' %
+        put.putfile(fp, 'https://' + url +
+                    '/import?session_id=%s&sr_id=%s&task_id=%s' %
                     (self.session_uuid, ref, task_uuid['Value']))
-        return
+        return  # TODO: Is this meant to be here?
 
         conn = httplib.HTTP(url)
         conn.putrequest('PUT', '/import?session_id=%s&sr_id=%s&task_id=%s' %
@@ -274,7 +298,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         conn.putheader('Content-Type', 'text/plain')
         conn.putheader('Content-Length', str(size))
         conn.endheaders()
-        fp = open(file, 'rb')
+        fp = open(filename, 'rb')
         blocknum = 0
         uploaded = 0
         blocksize = 4096
@@ -296,29 +320,35 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         if message['cls'] == "Host":
             msg = get_msg(message['name'])
             if msg:
-
-                parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                       "images/info.gif")),
-                                             self.hostname, msg['header'],
-                                             str(self.format_date(str(message['timestamp']))), ref, self.host])
-                list.prepend(parent, [None, "", msg['detail'] % self.hostname, "",
-                                      ref, self.host])
+                parent = list.prepend(None,
+                                      [gtk.gdk.pixbuf_new_from_file(
+                                          utils.image_path("info.gif")),
+                                       self.hostname, msg['header'],
+                                       str(self.format_date(
+                                           str(message['timestamp']))),
+                                       ref, self.host])
+                list.prepend(parent, [None, "", msg['detail'] % self.hostname,
+                                      "", ref, self.host])
             else:
-                parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                       "images/info.gif")),
-                                             self.hostname, message['name'],
-                                             str(self.format_date(str(message['timestamp']))), ref, self.host])
-                list.prepend(parent, [None, "", message['name'], "",
-                    ref, self.host])
+                parent = list.prepend(None,
+                                      [gtk.gdk.pixbuf_new_from_file(
+                                          utils.image_path("info.gif")),
+                                       self.hostname, message['name'],
+                                       str(self.format_date(
+                                           str(message['timestamp']))),
+                                       ref, self.host])
+                list.prepend(parent, [None, "", message['name'], "", ref,
+                                      self.host])
         elif message['name'] == "ALARM":
             self.filter_uuid = message['obj_uuid']
             if self.vm_filter_uuid() not in self.all_vms:
                 return None
             if not self.all_vms[self.vm_filter_uuid()]['is_control_domain']:
                 value = message['body'].split("\n")[0].split(" ")[1]
-                dom = xml.dom.minidom.parseString(message['body'].split("config:")[1][1:])
+                dom = xml.dom.minidom.parseString(
+                    message['body'].split("config:")[1][1:])
                 nodes = dom.getElementsByTagName("name")
-                #alert = message['body'].split('value="')[1].split('"')[0]
+                # alert = message['body'].split('value="')[1].split('"')[0]
                 alert = nodes[0].attributes.getNamedItem("value").value
                 nodes = dom.getElementsByTagName("alarm_trigger_level")
                 level = nodes[0].attributes.getNamedItem("value").value
@@ -327,11 +357,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
                 msg = get_msg('alert_' + alert)
                 if msg:
-                    parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                           "images/warn.gif")),
-                                                 self.hostname, msg['header'],
-                                                 str(self.format_date(str(message['timestamp']))), ref, self.host])
-                    list.prepend(parent, [None, "", msg['detail'] %
+                    parent = list.prepend(None,
+                                          [gtk.gdk.pixbuf_new_from_file(
+                                              utils.image_path("warn.gif")),
+                                           self.hostname, msg['header'],
+                                           str(self.format_date(
+                                               str(message['timestamp']))),
+                                           ref, self.host])
+                    list.prepend(parent,
+                                 [None, "", msg['detail'] %
                                           (self.all_vms[self.vm_filter_uuid()]['name_label'],
                                            float(value)*100, int(period), float(level)*100), "",
                                           ref, self.host])

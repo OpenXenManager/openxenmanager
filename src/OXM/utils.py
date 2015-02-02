@@ -33,3 +33,7 @@ def module_path():
     if we_are_frozen():
         return os.path.dirname(unicode(sys.executable, encoding))
     return os.path.dirname(unicode(__file__, encoding))
+
+
+def image_path(image_file):
+    return os.path.join(module_path(), 'images', image_file)
