@@ -364,11 +364,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                            str(self.format_date(
                                                str(message['timestamp']))),
                                            ref, self.host])
-                    list.prepend(parent,
-                                 [None, "", msg['detail'] %
+                    list.prepend(parent, [None, "", msg['detail'] %
                                           (self.all_vms[vm]['name_label'],
-                                           float(value)*100, int(period), float(level)*100), "",
-                                          ref, self.host])
+                                           float(value)*100, int(period),
+                                           float(level)*100), "", ref,
+                                          self.host])
                 else:
                     print message['name']
                     print message['body']
@@ -377,55 +377,66 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 alert = message['body'].split('value="')[1].split('"')[0]
                 msg = get_msg('host_alert_' + alert)
                 if msg:
-                    parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
-                                                                                           "images/warn.gif")),
-                                                 self.hostname,
-                                                 msg['header'] % "Control Domain",
-                                                 str(self.format_date(str(message['timestamp']))), ref, self.host])
+                    parent = list.prepend(
+                        None,
+                        [gtk.gdk.pixbuf_new_from_file(
+                            utils.image_path("warn.gif")),
+                         self.hostname, msg['header'] % "Control Domain",
+                         str(self.format_date(str(message['timestamp']))),
+                         ref, self.host])
                     list.prepend(parent, [None, "", msg['detail'] %
-                                          ("Control Domain", self.hostname, float(value)), "",
-                                          ref, self.host])
+                                          ("Control Domain", self.hostname,
+                                           float(value)), "", ref, self.host])
                 else:
                     print message['name']
                     print message['body']
 
     def add_vm_to_tree(self, vm):
-        if self.all_vms[vm]['resident_on'] != "OpaqueRef:NULL" and self.all_vms[vm]['resident_on'] in self.hostroot:
+        if self.all_vms[vm]['resident_on'] != "OpaqueRef:NULL" \
+                and self.all_vms[vm]['resident_on'] in self.hostroot:
             resident = self.all_vms[vm]['resident_on']
-            self.treestore.prepend(self.hostroot[self.all_vms[vm]['resident_on']], [
-                gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/tree_%s_16.png" %
-                                                          self.all_vms[vm]['power_state'].lower())),
+            self.treestore.prepend(self.hostroot[resident], [
+                gtk.gdk.pixbuf_new_from_file(
+                    utils.image_path("tree_%s_16.png" %
+                                     self.all_vms[vm]['power_state'].lower())),
                 self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
                 "vm", self.all_vms[vm]['power_state'], self.host,
-                vm, self.all_vms[vm]['allowed_operations'],  self.all_hosts[resident]['address']])
+                vm, self.all_vms[vm]['allowed_operations'],
+                self.all_hosts[resident]['address']])
 
-        elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" and self.all_vms[vm]['affinity'] in self.hostroot:
+        elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" \
+                and self.all_vms[vm]['affinity'] in self.hostroot:
             affinity = self.all_vms[vm]['affinity']
-            self.treestore.prepend(self.hostroot[self.all_vms[vm]['affinity']],
-                                   [gtk.gdk.pixbuf_new_from_file(
-                                       os.path.join(utils.module_path(), "images/tree_%s_16.png" %
-                                                    self.all_vms[vm]['power_state'].lower())),
-                                    self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'], "vm",
-                                    self.all_vms[vm]['power_state'], self.host, vm,
-                                    self.all_vms[vm]['allowed_operations'], self.all_hosts[affinity]['address']])
+            self.treestore.prepend(self.hostroot[affinity], [
+                gtk.gdk.pixbuf_new_from_file(
+                    utils.image_path("tree_%s_16.png" %
+                                     self.all_vms[vm]['power_state'].lower())),
+                self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'], "vm",
+                self.all_vms[vm]['power_state'], self.host, vm,
+                self.all_vms[vm]['allowed_operations'],
+                self.all_hosts[affinity]['address']])
         else:
             if self.poolroot:
                 self.treestore.prepend(self.poolroot, [
-                    gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/tree_%s_16.png" %
-                                                              self.all_vms[vm]['power_state'].lower())),
+                    gtk.gdk.pixbuf_new_from_file(
+                        utils.image_path(
+                            "tree_%s_16.png" %
+                            self.all_vms[vm]['power_state'].lower())),
                     self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
                     "vm", self.all_vms[vm]['power_state'], self.host,
                     vm, self.all_vms[vm]['allowed_operations'],  self.host])
             else:
-                self.treestore.prepend(self.hostroot[self.all_hosts.keys()[0]], [
-                    gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(), "images/tree_%s_16.png" %
-                                                              self.all_vms[vm]['power_state'].lower())),
-                    self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
-                    "vm", self.all_vms[vm]['power_state'], self.host,
-                    vm, self.all_vms[vm]['allowed_operations'], self.host])
+                self.treestore.prepend(
+                    self.hostroot[self.all_hosts.keys()[0]],
+                    [gtk.gdk.pixbuf_new_from_file(utils.image_path(
+                        "tree_%s_16.png" % self.all_vms[vm]['power_state'].lower())),
+                     self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
+                     "vm", self.all_vms[vm]['power_state'], self.host,
+                     vm, self.all_vms[vm]['allowed_operations'], self.host])
 
     def fill_allowed_operations(self, ref):
-        actions = self.connection.VM.get_allowed_operations(self.session_uuid, ref)['Value']
+        actions = self.connection.VM.get_allowed_operations(self.session_uuid,
+                                                            ref)['Value']
         self.all_vms[ref]['allowed_operations'] = actions
         return actions
 
@@ -460,26 +471,29 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 # Network name
                 if vif['network'] in self.all_network:
                     network = self.all_network[vif['network']]['name_label'].\
-                        replace('Pool-wide network associated with eth', 'Network ')
+                        replace('Pool-wide network associated with eth',
+                                'Network ')
                 else:
                     network = ""
 
                 list1.append((vif['device'], vif['MAC'], limit, network,
                              '\n'.join(addresses),
-                             str(vif['currently_attached']), vif_ref))
+                              str(vif['currently_attached']), vif_ref))
         else:
             print "VM not found %s" % ref
 
     def set_vif_limit(self, ref, limit, vm_ref):
         qos_algorithm_params = {'kbps': str(limit)}
-        res = self.connection.VIF.set_qos_algorithm_params(self.session_uuid, ref, qos_algorithm_params)
+        res = self.connection.VIF.set_qos_algorithm_params(
+            self.session_uuid, ref, qos_algorithm_params)
         if "Value" in res:
             self.track_tasks[res['Value']] = vm_ref
         else:
             print res
 
     def set_vif_to_manual(self, ref, vm_ref):
-        res = self.connection.VIF.set_MAC_autogenerated(self.session_uuid, ref, False)
+        res = self.connection.VIF.set_MAC_autogenerated(self.session_uuid,
+                                                        ref, False)
         if "Value" in res:
             self.track_tasks[res['Value']] = vm_ref
         else:
@@ -491,22 +505,27 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             all_snapshots = self.all_vms[uuid]['snapshots']
             for snapshot_uuid in all_snapshots:
                 snapshot_name = self.all_vms[snapshot_uuid]['name_label']
-                snapshot_time = self.format_date(self.all_vms[snapshot_uuid]['snapshot_time'])
+                snapshot_time = self.format_date(
+                    self.all_vms[snapshot_uuid]['snapshot_time'])
                 snapshot_of = self.all_vms[snapshot_uuid]['snapshot_of']
                 snapshot_size = 0
                 for vbd in self.all_vms[snapshot_uuid]['VBDs']:
                     vbd_data = self.all_vbd[vbd]
                     if vbd_data['type'] == 'Disk':
                         snapshot_size += int(self.connection.VDI.get_record(
-                            self.session_uuid,vbd_data['VDI'])['Value']['physical_utilisation'])
-                list.append([snapshot_uuid, "<b>" + snapshot_name + "</b>\n\nTaken on: " +
-                             str(snapshot_time) + "\n\nSize: " + self.convert_bytes(snapshot_size) +
-                             "\n\n" + "Used by: " + self.wine.selected_name + "\n"])
+                            self.session_uuid,
+                            vbd_data['VDI'])['Value']['physical_utilisation'])
+                list.append([snapshot_uuid, "<b>" + snapshot_name +
+                             "</b>\n\nTaken on: " + str(snapshot_time) +
+                             "\n\nSize: " + self.convert_bytes(snapshot_size) +
+                             "\n\n" + "Used by: " + self.wine.selected_name +
+                             "\n"])
 
     def update_performance(self, uuid, ref, ip, host=False, period=5):
         # Default three hours of period
         self.halt_performance = False
-        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
+        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage",
+                       "scrwin_diskusage"]:
             widget = self.wine.builder.get_object(widget).get_children()[0]
             if widget.get_children():
                 gtk.gdk.threads_enter()
@@ -517,7 +536,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             data_sources = self.connection.host.get_data_sources(self.session_uuid, ref)
         else:
             data_sources = self.connection.VM.get_data_sources(self.session_uuid, ref)
-        if not "Value" in data_sources:
+        if "Value" not in data_sources:
             return
         data_sources = data_sources['Value']
         ds = {}
@@ -528,21 +547,29 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 if not name[:3] in ds.keys():
                     ds[name[:3]] = []
                 if ds[name[:3]].count([name, desc]) == 0:
-                    if name not in ("memory_internal_free", "xapi_free_memory_kib",
-                                    "xapi_memory_usage_kib",  "xapi_live_memory_kib") \
+                    if name not in ("memory_internal_free",
+                                    "xapi_free_memory_kib",
+                                    "xapi_memory_usage_kib",
+                                    "xapi_live_memory_kib") \
                             and name[:6] != "pif___":
                                 ds[name[:3]].append([name, desc])
         if host:
-            if os.path.exists(os.path.join(self.wine.pathconfig, "host_rrds.rrd")):
+            if os.path.exists(os.path.join(self.wine.pathconfig,
+                                           "host_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
-            urllib.urlretrieve("https://%s/host_rrds?session_id=%s" % (ip, self.session_uuid),
-                               os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
+            urllib.urlretrieve("https://%s/host_rrds?session_id=%s" %
+                               (ip, self.session_uuid),
+                               os.path.join(self.wine.pathconfig,
+                                            "host_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "host_rrds.rrd"))
         else:
-            if os.path.exists(os.path.join(self.wine.pathconfig, "vm_rrds.rrd")):
+            if os.path.exists(os.path.join(self.wine.pathconfig,
+                                           "vm_rrds.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
-            urllib.urlretrieve("https://%s/vm_rrds?session_id=%s&uuid=%s" % (ip, self.session_uuid, uuid),
-                               os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
+            urllib.urlretrieve("https://%s/vm_rrds?session_id=%s&uuid=%s" %
+                               (ip, self.session_uuid, uuid),
+                               os.path.join(self.wine.pathconfig,
+                                            "vm_rrds.rrd"))
             rrd = RRD(os.path.join(self.wine.pathconfig, "vm_rrds.rrd"))
         rrdinfo = rrd.get_data(period)
 
@@ -553,9 +580,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 return ""
 
         def hovered(chart, graph, (x, y)):
-            #print chart.get_title()
-            #self.wine.builder.get_object("lblperf" + graph.get_title()[:3].lower()).set_label(
-            #    "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S", time.localtime(x)),  graph.get_title(), y))
+            # print chart.get_title()
+            # self.wine.builder.get_object("lblperf" +
+            # graph.get_title()[:3].lower()).set_label(
+            #    "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S",
+            # time.localtime(x)),  graph.get_title(), y))
             pass
 
             # Chart
@@ -586,13 +615,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 chart["cpu"].add_graph(graph[key])
 
         chart["cpu"].set_size_request(len(data)*20, 250)
-        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add_with_viewport(chart["cpu"])
-                         and False)
-        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object(
+            "scrwin_cpuusage").add_with_viewport(chart["cpu"]) and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object(
+            "scrwin_cpuusage").show_all() and False)
 
         # Memory
         if "memory_internal_free" in rrdinfo and "memory" in rrdinfo:
-            chart["mem"].set_yrange((0, int(rrdinfo["memory"]["max_value"])/1024/1024))
+            chart["mem"].set_yrange(
+                (0, int(rrdinfo["memory"]["max_value"])/1024/1024))
             data = rrdinfo["memory"]["values"]
             data2 = rrdinfo["memory_internal_free"]["values"]
             for i in range(len(data2)):
@@ -602,11 +633,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(chart["mem"])
-                             and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
-        elif "memory_total_kib" in rrdinfo and "xapi_free_memory_kib" in rrdinfo:
-            chart["mem"].set_yrange((0, int(rrdinfo["memory_total_kib"]["max_value"])/1024/1024))
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").add_with_viewport(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").show_all() and False)
+        elif "memory_total_kib" in rrdinfo \
+                and "xapi_free_memory_kib" in rrdinfo:
+            chart["mem"].set_yrange(
+                (0, int(rrdinfo["memory_total_kib"]["max_value"])/1024/1024))
             data = rrdinfo["memory_total_kib"]["values"]
             data2 = rrdinfo["xapi_free_memory_kib"]["values"]
             for i in range(len(data2)):
@@ -616,16 +650,18 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(chart["mem"])
-                             and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").add_with_viewport(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").show_all() and False)
 
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(label)
-                             and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").add_with_viewport(label) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_memusage").show_all() and False)
 
         # Network
         max_value = 0
@@ -644,15 +680,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["vif"].set_yrange((0, max_value))
             chart["vif"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add_with_viewport(chart["vif"])
-                             and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_netusage").add_with_viewport(chart["vif"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_netusage").show_all() and False)
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add_with_viewport(label)
-                             and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_netusage").add_with_viewport(label) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "scrwin_netusage").show_all() and False)
 
         # Disk
         if not host:
@@ -673,20 +711,27 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["vbd"].set_size_request(len(data)*20, 250)
             if data:
                 gobject.idle_add(lambda: self.wine.builder.get_object(
-                    "scrwin_diskusage").add_with_viewport(chart["vbd"]) and False)
-                gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_diskusage").show_all() and False)
+                    "scrwin_diskusage").add_with_viewport(chart["vbd"])
+                    and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object(
+                    "scrwin_diskusage").show_all() and False)
 
-        if max_value == 0:
+        if max_value == 0:  # TODO: What's this for?
             max_value = 1
-        gobject.idle_add(lambda: self.wine.adjust_scrollbar_performance() and False)
+        gobject.idle_add(lambda: self.wine.adjust_scrollbar_performance()
+                         and False)
 
         time.sleep(5)
         while not self.halt_performance:
-            if os.path.exists(os.path.join(self.wine.pathconfig, "update.rrd")):
+            if os.path.exists(os.path.join(self.wine.pathconfig,
+                                           "update.rrd")):
                 os.unlink(os.path.join(self.wine.pathconfig, "update.rrd"))
-            urllib.urlretrieve("https://%s/rrd_updates?session_id=%s&start=%s&cf=AVERAGE&interval=5&vm_uuid=%s" %
-                               (ip, self.session_uuid, int(time.time())-10, uuid),
-                               os.path.join(self.wine.pathconfig, "update.rrd"))
+            urllib.urlretrieve("https://%s/rrd_updates?session_id=%s&start=%s"
+                               "&cf=AVERAGE&interval=5&vm_uuid=%s" %
+                               (ip, self.session_uuid, int(time.time())-10,
+                                uuid),
+                               os.path.join(self.wine.pathconfig,
+                                            "update.rrd"))
             rrd = XPORT(os.path.join(self.wine.pathconfig, "update.rrd"))
             rrdinfo = rrd.get_data()
 
@@ -729,12 +774,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         self.filter_ref = self.wine.selected_ref
         i = 0
         for ch in self.wine.builder.get_object("vmtablelog").get_children():
-            gobject.idle_add(lambda: self.wine.builder.get_object("vmtablelog").remove(ch) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object(
+                "vmtablelog").remove(ch) and False)
 
         for task_ref in filter(self.task_filter_uuid, self.tasks):
             task = self.all_tasks[task_ref]
             if "snapshot" in task:
-                self.add_box_log(task['snapshot']['name_label'], str(task['snapshot']['created']),
+                self.add_box_log(task['snapshot']['name_label'],
+                                 str(task['snapshot']['created']),
                                  "%s %s" % (task["snapshot"]["name_label"],
                                             self.all_vms[self.track_tasks[task["ref"]]]["name_label"]),
                                  str(task['snapshot']['created']), task['ref'], task,
