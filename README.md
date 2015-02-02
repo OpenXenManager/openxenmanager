@@ -45,7 +45,7 @@ For help you can:
  - Previous Developer: Cheng Sun <chengsun9@gmail.com>
  - Current Developer: Daniel Lintott <daniel@serverb.co.uk>
  - Contributors:
-   + Lars Hagström (DonOregano) <lars@foldspace.nu>
-   + Sol Jerome (solj)
-   + Ivan Zderadicka (izderadicka)
-   + Jason Nelson (schplat)
+   * Lars Hagström (DonOregano) <lars@foldspace.nu>
+   * Sol Jerome (solj)
+   * Ivan Zderadicka (izderadicka)
+   * Jason Nelson (schplat)
