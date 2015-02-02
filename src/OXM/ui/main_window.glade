@@ -2079,7 +2079,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image15</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="on_btstgnewdisk_activate" swapped="no"/>
+                        <signal name="activate" handler="on_btstgnewdisk_clicked" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -4421,175 +4421,178 @@ Reboot</property>
                               <object class="GtkAlignment" id="alignment24">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkEventBox" id="eventbox74">
+                                  <object class="GtkVBox" id="vbox3">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkScrolledWindow" id="scrolledwindow16">
+                                      <object class="GtkHBox" id="hbox2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkHButtonBox" id="hbuttonbox4">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <object class="GtkButton" id="rescanisos">
+                                                <property name="label" translatable="yes">Rescan</property>
+                                                <property name="width_request">100</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_rescanisos_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkHButtonBox" id="hbuttonbox3">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">3</property>
+                                            <child>
+                                              <object class="GtkButton" id="btstgnewdisk">
+                                                <property name="label" translatable="yes">Add Disk...</property>
+                                                <property name="width_request">100</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_btstgnewdisk_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="btstgproperties">
+                                                <property name="label" translatable="yes">Properties</property>
+                                                <property name="width_request">100</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_properties_activate" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="btstgremove">
+                                                <property name="label" translatable="yes">Remove</property>
+                                                <property name="width_request">100</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_btstgremove_clicked" swapped="no"/>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="pack_type">end</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="scrolledwindow7">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="hscrollbar_policy">automatic</property>
                                         <property name="vscrollbar_policy">automatic</property>
                                         <child>
-                                          <object class="GtkViewport" id="viewport16">
+                                          <object class="GtkTreeView" id="treestg">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="resize_mode">queue</property>
-                                            <property name="shadow_type">none</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="model">liststg</property>
+                                            <property name="headers_clickable">False</property>
+                                            <property name="search_column">0</property>
                                             <child>
-                                              <object class="GtkEventBox" id="eventbox75">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn59">
+                                                <property name="min_width">150</property>
+                                                <property name="title">Name</property>
                                                 <child>
-                                                  <object class="GtkFixed" id="fixed38">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <child>
-                                                      <object class="GtkButton" id="btstgnewdisk">
-                                                        <property name="label" translatable="yes">Add Disk...</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_btstgnewdisk_activate" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">400</property>
-                                                        <property name="y">5</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="btstgproperties">
-                                                        <property name="label" translatable="yes">Properties</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="sensitive">False</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_properties_activate" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">510</property>
-                                                        <property name="y">5</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="btstgremove">
-                                                        <property name="label" translatable="yes">Remove</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="sensitive">False</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_btstgremove_activate" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">620</property>
-                                                        <property name="y">5</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow43">
-                                                        <property name="width_request">750</property>
-                                                        <property name="height_request">450</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="hscrollbar_policy">automatic</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport44">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treestg">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="model">liststg</property>
-                                                            <property name="headers_clickable">False</property>
-                                                            <property name="search_column">0</property>
-                                                            <signal name="button-press-event" handler="on_treestg_button_press_event" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn59">
-                                                            <property name="min_width">150</property>
-                                                            <property name="title">Name</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext58"/>
-                                                            <attributes>
-                                                            <attribute name="text">1</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn60">
-                                                            <property name="min_width">200</property>
-                                                            <property name="title">Description</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext59"/>
-                                                            <attributes>
-                                                            <attribute name="text">2</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn65">
-                                                            <property name="min_width">200</property>
-                                                            <property name="title">Size</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext60"/>
-                                                            <attributes>
-                                                            <attribute name="text">3</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn66">
-                                                            <property name="min_width">150</property>
-                                                            <property name="title">VM</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext65"/>
-                                                            <attributes>
-                                                            <attribute name="text">4</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">15</property>
-                                                        <property name="y">40</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="rescanisos">
-                                                        <property name="label" translatable="yes">Rescan</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_rescanisos_clicked" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">15</property>
-                                                        <property name="y">5</property>
-                                                      </packing>
-                                                    </child>
-                                                  </object>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext58"/>
+                                                  <attributes>
+                                                    <attribute name="text">1</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn60">
+                                                <property name="min_width">200</property>
+                                                <property name="title">Description</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext59"/>
+                                                  <attributes>
+                                                    <attribute name="text">2</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn65">
+                                                <property name="min_width">200</property>
+                                                <property name="title">Size</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext60"/>
+                                                  <attributes>
+                                                    <attribute name="text">3</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn66">
+                                                <property name="min_width">150</property>
+                                                <property name="title">VM</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext65"/>
+                                                  <attributes>
+                                                    <attribute name="text">4</attribute>
+                                                  </attributes>
                                                 </child>
                                               </object>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                 </child>
@@ -8097,149 +8100,105 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkAlignment" id="alignment8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="top_padding">5</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkAlignment" id="alignment9">
+                                  <object class="GtkScrolledWindow" id="scrolledwindow4">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
                                     <child>
-                                      <object class="GtkScrolledWindow" id="scrolledwindow4">
+                                      <object class="GtkTreeView" id="treehoststorage">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="hscrollbar_policy">automatic</property>
-                                        <property name="vscrollbar_policy">automatic</property>
+                                        <property name="model">listhoststorage</property>
+                                        <property name="headers_clickable">False</property>
+                                        <property name="search_column">0</property>
                                         <child>
-                                          <object class="GtkViewport" id="viewport3">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="resize_mode">queue</property>
-                                            <property name="shadow_type">none</property>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn21">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Name</property>
                                             <child>
-                                              <object class="GtkEventBox" id="eventbox73">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <child>
-                                                  <object class="GtkFixed" id="fixed6">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow41">
-                                                        <property name="width_request">755</property>
-                                                        <property name="height_request">350</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="hscrollbar_policy">automatic</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport42">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treehoststorage">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="model">listhoststorage</property>
-                                                            <property name="headers_clickable">False</property>
-                                                            <property name="search_column">0</property>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn21">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Name</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext20"/>
-                                                            <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn22">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Description</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext21"/>
-                                                            <attributes>
-                                                            <attribute name="text">1</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn23">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Type</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext22"/>
-                                                            <attributes>
-                                                            <attribute name="text">2</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn24">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Shared</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext23"/>
-                                                            <attributes>
-                                                            <attribute name="text">3</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn25">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Usage</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext24"/>
-                                                            <attributes>
-                                                            <attribute name="text">4</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn26">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Size</property>
-                                                            <property name="alignment">0.019999999552965164</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext25"/>
-                                                            <attributes>
-                                                            <attribute name="text">5</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn27">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Virtual Alloc</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext26"/>
-                                                            <attributes>
-                                                            <attribute name="text">6</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">1</property>
-                                                        <property name="y">31</property>
-                                                      </packing>
-                                                    </child>
-                                                  </object>
-                                                </child>
-                                              </object>
+                                              <object class="GtkCellRendererText" id="cellrenderertext20"/>
+                                              <attributes>
+                                                <attribute name="text">0</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn22">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Description</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext21"/>
+                                              <attributes>
+                                                <attribute name="text">1</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn23">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Type</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext22"/>
+                                              <attributes>
+                                                <attribute name="text">2</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn24">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Shared</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext23"/>
+                                              <attributes>
+                                                <attribute name="text">3</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn25">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Usage</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext24"/>
+                                              <attributes>
+                                                <attribute name="text">4</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn26">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Size</property>
+                                            <property name="alignment">0.019999999552965164</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext25"/>
+                                              <attributes>
+                                                <attribute name="text">5</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                        </child>
+                                        <child>
+                                          <object class="GtkTreeViewColumn" id="treeviewcolumn27">
+                                            <property name="resizable">True</property>
+                                            <property name="title">Virtual Alloc</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext26"/>
+                                              <attributes>
+                                                <attribute name="text">6</attribute>
+                                              </attributes>
                                             </child>
                                           </object>
                                         </child>
@@ -8280,184 +8239,178 @@ XenServer Tools needs to be installed.</property>
                             <property name="label_xalign">0</property>
                             <property name="shadow_type">none</property>
                             <child>
-                              <object class="GtkScrolledWindow" id="scrolledwindow7">
+                              <object class="GtkAlignment" id="alignment63">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">automatic</property>
-                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="can_focus">False</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkViewport" id="viewport4">
+                                  <object class="GtkVBox" id="vbox2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="resize_mode">queue</property>
-                                    <property name="shadow_type">none</property>
+                                    <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkEventBox" id="eventbox68">
+                                      <object class="GtkHButtonBox" id="hbuttonbox2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="spacing">3</property>
+                                        <property name="layout_style">end</property>
                                         <child>
-                                          <object class="GtkFixed" id="fixed8">
+                                          <object class="GtkButton" id="bthostnicreadd">
+                                            <property name="label" translatable="yes">Add bond...</property>
+                                            <property name="width_request">100</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_bthostnicreadd_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="bthostnicremove">
+                                            <property name="label" translatable="yes">Delete bond</property>
+                                            <property name="width_request">100</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_bthostnicremove_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="scrolledwindow3">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
+                                        <child>
+                                          <object class="GtkTreeView" id="treehostnics">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="model">listhostnics</property>
+                                            <property name="headers_clickable">False</property>
+                                            <property name="search_column">0</property>
+                                            <property name="hover_expand">True</property>
+                                            <signal name="button-press-event" handler="on_treehostnics_button_press_event" swapped="no"/>
                                             <child>
-                                              <object class="GtkScrolledWindow" id="scrolledwindow36">
-                                                <property name="width_request">750</property>
-                                                <property name="height_request">350</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="hscrollbar_policy">automatic</property>
-                                                <property name="vscrollbar_policy">automatic</property>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn18">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">NIC</property>
                                                 <child>
-                                                  <object class="GtkViewport" id="viewport37">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="resize_mode">queue</property>
-                                                    <child>
-                                                      <object class="GtkTreeView" id="treehostnics">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="model">listhostnics</property>
-                                                        <property name="headers_clickable">False</property>
-                                                        <property name="search_column">0</property>
-                                                        <property name="hover_expand">True</property>
-                                                        <signal name="button-press-event" handler="on_treehostnics_button_press_event" swapped="no"/>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn36">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">NIC</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext35"/>
-                                                            <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn37">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">MAC</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext36"/>
-                                                            <attributes>
-                                                            <attribute name="text">1</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn38">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Link Status</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext37"/>
-                                                            <attributes>
-                                                            <attribute name="text">2</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn39">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Speed</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext38"/>
-                                                            <attributes>
-                                                            <attribute name="text">3</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn40">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Duplex</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext39"/>
-                                                            <attributes>
-                                                            <attribute name="text">4</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn41">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Vendor</property>
-                                                            <property name="alignment">0.019999999552965164</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext40"/>
-                                                            <attributes>
-                                                            <attribute name="text">5</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn42">
-                                                            <property name="resizable">True</property>
-                                                            <property name="title">Device</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext41"/>
-                                                            <attributes>
-                                                            <attribute name="text">6</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn43">
-                                                            <property name="title">PCI Bus</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext42"/>
-                                                            <attributes>
-                                                            <attribute name="text">7</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext17"/>
+                                                  <attributes>
+                                                    <attribute name="text">0</attribute>
+                                                  </attributes>
                                                 </child>
                                               </object>
-                                              <packing>
-                                                <property name="x">1</property>
-                                                <property name="y">31</property>
-                                              </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="bthostnicremove">
-                                                <property name="label" translatable="yes">Delete Bond</property>
-                                                <property name="width_request">100</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_bthostnicremove_clicked" swapped="no"/>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn19">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">MAC</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext18"/>
+                                                  <attributes>
+                                                    <attribute name="text">1</attribute>
+                                                  </attributes>
+                                                </child>
                                               </object>
-                                              <packing>
-                                                <property name="x">650</property>
-                                              </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkButton" id="bthostnicreadd">
-                                                <property name="label" translatable="yes">Add Bond... </property>
-                                                <property name="width_request">100</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_bthostnicreadd_clicked" swapped="no"/>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn20">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">Link Status</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext19"/>
+                                                  <attributes>
+                                                    <attribute name="text">2</attribute>
+                                                  </attributes>
+                                                </child>
                                               </object>
-                                              <packing>
-                                                <property name="x">545</property>
-                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn35">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">Speed</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext34"/>
+                                                  <attributes>
+                                                    <attribute name="text">3</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn36">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">Duplex</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext35"/>
+                                                  <attributes>
+                                                    <attribute name="text">4</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn37">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">Vendor</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext36"/>
+                                                  <attributes>
+                                                    <attribute name="text">5</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn38">
+                                                <property name="resizable">True</property>
+                                                <property name="title" translatable="yes">Device</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext37"/>
+                                                  <attributes>
+                                                    <attribute name="text">6</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn39">
+                                                <property name="title" translatable="yes">PCI Bus</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext38"/>
+                                                  <attributes>
+                                                    <attribute name="text">7</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                 </child>
@@ -8497,11 +8450,70 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkAlignment" id="alignment10">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkAlignment" id="alignment11">
+                                  <object class="GtkVBox" id="vbox4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="spacing">5</property>
+                                    <child>
+                                      <object class="GtkHButtonBox" id="hbuttonbox5">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">3</property>
+                                        <property name="layout_style">end</property>
+                                        <child>
+                                          <object class="GtkButton" id="bthostnetworkadd">
+                                            <property name="label" translatable="yes">Add Network...</property>
+                                            <property name="width_request">110</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_bthostnetworkadd_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="bthostnetworkproperties">
+                                            <property name="label" translatable="yes">Properties</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_properties_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="bthostnetworkremove">
+                                            <property name="label" translatable="yes">Remove Network</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_bthostnetworkremove_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
                                     <child>
                                       <object class="GtkScrolledWindow" id="scrolledwindow8">
                                         <property name="visible">True</property>
@@ -8509,199 +8521,121 @@ XenServer Tools needs to be installed.</property>
                                         <property name="hscrollbar_policy">automatic</property>
                                         <property name="vscrollbar_policy">automatic</property>
                                         <child>
-                                          <object class="GtkViewport" id="viewport5">
+                                          <object class="GtkTreeView" id="treehostnetwork">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="resize_mode">queue</property>
-                                            <property name="shadow_type">none</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="model">listhostnetwork</property>
+                                            <property name="headers_clickable">False</property>
+                                            <property name="search_column">0</property>
+                                            <signal name="button-press-event" handler="on_treehostnetwork_button_press_event" swapped="no"/>
                                             <child>
-                                              <object class="GtkEventBox" id="eventbox69">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn28">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">150</property>
+                                                <property name="title">Name</property>
                                                 <child>
-                                                  <object class="GtkFixed" id="fixed7">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow37">
-                                                        <property name="width_request">790</property>
-                                                        <property name="height_request">350</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="hscrollbar_policy">automatic</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport38">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <child>
-                                                            <object class="GtkTreeView" id="treehostnetwork">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="model">listhostnetwork</property>
-                                                            <property name="headers_clickable">False</property>
-                                                            <property name="search_column">0</property>
-                                                            <signal name="button-press-event" handler="on_treehostnetwork_button_press_event" swapped="no"/>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn28">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">150</property>
-                                                            <property name="title">Name</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext27"/>
-                                                            <attributes>
-                                                            <attribute name="text">0</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn29">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">200</property>
-                                                            <property name="title">Description</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext28"/>
-                                                            <attributes>
-                                                            <attribute name="text">1</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn30">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">50</property>
-                                                            <property name="title">NIC</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext29"/>
-                                                            <attributes>
-                                                            <attribute name="text">2</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn31">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">50</property>
-                                                            <property name="title">VLAN</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext30"/>
-                                                            <attributes>
-                                                            <attribute name="text">3</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn32">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">50</property>
-                                                            <property name="title">Auto</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext31"/>
-                                                            <attributes>
-                                                            <attribute name="text">4</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn33">
-                                                            <property name="resizable">True</property>
-                                                            <property name="min_width">50</property>
-                                                            <property name="title">Link Status</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext32"/>
-                                                            <attributes>
-                                                            <attribute name="text">5</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn34">
-                                                            <property name="title">MAC</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext33"/>
-                                                            <attributes>
-                                                            <attribute name="text">6</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            <child>
-                                                            <object class="GtkTreeViewColumn" id="treeviewcolumn104">
-                                                            <property name="title" translatable="yes">MTU</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext57"/>
-                                                            <attributes>
-                                                            <attribute name="text">7</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                            </object>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">1</property>
-                                                        <property name="y">31</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="bthostnetworkproperties">
-                                                        <property name="label" translatable="yes">Properties</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_properties_activate" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">555</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="bthostnetworkadd">
-                                                        <property name="label" translatable="yes">Add Network...</property>
-                                                        <property name="width_request">120</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_bthostnetworkadd_clicked" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">430</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkButton" id="bthostnetworkremove">
-                                                        <property name="label" translatable="yes">Remove Network</property>
-                                                        <property name="width_request">130</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_bthostnetworkremove_clicked" swapped="no"/>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">660</property>
-                                                      </packing>
-                                                    </child>
-                                                  </object>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext27"/>
+                                                  <attributes>
+                                                    <attribute name="text">0</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn29">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">200</property>
+                                                <property name="title">Description</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext28"/>
+                                                  <attributes>
+                                                    <attribute name="text">1</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn30">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">50</property>
+                                                <property name="title">NIC</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext29"/>
+                                                  <attributes>
+                                                    <attribute name="text">2</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn31">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">50</property>
+                                                <property name="title">VLAN</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext30"/>
+                                                  <attributes>
+                                                    <attribute name="text">3</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn32">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">50</property>
+                                                <property name="title">Auto</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext31"/>
+                                                  <attributes>
+                                                    <attribute name="text">4</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn33">
+                                                <property name="resizable">True</property>
+                                                <property name="min_width">50</property>
+                                                <property name="title">Link Status</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext32"/>
+                                                  <attributes>
+                                                    <attribute name="text">5</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn34">
+                                                <property name="title">MAC</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext33"/>
+                                                  <attributes>
+                                                    <attribute name="text">6</attribute>
+                                                  </attributes>
+                                                </child>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn104">
+                                                <property name="title" translatable="yes">MTU</property>
+                                                <child>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext57"/>
+                                                  <attributes>
+                                                    <attribute name="text">7</attribute>
+                                                  </attributes>
                                                 </child>
                                               </object>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                 </child>
@@ -8956,7 +8890,9 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkAlignment" id="alignment4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox6">
                                     <property name="visible">True</property>
@@ -9128,337 +9064,284 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkAlignment" id="alignment52">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="top_padding">3</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkEventBox" id="eventbox78">
+                                  <object class="GtkScrolledWindow" id="scrolledwindow46">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
                                     <child>
-                                      <object class="GtkScrolledWindow" id="scrolledwindow46">
+                                      <object class="GtkViewport" id="viewport3">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="hscrollbar_policy">automatic</property>
-                                        <property name="vscrollbar_policy">automatic</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="shadow_type">none</property>
                                         <child>
-                                          <object class="GtkViewport" id="viewport47">
+                                          <object class="GtkVBox" id="vbox5">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resize_mode">queue</property>
-                                            <property name="shadow_type">none</property>
+                                            <property name="spacing">5</property>
                                             <child>
-                                              <object class="GtkEventBox" id="eventbox79">
+                                              <object class="GtkHBox" id="hbox4">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="spacing">5</property>
                                                 <child>
-                                                  <object class="GtkFixed" id="fixed107">
+                                                  <object class="GtkLabel" id="label11">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow47">
-                                                        <property name="width_request">700</property>
-                                                        <property name="height_request">280</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="hscrollbar_policy">automatic</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <property name="window_placement">bottom-right</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewportperfcpu">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK | GDK_PROPERTY_CHANGE_MASK | GDK_VISIBILITY_NOTIFY_MASK | GDK_PROXIMITY_IN_MASK | GDK_PROXIMITY_OUT_MASK | GDK_SUBSTRUCTURE_MASK | GDK_SCROLL_MASK</property>
-                                                            <property name="extension_events">all</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <property name="shadow_type">none</property>
-                                                            <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
-                                                            <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
-                                                            <signal name="motion-notify-event" handler="on_viewportperf_motion_notify_event" swapped="no"/>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">10</property>
-                                                        <property name="y">50</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow48">
-                                                        <property name="width_request">700</property>
-                                                        <property name="height_request">280</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <property name="window_placement">bottom-right</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport49">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK | GDK_PROPERTY_CHANGE_MASK | GDK_VISIBILITY_NOTIFY_MASK | GDK_PROXIMITY_IN_MASK | GDK_PROXIMITY_OUT_MASK | GDK_SUBSTRUCTURE_MASK | GDK_SCROLL_MASK</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <property name="shadow_type">none</property>
-                                                            <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
-                                                            <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
-                                                            <signal name="motion-notify-event" handler="on_viewportperf_motion_notify_event" swapped="no"/>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">10</property>
-                                                        <property name="y">405</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow49">
-                                                        <property name="width_request">700</property>
-                                                        <property name="height_request">280</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <property name="window_placement">bottom-right</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport50">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK | GDK_PROPERTY_CHANGE_MASK | GDK_VISIBILITY_NOTIFY_MASK | GDK_PROXIMITY_IN_MASK | GDK_PROXIMITY_OUT_MASK | GDK_SUBSTRUCTURE_MASK | GDK_SCROLL_MASK</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <property name="shadow_type">none</property>
-                                                            <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
-                                                            <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
-                                                            <signal name="motion-notify-event" handler="on_viewportperf_motion_notify_event" swapped="no"/>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">10</property>
-                                                        <property name="y">710</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label379">
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;CPU Usage&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">300</property>
-                                                        <property name="y">30</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label381">
-                                                        <property name="width_request">130</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Memory Usage&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">300</property>
-                                                        <property name="y">380</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label382">
-                                                        <property name="width_request">120</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Network Usage&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">300</property>
-                                                        <property name="y">690</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="labeldiskusage">
-                                                        <property name="width_request">120</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Disk Usage&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">300</property>
-                                                        <property name="y">1000</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkScrolledWindow" id="scrolledwindow50">
-                                                        <property name="width_request">700</property>
-                                                        <property name="height_request">280</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <property name="window_placement">bottom-right</property>
-                                                        <child>
-                                                          <object class="GtkViewport" id="viewport51">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK | GDK_PROPERTY_CHANGE_MASK | GDK_VISIBILITY_NOTIFY_MASK | GDK_PROXIMITY_IN_MASK | GDK_PROXIMITY_OUT_MASK | GDK_SUBSTRUCTURE_MASK | GDK_SCROLL_MASK</property>
-                                                            <property name="resize_mode">queue</property>
-                                                            <property name="shadow_type">none</property>
-                                                            <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
-                                                            <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
-                                                            <signal name="motion-notify-event" handler="on_viewportperf_motion_notify_event" swapped="no"/>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">10</property>
-                                                        <property name="y">1030</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label383">
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">30</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="y">810</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label81">
-                                                        <property name="width_request">50</property>
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                        <property name="yalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Time:&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                    </child>
+                                                    <property name="label" translatable="yes">Time:</property>
+                                                    <attributes>
+                                                      <attribute name="weight" value="bold"/>
+                                                    </attributes>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkHButtonBox" id="hbuttonbox6">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">3</property>
                                                     <child>
                                                       <object class="GtkButton" id="btgraphtenmin">
                                                         <property name="label" translatable="yes">10 minutes</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_btgraph_clicked" swapped="no"/>
                                                       </object>
                                                       <packing>
-                                                        <property name="x">70</property>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="btgraphtwohours">
                                                         <property name="label" translatable="yes">2 hours</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_btgraph_clicked" swapped="no"/>
                                                       </object>
                                                       <packing>
-                                                        <property name="x">180</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="lblperfcpu">
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">450</property>
-                                                        <property name="y">30</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="lblperfmem">
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">450</property>
-                                                        <property name="y">380</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="lblperfvif">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">450</property>
-                                                        <property name="y">690</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkLabel" id="lblperfvbd">
-                                                        <property name="height_request">20</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="xalign">0</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="x">450</property>
-                                                        <property name="y">1000</property>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="btgraphoneweek">
                                                         <property name="label" translatable="yes">1 week</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_btgraph_clicked" swapped="no"/>
                                                       </object>
                                                       <packing>
-                                                        <property name="x">290</property>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="btgraphoneyear">
                                                         <property name="label" translatable="yes">1 year</property>
-                                                        <property name="width_request">100</property>
-                                                        <property name="height_request">20</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_btgraph_clicked" swapped="no"/>
                                                       </object>
                                                       <packing>
-                                                        <property name="x">400</property>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">3</property>
                                                       </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label54">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">CPU Usage</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkScrolledWindow" id="scrwin_cpuusage">
+                                                <property name="height_request">200</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="hscrollbar_policy">automatic</property>
+                                                <property name="vscrollbar_policy">automatic</property>
+                                                <child>
+                                                  <object class="GtkViewport" id="viewportperfcpu">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="shadow_type">none</property>
+                                                    <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
+                                                    <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
+                                                    <child>
+                                                      <placeholder/>
                                                     </child>
                                                   </object>
                                                 </child>
                                               </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label61">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Memory Usage</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkScrolledWindow" id="scrwin_memusage">
+                                                <property name="height_request">340</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="hscrollbar_policy">automatic</property>
+                                                <property name="vscrollbar_policy">automatic</property>
+                                                <child>
+                                                  <object class="GtkViewport" id="viewport49">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="shadow_type">none</property>
+                                                    <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
+                                                    <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">4</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label62">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Network Usage</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">5</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkScrolledWindow" id="scrwin_netusage">
+                                                <property name="height_request">340</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="hscrollbar_policy">automatic</property>
+                                                <property name="vscrollbar_policy">automatic</property>
+                                                <child>
+                                                  <object class="GtkViewport" id="viewport50">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="shadow_type">none</property>
+                                                    <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
+                                                    <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">6</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="labeldiskusage">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Disk Usage</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="bold"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">7</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkScrolledWindow" id="scrwin_diskusage">
+                                                <property name="height_request">340</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="hscrollbar_policy">automatic</property>
+                                                <property name="vscrollbar_policy">automatic</property>
+                                                <child>
+                                                  <object class="GtkViewport" id="viewport4">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="shadow_type">none</property>
+                                                    <signal name="button-press-event" handler="on_viewportperf_button_press_event" swapped="no"/>
+                                                    <signal name="button-release-event" handler="on_viewportperf_button_release_event" swapped="no"/>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">8</property>
+                                              </packing>
                                             </child>
                                           </object>
                                         </child>
@@ -9540,7 +9423,6 @@ XenServer Tools needs to be installed.</property>
                                                   <object class="GtkButton" id="btleavedomain">
                                                     <property name="label" translatable="yes">Leave Domain</property>
                                                     <property name="width_request">120</property>
-                                                    <property name="height_request">25</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9556,7 +9438,6 @@ XenServer Tools needs to be installed.</property>
                                                   <object class="GtkButton" id="btjoindomain">
                                                     <property name="label" translatable="yes">Join Domain</property>
                                                     <property name="width_request">110</property>
-                                                    <property name="height_request">25</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9654,7 +9535,6 @@ at next login.</property>
                                                   <object class="GtkButton" id="btadduser">
                                                     <property name="label" translatable="yes">Add...</property>
                                                     <property name="width_request">100</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9670,7 +9550,6 @@ at next login.</property>
                                                   <object class="GtkButton" id="btremoveuser">
                                                     <property name="label" translatable="yes">Remove</property>
                                                     <property name="width_request">100</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9686,7 +9565,6 @@ at next login.</property>
                                                   <object class="GtkButton" id="btlogoutuser">
                                                     <property name="label" translatable="yes">Logout User</property>
                                                     <property name="width_request">100</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9702,7 +9580,6 @@ at next login.</property>
                                                   <object class="GtkButton" id="btchangerole">
                                                     <property name="label" translatable="yes">Change Role...</property>
                                                     <property name="width_request">100</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -9755,181 +9632,168 @@ at next login.</property>
                             <property name="label_xalign">0</property>
                             <property name="shadow_type">none</property>
                             <child>
-                              <object class="GtkScrolledWindow" id="scrolledwindow9">
+                              <object class="GtkAlignment" id="alignment9">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">automatic</property>
-                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="can_focus">False</property>
+                                <property name="bottom_padding">3</property>
+                                <property name="left_padding">3</property>
+                                <property name="right_padding">3</property>
                                 <child>
-                                  <object class="GtkViewport" id="viewport9">
+                                  <object class="GtkVBox" id="vbox7">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="resize_mode">queue</property>
-                                    <property name="shadow_type">none</property>
+                                    <property name="spacing">5</property>
                                     <child>
-                                      <object class="GtkEventBox" id="eventbox72">
+                                      <object class="GtkHBox" id="hbox5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="spacing">3</property>
                                         <child>
-                                          <object class="GtkFixed" id="fixed1">
+                                          <object class="GtkButton" id="btsnapnewvm">
+                                            <property name="label" translatable="yes">New VM...</property>
+                                            <property name="width_request">100</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_m_snap_newvm_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="btsnapcreatetpl">
+                                            <property name="label" translatable="yes">Create Template...</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_m_snap_createtpl_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="btsnapexport">
+                                            <property name="label" translatable="yes">Export As Template...</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_m_snap_export_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="btsnapexportvm">
+                                            <property name="label" translatable="yes">Export As VM...</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_m_snap_export_vm_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="btsnaprevert">
+                                            <property name="label" translatable="yes">Revert To...</property>
+                                            <property name="width_request">100</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_btsnaprevert_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">4</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="btsnapdelete">
+                                            <property name="label" translatable="yes">Delete</property>
+                                            <property name="width_request">100</property>
+                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_m_snap_delete_activate" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">5</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="bttakesnapshot">
+                                            <property name="label" translatable="yes">Take Snapshot</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_bttakesnapshot_clicked" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">6</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="scrolledwindow9">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
+                                        <child>
+                                          <object class="GtkTreeView" id="treevmsnapshots">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="model">listvmsnapshots</property>
+                                            <property name="headers_visible">False</property>
+                                            <property name="headers_clickable">False</property>
+                                            <property name="search_column">0</property>
                                             <child>
-                                              <object class="GtkButton" id="bttakesnapshot">
-                                                <property name="label" translatable="yes">Take Snapshot</property>
-                                                <property name="width_request">100</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_bttakesnapshot_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">660</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkScrolledWindow" id="scrolledwindow40">
-                                                <property name="width_request">800</property>
-                                                <property name="height_request">350</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="hscrollbar_policy">automatic</property>
-                                                <property name="vscrollbar_policy">automatic</property>
+                                              <object class="GtkTreeViewColumn" id="treeviewcolumn17">
+                                                <property name="title">column</property>
                                                 <child>
-                                                  <object class="GtkViewport" id="viewport41">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="resize_mode">queue</property>
-                                                    <child>
-                                                      <object class="GtkTreeView" id="treevmsnapshots">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="model">listvmsnapshots</property>
-                                                        <property name="headers_visible">False</property>
-                                                        <property name="headers_clickable">False</property>
-                                                        <property name="search_column">0</property>
-                                                        <signal name="button-press-event" handler="on_treevmsnapshots_button_press_event" swapped="no"/>
-                                                        <child>
-                                                          <object class="GtkTreeViewColumn" id="treeviewcolumn17">
-                                                            <property name="title">column</property>
-                                                            <child>
-                                                            <object class="GtkCellRendererText" id="cellrenderertext16"/>
-                                                            <attributes>
-                                                            <attribute name="markup">1</attribute>
-                                                            </attributes>
-                                                            </child>
-                                                          </object>
-                                                        </child>
-                                                      </object>
-                                                    </child>
-                                                  </object>
+                                                  <object class="GtkCellRendererText" id="cellrenderertext16"/>
+                                                  <attributes>
+                                                    <attribute name="markup">1</attribute>
+                                                  </attributes>
                                                 </child>
                                               </object>
-                                              <packing>
-                                                <property name="x">20</property>
-                                                <property name="y">45</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnapnewvm">
-                                                <property name="label" translatable="yes">New VM...</property>
-                                                <property name="width_request">80</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_m_snap_newvm_activate" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">20</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnapcreatetpl">
-                                                <property name="label" translatable="yes">Create Template...</property>
-                                                <property name="width_request">130</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_m_snap_createtpl_activate" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">105</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnapexport">
-                                                <property name="label" translatable="yes">Export As Template...</property>
-                                                <property name="width_request">150</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_m_snap_export_activate" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">240</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnapdelete">
-                                                <property name="label" translatable="yes">Delete</property>
-                                                <property name="width_request">70</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_m_snap_delete_activate" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">585</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnaprevert">
-                                                <property name="label" translatable="yes">Revert To...</property>
-                                                <property name="width_request">80</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_btsnaprevert_clicked" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">500</property>
-                                                <property name="y">20</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkButton" id="btsnapexportvm">
-                                                <property name="label" translatable="yes">Export As VM...</property>
-                                                <property name="width_request">100</property>
-                                                <property name="height_request">20</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_m_snap_export_vm_activate" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="x">395</property>
-                                                <property name="y">20</property>
-                                              </packing>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                   </object>
                                 </child>

@@ -32,29 +32,29 @@ class oxcWindowVMPerformance:
     prevmousey = 0
     toggling = False
     graphtime = 0
+
     def on_btgraph_clicked(self, widget, data=None):
         """
         Update period time
         """
-        times = {
-                "btgraphtenmin" : 5,
-                "btgraphtwohours" : 60,
-                "btgraphoneweek" : 3600, 
-                "btgraphoneyear" : 86400 
-        }
+        times = {"btgraphtenmin": 5,
+                 "btgraphtwohours": 60,
+                 "btgraphoneweek": 3600,
+                 "btgraphoneyear": 86400}
         host = self.selected_host
         ref = self.selected_ref
         if self.selected_type == "vm":
-            self.builder.get_object("scrolledwindow50").show()
+            self.builder.get_object("scrwin_diskusage").show()
             self.builder.get_object("labeldiskusage").show()
-            Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref, \
-                                     self.selected_ip, False, times[gtk.Buildable.get_name(widget)])).start()
+            Thread(target=self.xc_servers[host].update_performance,
+                   args=(self.selected_uuid, ref, self.selected_ip, False,
+                         times[gtk.Buildable.get_name(widget)])).start()
         else:
-            self.builder.get_object("scrolledwindow50").hide()
+            self.builder.get_object("scrwin_diskusage").hide()
             self.builder.get_object("labeldiskusage").hide()
-            Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref, \
-                                     self.selected_ip, True, times[gtk.Buildable.get_name(widget)])).start()
-
+            Thread(target=self.xc_servers[host].update_performance,
+                   args=(self.selected_uuid, ref, self.selected_ip, True,
+                         times[gtk.Buildable.get_name(widget)])).start()
 
     def on_viewportperf_button_press_event(self, widget, event):	
         """
@@ -102,11 +102,10 @@ class oxcWindowVMPerformance:
         yadjust = vport.props.vadjustment
         newy = yadjust.value + offset_y
         if (newx >= xadjust.lower) and \
-               (newx <= (xadjust.upper - xadjust.page_size)):
+                (newx <= (xadjust.upper - xadjust.page_size)):
             xadjust.value = newx
             vport.set_hadjustment(xadjust)
         if (newy >= yadjust.lower) and \
-               (newy <= (yadjust.upper - yadjust.page_size)):
+                (newy <= (yadjust.upper - yadjust.page_size)):
             yadjust.value = newy
             vport.set_vadjustment(yadjust)
-

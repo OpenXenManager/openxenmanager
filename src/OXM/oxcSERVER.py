@@ -454,12 +454,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
     def update_performance(self, uuid, ref, ip, host=False, period=5):
         # Default three hours of period
         self.halt_performance = False
-        for widget in ["scrolledwindow47", "scrolledwindow48", "scrolledwindow49", "scrolledwindow50"]:
-            if self.wine.builder.get_object(widget).get_children()[0].get_children():
-                #gobject.idle_add(lambda:  self.wine.builder.get_object(widget).get_children()[0].remove(self.wine.builder.get_object(widget).get_children()[0].get_children()[0]) and False)
+        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
+            widget = self.wine.builder.get_object(widget).get_children()[0]
+            if widget.get_children():
                 gtk.gdk.threads_enter()
-                self.wine.builder.get_object(widget).get_children()[0].remove(
-                    self.wine.builder.get_object(widget).get_children()[0].get_children()[0])
+                widget.remove(widget.get_children()[0])
                 gtk.gdk.threads_leave()
 
         if host:
@@ -503,8 +502,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
 
         def hovered(chart, graph, (x, y)):
             #print chart.get_title()
-            self.wine.builder.get_object("lblperf" + graph.get_title()[:3].lower()).set_label(
-                "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S", time.localtime(x)),  graph.get_title(), y))
+            #self.wine.builder.get_object("lblperf" + graph.get_title()[:3].lower()).set_label(
+            #    "%s - %s = %0.2f" % (time.strftime("%d/%m %H:%M:%S", time.localtime(x)),  graph.get_title(), y))
+            pass
 
             # Chart
         chart = {}
@@ -534,9 +534,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                 chart["cpu"].add_graph(graph[key])
                 
         chart["cpu"].set_size_request(len(data)*20, 250)
-        gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow47").add_with_viewport(chart["cpu"])
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add_with_viewport(chart["cpu"])
                          and False)
-        gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow47").show_all() and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
         
         # Memory
         if "memory_internal_free" in rrdinfo and "memory" in rrdinfo:
@@ -550,9 +550,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
         
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"])
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(chart["mem"])
                              and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
         elif "memory_total_kib" in rrdinfo and "xapi_free_memory_kib" in rrdinfo:
             chart["mem"].set_yrange((0, int(rrdinfo["memory_total_kib"]["max_value"])/1024/1024))
             data = rrdinfo["memory_total_kib"]["values"]
@@ -564,16 +564,16 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
         
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(chart["mem"])
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(chart["mem"])
                              and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
 
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").add_with_viewport(label)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add_with_viewport(label)
                              and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow48").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
         
         # Network
         max_value = 0
@@ -592,15 +592,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             chart["vif"].set_yrange((0, max_value))
             chart["vif"].set_size_request(len(data)*20, 250)
             
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(chart["vif"])
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add_with_viewport(chart["vif"])
                              and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").add_with_viewport(label)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add_with_viewport(label)
                              and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow49").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
  
         # Disk
         if not host:
@@ -621,8 +621,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             chart["vbd"].set_size_request(len(data)*20, 250)
             if data: 
                 gobject.idle_add(lambda: self.wine.builder.get_object(
-                    "scrolledwindow50").add_with_viewport(chart["vbd"]) and False)
-                gobject.idle_add(lambda: self.wine.builder.get_object("scrolledwindow50").show_all() and False)
+                    "scrwin_diskusage").add_with_viewport(chart["vbd"]) and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_diskusage").show_all() and False)
             
         if max_value == 0:
             max_value = 1

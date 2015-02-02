@@ -449,7 +449,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
         
     def adjust_scrollbar_performance(self):
-        for widget in ["scrolledwindow47", "scrolledwindow48", "scrolledwindow49", "scrolledwindow50"]:
+        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
             self.builder.get_object(widget).grab_focus()
             adj = self.builder.get_object(widget).get_hadjustment()
             adj.set_value(adj.upper - adj.page_size)
@@ -1112,12 +1112,12 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     # Thread to update performance images
                     ref = self.selected_ref
                     if self.selected_type == "vm":
-                        self.builder.get_object("scrolledwindow50").show()
+                        self.builder.get_object("scrwin_diskusage").show()
                         self.builder.get_object("labeldiskusage").show()
                         Thread(target=self.xc_servers[host].update_performance, args=(self.selected_uuid, ref,
                                                                                       self.selected_ip, False)).start()
                     else:
-                        self.builder.get_object("scrolledwindow50").hide()
+                        self.builder.get_object("scrwin_diskusage").hide()
                         self.builder.get_object("labeldiskusage").hide()
                         if host and self.selected_ref in self.xc_servers[host].host_vm:
                             uuid = self.xc_servers[host].host_vm[self.selected_ref][1]

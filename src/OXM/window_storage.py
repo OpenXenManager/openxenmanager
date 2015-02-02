@@ -598,7 +598,7 @@ class oxcWindowStorage:
         """
         # Disable or enabled "Discover IQNs" button
         self.builder.get_object("btdiscoveriqns").set_sensitive(len(widget.get_text()) > 0)
-    def on_btstgnewdisk_activate(self, widget, data=None):
+    def on_btstgnewdisk_clicked(self, widget, data=None):
         """"
         Function called when you press "new disk" on storage
         """
@@ -642,7 +642,8 @@ class oxcWindowStorage:
             else:
                 # Disable next button on unsupported new storage types
                 self.builder.get_object("nextnewstorage").set_sensitive(False)
-    def on_btstgremove_activate(self, widget, data=None):
+
+    def on_btstgremove_clicked(self, widget, data=None):
         """"
         Function called when you press "remove disk" on storage
         """
@@ -657,6 +658,7 @@ class oxcWindowStorage:
             self.builder.get_object("dialogdeletevdi").set_markup("This will delete this virtual disk permanently destroying the data on it. Continue?")
         # Show the confirmation dialog
         self.builder.get_object("dialogdeletevdi").show()
+
     def on_treestg_button_press_event(self, widget, event):
         """"
         Function called when you select a storage on "tree storage" tree
