@@ -209,16 +209,16 @@ class oxcSERVERmenuitem:
     def fill_list_templates(self, list):
         list.clear()
         for vm in  filter(self.filter_custom_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
-            self.filter_uuid = vm["uuid"]
+            vm_uuid = self.vm_filter_uuid(vm["uuid"])
             if vm["is_a_snapshot"]:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(), "images/snapshots.png")),
-                             vm["name_label"], self.vm_filter_uuid(), "Snapshots"])
+                             vm["name_label"], vm_uuid, "Snapshots"])
             else:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                     "images/user_template_16.png")), vm["name_label"],
-                             self.vm_filter_uuid(), "Custom"])
+                             vm_uuid, "Custom"])
         for vm in  filter(self.filter_normal_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
-            self.filter_uuid = vm["uuid"]
+            vm_uuid = self.vm_filter_uuid(vm["uuid"])
             if vm["name_label"].lower().count("centos"):
                 image = path.join(utils.module_path(), "images/centos.png")
                 category = "CentOS"
@@ -244,7 +244,7 @@ class oxcSERVERmenuitem:
             else:
                 image = path.join(utils.module_path(), "images/template_16.png")
                 category = "Misc"
-            list.append([gtk.gdk.pixbuf_new_from_file(image), vm["name_label"], self.vm_filter_uuid(), category])
+            list.append([gtk.gdk.pixbuf_new_from_file(image), vm["name_label"], vm_uuid, category])
 
     def fill_list_isoimages(self, list):
         list.clear()

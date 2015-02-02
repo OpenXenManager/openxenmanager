@@ -340,10 +340,10 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 list.prepend(parent, [None, "", message['name'], "", ref,
                                       self.host])
         elif message['name'] == "ALARM":
-            self.filter_uuid = message['obj_uuid']
-            if self.vm_filter_uuid() not in self.all_vms:
+            vm = self.vm_filter_uuid(message['obj_uuid'])
+            if vm not in self.all_vms:
                 return None
-            if not self.all_vms[self.vm_filter_uuid()]['is_control_domain']:
+            if not self.all_vms[vm]['is_control_domain']:
                 value = message['body'].split("\n")[0].split(" ")[1]
                 dom = xml.dom.minidom.parseString(
                     message['body'].split("config:")[1][1:])
@@ -366,7 +366,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                            ref, self.host])
                     list.prepend(parent,
                                  [None, "", msg['detail'] %
-                                          (self.all_vms[self.vm_filter_uuid()]['name_label'],
+                                          (self.all_vms[vm]['name_label'],
                                            float(value)*100, int(period), float(level)*100), "",
                                           ref, self.host])
                 else:
@@ -1747,12 +1747,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     del self.all_vms[event["ref"]]
 
                             else:
-                                self.filter_uuid = event['snapshot']['uuid']
-                                if self.vm_filter_uuid():
-                                    #make into a template
+                                filter_uuid = event['snapshot']['uuid']
+                                vm_id = self.vm_filter_uuid(filter_uuid)
+                                if vm_id:
+                                    # make into a template
                                     if event['snapshot']['is_a_template'] != \
-                                            self.all_vms[self.vm_filter_uuid()]['is_a_template']:
-                                        self.all_vms[self.vm_filter_uuid()] = event['snapshot']
+                                            self.all_vms[vm_id]['is_a_template']:
+                                        self.all_vms[vm_id] = event['snapshot']
                                         self.found_iter = None
                                         self.treestore.foreach(self.search_ref, event["ref"])
                                         if self.found_iter and event['snapshot']['is_a_template']:
@@ -1764,20 +1765,20 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                             gobject.idle_add(lambda: self.wine.update_tabs() and False)
                                     else:
                                         if event['snapshot']['resident_on'] != \
-                                                self.all_vms[self.vm_filter_uuid()]['resident_on']:
+                                                self.all_vms[vm_id]['resident_on']:
                                             self.found_iter = None
                                             gobject.idle_add(lambda: self.treestore.foreach(self.search_ref,
                                                                                             event["ref"]) and False)
                                             if self.found_iter:
                                                 gobject.idle_add(lambda: self.treestore.remove(self.found_iter)
                                                                  and False)
-                                                self.all_vms[self.vm_filter_uuid()] =  event['snapshot']
+                                                self.all_vms[vm_id] = event['snapshot']
                                                 gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
 
                                         if event['snapshot']['affinity'] != \
-                                                self.all_vms[self.vm_filter_uuid()]['affinity']:
+                                                self.all_vms[vm_id]['affinity']:
                                             print "migrate or start on or resume on2"
-                                        self.all_vms[self.vm_filter_uuid()] = event['snapshot']
+                                        self.all_vms[vm_id] = event['snapshot']
                                 else:
                                     if event["ref"] in self.track_tasks:
                                         self.all_vms[self.track_tasks[event["ref"]]] = event['snapshot']
@@ -1785,7 +1786,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     else:
                                         self.all_vms[event["ref"]] = event['snapshot']
                                 self.all_vms[event["ref"]] = event['snapshot']
-                                self.treestore.foreach(self.update_vm_status, "")
+                                self.treestore.foreach(self.update_vm_status, filter_uuid)
                                 gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
                         elif event['class'] == "vm_guest_metrics":
                             self.all_vm_guest_metrics[event['ref']] = \
@@ -1887,7 +1888,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                                                 self.set_descriptions[event["ref"]])
                                 if event["snapshot"]["name_label"] in ("Async.VM.provision", "Async.VM.clone",
                                                                        "Async.VM.copy"):
-                                    self.filter_uuid = event['snapshot']['uuid']
+                                    filter_uuid = event['snapshot']['uuid']
+                                    vm_id = self.vm_filter_uuid(filter_uuid)
                                     # TODO
                                     # Detect VM with event["ref"]
                                     if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in \
@@ -1898,10 +1900,10 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                         for vif in self.all_vms[self.track_tasks[event["ref"]]]['VIFs']:
                                             self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid,
                                                                                                vif)['Value']
-                                    if self.vm_filter_uuid() is not None:
-                                        self.all_vms[self.vm_filter_uuid()]['allowed_operations'] = \
+                                    if vm_id is not None:
+                                        self.all_vms[vm_id]['allowed_operations'] = \
                                             self.connection.VM.get_allowed_operations(self.session_uuid,
-                                                                                      self.vm_filter_uuid())['Value']
+                                                                                      vm_id)['Value']
                                     else:
                                         if event["ref"] in self.track_tasks:
                                             self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'] = \
@@ -2218,11 +2220,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     os.path.join(utils.module_path(), "images/storage_shaped_16.png"))) and False)
 
     def update_vm_status(self, model, path, iter_ref, user_data):
-        if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
-            vm =  self.all_vms[self.vm_filter_uuid()]
-            if not self.all_vms[self.vm_filter_uuid()]["is_a_template"]:
+        if self.treestore.get_value(iter_ref, 2) == user_data:
+            vm = self.all_vms[self.vm_filter_uuid(user_data)]
+            if not vm["is_a_template"]:
                 gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, vm['name_label']) and False)
-                if len(self.all_vms[self.vm_filter_uuid()]["current_operations"]):
+                if len(vm["current_operations"]):
                     gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
                         os.path.join(utils.module_path(), "images/tree_starting_16.png"))) and False)
                 else:
@@ -2336,9 +2338,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def filter_vm_uuid(self, item):
         return item["uuid"] == self.filter_uuid
 
-    def vm_filter_uuid(self):
+    def vm_filter_uuid(self, uuid):
         for vm in self.all_vms:
-            if self.all_vms[vm]["uuid"] == self.filter_uuid:
+            if self.all_vms[vm]["uuid"] == uuid:
                 return vm
         return None
 
