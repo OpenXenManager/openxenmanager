@@ -17,7 +17,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+#  USA.
 #
 # -----------------------------------------------------------------------
 # System Imports
@@ -46,7 +47,8 @@ import rrdinfo
 import utils
 
 
-class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorage, oxcSERVERalerts, oxcSERVERaddserver,
+class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
+                oxcSERVERstorage, oxcSERVERalerts, oxcSERVERaddserver,
                 oxcSERVERnewvm, oxcSERVERmenuitem):
     session_uuid = None
     is_connected = False
@@ -90,17 +92,28 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             self.connection.session.logout(self.session_uuid)
             self.is_connected = False
 
+    def is_vm_running(self, ref):
+        """
+        Returns True is a VM is running
+        :param ref: VM Ref
+        :return: Boolean
+        """
+        if self.all_vms[ref]['power_state'] == 'Running':
+            return True
+        else:
+            return False
+
     def get_network_relation(self, ref, show_halted_vms):
         # Get network -> VM relation
         relation = {}
         for network in self.all_network:
-            network_name = self.all_network[network]['name_label'].replace('Pool-wide network associated with eth',
-                                                                           'Network ')
+            network_name = self.all_network[network]['name_label'].replace(
+                'Pool-wide network associated with eth', 'Network ')
             vms = []
             for vif in self.all_network[network]['VIFs']:
                 vm = self.all_vif[vif]['VM']
                 if not vms.count(vm + "_" + self.all_vms[vm]['name_label']):
-                    if show_halted_vms or self.all_vms[vm]['power_state'] == "Running":
+                    if show_halted_vms or self.is_vm_running(vm):
                         vms.append(vm + "_" + self.all_vms[vm]['name_label'])
             relation[network + "_" + network_name] = vms
 
@@ -116,8 +129,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                 vbds = self.all_vdi[vdi]['VBDs']
                 for vbd in vbds:
                     vm = self.all_vbd[vbd]['VM']
-                    if not vms.count(vm + "_" + self.all_vms[vm]['name_label']):
-                        if show_halted_vms or self.all_vms[vm]['power_state'] == "Running":
+                    if not vms.count(vm + "_" +
+                                     self.all_vms[vm]['name_label']):
+                        if show_halted_vms or self.is_vm_running(vm):
                             vms.append(vm + "_" + self.all_vms[vm]['name_label'])
             relation[storage + "_" + storage_name] = vms
 
