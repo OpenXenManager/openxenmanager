@@ -40,12 +40,15 @@ For help you can:
 
 * Send an email in the mailing list:
   https://lists.sourceforge.net/lists/listinfo/openxenmanager-users
+  
+Developers
+==========
 
- - Original Author: Alberto Gonzalez Rodriguez <alberto@pesadilla.org>
- - Previous Developer: Cheng Sun <chengsun9@gmail.com>
- - Current Developer: Daniel Lintott <daniel@serverb.co.uk>
- - Contributors:
-   * Lars Hagström (DonOregano) <lars@foldspace.nu>
-   * Sol Jerome (solj)
-   * Ivan Zderadicka (izderadicka)
-   * Jason Nelson (schplat)
+- Original Author: Alberto Gonzalez Rodriguez <alberto@pesadilla.org>
+- Previous Developer: Cheng Sun <chengsun9@gmail.com>
+- Current Developer: Daniel Lintott <daniel@serverb.co.uk>
+- Contributors:
+  * Lars Hagström (DonOregano) <lars@foldspace.nu>
+  * Sol Jerome (solj)
+  * Ivan Zderadicka (izderadicka)
+  * Jason Nelson (schplat)
