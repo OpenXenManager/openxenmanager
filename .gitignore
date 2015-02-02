@@ -47,3 +47,6 @@ coverage.xml
 docs/_build/
 /.pydevproject
 /.project
+
+# Other Stuff
+Thumbs.db
