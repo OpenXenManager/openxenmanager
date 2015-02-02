@@ -30,7 +30,7 @@ import urllib
 import socket
 
 # Local Imports
-from messages import messages, messages_header
+from messages import get_msg
 from oxcSERVER_vm import *
 from oxcSERVER_host import *
 from oxcSERVER_properties import *
@@ -280,12 +280,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
 
     def add_alert(self, message, ref, list):
         if message['cls'] == "Host":
-            if message['name'] in messages:
+            msg = get_msg(message['name'])
+            if msg:
+
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                        "images/info.gif")),
-                                             self.hostname, messages_header[message['name']],
+                                             self.hostname, msg['header'],
                                              str(self.format_date(str(message['timestamp']))), ref, self.host])
-                list.prepend(parent, [None, "", messages[message['name']] % self.hostname, "",
+                list.prepend(parent, [None, "", msg['detail'] % self.hostname, "",
                                       ref, self.host])
             else:
                 parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
@@ -309,12 +311,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
                 nodes = dom.getElementsByTagName("alarm_trigger_period")
                 period = nodes[0].attributes.getNamedItem("value").value
 
-                if "alert_" + alert in messages:
+                msg = get_msg('alert_' + alert)
+                if msg:
                     parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                            "images/warn.gif")),
-                                                 self.hostname, messages_header["alert_" + alert],
+                                                 self.hostname, msg['header'],
                                                  str(self.format_date(str(message['timestamp']))), ref, self.host])
-                    list.prepend(parent, [None, "", messages["alert_" + alert] %
+                    list.prepend(parent, [None, "", msg['detail'] %
                                           (self.all_vms[self.vm_filter_uuid()]['name_label'],
                                            float(value)*100, int(period), float(level)*100), "",
                                           ref, self.host])
@@ -324,13 +327,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
             else:
                 value = message['body'].split("\n")[0].split(" ")[1]
                 alert = message['body'].split('value="')[1].split('"')[0]
-                if "host_alert_" + alert in messages:
+                msg = get_msg('host_alert_' + alert)
+                if msg:
                     parent = list.prepend(None, [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                            "images/warn.gif")),
                                                  self.hostname,
-                                                 messages_header["host_alert_" + alert] % "Control Domain",
+                                                 msg['header'] % "Control Domain",
                                                  str(self.format_date(str(message['timestamp']))), ref, self.host])
-                    list.prepend(parent, [None, "", messages["host_alert_" + alert] %
+                    list.prepend(parent, [None, "", msg['detail'] %
                                           ("Control Domain", self.hostname, float(value)), "",
                                           ref, self.host])
                 else:
@@ -737,14 +741,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties, oxcSERVERstorag
         #FIXME
         #vboxchildprogressbar.set_style(1)
         vboxchildlabel2.set_label(date)
-        if title in messages_header:
-            vboxchildlabel1.set_label(messages_header[title])
+        msg = get_msg(title)
+        if msg:
+            vboxchildlabel1.set_label(msg['header'])
+            vboxchildlabel3.set_label(msg['detail'] % self.wine.selected_name)
         else:
             vboxchildlabel1.set_label(title)
-        if title in messages:
-            vboxchildlabel3.set_label(messages[title] % self.wine.selected_name)
-        else:
             vboxchildlabel3.set_label(description)
+
         vboxchildlabel1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("blue"))
         #vboxchildlabel4.set_label(time)
         vboxchild.put(vboxchildlabel1, 25, 12)

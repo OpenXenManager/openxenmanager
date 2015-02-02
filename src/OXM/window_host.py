@@ -24,7 +24,7 @@ from threading import Thread
 from window_host_nics import *
 from window_host_network import * 
 from capabilities import capabilities_conf_text
-from messages import messages_header
+from messages import get_msg
 
 
 class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
@@ -170,8 +170,9 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
             self.builder.get_object("lblupdateversion").set_label(version)
             guidance_text = ""
             for guid in guidance:
-                if guid in messages_header:
-                    guidance_text += messages_header[guid] + "\n"
+                msg = get_msg(guid)
+                if msg:
+                    guidance_text += msg['header'] + "\n"
                 else:
                     guidance_text += guid
             self.builder.get_object("lblupdateguidance").set_label(guidance_text)
