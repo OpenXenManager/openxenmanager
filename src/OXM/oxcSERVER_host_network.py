@@ -16,7 +16,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+# USA.
 #
 # -----------------------------------------------------------------------
 
@@ -39,7 +40,8 @@ class oxcSERVERhostnetwork:
                     if pif['VLAN'] != "-1":
                         vlan.append(pif['VLAN'])
                     if pif['physical']:
-                        list_ref.append([pif_key, "NIC %s" % pif['device'][-1:]])
+                        list_ref.append([pif_key,
+                                         "NIC %s" % pif['device'][-1:]])
         return int(max(vlan))+1
 
     def delete_network(self, ref_network, ref_vm):
@@ -52,60 +54,59 @@ class oxcSERVERhostnetwork:
                 if "Value" in res:
                     self.track_tasks[res['Value']] = ref_vm
                 else:
-                    print res        
+                    print res
         res = self.connection.network.destroy(self.session_uuid, ref_network)
         if "Value" in res:
             self.track_tasks[res['Value']] = ref_vm
         else:
             print res
+
     def create_external_network(self, name, desc, auto, pif, vlan):
-        network_cfg = {
-               'uuid': '',
-               'name_label': name,
-               'name_description': desc, 
-               'VIFs': [],
-               'PIFs': [],
-               'other_config': {},
-               'bridge': '',
-               'blobs': {}
-           }
+        network_cfg = {'uuid': '',
+                       'name_label': name,
+                       'name_description': desc,
+                       'PIFs': [],
+                       'other_config': {},
+                       'bridge': '',
+                       'blobs': {}}
         if auto:
             network_cfg['other_config']['automatic'] = "true"
         else:
             network_cfg['other_config']['automatic'] = "false"
 
         network = None
-        res = self.connection.network.create(self.session_uuid, network_cfg) 
+        res = self.connection.network.create(self.session_uuid, network_cfg)
         if "Value" in res:
             network = res['Value']
         else:
             print res
         if network:
-            res = self.connection.pool.create_VLAN_from_PIF(self.session_uuid, pif, network, str(vlan)) 
+            res = self.connection.pool.create_VLAN_from_PIF(self.session_uuid,
+                                                            pif, network,
+                                                            str(vlan))
             if "Value" not in res:
                 print res
+
     def create_internal_network(self, name, desc, auto):
-        network_cfg = {
-               'uuid': '',
-               'name_label': name,
-               'name_description': desc, 
-               'VIFs': [],
-               'PIFs': [],
-               'other_config': {},
-               'bridge': '',
-               'blobs': {}
-           }
+        network_cfg = {'uuid': '',
+                       'name_label': name,
+                       'name_description': desc,
+                       'VIFs': [],
+                       'PIFs': [],
+                       'other_config': {},
+                       'bridge': '',
+                       'blobs': {}}
         if auto:
             network_cfg['other_config']['automatic'] = "true"
         else:
             network_cfg['other_config']['automatic'] = "false"
 
-        res = self.connection.network.create(self.session_uuid, network_cfg) 
+        res = self.connection.network.create(self.session_uuid, network_cfg)
         if "Value" in res:
             print res
+
     def is_vlan_available(self, data):
         for pif_key in self.all['PIF']:
             if int(self.all['PIF'][pif_key]['VLAN']) == int(data):
                 return False
         return True
-
