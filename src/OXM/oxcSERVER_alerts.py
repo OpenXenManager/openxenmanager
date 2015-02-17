@@ -16,7 +16,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+# USA.
 #
 # -----------------------------------------------------------------------
 
@@ -25,9 +26,8 @@ class oxcSERVERalerts:
     def dismiss_alert(self, ref):
         res = self.connection.message.destroy(self.session_uuid, ref)
         if "Value" in res:
-            #del self.all_messages[ref]
+            # del self.all_messages[ref]
             return 0
         else:
             print res
             return 1
-
