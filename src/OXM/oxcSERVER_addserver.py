@@ -58,13 +58,17 @@ class oxcSERVERaddserver(gobject.GObject):
             if self.session['Status'] == "Success":
                 self.is_connected = True
                 self.session_uuid = self.session['Value']
-                self.session_events = self.connection_events.session.login_with_password(self.user, self.password)
+                self.session_events = \
+                    self.connection_events.session.login_with_password(
+                        self.user, self.password)
                 self.session_events_uuid = self.session_events['Value']
-                self.connection_events.event.register(self.session_events_uuid, ["*"])
+                self.connection_events.event.register(
+                    self.session_events_uuid, ["*"])
                 # tell the controller that we've finished
                 self.emit("connect-success")
             else:
-                self.emit("connect-failure", self.session['ErrorDescription'][2])
+                self.emit("connect-failure",
+                          self.session['ErrorDescription'][2])
         except:
             self.emit("connect-failure", sys.exc_info()[1])
 
@@ -151,14 +155,12 @@ class oxcSERVERaddserver(gobject.GObject):
 
             # FIXME: all['VIF_metrics'] == all['VLAN']?
             self.all['vlan'] = self.all['VIF_metrics']
-
         except:
-            self.emit("sync-failure", "An unknown error occurred. See log output in terminal for details.")
+            self.emit("sync-failure", "An unknown error occurred. See log "
+                                      "output in terminal for details.")
             print "Synchronisation error:\n"
             import traceback
             traceback.print_exc()
         else:
             print "sync-success"
             self.emit("sync-success")
-
-
