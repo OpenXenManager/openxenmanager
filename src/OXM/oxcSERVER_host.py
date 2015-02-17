@@ -123,47 +123,39 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                 "Suspend or shutdown VM"])
 
     def enter_maintancemode(self, ref):
+        maint_mode = ["MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED",
+                      "MAINTENANCE_MODE_EVACUATED_VMS_HALTED",
+                      "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED",
+                      "MAINTENANCE_MODE"]
         res = self.connection.Async.host.evacuate(self.session_uuid, ref)
         if "Value" in res:
             self.track_tasks[res['Value']] = self.host_vm[ref][0]
             self.connection.host.disable(self.session_uuid, ref)
-            self.connection.host.remove_from_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED")
-            self.connection.host.remove_from_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_HALTED")
-            self.connection.host.remove_from_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED")
-            self.connection.host.remove_from_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE")
-            self.connection.host.add_to_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED", "")
-            self.connection.host.add_to_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_HALTED", "")
-            self.connection.host.add_to_other_config(
-                self.session_uuid, ref,
-                "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED", "")
-            self.connection.host.add_to_other_config(
-                self.session_uuid, ref, "MAINTENANCE_MODE", True)
+
+            for conf in maint_mode:
+                self.connection.host.remove_from_other_config(
+                    self.session_uuid, ref, conf)
+
+            for conf in maint_mode:
+                if conf != "MAINTENANCE_MODE":
+                    self.connection.host.add_to_other_config(
+                        self.session_uuid, ref, conf, "")
+                else:
+                    self.connection.host.add_to_other_config(
+                        self.session_uuid, ref, conf, True)
         else:
             print res
 
     def exit_maintancemode(self, ref):
+        maint_mode = ["MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED",
+                      "MAINTENANCE_MODE_EVACUATED_VMS_HALTED",
+                      "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED",
+                      "MAINTENANCE_MODE"]
         self.connection.host.enable(self.session_uuid, ref)
-        self.connection.host.remove_from_other_config(
-            self.session_uuid, ref,
-            "MAINTENANCE_MODE_EVACUATED_VMS_MIGRATED")
-        self.connection.host.remove_from_other_config(
-            self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_HALTED")
-        self.connection.host.remove_from_other_config(
-            self.session_uuid, ref, "MAINTENANCE_MODE_EVACUATED_VMS_SUSPENDED")
-        self.connection.host.remove_from_other_config(
-            self.session_uuid, ref, "MAINTENANCE_MODE")
+
+        for conf in maint_mode:
+            self.connection.host.remove_from_other_config(
+                self.session_uuid, ref, conf)
 
     def thread_restore_server(self, ref, filename, name):
         Thread(target=self.restore_server, args=(ref, filename, name)).start()
