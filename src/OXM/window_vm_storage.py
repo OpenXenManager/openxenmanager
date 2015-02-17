@@ -200,8 +200,8 @@ class oxcWindowVMStorage:
             iter_ref= selection.get_selected()[1]
         # Get selected disk (vdi)
         vdi = listvmstorage.get_value(iter_ref, 9)
-        vdi_info = self.xc_servers[self.selected_host].all_vdi[vdi]
-        vbd_info = self.xc_servers[self.selected_host].all_vbd[vdi_info['VBDs'][0]]
+        vdi_info = self.xc_servers[self.selected_host].all['VDI'][vdi]
+        vbd_info = self.xc_servers[self.selected_host].all['VBD'][vdi_info['VBDs'][0]]
         # Depends the type of disk and if is attached, enable or disable buttons
 
         if vdi_info['type'] == "user":
@@ -238,7 +238,7 @@ class oxcWindowVMStorage:
             iter_ref = selection.get_selected()[1]
         # Get selected disk (vdi)
         vif = listvmnetwork.get_value(iter_ref, 6)
-        vif_info = self.xc_servers[self.selected_host].all_vif[vif]
+        vif_info = self.xc_servers[self.selected_host].all['VIF'][vif]
         unplug = vif_info["allowed_operations"].count("unplug")
         self.builder.get_object("btpropertiesinterface").set_sensitive(unplug or self.selected_state == "Halted")
         self.builder.get_object("btremoveinterface").set_sensitive(unplug or self.selected_state == "Halted")

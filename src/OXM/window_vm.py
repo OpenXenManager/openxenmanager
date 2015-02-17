@@ -35,11 +35,11 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
 
     def update_memory_tab(self):
         if self.treeview.get_cursor()[1]:
-                dynamicmin = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_dynamic_min"]
-                dynamicmax = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_dynamic_max"]
-                staticmin = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_static_min"]
-                staticmax = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["memory_static_max"]
-                ishvm = self.xc_servers[self.selected_host].all_vms[self.selected_ref]["HVM_boot_policy"]
+                dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+                dynamicmax = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_max"]
+                staticmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_static_min"]
+                staticmax = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_static_max"]
+                ishvm = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["HVM_boot_policy"]
                 if ishvm:
                     self.builder.get_object("lbldynamicmin").set_label(self.convert_bytes_mb(dynamicmin) + " MB")
                     self.builder.get_object("lbldynamicmax").set_label(self.convert_bytes_mb(dynamicmax) + " MB")

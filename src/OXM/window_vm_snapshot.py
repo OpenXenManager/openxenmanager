@@ -60,7 +60,7 @@ class oxcWindowVMSnapshot:
         Function called when you press "create template from snapshot"
         """
         self.builder.get_object("snaptplname").set_text("Template from snapshot '" + \
-            self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['name_label'] + "'")
+            self.xc_servers[self.selected_host].all['vms'][self.selected_snap_ref]['name_label'] + "'")
         # Show the dialog asking the new template name
         self.builder.get_object("dialogsnaptplname").show()
     def on_m_snap_delete_activate(self, widget, data=None):
@@ -75,7 +75,7 @@ class oxcWindowVMSnapshot:
         """
         # Set default name
         self.export_snap = True
-        self.filesave.set_current_name(self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['name_label'] + ".xva")
+        self.filesave.set_current_name(self.xc_servers[self.selected_host].all['vms'][self.selected_snap_ref]['name_label'] + ".xva")
         # Show the choose dialog
         self.filesave.show()
 
@@ -85,7 +85,7 @@ class oxcWindowVMSnapshot:
         """
         # Set default name
         self.export_snap_vm = True
-        self.filesave.set_current_name(self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['name_label'] + ".xva")
+        self.filesave.set_current_name(self.xc_servers[self.selected_host].all['vms'][self.selected_snap_ref]['name_label'] + ".xva")
         # Show the choose dialog
         self.filesave.show()
 
@@ -138,7 +138,7 @@ class oxcWindowVMSnapshot:
            self.builder.get_object("btsnapdelete").set_sensitive(iter != None)
            # Set in a global variable the selected snapshot
            self.selected_snap_ref  = self.builder.get_object("listvmsnapshots").get_value(iter, 0)
-           ops = self.xc_servers[self.selected_host].all_vms[self.selected_snap_ref]['allowed_operations']
+           ops = self.xc_servers[self.selected_host].all['vms'][self.selected_snap_ref]['allowed_operations']
            self.builder.get_object("btsnaprevert").set_sensitive("revert" in ops)
            if event.button == 3:
                # If button pressed is the right.. 

@@ -35,28 +35,28 @@ class oxcSERVERvmnetwork:
             print res
     def fill_addinterface_network(self, list):
         list.clear()
-        for network in self.all_network:
-            if self.all_network[network]['bridge'] != "xapi0":
-                    #if self.all_pif[self.all_network[network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
-                list.append([network, self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')]) 
+        for network in self.all['network']:
+            if self.all['network'][network]['bridge'] != "xapi0":
+                    #if self.all['PIF'][self.all['network'][network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
+                list.append([network, self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network ')])
 
     def fill_editinterface_network(self, list, network_ref):
         list.clear()
         i = 0 
         current = 0
-        for network in self.all_network:
-            if self.all_network[network]['bridge'] != "xapi0":
-                #if self.all_pif[self.all_network[network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
+        for network in self.all['network']:
+            if self.all['network'][network]['bridge'] != "xapi0":
+                #if self.all['PIF'][self.all['network'][network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
                 if network == network_ref:
                     current = i
-                list.append([network, self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')]) 
+                list.append([network, self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network ')])
                 i = i + 1
         return current
  
     def vm_add_interface(self, vm_ref, network_ref, mac, limit):
         userdevices = [0]
-        for vif in self.all_vms[vm_ref]['VIFs']:
-                userdevices.append(self.all_vif[vif]['device'])
+        for vif in self.all['vms'][vm_ref]['VIFs']:
+                userdevices.append(self.all['VIF'][vif]['device'])
         vif_cfg = {
             'uuid': '',
             'allowed_operations': [],

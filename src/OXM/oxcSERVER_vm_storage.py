@@ -37,7 +37,7 @@ class oxcSERVERvmstorage:
     def set_vm_dvd(self, vm, vdi):
         if vdi:
             cd = None 
-            if self.get_vm_dvd_ref(vm) and self.all_vbd[self.get_vm_dvd_ref(vm)]['allowed_operations'].count("eject"):
+            if self.get_vm_dvd_ref(vm) and self.all['VBD'][self.get_vm_dvd_ref(vm)]['allowed_operations'].count("eject"):
                 res =  self.connection.Async.VBD.eject(self.session_uuid, self.get_vm_dvd_ref(vm))
                 self.track_tasks[res['Value']] = vm
             if vdi != "empty":
@@ -98,14 +98,14 @@ class oxcSERVERvmstorage:
                     path.join(utils.module_path(), "images/storage_default_16.png")), sr, all_sr[sr]["name_label"],
                     "", False])
 
-        all_vdi= self.connection.VDI.get_all_records\
+        all['VDI']= self.connection.VDI.get_all_records\
                   (self.session_uuid)['Value']
-        for vdi in all_vdi:
-            if not all_vdi[vdi]['VBDs'] and all_vdi[vdi]['read_only'] == False:
-                list.append(refattachdisk[all_vdi[vdi]['SR']], [gtk.gdk.pixbuf_new_from_file(
-                    path.join(utils.module_path(), "images/user_template_16.png")), vdi, all_vdi[vdi]['name_label'],
-                    all_vdi[vdi]['name_description'] + " - " + self.convert_bytes(all_vdi[vdi]['physical_utilisation'])
-                    + " used out of " + self.convert_bytes(all_vdi[vdi]['virtual_size']), True])
+        for vdi in all['VDI']:
+            if not all['VDI'][vdi]['VBDs'] and all['VDI'][vdi]['read_only'] == False:
+                list.append(refattachdisk[all['VDI'][vdi]['SR']], [gtk.gdk.pixbuf_new_from_file(
+                    path.join(utils.module_path(), "images/user_template_16.png")), vdi, all['VDI'][vdi]['name_label'],
+                    all['VDI'][vdi]['name_description'] + " - " + self.convert_bytes(all['VDI'][vdi]['physical_utilisation'])
+                    + " used out of " + self.convert_bytes(all['VDI'][vdi]['virtual_size']), True])
 
     def attach_disk_to_vm(self, ref, vdi, ro):
         userdevice = self.connection.VM.get_allowed_VBD_devices(self.session_uuid, ref)['Value'][0]
@@ -136,7 +136,7 @@ class oxcSERVERvmstorage:
 
     def install_xenserver_tools(self, vm):
         vdi = self.get_xs_tools_ref() 
-        if self.get_vm_dvd_ref(vm) and self.all_vbd[self.get_vm_dvd_ref(vm)]['allowed_operations'].count("eject"):
+        if self.get_vm_dvd_ref(vm) and self.all['VBD'][self.get_vm_dvd_ref(vm)]['allowed_operations'].count("eject"):
             res =  self.connection.Async.VBD.eject(self.session_uuid, self.get_vm_dvd_ref(vm))
             self.track_tasks[res['Value']] = vm
         if vdi != "empty":
@@ -144,16 +144,16 @@ class oxcSERVERvmstorage:
             self.track_tasks[res['Value']] = vm
 
     def get_xs_tools_ref(self):
-       for vdi in self.all_vdi:
-           if "sm_config" in self.all_vdi[vdi] and "xs-tools" in self.all_vdi[vdi]["sm_config"] \
-            and self.all_vdi[vdi]["sm_config"]["xs-tools"] == "true":
+       for vdi in self.all['VDI']:
+           if "sm_config" in self.all['VDI'][vdi] and "xs-tools" in self.all['VDI'][vdi]["sm_config"] \
+            and self.all['VDI'][vdi]["sm_config"]["xs-tools"] == "true":
                 return vdi
 
     def get_vm_dvd_ref(self, vm):
-        for vbd in self.all_vbd.keys():
-            if self.all_vbd[vbd]["VM"] == vm: 
-                if (self.all_vbd[vbd]['type'] == "CD" or self.all_vbd[vbd]['type'] == "udev"):
-                    print self.all_vbd[vbd]['type']
+        for vbd in self.all['VBD'].keys():
+            if self.all['VBD'][vbd]["VM"] == vm:
+                if (self.all['VBD'][vbd]['type'] == "CD" or self.all['VBD'][vbd]['type'] == "udev"):
+                    print self.all['VBD'][vbd]['type']
                     return vbd
 
         #FIXME: auto add VBD to CD, do 'click here to add CD'
@@ -185,7 +185,7 @@ class oxcSERVERvmstorage:
         res = self.connection.VBD.create(self.session_uuid, vbd_cfg) 
         if "Value" in res:
             self.track_tasks[res['Value']] = vm
-            self.all_vbd[res['Value']] = self.connection.VBD.get_record(self.session_uuid, res['Value'])['Value']
+            self.all['VBD'][res['Value']] = self.connection.VBD.get_record(self.session_uuid, res['Value'])['Value']
         else:
             print res
         return res['Value']

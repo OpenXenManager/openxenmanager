@@ -27,16 +27,16 @@ import utils
 
 class oxcSERVERproperties:
     def get_vbd(self, ref):
-        return self.all_vbd[ref]
+        return self.all['VBD'][ref]
 
     def get_vdi(self, ref):
-        if ref in self.all_vdi:
-            return self.all_vdi[ref]
+        if ref in self.all['VDI']:
+            return self.all['VDI'][ref]
         else:
             return {}
 
     def get_storage(self, ref):
-        return self.all_storage[ref]
+        return self.all['SR'][ref]
 
     def get_allowed_vbd_devices(self, ref):
         return self.connection.VM.get_allowed_VBD_devices(self.session_uuid, ref)['Value']
@@ -275,7 +275,7 @@ class oxcSERVERproperties:
            print res        
 
     def set_vm_poweron(self, ref, poweron):
-       other_config = self.all_vms[ref]['other_config']
+       other_config = self.all['vms'][ref]['other_config']
        other_config["auto_poweron"] = str(poweron).lower()
        res = self.connection.VM.set_other_config(self.session_uuid, ref, other_config)
        if "Value" in res:
@@ -297,7 +297,7 @@ class oxcSERVERproperties:
            print res
 
     def set_vm_boot_params(self, ref, order):
-       boot_params = self.all_vms[ref]['HVM_boot_params']
+       boot_params = self.all['vms'][ref]['HVM_boot_params']
        boot_params["order"] = order
        res = self.connection.VM.set_HVM_boot_params(self.session_uuid, ref, boot_params)
        if "Value" in res:
@@ -306,21 +306,21 @@ class oxcSERVERproperties:
            print res        
 
     def set_pool_custom_fields(self, xml):
-       pool_ref = self.all_pools.keys()[0] 
+       pool_ref = self.all['pool'].keys()[0]
        self.connection.pool.remove_from_gui_config(self.session_uuid, pool_ref, "XenCenter.CustomFields")
        res = self.connection.pool.add_to_gui_config(self.session_uuid, pool_ref, "XenCenter.CustomFields", xml)
        if "Value" in res:
-           self.all_pools[pool_ref]["gui_config"]["XenCenter.CustomFields"] = xml
+           self.all['pool'][pool_ref]["gui_config"]["XenCenter.CustomFields"] = xml
            self.track_tasks[res['Value']] = pool_ref
        else:
            print res        
 
     def fill_listcustomfields(self, clist):
        clist.clear()
-       pool_ref = self.all_pools.keys()[0] 
-       if "XenCenter.CustomFields" in self.all_pools[pool_ref]["gui_config"]:
+       pool_ref = self.all['pool'].keys()[0]
+       if "XenCenter.CustomFields" in self.all['pool'][pool_ref]["gui_config"]:
            dom =  xml.dom.minidom.parseString(
-               self.all_pools[pool_ref]["gui_config"]["XenCenter.CustomFields"])
+               self.all['pool'][pool_ref]["gui_config"]["XenCenter.CustomFields"])
            for node in dom.getElementsByTagName("CustomFieldDefinition"):
                name = node.attributes.getNamedItem("name").value
                ctype = node.attributes.getNamedItem("type").value
@@ -331,28 +331,28 @@ class oxcSERVERproperties:
         list.clear()
         path = 0
         i = 0
-        for host in self.all_hosts.keys():
-            resident_vms = self.all_hosts[host]['resident_VMs']
+        for host in self.all['host'].keys():
+            resident_vms = self.all['host'][host]['resident_VMs']
             host_memory = 0
             vm_memory = 0
             for resident_vm_uuid in resident_vms:
-                if self.all_vms[resident_vm_uuid]['is_control_domain']:
-                   host_memory =  int(self.all_vms[resident_vm_uuid]['memory_dynamic_max'])
+                if self.all['vms'][resident_vm_uuid]['is_control_domain']:
+                   host_memory =  int(self.all['vms'][resident_vm_uuid]['memory_dynamic_max'])
                 else:     
-                   vm_memory +=  int(self.all_vms[resident_vm_uuid]['memory_dynamic_max'])
+                   vm_memory +=  int(self.all['vms'][resident_vm_uuid]['memory_dynamic_max'])
             
-            host_metrics_uuid = self.all_hosts[host]['metrics']
-            host_metrics = self.all_host_metrics[host_metrics_uuid]
+            host_metrics_uuid = self.all['host'][host]['metrics']
+            host_metrics = self.all['host_metrics'][host_metrics_uuid]
             hostmemory = "%s free of %s available (%s total)"  % \
                 (self.convert_bytes(int(host_metrics['memory_total'])-vm_memory-host_memory), \
                 self.convert_bytes(int(host_metrics['memory_total']) - host_memory), \
                 self.convert_bytes(host_metrics['memory_total']))
-            if self.all_hosts[host]['enabled']:
+            if self.all['host'][host]['enabled']:
                 if host == ref:
                     path = i 
                 list.append([host, gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                              "images/tree_connected_16.png")),
-                             self.all_hosts[host]['name_label'], hostmemory, ])
+                             self.all['host'][host]['name_label'], hostmemory, ])
             i = i + 1
         return path
 
@@ -360,15 +360,15 @@ class oxcSERVERproperties:
         list.clear()
         i = 0
         selected = 0
-        for sr in self.all_storage.keys():
-            if self.all_storage[sr]['name_label'] != "XenServer Tools":
+        for sr in self.all['SR'].keys():
+            if self.all['SR'][sr]['name_label'] != "XenServer Tools":
                 if sr == ref:
                     selected = i
-                    name = "<b>" + self.all_storage[sr]['name_label'] + "</b>"
+                    name = "<b>" + self.all['SR'][sr]['name_label'] + "</b>"
                 else:
-                    name = self.all_storage[sr]['name_label']
-                if len(self.all_storage[sr]['PBDs']) == 0 or self.all_pbd[self.all_storage[sr]['PBDs'][0]]['currently_attached'] == False \
-                    or  len(self.all_storage[sr]['PBDs']) > 0 and self.all_storage[sr]["allowed_operations"].count("unplug") ==  0:
+                    name = self.all['SR'][sr]['name_label']
+                if len(self.all['SR'][sr]['PBDs']) == 0 or self.all['PBD'][self.all['SR'][sr]['PBDs'][0]]['currently_attached'] == False \
+                    or  len(self.all['SR'][sr]['PBDs']) > 0 and self.all['SR'][sr]["allowed_operations"].count("unplug") ==  0:
                         list.append([sr, gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                    "images/storage_broken_16.png")),
                                      name])

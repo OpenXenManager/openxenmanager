@@ -161,10 +161,10 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
         if iter:                
             listupdates = self.builder.get_object("listupdates")
             ref = listupdates.get_value(iter, 0)
-            name = self.xc_servers[self.selected_host].all_pool_patch[ref]['name_label']
-            desc = self.xc_servers[self.selected_host].all_pool_patch[ref]['name_description']
-            version = self.xc_servers[self.selected_host].all_pool_patch[ref]['version']
-            guidance = self.xc_servers[self.selected_host].all_pool_patch[ref]['after_apply_guidance']
+            name = self.xc_servers[self.selected_host].all['pool_patch'][ref]['name_label']
+            desc = self.xc_servers[self.selected_host].all['pool_patch'][ref]['name_description']
+            version = self.xc_servers[self.selected_host].all['pool_patch'][ref]['version']
+            guidance = self.xc_servers[self.selected_host].all['pool_patch'][ref]['after_apply_guidance']
             self.builder.get_object("lblupdatename").set_label(name)
             self.builder.get_object("lblupdatedesc").set_label(desc)
             self.builder.get_object("lblupdateversion").set_label(version)
@@ -176,18 +176,18 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
                 else:
                     guidance_text += guid
             self.builder.get_object("lblupdateguidance").set_label(guidance_text)
-            host_patches = self.xc_servers[self.selected_host].all_pool_patch[ref]["host_patches"]
+            host_patches = self.xc_servers[self.selected_host].all['pool_patch'][ref]["host_patches"]
             self.builder.get_object("btremoveupdate").set_sensitive(len(host_patches) == 0)
             listupdatestatus = self.builder.get_object("listupdatestatus")
             listupdatestatus.clear()
-            for host in self.xc_servers[self.selected_host].all_hosts.keys():
-                name = self.xc_servers[self.selected_host].all_hosts[host]['name_label']
+            for host in self.xc_servers[self.selected_host].all['host'].keys():
+                name = self.xc_servers[self.selected_host].all['host'][host]['name_label']
                 found = False
                 for host_patch in host_patches:
-                    host2 = self.xc_servers[self.selected_host].all_host_patch[host_patch]['host']
+                    host2 = self.xc_servers[self.selected_host].all['host_patch'][host_patch]['host']
                     if host == host2:
                         found = True
-                        timestamp = self.xc_servers[self.selected_host].all_host_patch[host_patch]['timestamp_applied'] 
+                        timestamp = self.xc_servers[self.selected_host].all['host_patch'][host_patch]['timestamp_applied']
                         patch_text = "<span foreground='green'>%s - applied (%s)</span>" % (name, \
                             str(self.xc_servers[self.selected_host].format_date(timestamp)))
                         listupdatestatus.append([host, patch_text, False])
@@ -356,7 +356,7 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
             iter = listhostnics.get_iter((0, ))
             # Get the reference of first selected
             ref = self.builder.get_object("listhostnics").get_value(iter, 8)
-            nic_bond_master_of = self.xc_servers[self.selected_host].all_pif[ref]['bond_master_of']
+            nic_bond_master_of = self.xc_servers[self.selected_host].all['PIF'][ref]['bond_master_of']
             # If is already on a bond
             if len(nic_bond_master_of):
                 # Enable remove bond button
@@ -383,12 +383,12 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
             # Get the reference of first selected
             ref = self.builder.get_object("listhostnetwork").get_value(iter, 8)
             # Get the pifs from selected network 
-            network_pifs = self.xc_servers[self.selected_host].all_network[ref]['PIFs']
+            network_pifs = self.xc_servers[self.selected_host].all['network'][ref]['PIFs']
             # Enable "remove network" by default
             self.builder.get_object("bthostnetworkremove").set_sensitive(True)
             for pif in network_pifs:
                 # If is physical then disable it
-                if self.xc_servers[self.selected_host].all_pif[pif]['physical'] == True:
+                if self.xc_servers[self.selected_host].all['PIF'][pif]['physical'] == True:
                     self.builder.get_object("bthostnetworkremove").set_sensitive(False)
                     break
 
@@ -531,10 +531,10 @@ class oxcWindowHost(oxcWindowHostNics, oxcWindowHostNetwork):
         combomgmtnetworks = self.builder.get_object("combomgmtnetworks")
         listmgmtnetworks = self.builder.get_object("listmgmtnetworks")
         # Get selected pif info
-        pif = self.xc_servers[self.selected_host].all_pif[pif_ref]
+        pif = self.xc_servers[self.selected_host].all['PIF'][pif_ref]
         iter = combomgmtnetworks.get_active_iter()
         # Get selected network_ref
-        pif = self.xc_servers[self.selected_host].all_pif[pif_ref]
+        pif = self.xc_servers[self.selected_host].all['PIF'][pif_ref]
         network_ref = listmgmtnetworks.get_value(iter, 0)
         if pif['network'] != network_ref:
             change = True

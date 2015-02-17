@@ -32,8 +32,8 @@ class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
         return True
 
     def set_memory(self, ref, dynamicmin, dynamicmax, staticmax):
-        actual_staticmin = self.all_vms[ref]["memory_static_min"]
-        actual_staticmax = self.all_vms[ref]["memory_static_max"]
+        actual_staticmin = self.all['vms'][ref]["memory_static_min"]
+        actual_staticmax = self.all['vms'][ref]["memory_static_max"]
 
         res = self.connection.VM.set_memory_dynamic_range(self.session_uuid, ref, str(int(dynamicmin)*1024*1024), str(int(dynamicmax)*1024*1024))
         if "Value" in res:
@@ -72,13 +72,13 @@ class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
         list.clear()
         i = 0
         default_sr = 0
-        for sr in self.all_storage.keys():
-            storage = self.all_storage[sr]
+        for sr in self.all['SR'].keys():
+            storage = self.all['SR'][sr]
             if storage['type'] != "iso" and storage['type'] != "udev":
                 if self.default_sr == sr:
                     default_sr = i
-                if len(self.all_storage[sr]['PBDs']) == 0 or self.all_pbd[self.all_storage[sr]['PBDs'][0]]['currently_attached'] == False \
-                        or  len(self.all_storage[sr]['PBDs']) > 0 and self.all_storage[sr]["allowed_operations"].count("unplug") ==  0:
+                if len(self.all['SR'][sr]['PBDs']) == 0 or self.all['PBD'][self.all['SR'][sr]['PBDs'][0]]['currently_attached'] == False \
+                        or  len(self.all['SR'][sr]['PBDs']) > 0 and self.all['SR'][sr]["allowed_operations"].count("unplug") ==  0:
                             pass
                 else:
                     if self.default_sr == sr:

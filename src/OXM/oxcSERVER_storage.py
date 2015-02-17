@@ -65,7 +65,7 @@ class oxcSERVERstorage:
             print res
 
     def detach_storage(self, ref):
-        for pbd in self.all_storage[ref]['PBDs']:
+        for pbd in self.all['SR'][ref]['PBDs']:
             res = self.connection.Async.PBD.unplug(self.session_uuid, pbd)
             if "Value" in res:
                 self.track_tasks[res['Value']] = ref
@@ -82,8 +82,8 @@ class oxcSERVERstorage:
                 else:
                     print res
     def forget_storage(self, ref):
-        if self.all_storage[ref]['allowed_operations'].count("unplug"):
-            for pbd in self.all_storage[ref]['PBDs']:
+        if self.all['SR'][ref]['allowed_operations'].count("unplug"):
+            for pbd in self.all['SR'][ref]['PBDs']:
                 res = self.connection.Async.PBD.unplug(self.session_uuid, pbd)
                 if "Value" in res:
                     self.track_tasks[res['Value']] = ref
@@ -109,7 +109,7 @@ class oxcSERVERstorage:
             print res
 
     def delete_vdi(self, ref_vdi, ref_vm):
-        for ref_vbd in self.all_vdi[ref_vdi]['VBDs']:
+        for ref_vbd in self.all['VDI'][ref_vdi]['VBDs']:
             res = self.connection.VBD.destroy(self.session_uuid, ref_vbd)
             if "Value" in res:
                 self.track_tasks[res['Value']] = ref_vm
@@ -122,7 +122,7 @@ class oxcSERVERstorage:
             print res
     def reattach_nfs_iso(self, sr, name, share, options):
         # FIXME
-        ref = self.all_hosts.keys()[0]
+        ref = self.all['host'].keys()[0]
         pbd = {
                 "uuid" : "",
                 "host" : ref,
@@ -169,7 +169,7 @@ class oxcSERVERstorage:
         else:
             return 0
     def reattach_cifs_iso(self, sr, name, share, options, user="", password=""):
-        ref = self.all_hosts.keys()[0]
+        ref = self.all['host'].keys()[0]
         pbd = {
                 "uuid" : "",
                 "host" : ref,
@@ -323,7 +323,7 @@ class oxcSERVERstorage:
            print res
       
     def reattach_hardware_hba(self, ref, uuid, name, path): 
-       ref = self.all_hosts.keys()[0]
+       ref = self.all['host'].keys()[0]
        pbd = {
                "uuid" : "",
                "host" : ref,
@@ -377,19 +377,19 @@ class oxcSERVERstorage:
        if len(nodes):
            reattach = True
            self.stg_uuid = nodes[0].childNodes[0].data.strip()
-           for storage_ref in self.all_storage.keys():
-               storage = self.all_storage[storage_ref]
+           for storage_ref in self.all['SR'].keys():
+               storage = self.all['SR'][storage_ref]
                if storage["uuid"] == self.stg_uuid:
                    self.stg_ref = storage_ref
                    if len(storage['PBDs']):
                        reattach = False
            if reattach:
                if self.stg_ref:
-                   return [2, self.all_storage[self.stg_ref]['name_label'], self.all_hosts[ref]['name_label']]
+                   return [2, self.all['SR'][self.stg_ref]['name_label'], self.all['host'][ref]['name_label']]
                else:
-                   return [3, text, self.all_hosts[ref]['name_label']]
+                   return [3, text, self.all['host'][ref]['name_label']]
            else:
-               return [1, self.all_storage[self.stg_ref]['name_label'], self.all_hosts[ref]['name_label']]
+               return [1, self.all['SR'][self.stg_ref]['name_label'], self.all['host'][ref]['name_label']]
        else:
            return [0, None, None]
 
@@ -532,8 +532,8 @@ class oxcSERVERstorage:
         """
         Function to search a storage with specify uuid, returns True if found
         """
-        for stg in self.all_storage.keys():
-            if self.all_storage[stg]["uuid"] == uuid:
+        for stg in self.all['SR'].keys():
+            if self.all['SR'][stg]["uuid"] == uuid:
                 return True
         return False
     def fill_iscsi_target_iqn(self, ref, list, target, port, user=None, password=None):

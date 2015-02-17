@@ -25,13 +25,13 @@ class oxcSERVERhostnetwork:
     def fill_listnetworknic(self, list_ref):
         list_ref.clear()
         vlan = [0]
-        for pif_key in self.all_pif:
-            pif = self.all_pif[pif_key]
-            if self.all_pif_metrics[pif['metrics']]['carrier']:
+        for pif_key in self.all['PIF']:
+            pif = self.all['PIF'][pif_key]
+            if self.all['PIF_metrics'][pif['metrics']]['carrier']:
                 if len(pif['bond_master_of']):
                     devices = []
-                    for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
-                        devices.append(self.all_pif[slave]['device'][-1:])
+                    for slave in self.all['Bond'][pif['bond_master_of'][0]]['slaves']:
+                        devices.append(self.all['PIF'][slave]['device'][-1:])
                     devices.sort()
                     list_ref.append([pif_key, "Bond %s" % '+'.join(devices)])
 
@@ -43,9 +43,9 @@ class oxcSERVERhostnetwork:
         return int(max(vlan))+1
 
     def delete_network(self, ref_network, ref_vm):
-        print self.all_network[ref_network]
-        for ref_pif in self.all_network[ref_network]['PIFs']:
-            if len(self.all_pif[ref_pif]['bond_master_of']):
+        print self.all['network'][ref_network]
+        for ref_pif in self.all['network'][ref_network]['PIFs']:
+            if len(self.all['PIF'][ref_pif]['bond_master_of']):
                 self.delete_nic(ref_pif, ref_vm, False)
             else:
                 res = self.connection.PIF.destroy(self.session_uuid, ref_pif)
@@ -104,8 +104,8 @@ class oxcSERVERhostnetwork:
         if "Value" in res:
             print res
     def is_vlan_available(self, data):
-        for pif_key in self.all_pif:
-            if int(self.all_pif[pif_key]['VLAN']) == int(data):
+        for pif_key in self.all['PIF']:
+            if int(self.all['PIF'][pif_key]['VLAN']) == int(data):
                 return False
         return True
 

@@ -38,15 +38,15 @@ class oxcSERVERvmsnapshot:
 
 
     def delete_snapshot(self, ref, ref_vm):
-        for vbd in self.all_vms[ref]['VBDs']:
-            if self.all_vbd[vbd]['VDI'] != "OpaqueRef:NULL":
-                res = self.connection.VDI.destroy(self.session_uuid, self.all_vbd[vbd]['VDI'])
+        for vbd in self.all['vms'][ref]['VBDs']:
+            if self.all['VBD'][vbd]['VDI'] != "OpaqueRef:NULL":
+                res = self.connection.VDI.destroy(self.session_uuid, self.all['VBD'][vbd]['VDI'])
                 if "Value" in res:
                     self.track_tasks[res['Value']] = ref_vm
                     self.track_tasks[res['Value']] = ref
                 else:
                     print res
-        for vbd in self.all_vms[ref]['VBDs']:
+        for vbd in self.all['vms'][ref]['VBDs']:
                 res = self.connection.VBD.destroy(self.session_uuid, vbd)
                 if "Value" in res:
                     self.track_tasks[res['Value']] = ref_vm

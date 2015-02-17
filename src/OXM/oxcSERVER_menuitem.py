@@ -74,12 +74,12 @@ class oxcSERVERmenuitem:
 
     def start_vm_recovery_mode(self, ref):
         change_policy = False
-        if not self.all_vms[ref]['HVM_boot_policy']:
+        if not self.all['vms'][ref]['HVM_boot_policy']:
             self.connection.VM.set_HVM_boot_policy(self.session_uuid, ref, "BIOS order")
             change_policy = True
         order = ""
-        if "order" in self.all_vms[ref]['HVM_boot_params']:
-            order = self.all_vms[ref]['HVM_boot_params']['order']
+        if "order" in self.all['vms'][ref]['HVM_boot_params']:
+            order = self.all['vms'][ref]['HVM_boot_params']['order']
         self.connection.VM.set_HVM_boot_params(self.session_uuid, ref, {"order": "dn"})
 
         res = self.connection.VM.start(self.session_uuid, ref, False, False)
@@ -156,8 +156,8 @@ class oxcSERVERmenuitem:
             print res
     def fill_list_updates(self, ref, list):
         list.clear()
-        for patch in self.all_pool_patch:
-            list.append([patch, self.all_pool_patch[patch]['name_label']])
+        for patch in self.all['pool_patch']:
+            list.append([patch, self.all['pool_patch'][patch]['name_label']])
 
     def fill_list_report(self, ref, list):
         list.clear()
@@ -208,7 +208,7 @@ class oxcSERVERmenuitem:
 
     def fill_list_templates(self, list):
         list.clear()
-        for vm in  filter(self.filter_custom_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
+        for vm in  filter(self.filter_custom_template, sorted(self.all['vms'].values(), key=itemgetter('name_label'))):
             vm_uuid = self.vm_filter_uuid(vm["uuid"])
             if vm["is_a_snapshot"]:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(), "images/snapshots.png")),
@@ -217,7 +217,7 @@ class oxcSERVERmenuitem:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                     "images/user_template_16.png")), vm["name_label"],
                              vm_uuid, "Custom"])
-        for vm in  filter(self.filter_normal_template, sorted(self.all_vms.values(), key=itemgetter('name_label'))):
+        for vm in  filter(self.filter_normal_template, sorted(self.all['vms'].values(), key=itemgetter('name_label'))):
             vm_uuid = self.vm_filter_uuid(vm["uuid"])
             if vm["name_label"].lower().count("centos"):
                 image = path.join(utils.module_path(), "images/centos.png")
@@ -248,62 +248,62 @@ class oxcSERVERmenuitem:
 
     def fill_list_isoimages(self, list):
         list.clear()
-        for sr in self.all_storage:
-            if self.all_storage[sr]['type'] == "iso":
-                list.append([self.all_storage[sr]['name_label'], "", 1, 0])
-                for vdi in self.all_storage[sr]['VDIs']:
-                    list.append(["\t" + self.all_vdi[vdi]['name_label'], vdi, 0, 1])
+        for sr in self.all['SR']:
+            if self.all['SR'][sr]['type'] == "iso":
+                list.append([self.all['SR'][sr]['name_label'], "", 1, 0])
+                for vdi in self.all['SR'][sr]['VDIs']:
+                    list.append(["\t" + self.all['VDI'][vdi]['name_label'], vdi, 0, 1])
 
     def fill_list_phydvd(self, list):
         list.clear()
-        for sr in self.all_storage:
-            if self.all_storage[sr]['type'] == "udev" and self.all_storage[sr]['sm_config']["type"] == "cd":
-                if len(self.all_storage[sr]['PBDs']): 
-                    vdis = self.all_storage[sr]['VDIs']
+        for sr in self.all['SR']:
+            if self.all['SR'][sr]['type'] == "udev" and self.all['SR'][sr]['sm_config']["type"] == "cd":
+                if len(self.all['SR'][sr]['PBDs']):
+                    vdis = self.all['SR'][sr]['VDIs']
                     for vdi in vdis:
-                        list.append(["DVD Drive " + self.all_vdi[vdi]['location'][-1:], vdi])
+                        list.append(["DVD Drive " + self.all['VDI'][vdi]['location'][-1:], vdi])
                     """
-                    if self.all_pbd[pbd]['host'] == self.wine.selected_ref:
-                        list.append([self.all_storage[sr]['name_label'], pbd])
+                    if self.all['PBD'][pbd]['host'] == self.wine.selected_ref:
+                        list.append([self.all['SR'][sr]['name_label'], pbd])
                     """
 
     def fill_list_networks(self, list, list2):
         list.clear()
         list2.clear()
         i = 0
-        for network in self.all_network:
-            if self.all_network[network]['bridge'] != "xapi0":
-                if "automatic" in self.all_network[network]['other_config'] and \
-                        self.all_network[network]['other_config']["automatic"] == "true":
-                    list.append(["interface " + str(i), "auto-generated", self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
+        for network in self.all['network']:
+            if self.all['network'][network]['bridge'] != "xapi0":
+                if "automatic" in self.all['network'][network]['other_config'] and \
+                        self.all['network'][network]['other_config']["automatic"] == "true":
+                    list.append(["interface " + str(i), "auto-generated", self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
                     i = i + 1
-            list2.append([self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
+            list2.append([self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network '), network])
     
     def fill_management_networks(self, list, network_ref):
         list.clear()
         i = 0 
         current = 0
-        for network in self.all_network:
-            if self.all_network[network]['bridge'] != "xapi0":
-                if self.all_network[network]['PIFs'] and self.all_pif[self.all_network[network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
+        for network in self.all['network']:
+            if self.all['network'][network]['bridge'] != "xapi0":
+                if self.all['network'][network]['PIFs'] and self.all['PIF'][self.all['network'][network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
                     if network == network_ref:
                         current = i
-                    list.append([network, self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')]) 
+                    list.append([network, self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network ')])
                     i = i + 1
         return current
     
 
     def fill_mamagement_ifs_list(self, list):
         list.clear()
-        for pif in self.all_pif:
-            if self.all_pif[pif]['management']:
-                network = self.all_network[self.all_pif[pif]['network']]['name_label']
-                if self.all_pif[pif]['device'][-1:] == "0":
+        for pif in self.all['PIF']:
+            if self.all['PIF'][pif]['management']:
+                network = self.all['network'][self.all['PIF'][pif]['network']]['name_label']
+                if self.all['PIF'][pif]['device'][-1:] == "0":
                     text = "<b>Primary</b>" + "\n    <i>" + network + "</i>"
                     list.append([pif, gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                              "images/prop_networksettings.png")), text])
                 else:
-                    text = "<b>Interface " + str(self.all_pif[pif]['device'][-1:]) + "</b>\n     <i>" + network + "</i>"
+                    text = "<b>Interface " + str(self.all['PIF'][pif]['device'][-1:]) + "</b>\n     <i>" + network + "</i>"
                     list.append([pif, gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                              "images/prop_network.png")), text])
 
@@ -311,33 +311,33 @@ class oxcSERVERmenuitem:
         list.clear()
         vm_path = 0
         i = 0
-        for host in self.all_hosts.keys():
-            resident_vms = self.all_hosts[host]['resident_VMs']
+        for host in self.all['host'].keys():
+            resident_vms = self.all['host'][host]['resident_VMs']
             host_memory = 0
             for resident_vm_uuid in resident_vms:
-                if self.all_vms[resident_vm_uuid]['is_control_domain']:
-                    host_memory = self.all_vms[resident_vm_uuid]['memory_dynamic_max']
+                if self.all['vms'][resident_vm_uuid]['is_control_domain']:
+                    host_memory = self.all['vms'][resident_vm_uuid]['memory_dynamic_max']
             
-            host_metrics_uuid = self.all_hosts[host]['metrics']
-            host_metrics = self.all_host_metrics[host_metrics_uuid]
+            host_metrics_uuid = self.all['host'][host]['metrics']
+            host_metrics = self.all['host_metrics'][host_metrics_uuid]
             host_memory = "%s free of %s available (%s total)" % (self.convert_bytes(host_metrics['memory_free']),
                                                                   self.convert_bytes(int(host_metrics['memory_total'])
                                                                                      - int(host_memory)),
                                                                   self.convert_bytes(host_metrics['memory_total']))
-            if self.all_hosts[host]['enabled']:
+            if self.all['host'][host]['enabled']:
                 vm_path = i
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                     "images/tree_connected_16.png")),
-                             self.all_hosts[host]['name_label'], host_memory, host])
+                             self.all['host'][host]['name_label'], host_memory, host])
             else:
                 list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                     "images/tree_disconnected_16.png")),
-                             self.all_hosts[host]['name_label'], host_memory, host])
+                             self.all['host'][host]['name_label'], host_memory, host])
             i += 1
         return vm_path
 
     def set_default_storage(self, ref):
-      pool_ref = self.all_pools.keys()[0]
+      pool_ref = self.all['pool'].keys()[0]
       res = self.connection.pool.set_default_SR(self.session_uuid, pool_ref, ref)
       if "Value" in res:
           self.track_tasks[res['Value']] = ref
@@ -356,10 +356,10 @@ class oxcSERVERmenuitem:
 
     def fill_listrepairstorage(self, list, ref):
         list.clear()
-        for pbd_ref in self.all_storage[ref]['PBDs']:
-            host = self.all_hosts[self.all_pbd[pbd_ref]["host"]]["name_label"]
-            host_ref = self.all_pbd[pbd_ref]["host"]
-            if not self.all_pbd[pbd_ref]['currently_attached']:
+        for pbd_ref in self.all['SR'][ref]['PBDs']:
+            host = self.all['host'][self.all['PBD'][pbd_ref]["host"]]["name_label"]
+            host_ref = self.all['PBD'][pbd_ref]["host"]
+            if not self.all['PBD'][pbd_ref]['currently_attached']:
                 list.append([pbd_ref, gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(),
                                                                              "images/storage_broken_16.png")), host,
                              "<span foreground='red'><b>Unplugged</b></span>", host_ref, True])
@@ -370,7 +370,7 @@ class oxcSERVERmenuitem:
 
     def repair_storage(self, list, ref):
         error = False
-        for pbd_ref in self.all_storage[ref]['PBDs']:
+        for pbd_ref in self.all['SR'][ref]['PBDs']:
              value = self.connection.Async.PBD.plug(self.session_uuid, pbd_ref)["Value"]
              task = self.connection.task.get_record(self.session_uuid, value)['Value']
              while task["status"] == "pending":
@@ -433,13 +433,13 @@ class oxcSERVERmenuitem:
 
 
     def add_server_to_pool(self, widget, ref, server, server_ref, master_ip):
-        self.wine.xc_servers[server].all_hosts[server_ref]
+        self.wine.xc_servers[server].all['host'][server_ref]
         user = self.wine.xc_servers[server].user
         password = self.wine.xc_servers[server].password
         host = master_ip
         res =  self.wine.xc_servers[server].connection.pool.join(self.session_uuid, host, user, password)
         if "Value" in res:
-            self.track_tasks[res['Value']] = self.host_vm[self.all_hosts.keys()[0]][0]
+            self.track_tasks[res['Value']] = self.host_vm[self.all['host'].keys()[0]][0]
             self.last_pool_data = []
             self.wine.last_host_pool = None
         else:
@@ -453,13 +453,13 @@ class oxcSERVERmenuitem:
         server = data[0]
         server_ref = data[1]
         master_ip = data[2]
-        self.wine.xc_servers[server].all_hosts[server_ref]
+        self.wine.xc_servers[server].all['host'][server_ref]
         user = self.wine.xc_servers[server].user
         password = self.wine.xc_servers[server].password
         host = master_ip
         res =  self.wine.xc_servers[server].connection.pool.join_force(self.session_uuid, host, user, password)
         if "Value" in res:
-            self.track_tasks[res['Value']] = self.host_vm[self.all_hosts.keys()[0]][0]
+            self.track_tasks[res['Value']] = self.host_vm[self.all['host'].keys()[0]][0]
         else:
             self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
     def delete_pool(self, pool_ref):
@@ -468,8 +468,8 @@ class oxcSERVERmenuitem:
             self.track_tasks[res['Value']] = pool_ref
         else:
             print res
-        master = self.all_pools[pool_ref]['master']
-        for host in self.all_hosts:
+        master = self.all['pool'][pool_ref]['master']
+        for host in self.all['host']:
             if host != master:
                 res = self.connection.pool.eject(self.session_uuid, pool_ref, host)
                 if "Value" in res:
@@ -481,16 +481,16 @@ class oxcSERVERmenuitem:
     def destroy_vm(self, ref, delete_vdi, delete_snap):
         #FIXME
         if delete_vdi:
-            if ref in self.all_vms:
-                for vbd in self.all_vms[ref]['VBDs']:
-                    if vbd in self.all_vbd and self.all_vbd[vbd]['type'] != "CD":
+            if ref in self.all['vms']:
+                for vbd in self.all['vms'][ref]['VBDs']:
+                    if vbd in self.all['VBD'] and self.all['VBD'][vbd]['type'] != "CD":
                         res =  self.connection.VBD.destroy(self.session_uuid, vbd)
                         if "Value" in res:
                             self.track_tasks[res['Value']] = ref
                         else:
                             print res
         if delete_snap:
-            all_snapshots = self.all_vms[ref]['snapshots']
+            all_snapshots = self.all['vms'][ref]['snapshots']
             for snap in all_snapshots:
                 self.destroy_vm(snap, True, False)
         res = self.connection.VM.destroy(self.session_uuid, ref)
@@ -503,13 +503,13 @@ class oxcSERVERmenuitem:
         list.clear()
         i = 0
         default_sr = 0
-        for sr in self.all_storage.keys():
-            storage = self.all_storage[sr]
+        for sr in self.all['SR'].keys():
+            storage = self.all['SR'][sr]
             if storage['type'] != "iso" and storage['type'] != "udev":
                 if self.default_sr == sr:
                     default_sr = i
-                if not self.all_storage[sr]['PBDs'] or not self.all_pbd[self.all_storage[sr]['PBDs'][0]]['currently_attached'] \
-                    or  self.all_storage[sr]['PBDs'] and self.all_storage[sr]["allowed_operations"].count("unplug") ==  0:
+                if not self.all['SR'][sr]['PBDs'] or not self.all['PBD'][self.all['SR'][sr]['PBDs'][0]]['currently_attached'] \
+                    or  self.all['SR'][sr]['PBDs'] and self.all['SR'][sr]["allowed_operations"].count("unplug") ==  0:
                     pass
                 else:
                     if self.default_sr == sr:

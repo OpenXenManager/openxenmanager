@@ -529,8 +529,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                 self.treestore.get_value(iter_ref, 1).lower().count(self.txttreefilter.get_text().lower()) == 0):
                 return False
         if seltype == "vm" and str(self.config["gui"]["show_hidden_vms"]) == "False" and host and ref and \
-                self.xc_servers[host].all_vms[ref].get("other_config") and \
-                str(self.xc_servers[host].all_vms[ref]["other_config"].get("HideFromXenCenter")).lower() == "true":
+                self.xc_servers[host].all['vms'][ref].get("other_config") and \
+                str(self.xc_servers[host].all['vms'][ref]["other_config"].get("HideFromXenCenter")).lower() == "true":
                 return False
         if seltype == "template":
             if self.config["gui"]["show_xs_templates"] == "False" or not self.config["gui"]["show_xs_templates"]:
@@ -542,7 +542,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         elif seltype == "storage":
             if self.config["gui"]["show_local_storage"] == "False" or not self.config["gui"]["show_local_storage"]:
                 if host and ref:
-                    if not self.xc_servers[host].all_storage[ref]['shared']:
+                    if not self.xc_servers[host].all['SR'][ref]['shared']:
                         return False
         return True
 
@@ -693,7 +693,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
         elif self.selected_type == "custom_template":
             self.xc_servers[self.selected_host].update_tab_template(self.selected_ref, self.builder)     
         elif self.selected_type == "storage":
-            operations = self.xc_servers[self.selected_host].all_storage[self.selected_ref]['allowed_operations']
+            operations = self.xc_servers[self.selected_host].all['SR'][self.selected_ref]['allowed_operations']
             if operations.count("vdi_create"):
                 self.builder.get_object("btstgnewdisk").show()
             else:
@@ -760,13 +760,13 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                             if queryscope.nodeName == "LocalSR":
                                 if self.selected_type == "storage":
                                     shared = \
-                                        self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
+                                        self.xc_servers[self.selected_host].all['SR'][self.selected_ref]['shared']
                                     if not shared:
                                         applicable = True
                             elif queryscope.nodeName == "RemoteSR":
                                 if self.selected_type == "storage":
                                     shared = \
-                                        self.xc_servers[self.selected_host].all_storage[self.selected_ref]['shared']
+                                        self.xc_servers[self.selected_host].all['SR'][self.selected_ref]['shared']
                                     if shared:
                                         applicable = True
                             elif queryscope.nodeName == "Pool":  # REVISE
@@ -782,20 +782,20 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                 for enumpropertyquery in query.getElementsByTagName("EnumPropertyQuery"):
                     data = None
                     if self.selected_type == "storage":
-                        data = self.xc_servers[host].all_storage[ref]
+                        data = self.xc_servers[host].all['SR'][ref]
                         pbds = data['PBDs']
                         ip = ""
-                        if "target" in self.xc_servers[host].all_pbd[pbds[0]]["device_config"]:
-                            ip = self.xc_servers[host].all_pbd[pbds[0]]["device_config"]['target']
+                        if "target" in self.xc_servers[host].all['PBD'][pbds[0]]["device_config"]:
+                            ip = self.xc_servers[host].all['PBD'][pbds[0]]["device_config"]['target']
                         #ip = data["name_description"].split(" ")[2][1:]
                     elif self.selected_type == "vm":
-                        data = self.xc_servers[host].all_vms[ref]
+                        data = self.xc_servers[host].all['vms'][ref]
                         ip = self.selected_ip
                     if self.selected_type == "host":
-                        data = self.xc_servers[host].all_hosts[ref]
+                        data = self.xc_servers[host].all['host'][ref]
                         ip = self.selected_ip
                     if self.selected_type == "pool":
-                        data = self.xc_servers[host].all_pools[ref]
+                        data = self.xc_servers[host].all['pool'][ref]
                         ip = self.selected_ip
                     if data:
                         prop = enumpropertyquery.attributes.getNamedItem("property").value
@@ -831,12 +831,12 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                         if queryscope.nodeName != "#text":
                             if queryscope.nodeName == "LocalSR":
                                 if self.selected_type == "storage":
-                                    shared = self.xc_servers[host].all_storage[ref]['shared']
+                                    shared = self.xc_servers[host].all['SR'][ref]['shared']
                                     if not shared:
                                         applicable = True
                             elif queryscope.nodeName == "RemoteSR":
                                 if self.selected_type == "storage":
-                                    shared = self.xc_servers[host].all_storage[ref]['shared']
+                                    shared = self.xc_servers[host].all['SR'][ref]['shared']
                                     if shared:
                                         applicable = True
                             elif queryscope.nodeName == "Pool":  # REVISE
@@ -852,16 +852,16 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
             for enumpropertyquery in query.getElementsByTagName("EnumPropertyQuery"):
                 data = None
                 if self.selected_type == "storage":
-                    data = self.xc_servers[host].all_storage[ref]
+                    data = self.xc_servers[host].all['SR'][ref]
                     ip = data["name_description"].split(" ")[2][1:]
                 elif self.selected_type == "vm":
-                    data = self.xc_servers[host].all_vms[ref]
+                    data = self.xc_servers[host].all['vms'][ref]
                     ip = self.selected_ip
                 if self.selected_type == "host":
-                    data = self.xc_servers[host].all_hosts[ref]
+                    data = self.xc_servers[host].all['host'][ref]
                     ip = self.selected_ip
                 if self.selected_type == "pool":
-                    data = self.xc_servers[host].all_pools[ref]
+                    data = self.xc_servers[host].all['pool'][ref]
                     ip = self.selected_ip
                 if data:
                     prop = enumpropertyquery.attributes.getNamedItem("property").value
@@ -1137,11 +1137,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
 
             elif tab_label == "HOST_Users":
                 if self.selected_type == "pool":
-                    name = self.xc_servers[host].all_pools[self.selected_ref]['name_label']
+                    name = self.xc_servers[host].all['pool'][self.selected_ref]['name_label']
                     externalauth = self.xc_servers[host].get_external_auth(
                         self.xc_servers[host]['master'])
                 else:
-                    name = self.xc_servers[host].all_hosts[self.selected_ref]['name_label']
+                    name = self.xc_servers[host].all['host'][self.selected_ref]['name_label']
                     externalauth = self.xc_servers[host].get_external_auth(self.selected_ref)
 
                 listusers = self.builder.get_object("listusers")
@@ -1205,13 +1205,13 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
 
     def get_console_location(self, host, ref):
         location = None
-        if self.xc_servers[host].all_vms[ref]['consoles']:
-            nb_consoles = len(self.xc_servers[host].all_vms[ref]['consoles'])
+        if self.xc_servers[host].all['vms'][ref]['consoles']:
+            nb_consoles = len(self.xc_servers[host].all['vms'][ref]['consoles'])
             for i in range(nb_consoles):
-                console_ref = self.xc_servers[host].all_vms[ref]['consoles'][i]
-                protocol = self.xc_servers[host].all_console[console_ref]['protocol']
+                console_ref = self.xc_servers[host].all['vms'][ref]['consoles'][i]
+                protocol = self.xc_servers[host].all['console'][console_ref]['protocol']
                 if protocol == 'rfb':
-                    location = self.xc_servers[host].all_console[console_ref]['location']
+                    location = self.xc_servers[host].all['console'][console_ref]['location']
                     break
             if location is None:
                 print 'No VNC console found'
@@ -1455,8 +1455,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     typestg = None
                     pbdstg = 1
                     if self.selected_type == "storage":
-                        typestg = self.xc_servers[self.selected_host].all_storage[self.selected_ref]["type"]
-                        pbdstg = len(self.xc_servers[self.selected_host].all_storage[self.selected_ref]["PBDs"])
+                        typestg = self.xc_servers[self.selected_host].all['SR'][self.selected_ref]["type"]
+                        pbdstg = len(self.xc_servers[self.selected_host].all['SR'][self.selected_ref]["PBDs"])
                     if gtk.Buildable.get_name(child)[0:2] == "m_":
                         if not self.selected_actions or \
                                 self.selected_actions.count(gtk.Buildable.get_name(child)[2:]) == 0:
@@ -1515,8 +1515,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     # Add to pool, only for servers without pools
                     elif gtk.Buildable.get_name(child) == "m_add_to_pool":
                         if self.selected_type == "host":
-                            pool_ref = self.xc_servers[self.selected_host].all_pools.keys()[0]
-                            if self.xc_servers[self.selected_host].all_pools[pool_ref]["name_label"] == "":
+                            pool_ref = self.xc_servers[self.selected_host].all['pool'].keys()[0]
+                            if self.xc_servers[self.selected_host].all['pool'][pool_ref]["name_label"] == "":
                                 child.show()
                             else:
                                 child.hide()

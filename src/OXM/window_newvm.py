@@ -166,10 +166,10 @@ class oxcWindowNewVm:
 
             # Installation method
             self.builder.get_object("entrybootparameters").set_text(
-                self.xc_servers[self.selected_host].all_vms[ref]['PV_args']
+                self.xc_servers[self.selected_host].all['vms'][ref]['PV_args']
                 )
             # Get "other_config" from selected template, other_config contains information about install
-            other_config = self.xc_servers[self.selected_host].all_vms[ref]['other_config']
+            other_config = self.xc_servers[self.selected_host].all['vms'][ref]['other_config']
             # If other_config contains "install-methods" (ftp, nfs, http) or via cdrom
             if "install-methods" in other_config:
                methods = other_config["install-methods"]
@@ -263,9 +263,9 @@ class oxcWindowNewVm:
         listnewvmstorage = self.builder.get_object("listnewvmstorage")
         size =  self.builder.get_object("disksize").get_value()
         disk =  self.newvmdata['last_disk_selected']
-        disk_name = self.xc_servers[self.selected_host].all_storage[disk]['name_label'] + " on " \
-                  +  self.xc_servers[self.selected_host].all_hosts[self.newvmdata['host']]['name_label']
-        shared = str(self.xc_servers[self.selected_host].all_storage[disk]['shared'])
+        disk_name = self.xc_servers[self.selected_host].all['SR'][disk]['name_label'] + " on " \
+                  +  self.xc_servers[self.selected_host].all['host'][self.newvmdata['host']]['name_label']
+        shared = str(self.xc_servers[self.selected_host].all['SR'][disk]['shared'])
         if self.newvmdata['storage_editing'] == False:
             # If we are not editing, then add to list
             listnewvmstorage.append([size, disk_name, shared, disk])
@@ -300,8 +300,8 @@ class oxcWindowNewVm:
             iter = selection.get_selected()[1]
         # Set reference host to "newvmdata" struct
         self.newvmdata['host'] = listnewvmhosts.get_value(iter, 3)
-        host= self.xc_servers[self.selected_host].all_hosts[self.newvmdata['host']]
-        host_metrics = self.xc_servers[self.selected_host].all_host_metrics[host['metrics']]
+        host= self.xc_servers[self.selected_host].all['host'][self.newvmdata['host']]
+        host_metrics = self.xc_servers[self.selected_host].all['host_metrics'][host['metrics']]
         # Fill host info on "set memory/vcpu" window (only for information) 
         self.builder.get_object("lblnewvmhost").set_label(host['name_label'])
         self.builder.get_object("lblnewvmcpus").set_label(str(len(host['host_CPUs'])))
@@ -323,11 +323,11 @@ class oxcWindowNewVm:
         # Fill template info
         self.builder.get_object("lblnewvmname").set_label(listtemplates.get_value(iter, 1))
         self.builder.get_object("lblnewvminfo").set_label(
-          self.xc_servers[self.selected_host].all_vms[listtemplates.get_value(iter, 2)]['name_description'])
+          self.xc_servers[self.selected_host].all['vms'][listtemplates.get_value(iter, 2)]['name_description'])
         self.builder.get_object("entrynewvmname").set_text(listtemplates.get_value(iter, 1) + " (" + str(datetime.date.today()) + ")")
 
         ref = listtemplates.get_value(iter, 2)
-        vm = self.xc_servers[self.selected_host].all_vms[ref]
+        vm = self.xc_servers[self.selected_host].all['vms'][ref]
         self.builder.get_object("numberofvcpus").set_value(float(int(vm['VCPUs_max'])))
         self.builder.get_object("initialmemory").set_value(float(int(vm['memory_static_max'])/1024/1024))
         self.builder.get_object("disksize").set_value(float(5))
@@ -336,8 +336,8 @@ class oxcWindowNewVm:
 
         # Check if selected template should be installed with cd or not
         # If postinstall is true, then will be cloned, else you will be specifiy a method of installation
-        if "postinstall" in self.xc_servers[self.selected_host].all_vms[listtemplates.get_value(iter, 2)]['other_config'] or \
-                 self.xc_servers[self.selected_host].all_vms[listtemplates.get_value(iter, 2)]['last_booted_record'] != "":
+        if "postinstall" in self.xc_servers[self.selected_host].all['vms'][listtemplates.get_value(iter, 2)]['other_config'] or \
+                 self.xc_servers[self.selected_host].all['vms'][listtemplates.get_value(iter, 2)]['last_booted_record'] != "":
             self.builder.get_object("lblnewvm2").hide()
         else:
             self.builder.get_object("lblnewvm2").show()
@@ -417,7 +417,7 @@ class oxcWindowNewVm:
         if widget.get_current_page() == 4:
             # After choose installation method, set vcpus and memory from template information
             if "ref" in self.newvmdata:
-                vm = self.xc_servers[self.selected_host].all_vms[self.newvmdata['ref']]
+                vm = self.xc_servers[self.selected_host].all['vms'][self.newvmdata['ref']]
                 self.builder.get_object("numberofvcpus").set_value(float(int(vm['VCPUs_max'])))
                 self.builder.get_object("initialmemory").set_value(float(int(vm['memory_static_max'])/1024/1024))
                 self.builder.get_object("disksize").set_value(float(5))
@@ -438,7 +438,7 @@ class oxcWindowNewVm:
         if current_page == 1:
             # If has not installation method (template clone), then step to page 3
             if "ref" in self.newvmdata:
-                if "postinstall" in self.xc_servers[self.selected_host].all_vms[self.newvmdata['ref']]['other_config']:
+                if "postinstall" in self.xc_servers[self.selected_host].all['vms'][self.newvmdata['ref']]['other_config']:
                     return current_page+2
         # Else only increment one to actual page
         return current_page+1

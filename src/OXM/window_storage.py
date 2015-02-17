@@ -647,7 +647,7 @@ class oxcWindowStorage:
         """"
         Function called when you press "remove disk" on storage
         """
-        is_a_snapshot = self.xc_servers[self.selected_host].all_vdi[self.selected_vdi_ref]['is_a_snapshot']
+        is_a_snapshot = self.xc_servers[self.selected_host].all['VDI'][self.selected_vdi_ref]['is_a_snapshot']
         if is_a_snapshot:
             # If is a snapshot, show different text
             self.builder.get_object("dialogdeletevdi").set_title("Delete entire snapshot")
@@ -673,7 +673,7 @@ class oxcWindowStorage:
            widget.set_cursor( path, col, 0)
            iter = self.builder.get_object("liststg").get_iter(path)
            self.selected_vdi_ref = self.builder.get_object("liststg").get_value(iter, 0)
-           operations = self.xc_servers[self.selected_host].all_vdi[self.selected_vdi_ref]['allowed_operations']
+           operations = self.xc_servers[self.selected_host].all['VDI'][self.selected_vdi_ref]['allowed_operations']
            # If have "destroy" option in "allowed_operations"
            if operations.count("destroy"):
                # Enable button
@@ -681,7 +681,7 @@ class oxcWindowStorage:
            else:
                # Else disable it
                self.builder.get_object("btstgproperties").set_sensitive(True)
-           is_snapshot = self.xc_servers[self.selected_host].all_vdi[self.selected_vdi_ref]['is_a_snapshot']
+           is_snapshot = self.xc_servers[self.selected_host].all['VDI'][self.selected_vdi_ref]['is_a_snapshot']
            # If not is a snapshot, enable "properties" button
            self.builder.get_object("btstgproperties").set_sensitive(not is_snapshot)
     def on_dialogdeletevdi_cancel_activate(self, widget, data=None):
@@ -693,15 +693,15 @@ class oxcWindowStorage:
         """
         Function called when you accept "dialog delete" 
         """
-        vdi = self.xc_servers[self.selected_host].all_vdi[self.selected_vdi_ref]
+        vdi = self.xc_servers[self.selected_host].all['VDI'][self.selected_vdi_ref]
         if vdi['is_a_snapshot']:
             # If is a snapshot, destroy entire snapshot
             for vbd_ref in vdi['VBDs']:
-                ref = self.xc_servers[self.selected_host].all_vbd[vbd_ref]["VM"]
+                ref = self.xc_servers[self.selected_host].all['VBD'][vbd_ref]["VM"]
                 self.xc_servers[self.selected_host].destroy_vm(ref, True, False)
         else:
             if len(vdi['VBDs']):
-                vm_ref = self.xc_servers[self.selected_host].all_vbd[vdi['VBDs'][0]]['VM']                                         
+                vm_ref = self.xc_servers[self.selected_host].all['VBD'][vdi['VBDs'][0]]['VM']
             else:
                 vm_ref = None
             # Else only delete select virtual disk

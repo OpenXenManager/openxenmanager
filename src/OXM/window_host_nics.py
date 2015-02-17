@@ -39,7 +39,7 @@ class oxcWindowHostNics:
            # Get selected nic
            iter = self.builder.get_object("listhostnics").get_iter(path)
            ref = self.builder.get_object("listhostnics").get_value(iter, 8)
-           nic = self.xc_servers[self.selected_host].all_pif[ref]
+           nic = self.xc_servers[self.selected_host].all['PIF'][ref]
            # Check if already is on a bond
            if len(nic['bond_master_of']):
                # If is already is on a bond enable remove button

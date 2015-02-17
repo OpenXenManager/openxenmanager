@@ -39,11 +39,11 @@ class oxcWindowHostNetwork:
            # Get the network reference
            ref = self.builder.get_object("listhostnetwork").get_value(iter, 8)
            # Get all pifs on selected network
-           pifs = self.xc_servers[self.selected_host].all_network[ref]['PIFs']
+           pifs = self.xc_servers[self.selected_host].all['network'][ref]['PIFs']
            # By default all networks could be removed
            self.builder.get_object("bthostnetworkremove").set_sensitive(True)
            for pif in pifs:
-               if self.xc_servers[self.selected_host].all_pif[pif]['physical'] == True:
+               if self.xc_servers[self.selected_host].all['PIF'][pif]['physical'] == True:
                    # Except if network is physical
                    self.builder.get_object("bthostnetworkremove").set_sensitive(False)
                    break

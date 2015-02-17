@@ -81,12 +81,12 @@ class oxcWindowVMNetwork:
             # Show the dialog
             self.builder.get_object("dialogeditnetwork").show()
             ref = listvmnetwork.get_value(iter, 6)
-            network_ref = self.xc_servers[self.selected_host].all_vif[ref]['network']
+            network_ref = self.xc_servers[self.selected_host].all['VIF'][ref]['network']
             # function "fill_editinterface_network" returns the position of selected network
             current = self.xc_servers[self.selected_host].fill_editinterface_network(listeditnetwork, network_ref)
             # Set the position in the combo
             treeeditnetwork.set_active(current)
-            vif = self.xc_servers[self.selected_host].all_vif[ref]
+            vif = self.xc_servers[self.selected_host].all['VIF'][ref]
             # Fill network information
             if "kbps" in vif['qos_algorithm_params']:
                 self.builder.get_object("entryeditlimit").set_text(vif['qos_algorithm_params']["kbps"])
@@ -123,8 +123,8 @@ class oxcWindowVMNetwork:
             iter = selection.get_selected()[1]
             self.builder.get_object("dialogeditnetwork").show()
             ref = listvmnetwork.get_value(iter, 6)
-            network_ref = self.xc_servers[self.selected_host].all_vif[ref]['network']
-            vif = self.xc_servers[self.selected_host].all_vif[ref]
+            network_ref = self.xc_servers[self.selected_host].all['VIF'][ref]['network']
+            vif = self.xc_servers[self.selected_host].all['VIF'][ref]
             mac = self.builder.get_object("entryeditmac").get_text()
             limit = self.builder.get_object("entryeditlimit").get_text()
             # modify is a flag variable

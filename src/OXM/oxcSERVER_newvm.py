@@ -27,47 +27,47 @@ class oxcSERVERnewvm:
     def get_path_available_host(self):
         path = 0
         i = 0
-        for host in self.all_hosts.keys():
-            if self.all_hosts[host]['enabled']:
+        for host in self.all['host'].keys():
+            if self.all['host'][host]['enabled']:
                 path = i 
             i = i + 1
         return path
 
     def first_network(self):
-        for network in self.all_network:
-            return self.all_network[network]['name_label'].replace('Pool-wide network associated with eth','Network ')
+        for network in self.all['network']:
+            return self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network ')
     def first_network_ref(self):
-        for network in self.all_network:
+        for network in self.all['network']:
             return network
     def fill_listnewvmstorage(self, list, vm, host, ref):
         list.clear()
-        if "disks" in self.all_vms[vm]['other_config']:
-            dom = xml.dom.minidom.parseString(self.all_vms[vm]['other_config']['disks'])
+        if "disks" in self.all['vms'][vm]['other_config']:
+            dom = xml.dom.minidom.parseString(self.all['vms'][vm]['other_config']['disks'])
             nodes = dom.getElementsByTagName("disk")
             for node in nodes: 
-               if self.default_sr == "OpaqueRef:NULL" or self.default_sr not in self.all_storage:
-                    self.default_sr = self.all_storage.keys()[0]
+               if self.default_sr == "OpaqueRef:NULL" or self.default_sr not in self.all['SR']:
+                    self.default_sr = self.all['SR'].keys()[0]
                list.append(["%0.2f" % (float(node.attributes.getNamedItem("size").value)/1024/1024/1024), 
-                        self.all_storage[self.default_sr]['name_label'] + " on " + 
-                        self.all_hosts[host]['name_label'], 
-                        str(self.all_storage[self.default_sr]['shared']),ref])
+                        self.all['SR'][self.default_sr]['name_label'] + " on " +
+                        self.all['host'][host]['name_label'],
+                        str(self.all['SR'][self.default_sr]['shared']),ref])
         else:
-            for vbd in self.all_vbd:
-                    if self.all_vbd[vbd]['VM'] == vm:
-                        if self.all_vbd[vbd]["type"] == "Disk":
-                            vdi =  self.all_vbd[vbd]["VDI"]
-                            list.append(["%0.2f" % (float(self.all_vdi[vdi]["virtual_size"])/1024/1024/1024),
-                                     self.all_storage[self.default_sr]['name_label'] + " on " +
-                                     self.all_hosts[host]['name_label'],
-                                      str(self.all_storage[self.default_sr]['shared']),ref])
+            for vbd in self.all['VBD']:
+                    if self.all['VBD'][vbd]['VM'] == vm:
+                        if self.all['VBD'][vbd]["type"] == "Disk":
+                            vdi =  self.all['VBD'][vbd]["VDI"]
+                            list.append(["%0.2f" % (float(self.all['VDI'][vdi]["virtual_size"])/1024/1024/1024),
+                                     self.all['SR'][self.default_sr]['name_label'] + " on " +
+                                     self.all['host'][host]['name_label'],
+                                      str(self.all['SR'][self.default_sr]['shared']),ref])
 
 
     def fill_listnewvmdisk(self, list, host):
         list.clear()
         i = 0
         default_sr = 0
-        for sr in self.all_storage.keys():
-            storage = self.all_storage[sr]
+        for sr in self.all['SR'].keys():
+            storage = self.all['SR'][sr]
             if storage['type'] != "iso" and storage['type'] != "udev":
                 if self.default_sr == sr:
                     default_sr = i
@@ -90,7 +90,7 @@ class oxcSERVERnewvm:
         if data["startvm"]:
             self.autostart[vm_uuid] = data['host']
         self.connection.VM.set_name_description(self.session_uuid, vm_uuid, data['description'])
-        other_config = self.all_vms[data['ref']]['other_config'] 
+        other_config = self.all['vms'][data['ref']]['other_config']
         other_config["default_template"] = "false"
         selection = self.wine.builder.get_object("treenewvmstorage").get_selection()
         selection.set_mode(gtk.SELECTION_MULTIPLE)
@@ -101,7 +101,7 @@ class oxcSERVERnewvm:
         disk = "<provision>"
         for iter_ref in iters:
             size = int(float(self.wine.builder.get_object("listnewvmstorage").get_value(iter_ref, 0))*1024*1024*1024)
-            sr = self.all_storage[self.wine.builder.get_object("listnewvmstorage").get_value(iter_ref, 3)]["uuid"]
+            sr = self.all['SR'][self.wine.builder.get_object("listnewvmstorage").get_value(iter_ref, 3)]["uuid"]
             if "postinstall" not in other_config and data["location"] != "radiobutton1":
                 disk += '<disk device="%d" size="%d" sr="%s" bootable="false" type="system" ionice="0" readonly="False" />' % (i, size, sr)
             else:    
@@ -112,9 +112,9 @@ class oxcSERVERnewvm:
             i = i + 1
         disk += "</provision>"
         setdisks = True
-        for vbd in self.all_vbd:
-            if self.all_vbd[vbd]['VM'] == data["ref"]:
-                if self.all_vbd[vbd]["type"] == "Disk":
+        for vbd in self.all['VBD']:
+            if self.all['VBD'][vbd]['VM'] == data["ref"]:
+                if self.all['VBD'][vbd]["type"] == "Disk":
                     setdisks = False
 
         if setdisks:

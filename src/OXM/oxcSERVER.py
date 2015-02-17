@@ -98,7 +98,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         :param ref: VM Ref
         :return: Boolean
         """
-        if self.all_vms[ref]['power_state'] == 'Running':
+        if self.all['vms'][ref]['power_state'] == 'Running':
             return True
         else:
             return False
@@ -106,15 +106,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def get_network_relation(self, ref, show_halted_vms):
         # Get network -> VM relation
         relation = {}
-        for network in self.all_network:
-            network_name = self.all_network[network]['name_label'].replace(
+        for network in self.all['network']:
+            network_name = self.all['network'][network]['name_label'].replace(
                 'Pool-wide network associated with eth', 'Network ')
             vms = []
-            for vif in self.all_network[network]['VIFs']:
-                vm = self.all_vif[vif]['VM']
-                if not vms.count(vm + "_" + self.all_vms[vm]['name_label']):
+            for vif in self.all['network'][network]['VIFs']:
+                vm = self.all['VIF'][vif]['VM']
+                if not vms.count(vm + "_" + self.all['vms'][vm]['name_label']):
                     if show_halted_vms or self.is_vm_running(vm):
-                        vms.append(vm + "_" + self.all_vms[vm]['name_label'])
+                        vms.append(vm + "_" + self.all['vms'][vm]['name_label'])
             relation[network + "_" + network_name] = vms
 
         return relation
@@ -122,18 +122,18 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def get_storage_relation(self, ref, show_halted_vms):
         # Get network -> VM relation
         relation = {}
-        for storage in self.all_storage:
-            storage_name = self.all_storage[storage]['name_label']
+        for storage in self.all['SR']:
+            storage_name = self.all['SR'][storage]['name_label']
             vms = []
-            for vdi in self.all_storage[storage]['VDIs']:
-                vbds = self.all_vdi[vdi]['VBDs']
+            for vdi in self.all['SR'][storage]['VDIs']:
+                vbds = self.all['VDI'][vdi]['VBDs']
                 for vbd in vbds:
-                    vm = self.all_vbd[vbd]['VM']
+                    vm = self.all['VBD'][vbd]['VM']
                     if not vms.count(vm + "_" +
-                                     self.all_vms[vm]['name_label']):
+                                     self.all['vms'][vm]['name_label']):
                         if show_halted_vms or self.is_vm_running(vm):
                             vms.append(vm + "_" +
-                                       self.all_vms[vm]['name_label'])
+                                       self.all['vms'][vm]['name_label'])
             relation[storage + "_" + storage_name] = vms
 
         return relation
@@ -341,9 +341,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                       self.host])
         elif message['name'] == "ALARM":
             vm = self.vm_filter_uuid(message['obj_uuid'])
-            if vm not in self.all_vms:
+            if vm not in self.all['vms']:
                 return None
-            if not self.all_vms[vm]['is_control_domain']:
+            if not self.all['vms'][vm]['is_control_domain']:
                 value = message['body'].split("\n")[0].split(" ")[1]
                 dom = xml.dom.minidom.parseString(
                     message['body'].split("config:")[1][1:])
@@ -365,7 +365,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                str(message['timestamp']))),
                                            ref, self.host])
                     list.prepend(parent, [None, "", msg['detail'] %
-                                          (self.all_vms[vm]['name_label'],
+                                          (self.all['vms'][vm]['name_label'],
                                            float(value)*100, int(period),
                                            float(level)*100), "", ref,
                                           self.host])
@@ -392,61 +392,61 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     print message['body']
 
     def add_vm_to_tree(self, vm):
-        if self.all_vms[vm]['resident_on'] != "OpaqueRef:NULL" \
-                and self.all_vms[vm]['resident_on'] in self.hostroot:
-            resident = self.all_vms[vm]['resident_on']
+        if self.all['vms'][vm]['resident_on'] != "OpaqueRef:NULL" \
+                and self.all['vms'][vm]['resident_on'] in self.hostroot:
+            resident = self.all['vms'][vm]['resident_on']
             self.treestore.prepend(self.hostroot[resident], [
                 gtk.gdk.pixbuf_new_from_file(
                     utils.image_path("tree_%s_16.png" %
-                                     self.all_vms[vm]['power_state'].lower())),
-                self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
-                "vm", self.all_vms[vm]['power_state'], self.host,
-                vm, self.all_vms[vm]['allowed_operations'],
-                self.all_hosts[resident]['address']])
+                                     self.all['vms'][vm]['power_state'].lower())),
+                self.all['vms'][vm]['name_label'], self.all['vms'][vm]['uuid'],
+                "vm", self.all['vms'][vm]['power_state'], self.host,
+                vm, self.all['vms'][vm]['allowed_operations'],
+                self.all['host'][resident]['address']])
 
-        elif self.all_vms[vm]['affinity'] != "OpaqueRef:NULL" \
-                and self.all_vms[vm]['affinity'] in self.hostroot:
-            affinity = self.all_vms[vm]['affinity']
+        elif self.all['vms'][vm]['affinity'] != "OpaqueRef:NULL" \
+                and self.all['vms'][vm]['affinity'] in self.hostroot:
+            affinity = self.all['vms'][vm]['affinity']
             self.treestore.prepend(self.hostroot[affinity], [
                 gtk.gdk.pixbuf_new_from_file(
                     utils.image_path("tree_%s_16.png" %
-                                     self.all_vms[vm]['power_state'].lower())),
-                self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'], "vm",
-                self.all_vms[vm]['power_state'], self.host, vm,
-                self.all_vms[vm]['allowed_operations'],
-                self.all_hosts[affinity]['address']])
+                                     self.all['vms'][vm]['power_state'].lower())),
+                self.all['vms'][vm]['name_label'], self.all['vms'][vm]['uuid'], "vm",
+                self.all['vms'][vm]['power_state'], self.host, vm,
+                self.all['vms'][vm]['allowed_operations'],
+                self.all['host'][affinity]['address']])
         else:
             if self.poolroot:
                 self.treestore.prepend(self.poolroot, [
                     gtk.gdk.pixbuf_new_from_file(
                         utils.image_path(
                             "tree_%s_16.png" %
-                            self.all_vms[vm]['power_state'].lower())),
-                    self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
-                    "vm", self.all_vms[vm]['power_state'], self.host,
-                    vm, self.all_vms[vm]['allowed_operations'],  self.host])
+                            self.all['vms'][vm]['power_state'].lower())),
+                    self.all['vms'][vm]['name_label'], self.all['vms'][vm]['uuid'],
+                    "vm", self.all['vms'][vm]['power_state'], self.host,
+                    vm, self.all['vms'][vm]['allowed_operations'],  self.host])
             else:
                 self.treestore.prepend(
-                    self.hostroot[self.all_hosts.keys()[0]],
+                    self.hostroot[self.all['host'].keys()[0]],
                     [gtk.gdk.pixbuf_new_from_file(utils.image_path(
-                        "tree_%s_16.png" % self.all_vms[vm]['power_state'].lower())),
-                     self.all_vms[vm]['name_label'], self.all_vms[vm]['uuid'],
-                     "vm", self.all_vms[vm]['power_state'], self.host,
-                     vm, self.all_vms[vm]['allowed_operations'], self.host])
+                        "tree_%s_16.png" % self.all['vms'][vm]['power_state'].lower())),
+                     self.all['vms'][vm]['name_label'], self.all['vms'][vm]['uuid'],
+                     "vm", self.all['vms'][vm]['power_state'], self.host,
+                     vm, self.all['vms'][vm]['allowed_operations'], self.host])
 
     def fill_allowed_operations(self, ref):
         actions = self.connection.VM.get_allowed_operations(self.session_uuid,
                                                             ref)['Value']
-        self.all_vms[ref]['allowed_operations'] = actions
+        self.all['vms'][ref]['allowed_operations'] = actions
         return actions
 
     def fill_vm_network(self, ref, tree, list1):
         list1.clear()
-        if ref in self.all_vms:
-            guest_metrics = self.all_vms[ref]['guest_metrics']
+        if ref in self.all['vms']:
+            guest_metrics = self.all['vms'][ref]['guest_metrics']
 
-            for vif_ref in self.all_vms[ref]['VIFs']:
-                vif = self.all_vif[vif_ref]
+            for vif_ref in self.all['vms'][ref]['VIFs']:
+                vif = self.all['VIF'][vif_ref]
 
                 # QOS Parameters
                 if "kbps" in vif['qos_algorithm_params']:
@@ -455,9 +455,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     limit = ""
 
                 # IP Addresses
-                if guest_metrics in self.all_vm_guest_metrics and \
-                        len(self.all_vm_guest_metrics[guest_metrics]['networks']) > 0:
-                    net_addrs = self.all_vm_guest_metrics[guest_metrics]['networks']
+                if guest_metrics in self.all['VM_guest_metrics'] and \
+                        len(self.all['VM_guest_metrics'][guest_metrics]['networks']) > 0:
+                    net_addrs = self.all['VM_guest_metrics'][guest_metrics]['networks']
                     addresses = []
                     for key in net_addrs:
                         if key == vif['device'] + "/ip":
@@ -469,8 +469,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
                 #FIXME - Fix what?
                 # Network name
-                if vif['network'] in self.all_network:
-                    network = self.all_network[vif['network']]['name_label'].\
+                if vif['network'] in self.all['network']:
+                    network = self.all['network'][vif['network']]['name_label'].\
                         replace('Pool-wide network associated with eth',
                                 'Network ')
                 else:
@@ -501,16 +501,16 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def fill_vm_snapshots(self, uuid, tree=None, list=None):
         list.clear()
-        if uuid in self.all_vms:
-            all_snapshots = self.all_vms[uuid]['snapshots']
+        if uuid in self.all['vms']:
+            all_snapshots = self.all['vms'][uuid]['snapshots']
             for snapshot_uuid in all_snapshots:
-                snapshot_name = self.all_vms[snapshot_uuid]['name_label']
+                snapshot_name = self.all['vms'][snapshot_uuid]['name_label']
                 snapshot_time = self.format_date(
-                    self.all_vms[snapshot_uuid]['snapshot_time'])
-                snapshot_of = self.all_vms[snapshot_uuid]['snapshot_of']
+                    self.all['vms'][snapshot_uuid]['snapshot_time'])
+                snapshot_of = self.all['vms'][snapshot_uuid]['snapshot_of']
                 snapshot_size = 0
-                for vbd in self.all_vms[snapshot_uuid]['VBDs']:
-                    vbd_data = self.all_vbd[vbd]
+                for vbd in self.all['vms'][snapshot_uuid]['VBDs']:
+                    vbd_data = self.all['VBD'][vbd]
                     if vbd_data['type'] == 'Disk':
                         snapshot_size += int(self.connection.VDI.get_record(
                             self.session_uuid,
@@ -778,19 +778,19 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 "vmtablelog").remove(ch) and False)
 
         for task_ref in filter(self.task_filter_uuid, self.tasks):
-            task = self.all_tasks[task_ref]
+            task = self.all['task'][task_ref]
             if "snapshot" in task:
                 self.add_box_log(task['snapshot']['name_label'],
                                  str(task['snapshot']['created']),
                                  "%s %s" % (task["snapshot"]["name_label"],
-                                            self.all_vms[self.track_tasks[task["ref"]]]["name_label"]),
+                                            self.all['vms'][self.track_tasks[task["ref"]]]["name_label"]),
                                  str(task['snapshot']['created']), task['ref'], task,
                                  float(task['snapshot']['progress']), i % 2)  # TODO: Check variable type float vs int
             else:
                 if "ref" in task:
                     self.add_box_log(task['name_label'], str(task['created']),
                                      "%s %s" % (task["name_label"],
-                                                self.all_vms[self.track_tasks[task["ref"]]]["name_label"]),
+                                                self.all['vms'][self.track_tasks[task["ref"]]]["name_label"]),
                                      str(task['created']), self.get_task_ref_by_uuid(task['uuid']), task,
                                      float(task['progress']), i % 2)  # TODO: Check variable type float vs int
                 else:
@@ -904,10 +904,10 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def fill_host_storage(self, ref, list):
         list.clear()
-        for storage in self.all_storage.values():
+        for storage in self.all['SR'].values():
             on_host = False
             for pbd in storage['PBDs']:
-                if self.all_pbd[pbd]['host'] == ref:
+                if self.all['PBD'][pbd]['host'] == ref:
                     on_host = True
             #if storage['type'] != "iso":
             if on_host:
@@ -940,10 +940,10 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             position = 0
             hosts = {}
             #FIXME: what happen when a pool exists?
-            for host in self.all_hosts.keys():
-                metrics = self.all_hosts[host]['metrics']
-                memory_free = int(self.all_host_metrics[metrics]['memory_free'])
-                memory_total = int(self.all_host_metrics[metrics]['memory_total'])
+            for host in self.all['host'].keys():
+                metrics = self.all['host'][host]['metrics']
+                memory_free = int(self.all['host_metrics'][metrics]['memory_free'])
+                memory_total = int(self.all['host_metrics'][metrics]['memory_total'])
                 if memory_total == 0:
                     memory = ""
                     memory_img = 0
@@ -952,17 +952,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                         self.convert_bytes(memory_total)  # Column 5
                     memory_img = int((((memory_total-memory_free)*100)/memory_total)/10)
 
-                start_time = self.all_hosts[host]['other_config']['boot_time'][:-1]
+                start_time = self.all['host'][host]['other_config']['boot_time'][:-1]
                 uptime = self.humanize_time(time.time() - int(start_time))
 
                 # Prepare the variables for the treestore
                 img_connected = os.path.join(utils.module_path(), "images/tree_connected_16.png")  # Column 0
-                name = "<b>" + self.all_hosts[host]['name_label'] + "</b>\n<i>" + \
-                       self.all_hosts[host]['name_description'] + "</i>"  # Column 1
+                name = "<b>" + self.all['host'][host]['name_label'] + "</b>\n<i>" + \
+                       self.all['host'][host]['name_description'] + "</i>"  # Column 1
                 load_img = os.path.join(utils.module_path(), "images/usagebar_5.png")  # Column 2
                 load_txt = ""  # Column 3
                 mem_img = os.path.join(utils.module_path(), "images/usagebar_%s.png" % str(memory_img))  # Column 4
-                net_address = self.all_hosts[host]['address']
+                net_address = self.all['host'][host]['address']
 
                 hosts[host] = position
                 gobject.idle_add(lambda item: list.append(None, item) and False,
@@ -973,7 +973,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
                 position += 1
 
-            for host in self.all_hosts.keys():
+            for host in self.all['host'].keys():
                 Thread(target=self.fill_vm_search, args=(host, list, hosts)).start()
             for i in range(0, 60):
                 if not self.halt_search:
@@ -982,21 +982,21 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def fill_vm_search(self, host, list, hosts):
         rrd_updates = rrdinfo.RRDUpdates("https://%s/rrd_updates?session_id=%s&"
                                          "start=%d&cf=AVERAGE&interval=5&host=true" %
-                                         (self.all_hosts[host]["address"], self.session_uuid, time.time()-600))
+                                         (self.all['host'][host]["address"], self.session_uuid, time.time()-600))
         rrd_updates.refresh()
         for uuid in rrd_updates.get_vm_list():
-            for vm in self.all_vms:
-                if self.all_vms[vm]["uuid"] == uuid:
+            for vm in self.all['vms']:
+                if self.all['vms'][vm]["uuid"] == uuid:
                     break
-            guest_metrics = self.all_vms[vm]['guest_metrics']
+            guest_metrics = self.all['vms'][vm]['guest_metrics']
             ips = []
             with_tools = True
             if guest_metrics != "OpaqueRef:NULL":
-                for vif in self.all_vms[vm]['VIFs']:
-                    if "networks" in self.all_vm_guest_metrics[guest_metrics]:
-                        if self.all_vif[vif]['device'] + "/ip" in self.all_vm_guest_metrics[guest_metrics]['networks']:
-                            if self.all_vm_guest_metrics[guest_metrics]['networks'][self.all_vif[vif]['device'] + "/ip"]:
-                                ips.append(self.all_vm_guest_metrics[guest_metrics]['networks'][self.all_vif[vif]['device'] + "/ip"])
+                for vif in self.all['vms'][vm]['VIFs']:
+                    if "networks" in self.all['VM_guest_metrics'][guest_metrics]:
+                        if self.all['VIF'][vif]['device'] + "/ip" in self.all['VM_guest_metrics'][guest_metrics]['networks']:
+                            if self.all['VM_guest_metrics'][guest_metrics]['networks'][self.all['VIF'][vif]['device'] + "/ip"]:
+                                ips.append(self.all['VM_guest_metrics'][guest_metrics]['networks'][self.all['VIF'][vif]['device'] + "/ip"])
             else:
                 with_tools = False
             cpu = 0
@@ -1058,7 +1058,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 vif_read_max += 0
                         elif param.count("memory_internal_free") > 0:
                             memory = int(rrd_updates.get_vm_data(uuid, param, row))*1024
-                            memory_total = int(self.all_vms[vm]['memory_dynamic_max'])
+                            memory_total = int(self.all['vms'][vm]['memory_dynamic_max'])
                         else:
                             #print str(media/i) + "/" + str(max(data))
                             #print "last: " + str(rrd_updates.get_vm_data(uuid,param,row))
@@ -1077,15 +1077,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             memory_used = "0"
                             memory_img = "0"
             if row:
-                parent = self.all_vms[vm]['resident_on']
+                parent = self.all['vms'][vm]['resident_on']
                 if parent == "OpaqueRef:NULL":
-                    parent = self.all_vms[vm]['affinity']
-                if not self.all_vms[vm]['is_control_domain']:
-                    if self.all_vms[vm]['metrics'] not in self.all_vm_metrics:
-                        self.all_vm_metrics[self.all_vms[vm]['metrics']] = \
+                    parent = self.all['vms'][vm]['affinity']
+                if not self.all['vms'][vm]['is_control_domain']:
+                    if self.all['vms'][vm]['metrics'] not in self.all['VM_metrics']:
+                        self.all['VM_metrics'][self.all['vms'][vm]['metrics']] = \
                             self.connection.VM_metrics.get_record(self.session_uuid,
-                                                                  self.all_vms[vm]['metrics'])['Value']
-                    start_time = self.all_vm_metrics[self.all_vms[vm]['metrics']]['start_time']
+                                                                  self.all['vms'][vm]['metrics'])['Value']
+                    start_time = self.all['VM_metrics'][self.all['vms'][vm]['metrics']]['start_time']
                     uptime = self.humanize_time(self.get_seconds_difference(start_time))
                     if parent != "OpaqueRef:NULL":
                         if int(load_img) > 10:
@@ -1102,8 +1102,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                              and False, hosts[parent],
                                              ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/tree_running_16.png")),
-                                               self.all_vms[vm]['name_label'] + "\n<i>" +
-                                               self.all_vms[vm]['name_description'] + "</i>",
+                                               self.all['vms'][vm]['name_label'] + "\n<i>" +
+                                               self.all['vms'][vm]['name_description'] + "</i>",
                                                gtk.gdk.pixbuf_new_from_file(
                                                    os.path.join(utils.module_path(),
                                                                 "images/usagebar_%s.png" % load_img)),
@@ -1122,8 +1122,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                              and False, hosts[parent],
                                              ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/tree_running_16.png")),
-                                               self.all_vms[vm]['name_label'] + "\n<i>" +
-                                               self.all_vms[vm]['name_description'] + "</i>",
+                                               self.all['vms'][vm]['name_label'] + "\n<i>" +
+                                               self.all['vms'][vm]['name_description'] + "</i>",
                                                gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                             "images/usagebar_%s.png" % load_img)),
                                                load + "% of " + str(cpu) + " cpus",
@@ -1138,7 +1138,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                         list.append(None,
                           ([gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                           "images/tree_running_16.png")),
-                            self.all_vms[vm]['name_label'] + "\n<i>" + self.all_vms[vm]['name_description'] + "</i>",
+                            self.all['vms'][vm]['name_label'] + "\n<i>" + self.all['vms'][vm]['name_description'] + "</i>",
                             gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                             "images/usagebar_%s.png" % load_img)),
                             load + "% of " + str(cpu) + " cpus",
@@ -1152,7 +1152,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             None
                          ]))
                         """
-                        #print  self.all_vms[vm]
+                        #print  self.all['vms'][vm]
                 else:
                     gobject.idle_add(lambda: list.set(list.get_iter(hosts[parent]), 2,
                                                       gtk.gdk.pixbuf_new_from_file(os.path.join(
@@ -1166,35 +1166,35 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def fill_local_storage(self, ref, list):
         list.clear()
         """
-        for pbd in self.all_storage[ref]['PBDs']:
-            print self.all_pbd[pbd]
+        for pbd in self.all['SR'][ref]['PBDs']:
+            print self.all['PBD'][pbd]
         print "*************"
         """
-        if ref in self.all_storage:
-            for vdi in self.all_storage[ref]['VDIs']:
-                pct = (int(self.all_vdi[vdi]['physical_utilisation'])/int(self.all_vdi[vdi]['virtual_size']))*100
-                if self.all_vdi[vdi]['VBDs']:
-                    vbd = self.all_vbd[self.all_vdi[vdi]['VBDs'][0]]
-                    vm = self.all_vms[vbd['VM']]['name_label']
+        if ref in self.all['SR']:
+            for vdi in self.all['SR'][ref]['VDIs']:
+                pct = (int(self.all['VDI'][vdi]['physical_utilisation'])/int(self.all['VDI'][vdi]['virtual_size']))*100
+                if self.all['VDI'][vdi]['VBDs']:
+                    vbd = self.all['VBD'][self.all['VDI'][vdi]['VBDs'][0]]
+                    vm = self.all['vms'][vbd['VM']]['name_label']
                 else:
                     vm = ""
-                if self.all_vdi[vdi]['is_a_snapshot']:
+                if self.all['VDI'][vdi]['is_a_snapshot']:
                     vm += " (snapshot)"
                 #FIXME
-                if self.all_vdi[vdi]['name_label'] != "base copy":
-                    list.append([vdi, self.all_vdi[vdi]['name_label'],
-                                 self.all_vdi[vdi]['name_description'],
-                                 self.convert_bytes(self.all_vdi[vdi]['virtual_size']) +
+                if self.all['VDI'][vdi]['name_label'] != "base copy":
+                    list.append([vdi, self.all['VDI'][vdi]['name_label'],
+                                 self.all['VDI'][vdi]['name_description'],
+                                 self.convert_bytes(self.all['VDI'][vdi]['virtual_size']) +
                                  " (" + str(pct) + "% on disk)", vm])
 
     def fill_vm_storage(self, ref, storage_list):
         self.filter_ref = ref
-        all_vbds = filter(self.filter_vbd_ref, self.all_vbd.values())
+        all_vbds = filter(self.filter_vbd_ref, self.all['VBD'].values())
         storage_list.clear()
-        if ref not in self.all_vms:
+        if ref not in self.all['vms']:
             return
-        for vbd_ref in self.all_vms[ref]['VBDs']:
-            vbd = self.all_vbd[vbd_ref]
+        for vbd_ref in self.all['vms'][ref]['VBDs']:
+            vbd = self.all['VBD'][vbd_ref]
             if vbd['VDI'] != "OpaqueRef:NULL" and vbd['type'] != "CD":
                 if vbd['mode'] == "RW":
                     ro = "False"
@@ -1202,12 +1202,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     ro = "True"
                 if vbd['VDI']:
                     self.filter_vdi = vbd['VDI']
-                    vdi = self.all_vdi[self.filter_vdi_ref()]
+                    vdi = self.all['VDI'][self.filter_vdi_ref()]
                     vdi_name_label = vdi['name_label']
                     vdi_name_description = vdi['name_description']
                     vdi_virtual_size = vdi['virtual_size']
                     vdi_sr = vdi['SR']
-                    sr_name = self.all_storage[vdi_sr]['name_label']
+                    sr_name = self.all['SR'][vdi_sr]['name_label']
                     storage_list.append((vdi_name_label, vdi_name_description,
                                          sr_name, vbd['userdevice'],
                                          self.convert_bytes(vdi_virtual_size),
@@ -1220,7 +1220,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         i = 0
         active = 0
         self.filter_ref = ref
-        all_vbds = filter(self.filter_vbd_ref, self.all_vbd.values())
+        all_vbds = filter(self.filter_vbd_ref, self.all['VBD'].values())
         vmvdi = ""
         for vbd in all_vbds:
             if vbd['type'] == "CD":
@@ -1228,29 +1228,29 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         list.clear()
         list.append(["<empty>", "empty", True, True])
         list.append(["DVD drives", "", False, True])
-        for sr in self.all_storage:
-            if self.all_storage[sr]['type'] == "udev" and self.all_storage[sr]['sm_config']["type"] == "cd":
-                if len(self.all_storage[sr]['VDIs']):
+        for sr in self.all['SR']:
+            if self.all['SR'][sr]['type'] == "udev" and self.all['SR'][sr]['sm_config']["type"] == "cd":
+                if len(self.all['SR'][sr]['VDIs']):
                     i += 1
-                    if self.all_storage[sr]['VDIs'][0] == vmvdi:
+                    if self.all['SR'][sr]['VDIs'][0] == vmvdi:
                             active = i
-                    if self.all_storage[sr]['VDIs'][0] in self.all_vdi:
-                        info = self.all_vdi[self.all_storage[sr]['VDIs'][0]]
+                    if self.all['SR'][sr]['VDIs'][0] in self.all['VDI']:
+                        info = self.all['VDI'][self.all['SR'][sr]['VDIs'][0]]
                         list.append(["\tDVD Drive " + info['location'][-1:],
-                                     self.all_storage[sr]['VDIs'][0], True, False])
+                                     self.all['SR'][sr]['VDIs'][0], True, False])
                     else:
-                        list.append(["\tDVD Drive",  self.all_storage[sr]['VDIs'][0], True, False])
-        for sr in self.all_storage:
-            if self.all_storage[sr]['type'] == "iso":
+                        list.append(["\tDVD Drive",  self.all['SR'][sr]['VDIs'][0], True, False])
+        for sr in self.all['SR']:
+            if self.all['SR'][sr]['type'] == "iso":
 
-                list.append([self.all_storage[sr]['name_label'], sr, False, True])
+                list.append([self.all['SR'][sr]['name_label'], sr, False, True])
                 i += 1
                 isos = {}
-                for vdi in self.all_storage[sr]['VDIs']:
-                    isos[str(self.all_vdi[vdi]['name_label'])] = vdi
+                for vdi in self.all['SR'][sr]['VDIs']:
+                    isos[str(self.all['VDI'][vdi]['name_label'])] = vdi
                 for vdi_ref in sorted(isos):
                     vdi = isos[vdi_ref]
-                    list.append(["\t" + self.all_vdi[vdi]['name_label'], vdi, True, False])
+                    list.append(["\t" + self.all['VDI'][vdi]['name_label'], vdi, True, False])
                     i += 1
                     if vdi == vmvdi:
                         active = i
@@ -1261,22 +1261,22 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def update_tab_storage(self, ref, builder):
         labels = {}
-        labels['lblstgname'] = self.all_storage[ref]['name_label']
-        labels['lblstgdescription'] = self.all_storage[ref]['name_description']
-        labels['lblstgtags'] = ", ".join(self.all_storage[ref]['tags'])
-        stg_other_config = self.all_storage[ref]['other_config']
+        labels['lblstgname'] = self.all['SR'][ref]['name_label']
+        labels['lblstgdescription'] = self.all['SR'][ref]['name_description']
+        labels['lblstgtags'] = ", ".join(self.all['SR'][ref]['tags'])
+        stg_other_config = self.all['SR'][ref]['other_config']
         if "folder" in stg_other_config:
             labels['lblstgfolder'] = stg_other_config['folder']
         else:
             labels['lblstgfolder'] = "<None>"
-        labels['lblstgtype'] = self.all_storage[ref]['type'].upper()
+        labels['lblstgtype'] = self.all['SR'][ref]['type'].upper()
         labels['lblstgsize'] = "%s used of %s total (%s allocated)" % \
-                               (self.convert_bytes(self.all_storage[ref]['physical_utilisation']),
-                                self.convert_bytes(self.all_storage[ref]['physical_size']),
-                                self.convert_bytes(self.all_storage[ref]['virtual_allocation']))
+                               (self.convert_bytes(self.all['SR'][ref]['physical_utilisation']),
+                                self.convert_bytes(self.all['SR'][ref]['physical_size']),
+                                self.convert_bytes(self.all['SR'][ref]['virtual_allocation']))
 
-        if "devserial" in self.all_storage[ref]['sm_config']:
-            devserial = self.all_storage[ref]['sm_config']['devserial'].split("-", 2)
+        if "devserial" in self.all['SR'][ref]['sm_config']:
+            devserial = self.all['SR'][ref]['sm_config']['devserial'].split("-", 2)
             labels['lblstgserial'] = devserial[0].upper() + " ID:"
             if len(devserial) > 1:
                     labels['lblstgscsi'] = devserial[1]
@@ -1287,31 +1287,31 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
         broken = False
         # Fix using PBD and "currently_attached"
-        if len(self.all_storage[ref]['PBDs']) == 0:
+        if len(self.all['SR'][ref]['PBDs']) == 0:
             broken = True
             labels['lblstgstate'] = "<span foreground='red'><b>Detached</b></span>"
             labels['lblstghostcon'] = "<span foreground='red'><b>Connection Missing</b></span>"
         else:
             broken = False
-            for pbd_ref in self.all_storage[ref]['PBDs']:
-                if not self.all_pbd[pbd_ref]['currently_attached']:
+            for pbd_ref in self.all['SR'][ref]['PBDs']:
+                if not self.all['PBD'][pbd_ref]['currently_attached']:
                     labels['lblstgstate'] = "<span foreground='red'><b>Broken</b></span>"
                     labels['lblstghostcon'] = "<span foreground='red'><b>Unplugged</b></span>"
                     broken = True
         if not broken:
-            if len(self.all_storage[ref]['PBDs']) > 0:
+            if len(self.all['SR'][ref]['PBDs']) > 0:
                 labels['lblstgstate'] = "<span foreground='green'><b>OK</b></span>"
                 labels['lblstghostcon'] = "Connected"
             """
-            elif len(self.all_storage[ref]['PBDs']) > 0:
+            elif len(self.all['SR'][ref]['PBDs']) > 0:
                 labels['lblstgstate'] = "<span foreground='red'><b>Dettached</b></span>"
                 labels['lblstghostcon'] = "<span foreground='red'><b>Connection Missing</b></span>"
             """
         labels['lblstghost'] = self.wine.selected_host
-        if len(self.all_storage[ref]['PBDs']) == 0:
+        if len(self.all['SR'][ref]['PBDs']) == 0:
             labels['lblstgmultipath'] = "No"
         else:
-            pbd = self.all_pbd[self.all_storage[ref]['PBDs'][0]]
+            pbd = self.all['PBD'][self.all['SR'][ref]['PBDs'][0]]
             if "multipathed" in pbd['other_config'] and pbd['other_config']["multipathed"] == "true":
                 if "SCSIid" in pbd['device_config']:
                     #{'uuid': '232b7d15-d8cb-e183-3838-dfd33f6bd597', 'SR': 'OpaqueRef:1832f6e1-73fa-b43d-fcd2-bac969abf867', 'other_config': {'mpath-3600a0b8000294d50000045784b85e36f': '[1, 1, -1, -1]', 'multipathed': 'true'}, 'host': 'OpaqueRef:5c0a69d1-7719-946b-7f3c-683a7058338d', 'currently_attached': True, 'device_config': {'SCSIid': '3600a0b8000294d50000045784b85e36f'}}
@@ -1332,22 +1332,22 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             builder.get_object(label).set_label(labels[label])
 
     def is_storage_broken(self, ref):
-        for pbd_ref in self.all_storage[ref]['PBDs']:
-            if not self.all_pbd[pbd_ref]['currently_attached']:
+        for pbd_ref in self.all['SR'][ref]['PBDs']:
+            if not self.all['PBD'][pbd_ref]['currently_attached']:
                 return True
         return False
 
     def update_tab_template(self, ref, builder):
         labels = {}
-        labels['lbltplname'] = self.all_vms[ref]['name_label']
-        labels['lbltpldescription'] = self.all_vms[ref]['name_description']
-        if not self.all_vms[ref]['HVM_boot_policy']:
+        labels['lbltplname'] = self.all['vms'][ref]['name_label']
+        labels['lbltpldescription'] = self.all['vms'][ref]['name_description']
+        if not self.all['vms'][ref]['HVM_boot_policy']:
             labels['lbltplboot'] = "Boot order:"
-            labels["lbltplparameters"] = self.all_vms[ref]['PV_args']
+            labels["lbltplparameters"] = self.all['vms'][ref]['PV_args']
         else:
             labels['lbltplboot'] = "OS boot parameters:"
             labels['lbltplparameters'] = ""
-            for param in list(self.all_vms[ref]['HVM_boot_params']['order']):
+            for param in list(self.all['vms'][ref]['HVM_boot_params']['order']):
                     if param == 'c':
                         labels['lbltplparameters'] += "Hard Disk\n"
                     elif param == 'd':
@@ -1355,26 +1355,26 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     elif param == 'n':
                         labels['lbltplparameters'] += "Network\n"
 
-        other_config = self.all_vms[ref]['other_config']
+        other_config = self.all['vms'][ref]['other_config']
         if "folder" in other_config:
             labels['lbltplfolder'] = other_config['folder']
         else:
             labels['lbltplfolder'] = "<None>"
 
-        labels["lbltplmemory"] = self.convert_bytes(self.all_vms[ref]['memory_dynamic_max'])
+        labels["lbltplmemory"] = self.convert_bytes(self.all['vms'][ref]['memory_dynamic_max'])
 
-        if self.all_vms[ref]['tags']:
-            labels["lbltpltags"] = ", ".join(self.all_vms[ref]['tags'])
+        if self.all['vms'][ref]['tags']:
+            labels["lbltpltags"] = ", ".join(self.all['vms'][ref]['tags'])
         else:
             labels["lbltpltags"] = "<None>"
 
-        labels["lbltplcpu"] = self.all_vms[ref]['VCPUs_at_startup']
+        labels["lbltplcpu"] = self.all['vms'][ref]['VCPUs_at_startup']
         if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
             labels["lbltplautoboot"] = "Yes"
         else:
             labels["lbltplautoboot"] = "No"
 
-        priority = self.all_vms[ref]["VCPUs_params"]
+        priority = self.all['vms'][ref]["VCPUs_params"]
         if "weight" in priority:
             #labels["lbltplpriority"] = priority['weight']
             weight = priority['weight']
@@ -1401,11 +1401,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
         #FIXME
         #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
-        metric = self.all_vms[ref]['metrics']
-        if metric not in self.all_vm_metrics:
+        metric = self.all['vms'][ref]['metrics']
+        if metric not in self.all['VM_metrics']:
             res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
             if "Value" in res:
-                self.all_vm_metrics[ref] = res["Value"]
+                self.all['VM_metrics'][ref] = res["Value"]
 
         for label in labels.keys():
             builder.get_object(label).set_label(labels[label])
@@ -1413,15 +1413,15 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def update_tab_host_general(self, ref, builder):
         labels = {}
-        software_version = self.all_hosts[ref]['software_version']
-        license_params = self.all_hosts[ref]['license_params']
-        labels['lblhostname'] = self.all_hosts[ref]['name_label']
-        labels['lblhostdescription'] = self.all_hosts[ref]['name_description']
-        if len(self.all_hosts[ref]['tags']) == 0:
+        software_version = self.all['host'][ref]['software_version']
+        license_params = self.all['host'][ref]['license_params']
+        labels['lblhostname'] = self.all['host'][ref]['name_label']
+        labels['lblhostdescription'] = self.all['host'][ref]['name_description']
+        if len(self.all['host'][ref]['tags']) == 0:
             labels['lblhosttags'] = '<None>'
         else:
-            labels['lblhosttags'] = ", ".join(self.all_hosts[ref]['tags'])
-        host_other_config = self.all_hosts[ref]['other_config']
+            labels['lblhosttags'] = ", ".join(self.all['host'][ref]['tags'])
+        host_other_config = self.all['host'][ref]['other_config']
         if "folder" in host_other_config:
             labels['lblhostfolder'] = host_other_config['folder']
         else:
@@ -1435,7 +1435,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         labels['lblhostpool'] = ""
         #str(self.connection.session.get_pool(
         #             self.session_uuid, self.session['Value'])['Value'])
-        logging = self.all_hosts[ref]['logging']
+        logging = self.all['host'][ref]['logging']
         if "syslog_destination" in logging:
             labels['lblhostlog'] = logging['syslog_destination']
         else:
@@ -1445,20 +1445,20 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         tool_boot_time = self.humanize_time(time.time() - int(host_other_config['agent_start_time'][:-1]))
         labels['lblhostuptime'] = boot_time
         labels['lblhosttooluptime'] = tool_boot_time
-        labels['lblhostuuid'] = self.all_hosts[ref]['uuid']
-        labels['lblhostdns'] = self.all_hosts[ref]['hostname']
-        labels['lblhostprimary'] = self.all_hosts[ref]['address']
-        resident_vms = self.all_hosts[ref]['resident_VMs']
+        labels['lblhostuuid'] = self.all['host'][ref]['uuid']
+        labels['lblhostdns'] = self.all['host'][ref]['hostname']
+        labels['lblhostprimary'] = self.all['host'][ref]['address']
+        resident_vms = self.all['host'][ref]['resident_VMs']
         host_vms_memory = []
         for resident_vm_uuid in resident_vms:
-            if self.all_vms[resident_vm_uuid]['is_control_domain']:
-                host_memory = self.all_vms[resident_vm_uuid]['memory_target']
+            if self.all['vms'][resident_vm_uuid]['is_control_domain']:
+                host_memory = self.all['vms'][resident_vm_uuid]['memory_target']
             else:
-                host_vms_memory.append(self.all_vms[resident_vm_uuid]['name_label']
+                host_vms_memory.append(self.all['vms'][resident_vm_uuid]['name_label']
                                        + ": using " +
-                                       self.convert_bytes(self.all_vms[resident_vm_uuid]['memory_dynamic_max']))
-        host_metrics_uuid = self.all_hosts[ref]['metrics']
-        host_metrics = self.all_host_metrics[host_metrics_uuid]
+                                       self.convert_bytes(self.all['vms'][resident_vm_uuid]['memory_dynamic_max']))
+        host_metrics_uuid = self.all['host'][ref]['metrics']
+        host_metrics = self.all['host_metrics'][host_metrics_uuid]
         labels['lblhostmemserver'] = "%s free of %s available (%s total)" % \
                                      (self.convert_bytes(host_metrics['memory_free']),
                                       self.convert_bytes(int(host_metrics['memory_total']) - int(host_memory)),
@@ -1473,21 +1473,21 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         labels['lblhostlicserver'] = license_params['sku_marketing_name']
         labels['lblhostliccode'] = license_params['productcode']
         labels['lblhostlicserial'] = license_params['serialnumber']
-        host_cpus = self.all_hosts[ref]['host_CPUs']
+        host_cpus = self.all['host'][ref]['host_CPUs']
         cpus = []
         for host_cpu_uuid in host_cpus:
             cpus.append("Vendor: %s\nModel: %s\nSpeed: %s" % (
-                self.all_host_cpu[host_cpu_uuid]['vendor'],
-                self.all_host_cpu[host_cpu_uuid]['modelname'],
-                self.all_host_cpu[host_cpu_uuid]['speed']))
+                self.all['host_cpu'][host_cpu_uuid]['vendor'],
+                self.all['host_cpu'][host_cpu_uuid]['modelname'],
+                self.all['host_cpu'][host_cpu_uuid]['speed']))
 
         labels['lblhostcpus'] = '\n'.join(cpus)
 
-        host_patchs = self.all_hosts[ref]['patches']
+        host_patchs = self.all['host'][ref]['patches']
         patchs = []
         for host_cpu_patch in host_patchs:
-            pool_patch = self.all_host_patch[host_cpu_patch]['pool_patch']
-            patchs.append(self.all_pool_patch[pool_patch]['name_label'])
+            pool_patch = self.all['host_patch'][host_cpu_patch]['pool_patch']
+            patchs.append(self.all['pool_patch'][pool_patch]['name_label'])
 
         labels['lblhostpatchs'] = '\n'.join(sorted(patchs))
 
@@ -1500,13 +1500,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def update_tab_pool_general(self, ref, builder):
         labels = {}
-        if ref not in self.all_pools:
+        if ref not in self.all['pool']:
             return
-        labels["lblpoolname"] = self.all_pools[ref]['name_label']
-        labels["lblpooldescription"] = self.all_pools[ref]['name_description']
-        other_config = self.all_pools[ref]['other_config']
-        if self.all_pools[ref]['tags']:
-            labels["lblpooltags"] = ", ".join(self.all_pools[ref]['tags'])
+        labels["lblpoolname"] = self.all['pool'][ref]['name_label']
+        labels["lblpooldescription"] = self.all['pool'][ref]['name_description']
+        other_config = self.all['pool'][ref]['other_config']
+        if self.all['pool'][ref]['tags']:
+            labels["lblpooltags"] = ", ".join(self.all['pool'][ref]['tags'])
         else:
             labels["lblpooltags"] = "<None>"
         if "folder" in other_config:
@@ -1516,18 +1516,18 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
         fullpatchs = []
         partialpatchs = []
-        for patch in self.all_pool_patch:
+        for patch in self.all['pool_patch']:
             hosts = {}
-            for host_patch in self.all_pool_patch[patch]["host_patches"]:
-                host = self.all_host_patch[host_patch]["host"]
+            for host_patch in self.all['pool_patch'][patch]["host_patches"]:
+                host = self.all['host_patch'][host_patch]["host"]
                 if host not in hosts:
                     hosts[host] = []
 
-                hosts[host] += self.all_pool_patch[patch]["host_patches"]
-            if hosts.keys() == self.all_hosts.keys():
-                fullpatchs.append(self.all_pool_patch[patch]["name_label"])
+                hosts[host] += self.all['pool_patch'][patch]["host_patches"]
+            if hosts.keys() == self.all['host'].keys():
+                fullpatchs.append(self.all['pool_patch'][patch]["name_label"])
             else:
-                partialpatchs.append(self.all_pool_patch[patch]["name_label"])
+                partialpatchs.append(self.all['pool_patch'][patch]["name_label"])
 
         labels["lblpoolfullpatchs"] = '\n'.join(sorted(fullpatchs))
         labels["lblpoolpartialpatchs"] = '\n'.join(sorted(partialpatchs))
@@ -1544,31 +1544,31 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def update_tab_vm_general(self, ref, builder):
         self.builder = builder
         labels = {}
-        if ref in self.all_vms:
-            metric = self.all_vms[ref]['metrics']
-            metric_guest = self.all_vms[ref]['guest_metrics']
-            labels["lblvmname"] = self.all_vms[ref]['name_label']
-            labels["lblvmdescription"] = self.all_vms[ref]['name_description']
-            labels["lblvmuuid"] = self.all_vms[ref]['uuid']
-            labels["lblvmmemory"] = self.convert_bytes(self.all_vms[ref]['memory_dynamic_max'])
-            if self.all_vms[ref]['tags']:
-                labels["lblvmtags"] = ", ".join(self.all_vms[ref]['tags'])
+        if ref in self.all['vms']:
+            metric = self.all['vms'][ref]['metrics']
+            metric_guest = self.all['vms'][ref]['guest_metrics']
+            labels["lblvmname"] = self.all['vms'][ref]['name_label']
+            labels["lblvmdescription"] = self.all['vms'][ref]['name_description']
+            labels["lblvmuuid"] = self.all['vms'][ref]['uuid']
+            labels["lblvmmemory"] = self.convert_bytes(self.all['vms'][ref]['memory_dynamic_max'])
+            if self.all['vms'][ref]['tags']:
+                labels["lblvmtags"] = ", ".join(self.all['vms'][ref]['tags'])
             else:
                 labels["lblvmtags"] = "<None>"
-            labels["lblvmcpu"] = self.all_vms[ref]['VCPUs_at_startup']
-            other_config = self.all_vms[ref]['other_config']
+            labels["lblvmcpu"] = self.all['vms'][ref]['VCPUs_at_startup']
+            other_config = self.all['vms'][ref]['other_config']
             if "auto_poweron" in other_config and other_config["auto_poweron"] == "true":
                 labels["lblvmautoboot"] = "Yes"
             else:
                 labels["lblvmautoboot"] = "No"
 
-            if not self.all_vms[ref]['HVM_boot_policy']:
+            if not self.all['vms'][ref]['HVM_boot_policy']:
                 labels['lblvmboot'] = "OS boot parameters:"
-                labels["lblvmparameters"] = self.all_vms[ref]['PV_args']
+                labels["lblvmparameters"] = self.all['vms'][ref]['PV_args']
             else:
                 labels['lblvmboot'] = "Boot order:"
                 labels['lblvmparameters'] = ""
-                for param in list(self.all_vms[ref]['HVM_boot_params']['order']):
+                for param in list(self.all['vms'][ref]['HVM_boot_params']['order']):
                         if param == 'c':
                             labels['lblvmparameters'] += "Hard Disk\n"
                         elif param == 'd':
@@ -1576,7 +1576,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                         elif param == 'n':
                             labels['lblvmparameters'] += "Network\n"
 
-            priority = self.all_vms[ref]["VCPUs_params"]
+            priority = self.all['vms'][ref]["VCPUs_params"]
             if "weight" in priority:
                 weight = int(priority['weight'])
                 if weight == 1:
@@ -1602,23 +1602,23 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
             #FIXME
             #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
-            metric = self.all_vms[ref]['metrics']
-            if metric not in self.all_vm_metrics:
+            metric = self.all['vms'][ref]['metrics']
+            if metric not in self.all['VM_metrics']:
                 res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
                 if "Value" in res:
-                    self.all_vm_metrics[ref] = res["Value"]
+                    self.all['VM_metrics'][ref] = res["Value"]
 
-            if metric in self.all_vm_metrics:
-                if self.all_vm_metrics[metric]['start_time'] != "19700101T00:00:00Z":
-                    startup = self.humanize_time(self.get_seconds_difference(self.all_vm_metrics[metric]['start_time']))
+            if metric in self.all['VM_metrics']:
+                if self.all['VM_metrics'][metric]['start_time'] != "19700101T00:00:00Z":
+                    startup = self.humanize_time(self.get_seconds_difference(self.all['VM_metrics'][metric]['start_time']))
                     labels["lblvmstartup"] = startup
                 else:
                     labels["lblvmstartup"] = "never started up"
             else:
                 labels["lblvmstartup"] = ""
             labels['lblvmdistro'] = ""
-            if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all_vm_guest_metrics:
-                guest_metrics = self.all_vm_guest_metrics[metric_guest]
+            if metric_guest != "OpaqueRef:NULL" and metric_guest in self.all['VM_guest_metrics']:
+                guest_metrics = self.all['VM_guest_metrics'][metric_guest]
                 if "PV_drivers_up_to_date" in guest_metrics and guest_metrics['PV_drivers_up_to_date']:
                     state = "Optimized"
                 else:
@@ -1669,7 +1669,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             self.connection.VM.set_is_a_template(self.session_uuid, ref, True)
 
     def get_actions(self, ref):
-        return self.all_vms[ref]['allowed_operations']
+        return self.all['vms'][ref]['allowed_operations']
 
     def get_connect_string(self, ref):
         #FIXME
@@ -1754,8 +1754,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     for event in eventn["Value"]:
                         if event['class'] == "vm":
                             if event['operation'] == "add":
-                                self.all_vms[event["ref"]] = event['snapshot']
-                                if not self.all_vms[event["ref"]]["is_a_snapshot"]:
+                                self.all['vms'][event["ref"]] = event['snapshot']
+                                if not self.all['vms'][event["ref"]]["is_a_snapshot"]:
                                     gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
                                 else:
                                     gobject.idle_add(lambda: self.fill_vm_snapshots(
@@ -1781,17 +1781,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 # Perfect -> set now import_ref to event["ref"]
                                 self.import_ref = event["ref"]
                             elif event['operation'] == "del":
-                                if not self.all_vms[event["ref"]]["is_a_snapshot"]:
+                                if not self.all['vms'][event["ref"]]["is_a_snapshot"]:
                                     self.found_iter = None
                                     self.treestore.foreach(self.search_ref, event["ref"])
                                     if self.found_iter:
                                         gobject.idle_add(lambda: self.treestore.remove(self.found_iter) and False)
-                                    del self.all_vms[event["ref"]]
+                                    del self.all['vms'][event["ref"]]
                                 else:
                                     gobject.idle_add(lambda: self.fill_vm_snapshots(
                                         self.wine.selected_ref, self.wine.builder.get_object("treevmsnapshots"),
                                         self.wine.builder.get_object("listvmsnapshots")) and False)
-                                    del self.all_vms[event["ref"]]
+                                    del self.all['vms'][event["ref"]]
 
                             else:
                                 filter_uuid = event['snapshot']['uuid']
@@ -1799,8 +1799,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 if vm_id:
                                     # make into a template
                                     if event['snapshot']['is_a_template'] != \
-                                            self.all_vms[vm_id]['is_a_template']:
-                                        self.all_vms[vm_id] = event['snapshot']
+                                            self.all['vms'][vm_id]['is_a_template']:
+                                        self.all['vms'][vm_id] = event['snapshot']
                                         self.found_iter = None
                                         self.treestore.foreach(self.search_ref, event["ref"])
                                         if self.found_iter and event['snapshot']['is_a_template']:
@@ -1812,35 +1812,35 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                             gobject.idle_add(lambda: self.wine.update_tabs() and False)
                                     else:
                                         if event['snapshot']['resident_on'] != \
-                                                self.all_vms[vm_id]['resident_on']:
+                                                self.all['vms'][vm_id]['resident_on']:
                                             self.found_iter = None
                                             gobject.idle_add(lambda: self.treestore.foreach(self.search_ref,
                                                                                             event["ref"]) and False)
                                             if self.found_iter:
                                                 gobject.idle_add(lambda: self.treestore.remove(self.found_iter)
                                                                  and False)
-                                                self.all_vms[vm_id] = event['snapshot']
+                                                self.all['vms'][vm_id] = event['snapshot']
                                                 gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"] and False))
 
                                         if event['snapshot']['affinity'] != \
-                                                self.all_vms[vm_id]['affinity']:
+                                                self.all['vms'][vm_id]['affinity']:
                                             print "migrate or start on or resume on2"
-                                        self.all_vms[vm_id] = event['snapshot']
+                                        self.all['vms'][vm_id] = event['snapshot']
                                 else:
                                     if event["ref"] in self.track_tasks:
-                                        self.all_vms[self.track_tasks[event["ref"]]] = event['snapshot']
+                                        self.all['vms'][self.track_tasks[event["ref"]]] = event['snapshot']
 
                                     else:
-                                        self.all_vms[event["ref"]] = event['snapshot']
-                                self.all_vms[event["ref"]] = event['snapshot']
+                                        self.all['vms'][event["ref"]] = event['snapshot']
+                                self.all['vms'][event["ref"]] = event['snapshot']
                                 self.treestore.foreach(self.update_vm_status, filter_uuid)
                                 gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
                         elif event['class'] == "vm_guest_metrics":
-                            self.all_vm_guest_metrics[event['ref']] = \
+                            self.all['VM_guest_metrics'][event['ref']] = \
                                 self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
                         elif event['class'] == "task":
                             #print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
-                            self.all_tasks[event["ref"]] = event["snapshot"]
+                            self.all['task'][event["ref"]] = event["snapshot"]
                             if event["ref"] not in self.track_tasks:
                                 #print event
                                 #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
@@ -1852,10 +1852,10 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     self.vboxchildcancel[event["ref"]].hide()
                             if event["snapshot"]["error_info"]:
                                 if event["ref"] in self.track_tasks:
-                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                    if self.track_tasks[event["ref"]] in self.all['vms']:
                                         gobject.idle_add(lambda: self.wine.push_error_alert(
                                             "%s %s %s" % (event["snapshot"]["name_label"],
-                                                          self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                          self.all['vms'][self.track_tasks[event["ref"]]]["name_label"],
                                                           event["snapshot"]["error_info"])) and False)
                                         eref = event["ref"]
                                         if eref in self.vboxchildcancel:
@@ -1873,32 +1873,32 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                         event["snapshot"]["error_info"])) and False)
                             else:
                                 if event["ref"] in self.track_tasks:
-                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                    if self.track_tasks[event["ref"]] in self.all['vms']:
                                         if event["snapshot"]["status"] == "success":
                                             gobject.idle_add(lambda: self.wine.push_alert(
                                                 "%s %s completed" % (
                                                     event["snapshot"]["name_label"],
-                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"]))
+                                                    self.all['vms'][self.track_tasks[event["ref"]]]["name_label"]))
                                                 and False)
                                         else:
                                             gobject.idle_add(lambda: self.wine.push_alert(
                                                 "%s %s %s" % (
                                                     event["snapshot"]["name_label"],
-                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                    self.all['vms'][self.track_tasks[event["ref"]]]["name_label"],
                                                     (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
                                                 and False)
                                     else:
                                         vm = self.connection.VM.get_record(self.session_uuid,
                                                                            self.track_tasks[event["ref"]])
                                         if "Value" in vm:
-                                            self.all_vms[self.track_tasks[event["ref"]]] = vm['Value']
+                                            self.all['vms'][self.track_tasks[event["ref"]]] = vm['Value']
                                             #self.add_vm_to_tree(self.track_tasks[event["ref"]])
                                             gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
                                             gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
                                             gobject.idle_add(lambda: self.wine.push_alert(
                                                 "%s %s %s" % (
                                                     event["snapshot"]["name_label"],
-                                                    self.all_vms[self.track_tasks[event["ref"]]]["name_label"],
+                                                    self.all['vms'][self.track_tasks[event["ref"]]]["name_label"],
                                                     (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
                                                 and False)
                                         else:
@@ -1940,23 +1940,23 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     # TODO
                                     # Detect VM with event["ref"]
                                     if event["ref"] in self.track_tasks and self.track_tasks[event["ref"]] in \
-                                            self.all_vms:
-                                        for vbd in self.all_vms[self.track_tasks[event["ref"]]]['VBDs']:
-                                            self.all_storage[vbd] = self.connection.VBD.get_record(self.session_uuid,
+                                            self.all['vms']:
+                                        for vbd in self.all['vms'][self.track_tasks[event["ref"]]]['VBDs']:
+                                            self.all['SR'][vbd] = self.connection.VBD.get_record(self.session_uuid,
                                                                                                    vbd)['Value']
-                                        for vif in self.all_vms[self.track_tasks[event["ref"]]]['VIFs']:
-                                            self.all_vif[vif] = self.connection.VIF.get_record(self.session_uuid,
+                                        for vif in self.all['vms'][self.track_tasks[event["ref"]]]['VIFs']:
+                                            self.all['VIF'][vif] = self.connection.VIF.get_record(self.session_uuid,
                                                                                                vif)['Value']
                                     if vm_id is not None:
-                                        self.all_vms[vm_id]['allowed_operations'] = \
+                                        self.all['vms'][vm_id]['allowed_operations'] = \
                                             self.connection.VM.get_allowed_operations(self.session_uuid,
                                                                                       vm_id)['Value']
                                     else:
                                         if event["ref"] in self.track_tasks:
-                                            self.all_vms[self.track_tasks[event["ref"]]]['allowed_operations'] = \
+                                            self.all['vms'][self.track_tasks[event["ref"]]]['allowed_operations'] = \
                                                 self.connection.VM.get_allowed_operations(
                                                     self.session_uuid, self.track_tasks[event["ref"]])['Value']
-                                            if self.all_vms[self.track_tasks[event["ref"]]][
+                                            if self.all['vms'][self.track_tasks[event["ref"]]][
                                                'allowed_operations'].count("start"):
                                                 if self.track_tasks[event["ref"]] in self.autostart:
                                                     host_start = self.autostart[self.track_tasks[event["ref"]]]
@@ -1969,17 +1969,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                         print res
                                 if event["snapshot"]["name_label"] == "Async.VM.snapshot":
                                     self.filter_uuid = event['snapshot']['uuid']
-                                    if self.track_tasks[event["ref"]] in self.all_vms:
+                                    if self.track_tasks[event["ref"]] in self.all['vms']:
                                         vm_uuid = self.track_tasks[event["ref"]]
                                         dom = xml.dom.minidom.parseString(event['snapshot']['result'])
                                         nodes = dom.getElementsByTagName("value")
                                         snapshot_ref = nodes[0].childNodes[0].data
-                                        #self.all_vms[vm_uuid]['snapshots'].append(snapshot_ref)
-                                        self.all_vms[snapshot_ref] = self.connection.VM.get_record(
+                                        #self.all['vms'][vm_uuid]['snapshots'].append(snapshot_ref)
+                                        self.all['vms'][snapshot_ref] = self.connection.VM.get_record(
                                             self.session_uuid, snapshot_ref)['Value']
-                                        for vbd in self.all_vms[snapshot_ref]['VBDs']:
+                                        for vbd in self.all['vms'][snapshot_ref]['VBDs']:
                                             #FIXME
-                                            self.all_vbd[vbd] = self.connection.VBD.get_record(
+                                            self.all['VBD'][vbd] = self.connection.VBD.get_record(
                                                 self.session_uuid, vbd)['Value']
 
                                         if self.track_tasks[event["ref"]] == self.wine.selected_ref and \
@@ -2068,7 +2068,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                         pass
 
                         elif event["class"] == "vdi":
-                            self.all_vdi[event["ref"]] = event["snapshot"]
+                            self.all['VDI'][event["ref"]] = event["snapshot"]
                             if self.wine.selected_tab == "Local_Storage":
                                 liststg = self.wine.builder.get_object("liststg")
                                 gobject.idle_add(lambda: self.fill_local_storage(self.wine.selected_ref, liststg)
@@ -2079,34 +2079,34 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     self.wine.builder.get_object("listvmstorage")) and False)
 
                         elif event["class"] == "vbd":
-                            self.all_vbd[event["ref"]] = event["snapshot"]
+                            self.all['VBD'][event["ref"]] = event["snapshot"]
                             """
                             if event["snapshot"]["allowed_operations"].count("attach") == 1:
                                 self.last_vbd = event["ref"]
                             """
                         elif event["class"] == "pif":
-                            self.all_pif[event["ref"]] = event["snapshot"]
+                            self.all['PIF'][event["ref"]] = event["snapshot"]
                             if self.wine.selected_tab == "HOST_Nics":
                                 gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
                         elif event["class"] == "bond":
                             if event["operation"] == "del":
-                                del self.all_bond[event["ref"]]
+                                del self.all['Bond'][event["ref"]]
                             else:
-                                self.all_bond[event["ref"]] = event["snapshot"]
+                                self.all['Bond'][event["ref"]] = event["snapshot"]
                             if self.wine.selected_tab == "HOST_Nics":
                                 gobject.idle_add(lambda: self.wine.update_tab_host_nics() and False)
 
                         elif event["class"] == "vif":
                             if event["operation"] == "del":
-                                del self.all_vif[event["ref"]]
+                                del self.all['VIF'][event["ref"]]
                             else:
                                 if event["operation"] == "add":
                                     self.connection.VIF.plug(self.session_uuid, event["ref"])
-                                self.all_vif[event["ref"]] = event["snapshot"]
+                                self.all['VIF'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "sr":
                             self.filter_uuid = event['snapshot']['uuid']
-                            self.all_storage[event["ref"]] = event["snapshot"]
+                            self.all['SR'][event["ref"]] = event["snapshot"]
                             self.treestore.foreach(self.update_storage_status, "")
                             if event["operation"] == "del":
                                 self.filter_uuid = event['snapshot']['uuid']
@@ -2114,26 +2114,26 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             if event["operation"] == "add":
                                 sr = event["ref"]
                                 # FIXME
-                                host = self.all_hosts.keys()[0]
+                                host = self.all['host'].keys()[0]
                                 if self.poolroot:
                                     #iter_ref = self.treestore.append(self.poolroot, [\
                                     gobject.idle_add(lambda: self.treestore.append(self.poolroot, [
                                         gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
-                                        self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
-                                        "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'],
+                                        self.all['SR'][sr]['name_label'], self.all['SR'][sr]['uuid'],
+                                        "storage", None, self.host, sr, self.all['SR'][sr]['allowed_operations'],
                                         None]) and False)
                                 else:
                                     #iter_ref = self.treestore.append(self.hostroot[host], [\
                                     gobject.idle_add(lambda: self.treestore.append(self.hostroot[host], [
                                         gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
-                                        self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
-                                        "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'],
+                                        self.all['SR'][sr]['name_label'], self.all['SR'][sr]['uuid'],
+                                        "storage", None, self.host, sr, self.all['SR'][sr]['allowed_operations'],
                                         None]) and False)
 
                         elif event["class"] == "pool":
-                            if self.all_pools[event["ref"]]['name_label'] != event["snapshot"]["name_label"]:
+                            if self.all['pool'][event["ref"]]['name_label'] != event["snapshot"]["name_label"]:
                                 if self.poolroot:
                                     gobject.idle_add(lambda: self.wine.treestore.remove(self.poolroot) and False)
                                 else:
@@ -2142,11 +2142,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                          and False)
 
                                 self.sync()
-                            if self.all_pools[event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
+                            if self.all['pool'][event["ref"]]['default_SR'] != event["snapshot"]["default_SR"]:
                                 self.treestore.foreach(self.update_default_sr,
-                                                       [self.all_pools[event["ref"]]['default_SR'],
+                                                       [self.all['pool'][event["ref"]]['default_SR'],
                                                         event["snapshot"]["default_SR"]])
-                            self.all_pools[event["ref"]] = event["snapshot"]
+                            self.all['pool'][event["ref"]] = event["snapshot"]
                             if self.wine.selected_type == "pool":
                                 self.update_tab_pool_general(self.wine.selected_ref, self.wine.builder)
                         elif event["class"] == "message":
@@ -2159,57 +2159,57 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             else:
                                 print event
                         elif event["class"] == "vm_guest_metrics":
-                            self.all_vm_guest_metrics[event["ref"]] = event["snapshot"]
+                            self.all['VM_guest_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "network":
                             if event["operation"] == "del":
-                                del self.all_network[event["ref"]]
+                                del self.all['network'][event["ref"]]
                             else:
-                                self.all_network[event["ref"]] = event["snapshot"]
+                                self.all['network'][event["ref"]] = event["snapshot"]
                             if self.wine.selected_tab == "HOST_Network":
                                 gobject.idle_add(lambda: self.wine.update_tab_host_network() and False)
                         elif event["class"] == "vlan":
                             if event["operation"] == "del":
-                                if event["ref"] in self.all_vlan:
-                                    del self.all_vlan[event["ref"]]
-                            self.all_vlan[event["ref"]] = event["snapshot"]
+                                if event["ref"] in self.all['vlan']:
+                                    del self.all['vlan'][event["ref"]]
+                            self.all['vlan'][event["ref"]] = event["snapshot"]
 
                         elif event["class"] == "host":
                             if event["operation"] == "del":
                                 self.filter_uuid = event['snapshot']['uuid']
                                 self.treestore.foreach(self.delete_host, "")
-                                del self.all_hosts[event["ref"]]
+                                del self.all['host'][event["ref"]]
 
                             elif event["operation"] == "add":
-                                self.all_hosts[event["ref"]] = event["snapshot"]
+                                self.all['host'][event["ref"]] = event["snapshot"]
                                 self.wine.show_error_dlg("Host added, please reconnect for sync all info")
                             else:
                                 self.filter_uuid = event['snapshot']['uuid']
-                                self.all_hosts[event["ref"]] = event["snapshot"]
+                                self.all['host'][event["ref"]] = event["snapshot"]
                                 self.treestore.foreach(self.update_host_status, "")
                         elif event["class"] == "pif_metrics":
-                            self.all_pif_metrics[event["ref"]] = event["snapshot"]
+                            self.all['PIF_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "host_metrics":
-                            self.all_host_metrics[event["ref"]] = event["snapshot"]
+                            self.all['host_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "vbd_metrics":
-                            self.all_vbd_metrics[event["ref"]] = event["snapshot"]
+                            self.all['VBD_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "vif_metrics":
-                            self.all_vif_metrics[event["ref"]] = event["snapshot"]
+                            self.all['VIF_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "vm_metrics":
-                            self.all_vm_metrics[event["ref"]] = event["snapshot"]
+                            self.all['VM_metrics'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "console":
-                            self.all_console[event["ref"]] = event["snapshot"]
+                            self.all['console'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "host_patch":
                             if event["operation"] == "del":
-                                del self.all_host_patch[event["ref"]]
+                                del self.all['host_patch'][event["ref"]]
                             else:
-                                self.all_host_patch[event["ref"]] = event["snapshot"]
+                                self.all['host_patch'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "pool_patch":
                             if event["operation"] == "del":
-                                del self.all_pool_patch[event["ref"]]
+                                del self.all['pool_patch'][event["ref"]]
                             else:
-                                self.all_pool_patch[event["ref"]] = event["snapshot"]
+                                self.all['pool_patch'][event["ref"]] = event["snapshot"]
                         elif event["class"] == "pbd":
-                            self.all_pbd[event["ref"]] = event["snapshot"]
+                            self.all['PBD'][event["ref"]] = event["snapshot"]
                             if event["operation"] == "add":
                                 sr = event["snapshot"]["SR"]
                                 host = event["snapshot"]["host"]
@@ -2217,11 +2217,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     self.hostroot[host], self.last_storage_iter,
                                     [gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                "images/storage_shaped_16.png")),
-                                     self.all_storage[sr]['name_label'], self.all_storage[sr]['uuid'],
-                                     "storage", None, self.host, sr, self.all_storage[sr]['allowed_operations'], None])
+                                     self.all['SR'][sr]['name_label'], self.all['SR'][sr]['uuid'],
+                                     "storage", None, self.host, sr, self.all['SR'][sr]['allowed_operations'], None])
                                     and False)
                         elif event["class"] == "host_cpu":
-                            self.all_host_cpu[event["ref"]] = event["snapshot"]
+                            self.all['host_cpu'][event["ref"]] = event["snapshot"]
                         else:
                             print event["class"] + " => ", event
             except socket, msg:
@@ -2253,12 +2253,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 utils.module_path(), "images/storage_default_16.png"))) and False)
             self.default_sr = sr
         if sr == user_data[0] or sr == user_data[1]:
-            if len(self.all_storage[sr]['PBDs']) == 0:
+            if len(self.all['SR'][sr]['PBDs']) == 0:
                 gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
                     os.path.join(utils.module_path(), "images/storage_detached_16.png"))) and False)
             broken = False
-            for pbd_ref in self.all_storage[sr]['PBDs']:
-                if not self.all_pbd[pbd_ref]['currently_attached']:
+            for pbd_ref in self.all['SR'][sr]['PBDs']:
+                if not self.all['PBD'][pbd_ref]['currently_attached']:
                     broken = True
                     gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
                         os.path.join(utils.module_path(), "images/storage_broken_16.png"))) and False)
@@ -2268,7 +2268,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def update_vm_status(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == user_data:
-            vm = self.all_vms[self.vm_filter_uuid(user_data)]
+            vm = self.all['vms'][self.vm_filter_uuid(user_data)]
             if not vm["is_a_template"]:
                 gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, vm['name_label']) and False)
                 if len(vm["current_operations"]):
@@ -2293,7 +2293,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def update_storage_status(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
-            storage = self.all_storage[self.storage_filter_uuid()]
+            storage = self.all['SR'][self.storage_filter_uuid()]
             gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, storage['name_label']) and False)
             if self.wine.selected_ref == self.treestore.get_value(iter_ref, 6):
                 gobject.idle_add(lambda: self.wine.update_tabs() and False)
@@ -2302,12 +2302,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 gobject.idle_add(lambda: self.wine.builder.get_object("headlabel").set_label(
                     self.treestore.get_value(iter_ref,  1)) and False)
             sr = self.treestore.get_value(iter_ref, 6)
-            if len(self.all_storage[sr]['PBDs']) == 0:
+            if len(self.all['SR'][sr]['PBDs']) == 0:
                 gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
                     os.path.join(utils.module_path(), "images/storage_detached_16.png"))) and False)
             broken = False
-            for pbd_ref in self.all_storage[sr]['PBDs']:
-                if not self.all_pbd[pbd_ref]['currently_attached']:
+            for pbd_ref in self.all['SR'][sr]['PBDs']:
+                if not self.all['PBD'][pbd_ref]['currently_attached']:
                     broken = True
                     gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  0, gtk.gdk.pixbuf_new_from_file(
                         os.path.join(utils.module_path(), "images/storage_broken_16.png"))) and False)
@@ -2322,7 +2322,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def update_host_status(self, model, path, iter_ref, user_data):
         if self.treestore.get_value(iter_ref, 2) == self.filter_uuid:
                 if self.treestore.get_value(iter_ref, 1):
-                    host = self.all_hosts[self.host_filter_uuid()]
+                    host = self.all['host'][self.host_filter_uuid()]
                     gobject.idle_add(lambda: self.treestore.set_value(iter_ref,  1, host['name_label']) and False)
                     if host["enabled"]:
                         gobject.idle_add(lambda: self.treestore.set_value(iter_ref, 0,  gtk.gdk.pixbuf_new_from_file(
@@ -2347,14 +2347,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         return item["obj_uuid"] == self.filter_uuid
 
     def task_filter_uuid(self, item_ref):
-        if item_ref in self.all_tasks:
-            item = self.all_tasks[item_ref]
+        if item_ref in self.all['task']:
+            item = self.all['task'][item_ref]
             if item_ref in self.track_tasks:
-                if self.track_tasks[item_ref] in self.all_vms:
-                    return self.all_vms[self.track_tasks[item_ref]]["uuid"] == self.filter_uuid
+                if self.track_tasks[item_ref] in self.all['vms']:
+                    return self.all['vms'][self.track_tasks[item_ref]]["uuid"] == self.filter_uuid
                     #return True
-            if "ref" in item and item["ref"] in self.track_tasks and self.track_tasks[item["ref"]] in self.all_vms:
-                return self.all_vms[self.track_tasks[item["ref"]]]["uuid"] == self.filter_uuid
+            if "ref" in item and item["ref"] in self.track_tasks and self.track_tasks[item["ref"]] in self.all['vms']:
+                return self.all['vms'][self.track_tasks[item["ref"]]]["uuid"] == self.filter_uuid
             else:
                 if "resident_on" in item:
                     return item["resident_on"] == self.filter_ref
@@ -2377,8 +2377,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         return item["VM"] == self.filter_ref
 
     def filter_vbd_uuid(self, uuid):
-        for vbd in self.all_vbd:
-            if self.all_vbd[vbd]["uuid"] == uuid:
+        for vbd in self.all['VBD']:
+            if self.all['VBD'][vbd]["uuid"] == uuid:
                 return vbd
         return None
 
@@ -2386,20 +2386,20 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         return item["uuid"] == self.filter_uuid
 
     def vm_filter_uuid(self, uuid):
-        for vm in self.all_vms:
-            if self.all_vms[vm]["uuid"] == uuid:
+        for vm in self.all['vms']:
+            if self.all['vms'][vm]["uuid"] == uuid:
                 return vm
         return None
 
     def storage_filter_uuid(self):
-        for stg in self.all_storage:
-            if self.all_storage[stg]["uuid"] == self.filter_uuid:
+        for stg in self.all['SR']:
+            if self.all['SR'][stg]["uuid"] == self.filter_uuid:
                 return stg
         return None
 
     def host_filter_uuid(self):
-        for host in self.all_hosts:
-            if self.all_hosts[host]["uuid"] == self.filter_uuid:
+        for host in self.all['host']:
+            if self.all['host'][host]["uuid"] == self.filter_uuid:
                 return host
         return None
 
@@ -2424,7 +2424,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         return False
 
     def filter_vdi_ref(self):
-        for vdi in self.all_vdi.keys():
+        for vdi in self.all['VDI'].keys():
             if vdi == self.filter_vdi:
                 return vdi
 

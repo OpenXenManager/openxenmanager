@@ -89,7 +89,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
     def join_pool(self, host, user, password):
         res = self.connection.pool.join(self.session_uuid, host, user, password)
         if "Value" in res:
-            self.track_tasks[res['Value']] = self.host_vm[self.all_hosts.keys()[0]][0]
+            self.track_tasks[res['Value']] = self.host_vm[self.all['host'].keys()[0]][0]
         else:
             self.wine.push_alert("%s: %s" % (res["ErrorDescription"][0], res["ErrorDescription"][1]))
     def fill_vms_which_prevent_evacuation(self, ref, list):
@@ -98,7 +98,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
         for vm in vms.keys():
             # vms[vm][0]
             list.append([gtk.gdk.pixbuf_new_from_file(path.join(utils.module_path(), "images/tree_running_16.png")),
-                         self.all_vms[vm]['name_label'], "Suspend or shutdown VM"])
+                         self.all['vms'][vm]['name_label'], "Suspend or shutdown VM"])
     def enter_maintancemode(self, ref):
         res = self.connection.Async.host.evacuate(self.session_uuid, ref)
         if "Value" in res:
@@ -133,7 +133,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
        Thread(target=self.host_download_logs, args=(ref, filename, name)).start()  
 
     def create_pool(self, name, desc):
-        pool_ref = self.all_pools.keys()[0]
+        pool_ref = self.all['pool'].keys()[0]
         res = self.connection.pool.set_name_label(self.session_uuid, pool_ref, name)
         res = self.connection.pool.set_name_description(self.session_uuid, pool_ref, desc)
         if "Value" in res:
@@ -142,9 +142,9 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
             print res
 
     def get_external_auth(self, ref):
-        if "external_auth_type" in self.all_hosts[ref]:
-            return [self.all_hosts[ref]['external_auth_type'],  self.all_hosts[ref]['external_auth_service_name'], \
-                self.all_hosts[ref]['external_auth_configuration']]
+        if "external_auth_type" in self.all['host'][ref]:
+            return [self.all['host'][ref]['external_auth_type'],  self.all['host'][ref]['external_auth_service_name'], \
+                self.all['host'][ref]['external_auth_configuration']]
         else:
             return ["", "", ""]
 
@@ -152,24 +152,24 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
         try:
             users_logged = self.connection.session.get_all_subject_identifiers(self.session_uuid)['Value']
             users = {}
-            if self.all_hosts[ref]['external_auth_type']:
+            if self.all['host'][ref]['external_auth_type']:
                 list_users.append(("000", "", "-", "Local root account\n(Always granted access)"))
-                for user in self.all_subject:
-                    users[self.all_subject[user]['subject_identifier']] = self.all_subject[user]['other_config']
+                for user in self.all['subject']:
+                    users[self.all['subject'][user]['subject_identifier']] = self.all['subject'][user]['other_config']
                     roles = []
-                    for role in self.all_subject[user]['roles']:
-                        roles.append(self.all_role[role]['name_label'])
+                    for role in self.all['subject'][user]['roles']:
+                        roles.append(self.all['role'][role]['name_label'])
 
-                    users[self.all_subject[user]['subject_identifier']]['roles'] = roles
-                    users[self.all_subject[user]['subject_identifier']]['ref'] = user
-                    if self.all_subject[user]['subject_identifier'] in users_logged:
+                    users[self.all['subject'][user]['subject_identifier']]['roles'] = roles
+                    users[self.all['subject'][user]['subject_identifier']]['ref'] = user
+                    if self.all['subject'][user]['subject_identifier'] in users_logged:
                         logged = "Yes"
                     else:
                         logged = "No"
 
                     list_users.append((user, " ".join(roles), logged,
-                                       self.all_subject[user]['other_config']['subject-gecos'] + "\n" +
-                                       self.all_subject[user]['other_config']['subject-name']))
+                                       self.all['subject'][user]['other_config']['subject-gecos'] + "\n" +
+                                       self.all['subject'][user]['other_config']['subject-name']))
         except KeyError:
             pass
 
@@ -220,8 +220,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
 
     def fill_host_network(self, ref, list_ref):
         list_ref.clear()
-        for network_key in self.all_network.keys():
-            network = self.all_network[network_key]
+        for network_key in self.all['network'].keys():
+            network = self.all['network'][network_key]
 
             if network['bridge'] != "xenapi":
                 name = network['name_label'].replace('Pool-wide network associated with eth', 'Network ')
@@ -232,7 +232,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         auto = "Yes"
                     else:
                         auto = "No"
-                pifs = filter(lambda lista: lista["network"] == network_key, self.all_pif.values())
+                pifs = filter(lambda lista: lista["network"] == network_key, self.all['PIF'].values())
                 vlan = "-"
                 linkstatus = "-"
                 macaddress = "-"
@@ -244,8 +244,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         if pif:
                             if pif['VLAN'] != "-1":
                                 vlan = pif['VLAN']
-                            if pif['metrics'] in self.all_pif_metrics and \
-                                    self.all_pif_metrics[pif['metrics']]['carrier']:  # Link status
+                            if pif['metrics'] in self.all['PIF_metrics'] and \
+                                    self.all['PIF_metrics'][pif['metrics']]['carrier']:  # Link status
                                 linkstatus = "Connected" 
                             if pif['MAC'] != "fe:ff:ff:ff:ff:ff":
                                 macaddress = pif['MAC']
@@ -260,13 +260,13 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
 
     def fill_host_nics(self, ref, list_ref):
         list_ref.clear()
-        for pif_key in self.all_pif.keys():
-            if self.all_pif[pif_key]['host'] == ref:
-                if self.all_pif[pif_key]['metrics'] != "OpaqueRef:NULL":
-                    if self.all_pif[pif_key]['metrics'] not in self.all_pif_metrics:
+        for pif_key in self.all['PIF'].keys():
+            if self.all['PIF'][pif_key]['host'] == ref:
+                if self.all['PIF'][pif_key]['metrics'] != "OpaqueRef:NULL":
+                    if self.all['PIF'][pif_key]['metrics'] not in self.all['PIF_metrics']:
                         continue
-                    pif_metric = self.all_pif_metrics[self.all_pif[pif_key]['metrics']]
-                    pif = self.all_pif[pif_key]
+                    pif_metric = self.all['PIF_metrics'][self.all['PIF'][pif_key]['metrics']]
+                    pif = self.all['PIF'][pif_key]
 
                     if pif_metric['duplex']:
                         duplex = "full"
@@ -292,8 +292,8 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         else:
                             if pif['bond_master_of']:
                                 devices = []
-                                for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
-                                    devices.append(self.all_pif[slave]['device'][-1:])
+                                for slave in self.all['Bond'][pif['bond_master_of'][0]]['slaves']:
+                                    devices.append(self.all['PIF'][slave]['device'][-1:])
                                 devices.sort() 
                                 list_ref.append(("Bond %s" % ('+'.join(devices)), mac, connected,
                                                  speed, duplex, pif_metric['vendor_name'],
@@ -303,7 +303,7 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                                 pass
                                 #print pif, pif_metric
                 else:
-                    pif = self.all_pif[pif_key]
+                    pif = self.all['PIF'][pif_key]
                     if "MAC" in pif:
                             mac = pif['MAC']
                     else:
@@ -311,9 +311,9 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                     connected = "Disconnected"
                     if pif['bond_master_of']:
                         devices = []
-                        if pif['bond_master_of'][0] in self.all_bond:
-                            for slave in self.all_bond[pif['bond_master_of'][0]]['slaves']:
-                                devices.append(self.all_pif[slave]['device'][-1:])
+                        if pif['bond_master_of'][0] in self.all['Bond']:
+                            for slave in self.all['Bond'][pif['bond_master_of'][0]]['slaves']:
+                                devices.append(self.all['PIF'][slave]['device'][-1:])
                             devices.sort() 
                             list_ref.append(("Bond %s" % ('+'.join(devices)), mac, connected,
                                              "-", "-", "-", "-", "-", pif_key))
