@@ -37,3 +37,9 @@ def module_path():
 
 def image_path(image_file):
     return os.path.join(module_path(), 'images', image_file)
+
+
+def bytes_to_gb(num_bytes):
+    num_bytes = float(num_bytes)
+    gigabytes = num_bytes / 1073741824
+    return gigabytes

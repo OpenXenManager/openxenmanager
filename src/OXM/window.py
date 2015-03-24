@@ -1141,8 +1141,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                     externalauth = self.xc_servers[host].get_external_auth(
                         self.xc_servers[host]['master'])
                 else:
-                    name = self.xc_servers[host].all['host'][self.selected_ref]['name_label']
-                    externalauth = self.xc_servers[host].get_external_auth(self.selected_ref)
+                    if self.selected_ref in self.xc_servers[host].all['host']:
+                        name = self.xc_servers[host].all['host'][
+                            self.selected_ref]['name_label']
+                        externalauth = self.xc_servers[host].get_external_auth(
+                            self.selected_ref)
 
                 listusers = self.builder.get_object("listusers")
                 self.xc_servers[host].fill_domain_users(self.selected_ref, listusers)
