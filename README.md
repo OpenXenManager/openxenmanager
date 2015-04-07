@@ -1,3 +1,17 @@
+IMPORTANT INFORMATION!
+======================
+I have setup and integrated Sentry into OpenXenManager. Sentry will 
+automatically capture and upload all crashes that occur within OXM.
+
+I will be providing an option to disable this via the options, but it would be 
+very useful for me to have this information to help find bugs that are lurking 
+deep within OXM.
+
+All that is needed is to install the raven package via pip, which handles the 
+processing of the crash reports.
+
+Thankyou!
+
 OpenXenManager introduction
 ===========================
 OpenXenManager is a full-featured graphical interface to manage Citrix
