@@ -29,6 +29,7 @@ import gtk
 import sys
 from OXM.window import oxcWindow
 from OXM.version import __version__
+from OXM.crash_report import CrashReport
 
 # FIXME: rather pathetic fix for Ubuntu to show menus -  GTK3 migration should
 # fix this
@@ -67,7 +68,7 @@ def main():
             print("".join(lines), file=sys.stderr)
 
         # TODO: Add crash reporter
-        # CrashReport.instance().captureException(exception, value, tb)
+        CrashReport.instance().capture_exception(exception, value, tb)
 
     sys.excepthook = exception_hook
 

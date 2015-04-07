@@ -13,7 +13,7 @@ setup(
     author='Daniel Lintott',
     author_email='daniel@serverb.co.uk',
     description='Opensource XenServer/XCP Management GUI',
-    requires=['configobj', 'pygtk'],
+    requires=['configobj', 'pygtk', 'raven'],
     scripts=['openxenmanager'],
     package_data={'OXM': ['oxc.conf',
                           'ui/*.glade',
