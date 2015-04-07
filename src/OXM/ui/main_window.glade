@@ -2343,14 +2343,14 @@
             <property name="can_focus">False</property>
             <property name="toolbar_style">both-horiz</property>
             <child>
-              <object class="GtkToolButton" id="t_addserver">
+              <object class="GtkToolButton" id="tb_addserver">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="is_important">True</property>
                 <property name="label" translatable="yes">Add New Server</property>
                 <property name="use_underline">True</property>
                 <property name="icon_widget">imageaddserver</property>
-                <signal name="clicked" handler="on_addserver_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_tb_addserver_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -10177,7 +10177,7 @@ your server or Resource Pool with virtual machines</property>
                                             <property name="focus_on_click">False</property>
                                             <property name="xalign">0</property>
                                             <property name="yalign">0</property>
-                                            <signal name="clicked" handler="on_addserver_clicked" swapped="no"/>
+                                            <signal name="clicked" handler="on_tb_addserver_clicked" swapped="no"/>
                                             <child>
                                               <object class="GtkImage" id="image1">
                                                 <property name="visible">True</property>

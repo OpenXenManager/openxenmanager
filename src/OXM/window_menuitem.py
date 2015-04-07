@@ -20,6 +20,7 @@
 #
 # -----------------------------------------------------------------------
 from oxcSERVER import *
+from window_addserver import AddServer
 import xtea
 from version import __version__
 from os import path
@@ -352,7 +353,10 @@ class oxcWindowMenuItem:
             if can_start != "" or h == resident_on:
                 item.set_sensitive(False)
 
-    #TOOLBAR 
+    #TOOLBAR
+    def on_tb_addserver_clicked(self, widget):
+        AddServer(self.builder)
+
     def on_tb_start_clicked(self, widget, data=None):
         """
         "Start" button on toolbar is pressed
@@ -682,12 +686,24 @@ class oxcWindowMenuItem:
         # Checks if exists a "master password"
         # Master password if need to save reverse passwords with XTEA
         # XTEA is a block cipher to save server password on oxc.conf
-        # If master password if used (saved on oxc.conf as md5) use it to xtea decrypt
-        if not self.selected_name in self.config_hosts:
+        # If master password if used (saved on oxc.conf as md5) use it to
+        # xtea decrypt
+        if self.selected_name not in self.config_hosts:
             return
+
+        # if len(self.config_hosts[self.selected_name]) > 2:
+        #     self.builder.get_object("checksslconnection").set_active(
+        #         str(self.config_hosts[self.selected_name][2]) == "True")
+
         if len(self.config_hosts[self.selected_name]) > 2:
-            self.builder.get_object("checksslconnection").set_active(str(self.config_hosts[self.selected_name][2]) ==
-                                                                     "True")
+            use_ssl = self.config_hosts[self.selected_name][2]
+        else:
+            use_ssl = None
+
+        if len(self.config_hosts[self.selected_name]) > 3:
+            verify_ssl = self.config_hosts[self.selected_name][3]
+        else:
+            verify_ssl = None
 
         if self.password and self.config_hosts[self.selected_name][1]:
             # Decrypt password to plain
@@ -697,16 +713,25 @@ class oxcWindowMenuItem:
                                     self.config_hosts[self.selected_name][1].decode("hex"), self.iv)
             # Call to add server with name, ip and decrypted password
             # Add server try to connect to the server
-            self.add_server(self.selected_name, self.config_hosts[self.selected_name][0], decrypt_pw)
+            add_server = AddServer(self,
+                                   self.selected_name,
+                                   self.config_hosts[self.selected_name][0],
+                                   decrypt_pw, use_ssl=use_ssl,
+                                   verify_ssl=verify_ssl)
+            add_server.connect_server()
         else:
             # If master password is not set or server hasn't a saved password
             # Empty entries
-            self.builder.get_object("addserverhostname").get_child().set_text(self.selected_name)
-            self.builder.get_object("addserverusername").set_text(self.config_hosts[self.selected_name][0])
-            self.builder.get_object("addserverpassword").set_text("")
+            #self.builder.get_object("addserverhostname").get_child().set_text(self.selected_name)
+            #self.builder.get_object("addserverusername").set_text(self.config_hosts[self.selected_name][0])
+            #self.builder.get_object("addserverpassword").set_text("")
             # Show the add server window
-            addserver = self.builder.get_object("addserver").show_all()
-            self.builder.get_object("addserverpassword").grab_focus()
+            #self.builder.get_object("addserver").show_all()
+            #self.builder.get_object("addserverpassword").grab_focus()
+
+            add_server = AddServer(self, self.selected_name,
+                                   self.config_hosts[self.selected_name][0])
+            add_server.show_dialog("addserverpassword")
 
     def on_m_disconnect_activate(self, widget, data=None):
         """

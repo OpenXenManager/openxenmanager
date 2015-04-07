@@ -96,8 +96,9 @@ class MyDotWindow(DotWindow):
             self.treestore.emit("button_press_event", event)
         
 
-class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorage, oxcWindowAlerts, oxcWindowAddServer,
-                oxcWindowNewVm, oxcWindowMenuItem, oxcWindowTools):
+class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
+                oxcWindowStorage, oxcWindowAlerts, oxcWindowNewVm,
+                oxcWindowMenuItem, oxcWindowTools, AddServer):
     """Main class to oxc window"""
     xc_servers = {}
     # When you select a element of left tree these variables are filled
@@ -468,7 +469,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties, oxcWindowStorag
                    ]
 
         dialogs = {
-            "addserver": "connectAddServer",
+            "addserver": "connect_addserver",
             "newvmdisk": "acceptnewvmdisk",
             "vmaddnewdisk": "acceptvmaddnewdisk",
             "dialogsnapshotname": "btacceptsnapshotname",

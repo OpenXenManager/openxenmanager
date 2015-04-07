@@ -29,6 +29,7 @@ from datetime import datetime
 import time
 import urllib
 import socket
+import ssl
 
 # Local Imports
 from messages import get_msg
@@ -74,15 +75,20 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     last_storage_iter = None
     pbdcreate = []
 
-    def __init__(self, host, user, password, wine, ssl=False, port=80):
+    def __init__(self, host, user, password, wine, use_ssl=False,
+                 verify_ssl=False, port=80):
         super(oxcSERVER, self).__init__()
         self.host = host
         self.hostname = host
         self.wine = wine
         self.user = user
         self.password = password
-        self.ssl = ssl
+        self.ssl = use_ssl
+        self.verify_ssl = verify_ssl
         self.port = port
+
+        if not verify_ssl and hasattr(ssl, '_create_unverified_context'):
+            ssl._create_default_https_context = ssl._create_unverified_context
 
     def logout(self):
         self.halt_search = True
