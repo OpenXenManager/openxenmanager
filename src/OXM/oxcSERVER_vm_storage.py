@@ -86,26 +86,33 @@ class oxcSERVERvmstorage:
                  self.track_tasks[res['Value']] = vm_ref 
             else:
                  print res  
+
     def fill_vm_storageattach(self, list):
         list.clear() 
         refattachdisk = {}                                
-        all_sr = self.connection.SR.get_all_records\
-                  (self.session_uuid)['Value']
+        all_sr = self.connection.SR.get_all_records(self.session_uuid)['Value']
        
         for sr in all_sr:
-            if all_sr[sr]['type'] != "iso" and all_sr[sr]['content_type'] != "iso":
-                refattachdisk[sr] = list.append(None, [gtk.gdk.pixbuf_new_from_file(
-                    path.join(utils.module_path(), "images/storage_default_16.png")), sr, all_sr[sr]["name_label"],
-                    "", False])
+            if all_sr[sr]['type'] != "iso" \
+                    and all_sr[sr]['content_type'] != "iso":
+                img = gtk.gdk.pixbuf_new_from_file(path.join(
+                    utils.module_path(), "images/storage_default_16.png"))
+                refattachdisk[sr] = list.append(
+                    None, [img, sr, all_sr[sr]["name_label"], "", False])
 
-        all['VDI']= self.connection.VDI.get_all_records\
-                  (self.session_uuid)['Value']
-        for vdi in all['VDI']:
-            if not all['VDI'][vdi]['VBDs'] and all['VDI'][vdi]['read_only'] == False:
-                list.append(refattachdisk[all['VDI'][vdi]['SR']], [gtk.gdk.pixbuf_new_from_file(
-                    path.join(utils.module_path(), "images/user_template_16.png")), vdi, all['VDI'][vdi]['name_label'],
-                    all['VDI'][vdi]['name_description'] + " - " + self.convert_bytes(all['VDI'][vdi]['physical_utilisation'])
-                    + " used out of " + self.convert_bytes(all['VDI'][vdi]['virtual_size']), True])
+        all_vdi = self.connection.VDI.get_all_records(
+            self.session_uuid)['Value']
+        for vdi in all_vdi:
+            if not all_vdi[vdi]['VBDs'] and all_vdi[vdi]['read_only'] is False:
+                img = gtk.gdk.pixbuf_new_from_file(path.join(
+                    utils.module_path(), "images/user_template_16.png"))
+                name_str = "%s - %s" % (
+                    all_vdi[vdi]['name_description'],
+                    self.convert_bytes(all_vdi[vdi]['virtual_size']))
+
+                list.append(refattachdisk[all_vdi[vdi]['SR']],
+                            [img, vdi, all_vdi[vdi]['name_label'], name_str,
+                             True])
 
     def attach_disk_to_vm(self, ref, vdi, ro):
         userdevice = self.connection.VM.get_allowed_VBD_devices(self.session_uuid, ref)['Value'][0]
