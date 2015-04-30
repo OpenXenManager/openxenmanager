@@ -87,6 +87,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         self.verify_ssl = verify_ssl
         self.port = port
 
+        self.dbg_track_num = 0
+
         if not verify_ssl and hasattr(ssl, '_create_unverified_context'):
             ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -1879,19 +1881,25 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                         event["snapshot"]["error_info"])) and False)
                             else:
                                 if event["ref"] in self.track_tasks:
-                                    if self.track_tasks[event["ref"]] in self.all['vms']:
+                                    name_lbl = event['snapshot']['name_label']
+                                    vm_ref = self.track_tasks[event["ref"]]
+                                    vm_name = self.all['vms'][vm_ref]['name_label']
+                                    progress = event['snapshot']['progress']
+
+                                    if vm_ref in self.all['vms']:
                                         if event["snapshot"]["status"] == "success":
-                                            gobject.idle_add(lambda: self.wine.push_alert(
-                                                "%s %s completed" % (
-                                                    event["snapshot"]["name_label"],
-                                                    self.all['vms'][self.track_tasks[event["ref"]]]["name_label"]))
+                                            gobject.idle_add(
+                                                lambda: self.wine.push_alert(
+                                                    "%s %s completed" % (
+                                                        name_lbl, vm_name))
                                                 and False)
                                         else:
-                                            gobject.idle_add(lambda: self.wine.push_alert(
-                                                "%s %s %s" % (
-                                                    event["snapshot"]["name_label"],
-                                                    self.all['vms'][self.track_tasks[event["ref"]]]["name_label"],
-                                                    (" %.2f%%" % (float(event["snapshot"]["progress"])*100))))
+                                            gobject.idle_add(
+                                                lambda: self.wine.push_alert(
+                                                    "%s %s %s" %
+                                                    (name_lbl, vm_name,
+                                                     (" %.2f%%" %
+                                                      (float(progress)*100))))
                                                 and False)
                                     else:
                                         vm = self.connection.VM.get_record(self.session_uuid,
@@ -1917,6 +1925,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 else:
                                     pass  # FIXME?
                                     #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
+
+                                self.dbg_track_num += 1
+
                             if event["snapshot"]["status"] == "success":
                                 if event["snapshot"]["name_label"] == "Async.VIF.create":
                                     dom = xml.dom.minidom.parseString(event['snapshot']['result'])

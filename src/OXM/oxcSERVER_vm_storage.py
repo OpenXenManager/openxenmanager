@@ -160,7 +160,7 @@ class oxcSERVERvmstorage:
         for vbd in self.all['VBD'].keys():
             if self.all['VBD'][vbd]["VM"] == vm:
                 if (self.all['VBD'][vbd]['type'] == "CD" or self.all['VBD'][vbd]['type'] == "udev"):
-                    print self.all['VBD'][vbd]['type']
+                    # print self.all['VBD'][vbd]['type']
                     return vbd
 
         #FIXME: auto add VBD to CD, do 'click here to add CD'
