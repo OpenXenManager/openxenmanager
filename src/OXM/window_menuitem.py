@@ -87,7 +87,9 @@ class oxcWindowMenuItem:
         """
         Add server: show the window for add a new server
         """
-        self.builder.get_object("addserver").show()
+        #self.builder.get_object("addserver").show()
+        add_server = AddServer(self)
+        add_server.show_dialog()
 
     # VM
     # Make Into Template
@@ -355,7 +357,8 @@ class oxcWindowMenuItem:
 
     #TOOLBAR
     def on_tb_addserver_clicked(self, widget):
-        AddServer(self.builder)
+        add_server = AddServer(self)
+        add_server.show_dialog()
 
     def on_tb_start_clicked(self, widget, data=None):
         """
