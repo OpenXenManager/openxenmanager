@@ -36,6 +36,9 @@ Requirements:
 * Python 2.7
 * pyGTK 2.16
 * GTK-VNC (Linux only)
+ 
+Linux package dependencies:
+python2.7 python-gtk2 glade python-gtk-vnc python-glade2 python-configobj
 
 OpenXenManager runs has been tested to run on Linux or Windows and should work
 on MacOSX as well.
