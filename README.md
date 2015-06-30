@@ -35,6 +35,7 @@ To launch OpenXenManager simply run the "openxenmanager" script.
 Requirements:
 * Python 2.7
 * pyGTK 2.16
+* ConfigObj
 * GTK-VNC (Linux only)
 
 OpenXenManager runs has been tested to run on Linux or Windows and should work
