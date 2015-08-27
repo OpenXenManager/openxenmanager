@@ -1314,7 +1314,7 @@ class oxcWindowMenuItem:
         """
         "Xenserver on the web" menu item is pressed (help)
         """
-        url = "www.xenserver.com"
+        url = "http://www.xenserver.com"
         import webbrowser
         webbrowser.open(url)
 
