@@ -1304,6 +1304,7 @@
     <property name="window_position">center</property>
     <property name="default_width">768</property>
     <property name="default_height">668</property>
+    <signal name="destroy" handler="on_window_destroy" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
