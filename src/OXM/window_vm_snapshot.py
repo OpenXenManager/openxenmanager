@@ -32,6 +32,7 @@ class oxcWindowVMSnapshot:
         """
         # Hide dialog
         self.builder.get_object("dialogsnapshotname").hide()
+
     def on_btacceptsnapshotname_clicked(self, widget, data=None):
         """
         Function called when you cancel the "set snapshot name" dialog
@@ -40,6 +41,7 @@ class oxcWindowVMSnapshot:
         self.xc_servers[self.selected_host].take_snapshot(self.selected_ref, self.builder.get_object("snapshotname").get_text())
         # Hide dialog
         self.builder.get_object("dialogsnapshotname").hide()
+
     def on_bttakesnapshot_clicked(self, widget, data=None):
         """
         Function called when you press "Take snapshot"
@@ -48,6 +50,7 @@ class oxcWindowVMSnapshot:
         self.builder.get_object("snapshotname").set_text("")
         # Show the dialog asking snapshot name
         self.builder.get_object("dialogsnapshotname").show()
+
     def on_m_snap_newvm_activate(self, widget, data=None):
         # print self.selected_snap_ref
         # TODO -> select vm with name_label
@@ -55,6 +58,7 @@ class oxcWindowVMSnapshot:
         Function called when you press "Take snapshot"
         """
         self.on_m_newvm_activate(widget, data)
+
     def on_m_snap_createtpl_activate(self, widget, data=None):
         """
         Function called when you press "create template from snapshot"
@@ -63,12 +67,14 @@ class oxcWindowVMSnapshot:
             self.xc_servers[self.selected_host].all['vms'][self.selected_snap_ref]['name_label'] + "'")
         # Show the dialog asking the new template name
         self.builder.get_object("dialogsnaptplname").show()
+
     def on_m_snap_delete_activate(self, widget, data=None):
         """
         Function called when you press "delete snapshot"
         """
         # Show the confirmation dialog
         self.builder.get_object("dialogsnapshotdelete").show()
+
     def on_m_snap_export_activate(self, widget, data=None):
         """
         Function called when you press "export snapshot"
@@ -97,6 +103,7 @@ class oxcWindowVMSnapshot:
         Thread(target=self.xc_servers[self.selected_host].delete_snapshot, args=(self.selected_snap_ref, self.selected_ref)).start()
         # And hide the confirmation dialog
         self.builder.get_object("dialogsnapshotdelete").hide()
+
     def on_btcancelsnapshotdelete_clicked(self, widget, data=None):
         """
         Function called when you cancel the "delete snapshot" confirmation dialog
@@ -113,12 +120,14 @@ class oxcWindowVMSnapshot:
            self.builder.get_object("snaptplname").get_text())
         # Hide the dialog
         self.builder.get_object("dialogsnaptplname").hide()
+
     def on_btcancelsnaptplname_clicked(self, widget, data=None):
         """
         Function called when you cancel the "specify name" dialog to create a template from snapshot
         """
         # Hide the dialog
         self.builder.get_object("dialogsnaptplname").hide()
+
     def on_treevmsnapshots_button_press_event(self, widget, event):
         """
         Function called when you press with the mouse inside "snapshots" tree
