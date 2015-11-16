@@ -1309,12 +1309,11 @@ class oxcWindowMenuItem:
         import webbrowser
         webbrowser.open(url)
 
-    @staticmethod
     def on_menuitem_xenserver_on_the_web_activate(self, widget, data=None):
         """
         "Xenserver on the web" menu item is pressed (help)
         """
-        url = "www.xenserver.com"
+        url = "http://www.xenserver.com"
         import webbrowser
         webbrowser.open(url)
 
