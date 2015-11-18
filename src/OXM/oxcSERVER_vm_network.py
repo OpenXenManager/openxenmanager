@@ -36,7 +36,7 @@ class oxcSERVERvmnetwork:
     def fill_addinterface_network(self, list):
         list.clear()
         for network in self.all['network']:
-            if self.all['network'][network]['bridge'] != "xapi0":
+            if self.all['network'][network]['bridge'] != "xenapi":
                     #if self.all['PIF'][self.all['network'][network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
                 list.append([network, self.all['network'][network]['name_label'].replace('Pool-wide network associated with eth','Network ')])
 
@@ -45,7 +45,7 @@ class oxcSERVERvmnetwork:
         i = 0 
         current = 0
         for network in self.all['network']:
-            if self.all['network'][network]['bridge'] != "xapi0":
+            if self.all['network'][network]['bridge'] != "xenapi":
                 #if self.all['PIF'][self.all['network'][network]['PIFs'][0]]['bond_slave_of'] == "OpaqueRef:NULL":
                 if network == network_ref:
                     current = i
