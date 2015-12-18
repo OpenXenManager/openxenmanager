@@ -984,6 +984,16 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
                         location = self.get_console_location(host, ref)
 
                         if location is not None:
+                            self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
+                            port = self.tunnel.get_free_port()
+
+                            if port is not None:
+                                Thread(target=self.tunnel.listen, args=(port,)).start()
+                                time.sleep(1)
+                            else:
+                                # TODO: Break here on error
+                                print 'Could not get a free port'
+
                             if sys.platform != "win32" and sys.platform != "darwin":
                                 # Create a gtkvnc object
                                 self.vnc = gtkvnc.Display()
@@ -1002,10 +1012,6 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
                                 self.vnc.connect("vnc-disconnected", self.vnc_disconnected)
                                 self.vnc.connect("key_press_event", self.on_console_area_key_press_event)
 
-                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
-                                port = self.tunnel.get_free_port()
-                                Thread(target=self.tunnel.listen, args=(port,)).start()
-                                time.sleep(1)
                                 # And open the connection
                                 try:
                                     self.vnc.set_depth(1)
@@ -1017,59 +1023,50 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
 
                             elif sys.platform == "darwin":
                                 # Run ./vncviewer with host, vm renf and session ref
-                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
-                                port = self.tunnel.get_free_port()
-                                Thread(target=self.tunnel.listen, args=(port,)).start()
-                                time.sleep(1)
                                 viewer = self.config['options']['vnc_viewer']
                                 os.spawnl(os.P_NOWAIT, viewer, "vncviewer", "localhost::%s" % port)
                                 console_area = self.builder.get_object("console_area")
                                 console_alloc = console_area.get_allocation()
 
                             else:
-                                self.tunnel = Tunnel(self.xc_servers[host].session_uuid, location)
-                                port = self.tunnel.get_free_port()
-                                print "Tunnel Port: " + str(port)
-                                if port is not None:
-                                    Thread(target=self.tunnel.listen, args=(port,)).start()
-                                    time.sleep(1)
-                                    # And open the connection
-                                    # TODO: Add the capability to change this path in the options and save to config
-                                    #viewer = os.path.join('C:\\', 'Program Files', 'TightVNC', 'tvnviewer.exe')
-                                    viewer = self.config['options']['vnc_viewer']
-                                    # Tight VNC Options
-                                    # Start the viewer and connect to the specified host:
-                                    # tvnviewer hostname::port [OPTIONS]
-                                    param = 'localhost::' + str(port)
+                                Thread(target=self.tunnel.listen, args=(port,)).start()
+                                time.sleep(1)
+                                # And open the connection
+                                # TODO: Add the capability to change this path in the options and save to config
+                                #viewer = os.path.join('C:\\', 'Program Files', 'TightVNC', 'tvnviewer.exe')
+                                viewer = self.config['options']['vnc_viewer']
+                                # Tight VNC Options
+                                # Start the viewer and connect to the specified host:
+                                # tvnviewer hostname::port [OPTIONS]
+                                param = 'localhost::' + str(port)
 
-                                    pid = Popen([viewer, param])
-                                    console_area = self.builder.get_object("frameconsole")
-                                    console_area.realize()
-                                    console_alloc = console_area.get_allocation()
-                                    window_alloc = self.window.get_position()
-                                    x = console_alloc.x + window_alloc[0] + 10
-                                    y = console_alloc.y + window_alloc[1] + 47
-                                    # On windows we'll move the window..
+                                pid = Popen([viewer, param])
+                                console_area = self.builder.get_object("frameconsole")
+                                console_area.realize()
+                                console_alloc = console_area.get_allocation()
+                                window_alloc = self.window.get_position()
+                                x = console_alloc.x + window_alloc[0] + 10
+                                y = console_alloc.y + window_alloc[1] + 47
+                                # On windows we'll move the window..
 
-                                    while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
-                                            and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0 \
-                                            and win32gui.FindWindow(
-                                            None, "XenServer Virtual Terminal - TightVNC Viewer") == 0:
-                                        pass
-                                    self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
-                                    if self.hWnd == 0:
-                                        self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
-                                    if self.hWnd == 0:
-                                        self.hWnd = win32gui.FindWindow(
-                                            None, 'XenServer Virtual Terminal - TightVNC Viewer')
+                                while win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid) == 0 \
+                                        and win32gui.FindWindow(None, "XenServer Virtual Terminal") == 0 \
+                                        and win32gui.FindWindow(
+                                        None, "XenServer Virtual Terminal - TightVNC Viewer") == 0:
+                                    pass
+                                self.hWnd = win32gui.FindWindow(None, "HVMXEN-%s" % self.selected_uuid)
+                                if self.hWnd == 0:
+                                    self.hWnd = win32gui.FindWindow(None, "XenServer Virtual Terminal")
+                                if self.hWnd == 0:
+                                    self.hWnd = win32gui.FindWindow(
+                                        None, 'XenServer Virtual Terminal - TightVNC Viewer')
 
-                                    if self.hWnd != 0:
-                                        win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10,
-                                                            console_alloc.height-5, 1)
-                                    else:
-                                        print 'Could not retrieve the window ID'
+                                if self.hWnd != 0:
+                                    win32gui.MoveWindow(self.hWnd, x, y, console_alloc.width-10,
+                                                        console_alloc.height-5, 1)
                                 else:
-                                    print 'Could not get a free port'
+                                    print 'Could not retrieve the window ID'
+
                         else:
                             print 'No console available'
                     else:
