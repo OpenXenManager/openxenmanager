@@ -198,10 +198,10 @@ class oxcWindowStorage:
             else:
                 # create_cifs_iso returns 0 if iso library was attached correctly
                 if self.xc_servers[self.selected_host].create_cifs_iso(self.selected_ref, name, \
-                        sharename, options, username,password) == 0:
+                        sharename, options, username, password) == 0:
                     # hide the window
                     self.builder.get_object("newstorage").hide()
-            pass
+
         elif page == 5:
             # NFS ISO
             name = self.builder.get_object("txtnewstgnfsisoname").get_text()
