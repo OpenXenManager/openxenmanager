@@ -19,3 +19,4 @@ exclude_paths:
   - "src/OXM/images_map/*.png" 
   - "**.conf"
   - "**.xml"
+  - "**.glade"
