@@ -284,8 +284,9 @@ class oxcSERVERhost(oxcSERVERhostnics, oxcSERVERhostnetwork):
                         auto = "Yes"
                     else:
                         auto = "No"
-                pifs = filter(lambda lista: lista["network"] == network_key,
-                              self.all['PIF'].values())
+                pifs = [PIF for PIF in self.all['PIF'].values() if
+                        PIF['network'] == network_key]
+
                 vlan = "-"
                 linkstatus = "-"
                 macaddress = "-"
