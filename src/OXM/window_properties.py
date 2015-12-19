@@ -35,6 +35,9 @@ class oxcWindowProperties:
     freedevices = {}
     other_config = None
 
+    def __init__(self):
+        self.selected_widget = None
+
     def on_addcustomfield_clicked(self, widget, data=None):
         """
         Function called when you press "Add" on custom fields window
@@ -44,7 +47,7 @@ class oxcWindowProperties:
             listcombocustomfields = self.builder.get_object("listcombocustomfields")
             listcustomfields = self.builder.get_object("listcustomfields")
             name = self.builder.get_object("namecustomfields").get_text()
-            ctype =  listcombocustomfields.get_value(combocustomfields.get_active_iter(), 1)
+            ctype = listcombocustomfields.get_value(combocustomfields.get_active_iter(), 1)
             listcustomfields.append((["%s (%s)" % (name, ctype), name, ctype]))
             self.builder.get_object("namecustomfields").set_text("")
 
@@ -55,28 +58,28 @@ class oxcWindowProperties:
         iter_ref = selection.get_selected()[1]
         if iter_ref:
             listcustomfields.remove(iter_ref)
-        
+
     def on_bteditcustomfields_clicked(self, widget, data=None):
         """
         Function called when you press "Edit Custom Fields..."
         """
-        listcustomfields = self.builder.get_object("listcustomfields") 
+        listcustomfields = self.builder.get_object("listcustomfields")
         self.xc_servers[self.selected_host].fill_listcustomfields(listcustomfields)
-    
+
         self.builder.get_object("wcustomfields").show()
 
     def on_acceptwcustomfields_clicked(self, widget, data=None):
         """
         Function called when you press close button on custom fields window
         """
-        listcustomfields = self.builder.get_object("listcustomfields") 
-        xml = "<CustomFieldDefinitions>"
+        listcustomfields = self.builder.get_object("listcustomfields")
+        oxm_xml = "<CustomFieldDefinitions>"
         for i in range(listcustomfields.__len__()):
             iter_ref = listcustomfields.get_iter((i,))
-            xml = xml + '<CustomFieldDefinition name="%s" type="%s" defaultValue="" />' % (listcustomfields.get_value(iter_ref, 1),
-                listcustomfields.get_value(iter_ref, 2).split(" ")[0])
-        xml = xml + "</CustomFieldDefinitions>"
-        self.xc_servers[self.selected_host].set_pool_custom_fields(xml)
+            oxm_xml += '<CustomFieldDefinition name="%s" type="%s" defaultValue="" />' % (listcustomfields.get_value(iter_ref, 1),
+                                                                                          listcustomfields.get_value(iter_ref, 2).split(" ")[0])
+        oxm_xml += "</CustomFieldDefinitions>"
+        self.xc_servers[self.selected_host].set_pool_custom_fields(oxm_xml)
         self.builder.get_object("wcustomfields").hide()
         self.fill_custom_fields_table(add=True)
 
@@ -103,6 +106,7 @@ class oxcWindowProperties:
         self.config.write()
         # Hide options dialog
         self.builder.get_object("dialogoptions").hide()
+
     def on_radiologlocal_toggled(self, widget, data=None):
         """
         Function called when you set server system log destination to "local"
@@ -131,7 +135,7 @@ class oxcWindowProperties:
 
     def on_treebootorder_button_press_event(self, widget, event):
         """
-        Function called when you select a element on bootorder tree 
+        Function called when you select a element on bootorder tree
         """
         x = int(event.x)
         y = int(event.y)
@@ -147,7 +151,7 @@ class oxcWindowProperties:
                 # If is the last disable "down" button, else enable it
                 self.builder.get_object("btmovedown").set_sensitive(path[0] != 0)
             else:
-               # Disable both buttons
+                # Disable both buttons
                 self.builder.get_object("btmoveup").set_sensitive(False)
                 self.builder.get_object("btmovedown").set_sensitive(False)
 
@@ -159,10 +163,10 @@ class oxcWindowProperties:
         # Get actual iter
         iter1 = self.builder.get_object("listpropbootorder").get_iter(rows)
         # Get below iter
-        iter2 = self.builder.get_object("listpropbootorder").get_iter((rows[0]-1,))
+        iter2 = self.builder.get_object("listpropbootorder").get_iter((rows[0] - 1,))
         # Swap
         self.builder.get_object("listpropbootorder").swap(iter1, iter2)
-        if rows[0]-1 == 0:
+        if rows[0] - 1 == 0:
             # If is the first now, disable "up" button and enable "down" button
             self.builder.get_object("btmoveup").set_sensitive(False)
             self.builder.get_object("btmovedown").set_sensitive(True)
@@ -175,9 +179,9 @@ class oxcWindowProperties:
         # Get actual iter
         iter1 = self.builder.get_object("listpropbootorder").get_iter(rows)
         # Get above iter
-        iter2 = self.builder.get_object("listpropbootorder").get_iter((rows[0]+1,))
+        iter2 = self.builder.get_object("listpropbootorder").get_iter((rows[0] + 1,))
         self.builder.get_object("listpropbootorder").swap(iter1, iter2)
-        if (rows[0]+1) == 3:
+        if (rows[0] + 1) == 3:
             # If is the last now, disable "down" button and enable "up" button
             self.builder.get_object("btmovedown").set_sensitive(False)
             self.builder.get_object("btmoveup").set_sensitive(True)
@@ -187,7 +191,7 @@ class oxcWindowProperties:
         Function to know if a menu element should be showed or hidden
         """
         # aka contains properties element (vm, host, storage, network or vdi)
-        aka =  self.listprop.get_value(iter, 2)
+        aka = self.listprop.get_value(iter, 2)
         # List of menu options to show
         vm = ["general", "custom", "cpumemory", "startup", "homeserver"]
         host = ["general", "custom", "multipath", "logdest"]
@@ -207,7 +211,7 @@ class oxcWindowProperties:
                 if not host.count(aka):
                     return False
         elif self.selected_widget and (gtk.Buildable.get_name(self.selected_widget) == "btstorageproperties" or
-                                               gtk.Buildable.get_name(self.selected_widget) == "btstgproperties"):
+                                       gtk.Buildable.get_name(self.selected_widget) == "btstgproperties"):
             # same
             if not vdi.count(aka):
                 return False
@@ -239,7 +243,7 @@ class oxcWindowProperties:
         """
         Function called when you change element on combostgmode or combostgposition
         """
-        #TODO: comment code
+        # TODO: comment code
 
         if self.selected_widget:
             listprop = self.builder.get_object("listprop")
@@ -254,12 +258,11 @@ class oxcWindowProperties:
                 column = 10
             selection = treestorage.get_selection()
             iter = selection.get_selected()[1]
-            ref = liststorage.get_value(iter,column)
+            ref = liststorage.get_value(iter, column)
 
-
-            path = self.selected_prop_path 
+            path = self.selected_prop_path
             if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-                ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0]-9]
+                ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0] - 9]
                 device = self.xc_servers[self.selected_host].all['VBD'][ref]['userdevice']
                 mode = self.xc_servers[self.selected_host].all['VBD'][ref]['mode']
                 vm_ref = self.xc_servers[self.selected_host].all['VBD'][ref]['VM']
@@ -274,7 +277,7 @@ class oxcWindowProperties:
                     self.changes[ref]['mode'] = widget.get_active_text()
                 else:
                     if "mode" in self.changes[ref]:
-                        del self.changes[ref]['mode'] 
+                        del self.changes[ref]['mode']
             else:
                 if device != widget.get_active_text():
                     self.changes[ref]['position'] = widget.get_active_text()
@@ -306,10 +309,10 @@ class oxcWindowProperties:
                 column = 10
             selection = treestorage.get_selection()
             iter = selection.get_selected()[1]
-            ref = liststorage.get_value(iter,column)
-            path = self.selected_prop_path 
+            ref = liststorage.get_value(iter, column)
+            path = self.selected_prop_path
             if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-                ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0]-9]
+                ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0] - 9]
             bootable = self.xc_servers[self.selected_host].all['VBD'][ref]['bootable']
             if ref not in self.changes:
                 self.changes[ref] = {}
@@ -329,9 +332,9 @@ class oxcWindowProperties:
         """
         # spin get value from 0 to 10, but priority goes from 1 to 64000 (less or more)
         # then 2 ^ (2 * spin value) gets the real priority
-        self.builder.get_object("spinpropvmprio").set_value(2**(2*int(data2)))
+        self.builder.get_object("spinpropvmprio").set_value(2**(2 * int(data2)))
 
-    def on_treeprop_button_press_event(self,widget, event):
+    def on_treeprop_button_press_event(self, widget, event):
         """
         Function called when you select a left property option
         """
@@ -343,7 +346,7 @@ class oxcWindowProperties:
         if pthinfo is not None:
             path, col, cellx, celly = pthinfo
             widget.grab_focus()
-            widget.set_cursor( path, col, 0)
+            widget.set_cursor(path, col, 0)
             path = self.propmodelfilter.convert_path_to_child_path(path)
             self.selected_prop_path = path
             iter = self.listprop.get_iter(path)
@@ -362,9 +365,9 @@ class oxcWindowProperties:
                     column = 10
                 selection = treestorage.get_selection()
                 iter = selection.get_selected()[1]
-                ref = liststorage.get_value(iter,column)
+                ref = liststorage.get_value(iter, column)
                 if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-                    ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0]-9]
+                    ref = self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'][path[0] - 9]
                     vm_ref = self.xc_servers[self.selected_host].all['VBD'][ref]['VM']
                     device = self.xc_servers[self.selected_host].all['VBD'][ref]['userdevice']
                     type = self.xc_servers[self.selected_host].all['VBD'][ref]['type']
@@ -398,7 +401,7 @@ class oxcWindowProperties:
                     self.builder.get_object("checkisbootable").set_active(bootable)
 
     def on_btvmpropaccept_activate(self, widget, data=None):
-        """ 
+        """
         Function called when you accept window properties
         """
         # TODO: comment code
@@ -412,24 +415,24 @@ class oxcWindowProperties:
             network = self.xc_servers[self.selected_host].all['network'][ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != network['name_label']:
-                self.xc_servers[self.selected_host].set_network_name_label(ref,
-                        self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_network_name_label(
+                    ref, self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != network['name_description']:
-                self.xc_servers[self.selected_host].set_network_name_description(ref,
-                        tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+                self.xc_servers[self.selected_host].set_network_name_description(
+                    ref, tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
             if "automatic" in network['other_config'] and network['other_config']['automatic'] == "true":
                 if self.builder.get_object("checknetworkautoadd").get_active() == False:
-                    self.xc_servers[self.selected_host].set_network_automatically(ref,
-                            self.builder.get_object("checknetworkautoadd").get_active())
+                    self.xc_servers[self.selected_host].set_network_automatically(
+                        ref, self.builder.get_object("checknetworkautoadd").get_active())
 
             else:
                 if self.builder.get_object("checknetworkautoadd").get_active():
-                    self.xc_servers[self.selected_host].set_network_automatically(ref,
-                            self.builder.get_object("checknetworkautoadd").get_active())
+                    self.xc_servers[self.selected_host].set_network_automatically(
+                        ref, self.builder.get_object("checknetworkautoadd").get_active())
             self.changes = {}
             other_config = network["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -441,45 +444,45 @@ class oxcWindowProperties:
             if change:
                 self.xc_servers[self.selected_host].set_network_other_config(self.selected_ref, other_config)
 
-        elif self.selected_widget and (gtk.Buildable.get_name(self.selected_widget) == "btstgproperties" or \
-                gtk.Buildable.get_name(self.selected_widget) == "btstorageproperties"):
+        elif self.selected_widget and (gtk.Buildable.get_name(self.selected_widget) == "btstgproperties" or
+                                       gtk.Buildable.get_name(self.selected_widget) == "btstorageproperties"):
             if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-               liststorage = self.builder.get_object("liststg")
-               treestorage = self.builder.get_object("treestg")
-               column = 0
+                liststorage = self.builder.get_object("liststg")
+                treestorage = self.builder.get_object("treestg")
+                column = 0
             else:
-               liststorage = self.builder.get_object("listvmstorage")
-               treestorage = self.builder.get_object("treevmstorage")
-               column = 10
+                liststorage = self.builder.get_object("listvmstorage")
+                treestorage = self.builder.get_object("treevmstorage")
+                column = 10
             selection = treestorage.get_selection()
             iter = treestorage.get_selection().get_selected()[1]
-            ref = liststorage.get_value(iter,column)
+            ref = liststorage.get_value(iter, column)
             if gtk.Buildable.get_name(self.selected_widget) == "btstgproperties":
-               vdi_ref = ref
+                vdi_ref = ref
             else:
-               vdi_ref = self.xc_servers[self.selected_host].all['VBD'][ref]['VDI']
+                vdi_ref = self.xc_servers[self.selected_host].all['VBD'][ref]['VDI']
             vdi_sr = self.xc_servers[self.selected_host].all['VDI'][vdi_ref]['SR']
             vdi = self.xc_servers[self.selected_host].all['VDI'][vdi_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != vdi['name_label']:
-               self.xc_servers[self.selected_host].set_vdi_name_label(vdi_ref,self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_vdi_name_label(vdi_ref, self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != vdi['name_description']:
-               self.xc_servers[self.selected_host].set_vdi_name_description(vdi_ref,tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
-            if self.builder.get_object("spinvdisize").get_value() != float(vdi['virtual_size'])/1024/1024/1024:
-               size = self.builder.get_object("spinvdisize").get_value()*1024*1024*1024
-               self.xc_servers[self.selected_host].resize_vdi(vdi_ref,size)
+                self.xc_servers[self.selected_host].set_vdi_name_description(vdi_ref, tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+            if self.builder.get_object("spinvdisize").get_value() != float(vdi['virtual_size']) / 1024 / 1024 / 1024:
+                size = self.builder.get_object("spinvdisize").get_value() * 1024 * 1024 * 1024
+                self.xc_servers[self.selected_host].resize_vdi(vdi_ref, size)
             for ref in self.changes:
-               if "position" in self.changes[ref]:
-                   self.xc_servers[self.selected_host].set_vbd_userdevice(ref, self.changes[ref]['position'])
-               if "mode" in self.changes[ref]:
-                   self.xc_servers[self.selected_host].set_vbd_mode(ref, self.changes[ref]['mode'])
-               if "bootable" in self.changes[ref]:
-                   self.xc_servers[self.selected_host].set_vbd_bootable(ref, self.changes[ref]['bootable'])
+                if "position" in self.changes[ref]:
+                    self.xc_servers[self.selected_host].set_vbd_userdevice(ref, self.changes[ref]['position'])
+                if "mode" in self.changes[ref]:
+                    self.xc_servers[self.selected_host].set_vbd_mode(ref, self.changes[ref]['mode'])
+                if "bootable" in self.changes[ref]:
+                    self.xc_servers[self.selected_host].set_vbd_bootable(ref, self.changes[ref]['bootable'])
 
             self.changes = {}
             other_config = vdi["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -491,31 +494,33 @@ class oxcWindowProperties:
             if change:
                 self.xc_servers[self.selected_host].set_vdi_other_config(self.selected_ref, other_config)
 
-        elif self.selected_type == "host" or (self.selected_widget and
-                                gtk.Buildable.get_name(self.selected_widget) == "menuitem_server_prop"):
+        elif self.selected_type == "host" or \
+                (self.selected_widget and gtk.Buildable.get_name(self.selected_widget) == "menuitem_server_prop"):
             vm = self.xc_servers[self.selected_host].all['host'][self.selected_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if "syslog_destination" in vm["logging"] == self.builder.get_object("radiologlocal").get_active():
                 if self.builder.get_object("radiologlocal").get_active():
-                    self.xc_servers[self.selected_host].set_host_log_destination(self.selected_ref,
-                            None)
+                    self.xc_servers[self.selected_host].set_host_log_destination(self.selected_ref, None)
                 else:
                     if self.builder.get_object("txtlogserver").get_text():
-                        self.xc_servers[self.selected_host].set_host_log_destination(self.selected_ref,
-                                self.builder.get_object("txtlogserver").get_text())
+                        self.xc_servers[self.selected_host].set_host_log_destination(
+                            self.selected_ref,
+                            self.builder.get_object("txtlogserver").get_text())
                     else:
                         self.builder.get_object("dialogsyslogempty").show()
                         return
             if self.builder.get_object("txtpropvmname").get_text() != vm['name_label']:
-                self.xc_servers[self.selected_host].set_host_name_label(self.selected_ref,
-                        self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_host_name_label(
+                    self.selected_ref,
+                    self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != vm['name_description']:
-                self.xc_servers[self.selected_host].set_host_name_description(self.selected_ref,
-                        tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+                self.xc_servers[self.selected_host].set_host_name_description(
+                    self.selected_ref,
+                    tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
 
             other_config = vm["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -531,15 +536,17 @@ class oxcWindowProperties:
             stg = self.xc_servers[self.selected_host].all['SR'][self.selected_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != stg['name_label']:
-                self.xc_servers[self.selected_host].set_storage_name_label(self.selected_ref,
-                        self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_storage_name_label(
+                    self.selected_ref,
+                    self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != stg['name_description']:
-                self.xc_servers[self.selected_host].set_storage_name_description(self.selected_ref,
-                        tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+                self.xc_servers[self.selected_host].set_storage_name_description(
+                    self.selected_ref,
+                    tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
 
             other_config = stg["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -555,11 +562,13 @@ class oxcWindowProperties:
             pool = self.xc_servers[self.selected_host].all['pool'][self.selected_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != pool['name_label']:
-                self.xc_servers[self.selected_host].set_pool_name_label(self.selected_ref,
-                        self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_pool_name_label(
+                    self.selected_ref,
+                    self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != pool['name_description']:
-                self.xc_servers[self.selected_host].set_pool_name_description(self.selected_ref,
-                        tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+                self.xc_servers[self.selected_host].set_pool_name_description(
+                    self.selected_ref,
+                    tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
 
             other_config = pool["other_config"]
             change = False
@@ -579,49 +588,58 @@ class oxcWindowProperties:
             vm = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]
             tb = self.builder.get_object("txtpropvmdesc").get_buffer()
             if self.builder.get_object("txtpropvmname").get_text() != vm['name_label']:
-                self.xc_servers[self.selected_host].set_vm_name_label(self.selected_ref,
-                        self.builder.get_object("txtpropvmname").get_text())
+                self.xc_servers[self.selected_host].set_vm_name_label(
+                    self.selected_ref,
+                    self.builder.get_object("txtpropvmname").get_text())
             if tb.get_text(tb.get_start_iter(), tb.get_end_iter()) != vm['name_description']:
-                self.xc_servers[self.selected_host].set_vm_name_description(self.selected_ref,
-                        tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
+                self.xc_servers[self.selected_host].set_vm_name_description(
+                    self.selected_ref,
+                    tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
 
-            if int(self.builder.get_object("spinpropvmmem").get_value()) != int(vm["memory_dynamic_min"])/1024/1024:
-                self.xc_servers[self.selected_host].set_vm_memory(self.selected_ref,
-                        self.builder.get_object("spinpropvmmem").get_value())
+            if int(self.builder.get_object("spinpropvmmem").get_value()) != int(vm["memory_dynamic_min"]) / 1024 / 1024:
+                self.xc_servers[self.selected_host].set_vm_memory(
+                    self.selected_ref,
+                    self.builder.get_object("spinpropvmmem").get_value())
             if int(self.builder.get_object("spinpropvmvcpus").get_value()) != int(vm["VCPUs_at_startup"]):
-                self.xc_servers[self.selected_host].set_vm_vcpus(self.selected_ref,
-                        self.builder.get_object("spinpropvmvcpus").get_value())
+                self.xc_servers[self.selected_host].set_vm_vcpus(
+                    self.selected_ref,
+                    self.builder.get_object("spinpropvmvcpus").get_value())
             if "weight" in vm["VCPUs_params"]:
                 if self.builder.get_object("spinpropvmprio").get_value() != float(vm["VCPUs_params"]["weight"]):
-                    self.xc_servers[self.selected_host].set_vm_prio(self.selected_ref,
+                    self.xc_servers[self.selected_host].set_vm_prio(
+                        self.selected_ref,
                         self.builder.get_object("spinpropvmprio").get_value())
             else:
                 if self.builder.get_object("spinpropvmprio").get_value() != float(256):
-                    self.xc_servers[self.selected_host].set_vm_prio(self.selected_ref,
+                    self.xc_servers[self.selected_host].set_vm_prio(
+                        self.selected_ref,
                         self.builder.get_object("spinpropvmprio").get_value())
 
             if "auto_poweron" in vm['other_config'] and vm['other_config']["auto_poweron"] == "true":
-                if self.builder.get_object("checkvmpropautostart").get_active() == False:
-                    self.xc_servers[self.selected_host].set_vm_poweron(self.selected_ref,
+                if not self.builder.get_object("checkvmpropautostart").get_active():
+                    self.xc_servers[self.selected_host].set_vm_poweron(
+                        self.selected_ref,
                         self.builder.get_object("checkvmpropautostart").get_active())
             else:
                 if self.builder.get_object("checkvmpropautostart").get_active():
-                    self.xc_servers[self.selected_host].set_vm_poweron(self.selected_ref,
+                    self.xc_servers[self.selected_host].set_vm_poweron(
+                        self.selected_ref,
                         self.builder.get_object("checkvmpropautostart").get_active())
             if not vm['HVM_boot_policy']:
                 if self.builder.get_object("txtvmpropparams").get_text() != vm['PV_args']:
-                    self.xc_servers[self.selected_host].set_vm_bootpolicy(self.selected_ref,
+                    self.xc_servers[self.selected_host].set_vm_bootpolicy(
+                        self.selected_ref,
                         self.builder.get_object("txtvmpropparams").get_text())
             else:
                 order = ''
-                for i in range(0,4):
-                    iter = self.builder.get_object("listpropbootorder").get_iter((i,0))
-                    order += self.builder.get_object("listpropbootorder").get_value(iter,0)
-                    if self.builder.get_object("listpropbootorder").get_value(iter,2) == False:
+                for i in range(0, 4):
+                    iter = self.builder.get_object("listpropbootorder").get_iter((i, 0))
+                    order += self.builder.get_object("listpropbootorder").get_value(iter, 0)
+                    if not self.builder.get_object("listpropbootorder").get_value(iter, 2):
                         break
                 if order != vm['HVM_boot_params']['order']:
-                    self.xc_servers[self.selected_host].set_vm_boot_params(self.selected_ref,
-                        order)
+                    self.xc_servers[self.selected_host].set_vm_boot_params(
+                        self.selected_ref, order)
             shared = True
             for vbd_ref in vm['VBDs']:
                 vbd = self.xc_servers[self.selected_host].get_vbd(vbd_ref)
@@ -636,13 +654,13 @@ class oxcWindowProperties:
                 listhomeserver = self.builder.get_object("listhomeserver")
                 treehomeserver = self.builder.get_object("treehomeserver")
                 iter = treehomeserver.get_selection().get_selected()[1]
-                affinity =  listhomeserver.get_value(iter, 0)
+                affinity = listhomeserver.get_value(iter, 0)
                 if affinity != vm["affinity"]:
                     self.xc_servers[self.selected_host].set_vm_affinity(self.selected_ref, affinity)
 
             other_config = vm["other_config"]
             change = False
-            for cfield in  self.vboxchildtext:
+            for cfield in self.vboxchildtext:
                 if "XenCenter.CustomFields." + cfield in other_config:
                     if self.vboxchildtext[cfield].get_text() != other_config["XenCenter.CustomFields." + cfield]:
                         change = True
@@ -675,7 +693,7 @@ class oxcWindowProperties:
         treeprop.set_cursor((0,), treeprop.get_column(0))
         if treeprop.get_selection():
             treeprop.get_selection().select_path((0,))
-        if gtk.Buildable.get_name(widget) == "btstorageproperties": 
+        if gtk.Buildable.get_name(widget) == "btstorageproperties":
             liststorage = self.builder.get_object("listvmstorage")
             treestorage = self.builder.get_object("treevmstorage")
             column = 10
@@ -684,15 +702,15 @@ class oxcWindowProperties:
             treestorage = self.builder.get_object("treestg")
             column = 0
         selection = treestorage.get_selection()
-        if selection.get_selected()[1] != None:
+        if selection.get_selected()[1] is not None:
             self.builder.get_object("vmfreedevices").show()
-            #self.builder.get_object("dialogvmprop").show()
-            for i in range(listprop.__len__()-1,8,-1):
+            # self.builder.get_object("dialogvmprop").show()
+            for i in range(listprop.__len__() - 1, 8, -1):
                 iter = listprop.get_iter((i,))
                 listprop.remove(iter)
             iter = selection.get_selected()[1]
-            ref = liststorage.get_value(iter,column)
-            #print self.xc_servers[self.selected_host].all['VDI'][ref]
+            ref = liststorage.get_value(iter, column)
+            # print self.xc_servers[self.selected_host].all['VDI'][ref]
             if gtk.Buildable.get_name(widget) == "btstgproperties":
                 vdi_ref = ref
             else:
@@ -703,8 +721,8 @@ class oxcWindowProperties:
             stg_pbds = self.xc_servers[self.selected_host].all['SR'][vdi_sr]['PBDs']
             hosts = []
             for stg_pbd in stg_pbds:
-               stg_host = self.xc_servers[self.selected_host].all['PBD'][stg_pbd]['host']
-               hosts.append( self.xc_servers[self.selected_host].all['host'][stg_host]['name_label'])
+                stg_host = self.xc_servers[self.selected_host].all['PBD'][stg_pbd]['host']
+                hosts.append(self.xc_servers[self.selected_host].all['host'][stg_host]['name_label'])
             iter = listprop.get_iter((0,))
             listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + vdi['name_label'] + "</i>")
             self.builder.get_object("txtpropvmname").set_text(vdi['name_label'])
@@ -712,8 +730,8 @@ class oxcWindowProperties:
             iter = listprop.get_iter((8,))
             subtext = self.convert_bytes(vdi['virtual_size']) + "," + stg_name + " on " + ",".join(hosts)
             listprop.set_value(iter, 1, "<b>Size and Location</b>\n   <i>" + subtext + "</i>")
-            self.builder.get_object("adjvdisize").set_lower(float(vdi['virtual_size'])/1024/1024/1024)
-            self.builder.get_object("spinvdisize").set_value(float(vdi['virtual_size'])/1024/1024/1024)
+            self.builder.get_object("adjvdisize").set_lower(float(vdi['virtual_size']) / 1024 / 1024 / 1024)
+            self.builder.get_object("spinvdisize").set_value(float(vdi['virtual_size']) / 1024 / 1024 / 1024)
             listvdilocation = self.builder.get_object("listvdilocation")
             pos = self.xc_servers[self.selected_host].fill_vdi_location(vdi_sr, listvdilocation)
             self.builder.get_object("spinvdisize").set_sensitive(vdi['allowed_operations'].count("resize"))
@@ -721,7 +739,7 @@ class oxcWindowProperties:
                 i = 9
                 vbds = len(self.xc_servers[self.selected_host].all['VDI'][ref]['VBDs'])
                 if vbds:
-                    parts = float(1)/vbds
+                    parts = float(1) / vbds
                 else:
                     parts = 1
                 self.builder.get_object("progressfreedevices").set_pulse_step(parts)
@@ -738,11 +756,11 @@ class oxcWindowProperties:
                     vm_name = self.xc_servers[self.selected_host].all['vms'][vm_ref]['name_label']
                     subtext = "Device %s, (%s)" % (device, mode)
                     listprop.set_value(iter, 1, "<b>" + vm_name + "</b>\n   <i>" + subtext + "</i>")
-                    i = i + 1
-                    self.freedevices[vm_ref] =  self.xc_servers[self.selected_host].get_allowed_vbd_devices(vm_ref)
-                    update = update + parts
+                    i += 1
+                    self.freedevices[vm_ref] = self.xc_servers[self.selected_host].get_allowed_vbd_devices(vm_ref)
+                    update += parts
                     self.builder.get_object("progressfreedevices").pulse()
-            else: 
+            else:
                 vm_ref = self.xc_servers[self.selected_host].all['VBD'][ref]['VM']
                 device = self.xc_servers[self.selected_host].all['VBD'][ref]['userdevice']
                 mode = self.xc_servers[self.selected_host].all['VBD'][ref]['mode']
@@ -754,7 +772,7 @@ class oxcWindowProperties:
                 vm_name = self.xc_servers[self.selected_host].all['vms'][vm_ref]['name_label']
                 subtext = "Device %s, (%s)" % (device, mode)
                 listprop.set_value(iter, 1, "<b>" + vm_name + "</b>\n   <i>" + subtext + "</i>")
-                self.freedevices[vm_ref] =  self.xc_servers[self.selected_host].get_allowed_vbd_devices(vm_ref)
+                self.freedevices[vm_ref] = self.xc_servers[self.selected_host].get_allowed_vbd_devices(vm_ref)
                 self.builder.get_object("progressfreedevices").set_pulse_step(1)
                 self.builder.get_object("progressfreedevices").pulse()
 
@@ -797,13 +815,13 @@ class oxcWindowProperties:
         treeprop.set_cursor((0,), treeprop.get_column(0))
         treeprop.get_selection().select_path((0,))
         if gtk.Buildable.get_name(widget) == "menuitem_server_prop":
-            ref = self.treestore.get_value(self.treestore.iter_parent(self.selected_iter),6)
+            ref = self.treestore.get_value(self.treestore.iter_parent(self.selected_iter), 6)
             if ref in self.xc_servers[self.selected_host].all['host']:
-                vm =  self.xc_servers[self.selected_host].all['host'][ref]
+                vm = self.xc_servers[self.selected_host].all['host'][ref]
             else:
-                vm =  self.xc_servers[self.selected_host].all['host'][self.selected_ref]
+                vm = self.xc_servers[self.selected_host].all['host'][self.selected_ref]
         else:
-            vm =  self.xc_servers[self.selected_host].all['host'][self.selected_ref]
+            vm = self.xc_servers[self.selected_host].all['host'][self.selected_ref]
         iter = listprop.get_iter((0,))
         listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + vm['name_label'] + "</i>")
         self.builder.get_object("txtpropvmname").set_text(vm['name_label'])
@@ -824,7 +842,7 @@ class oxcWindowProperties:
         treeprop = self.builder.get_object("treeprop")
         treeprop.set_cursor((0,), treeprop.get_column(0))
         treeprop.get_selection().select_path((0,))
-        stg =  self.xc_servers[self.selected_host].all['SR'][self.selected_ref]
+        stg = self.xc_servers[self.selected_host].all['SR'][self.selected_ref]
         iter = listprop.get_iter((0,))
         listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + stg['name_label'] + "</i>")
         self.builder.get_object("txtpropvmname").set_text(stg['name_label'])
@@ -839,7 +857,7 @@ class oxcWindowProperties:
         treeprop = self.builder.get_object("treeprop")
         treeprop.set_cursor((0,), treeprop.get_column(0))
         treeprop.get_selection().select_path((0,))
-        pool =  self.xc_servers[self.selected_host].all['pool'][self.selected_ref]
+        pool = self.xc_servers[self.selected_host].all['pool'][self.selected_ref]
         iter = listprop.get_iter((0,))
         listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + pool['name_label'] + "</i>")
         self.builder.get_object("txtpropvmname").set_text(pool['name_label'])
@@ -849,7 +867,7 @@ class oxcWindowProperties:
 
     def fill_vm_properties(self):
         listprop = self.builder.get_object("listprop")
-        vm =  self.xc_servers[self.selected_host].all['vms'][self.selected_ref]
+        vm = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]
         # Name, Description, Folder and Tags
         iter = listprop.get_iter((0,))
         listprop.set_value(iter, 1, "<b>General</b>\n   <i>" + vm['name_label'] + "</i>")
@@ -866,10 +884,11 @@ class oxcWindowProperties:
 
         # Memory and VCPUS
         iter = listprop.get_iter((2,))
-        listprop.set_value(iter, 1, "<b>CPU and Memory</b>\n   <i>" \
-                + "%s VCPU(s) and %s RAM" % (vm["VCPUs_at_startup"],
-                    self.convert_bytes(vm["memory_dynamic_max"])) + "</i>")
-        self.builder.get_object("spinpropvmmem").set_value(float(vm["memory_dynamic_min"])/1024/1024)
+        listprop.set_value(iter, 1, "<b>CPU and Memory</b>\n   <i>" +
+                           "%s VCPU(s) and %s RAM" % (vm["VCPUs_at_startup"],
+                                                      self.convert_bytes(vm["memory_dynamic_max"])) + "</i>")
+
+        self.builder.get_object("spinpropvmmem").set_value(float(vm["memory_dynamic_min"]) / 1024 / 1024)
         self.builder.get_object("spinpropvmvcpus").set_value(float(vm["VCPUs_at_startup"]))
         if "weight" in vm["VCPUs_params"]:
             self.builder.get_object("spinpropvmprio").set_value(float(vm["VCPUs_params"]["weight"]))
@@ -903,9 +922,9 @@ class oxcWindowProperties:
         else:
             listprop.set_value(iter, 1, "<b>Startup Options</b>\n   <i>None defined</i>")
         if "auto_poweron" in vm['other_config'] and vm['other_config']["auto_poweron"] == "true":
-           self.builder.get_object("checkvmpropautostart").set_active(True)
+            self.builder.get_object("checkvmpropautostart").set_active(True)
         else:
-           self.builder.get_object("checkvmpropautostart").set_active(False)
+            self.builder.get_object("checkvmpropautostart").set_active(False)
 
         if not vm['HVM_boot_policy']:
             self.builder.get_object("txtvmpropparams").set_text(vm['PV_args'])
@@ -931,7 +950,7 @@ class oxcWindowProperties:
                     listbootorder.append([param, "DVD-Drive", True])
                 elif param == 'n':
                     listbootorder.append([param, "Network", True])
-            listbootorder.append(["","-------------- VM will not boot from devices below this line ------------", False])
+            listbootorder.append(["", "-------------- VM will not boot from devices below this line ------------", False])
             if vm['HVM_boot_params']['order'].count("c") == 0:
                     listbootorder.append(["c", "Hard Disk", True])
             if vm['HVM_boot_params']['order'].count("d") == 0:
@@ -941,8 +960,8 @@ class oxcWindowProperties:
         # Home Server || TODO shared
         iter = listprop.get_iter((4,))
         if vm['affinity'] != "OpaqueRef:NULL" and vm['affinity'] in self.xc_servers[self.selected_host].all['host']:
-            affinity =  self.xc_servers[self.selected_host].all['host'][vm['affinity']]
-            listprop.set_value(iter, 1, "<b>Home server</b>\n   <i>" +  affinity['name_label'] + "</i>")
+            affinity = self.xc_servers[self.selected_host].all['host'][vm['affinity']]
+            listprop.set_value(iter, 1, "<b>Home server</b>\n   <i>" + affinity['name_label'] + "</i>")
         else:
             listprop.set_value(iter, 1, "<b>Home server</b>\n   <i>None defined</i>")
 
@@ -972,7 +991,7 @@ class oxcWindowProperties:
             self.builder.get_object("memorymultiplier").set_text(str(vm["HVM_shadow_multiplier"]))
             if float(vm["HVM_shadow_multiplier"]) == 1.00:
                 self.builder.get_object("optimizegeneraluse").set_active(True)
-            elif float(vm["HVM_shadow_multiplier"])  == 4.00:
+            elif float(vm["HVM_shadow_multiplier"]) == 4.00:
                 self.builder.get_object("optimizeforxenapp").set_active(True)
             else:
                 self.builder.get_object("optimizemanually").set_active(True)
@@ -991,45 +1010,46 @@ class oxcWindowProperties:
         for config in self.other_config:
             if "XenCenter.CustomFields." in config:
                 if config[23:] in self.vboxchildtext:
-                     self.vboxchildtext[config[23:]].set_text(self.other_config[config])
+                    self.vboxchildtext[config[23:]].set_text(self.other_config[config])
 
     def fill_custom_fields_table(self, add=False):
-        pool_ref =  self.xc_servers[self.selected_host].all['pool'].keys()[0]
+        pool_ref = self.xc_servers[self.selected_host].all['pool'].keys()[0]
         self.vboxchildtext = {}
         if "XenCenter.CustomFields" in self.xc_servers[self.selected_host].all['pool'][pool_ref]["gui_config"]:
-           for ch in self.builder.get_object("vboxcustomfields").get_children():
-               self.builder.get_object("vboxcustomfields").remove(ch)
-            
-           dom = xml.dom.minidom.parseString(
-                   self.xc_servers[self.selected_host].all['pool'][pool_ref]["gui_config"]["XenCenter.CustomFields"])
-           for node in dom.getElementsByTagName("CustomFieldDefinition"):
-               name = node.attributes.getNamedItem("name").value
-               if name not in self.vboxchildtext:
-                   vboxframe = gtk.Frame()
-                   vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
-                   vboxframe.set_size_request(500,30)
-                   vboxchild = gtk.Fixed()
-                   vboxchild.set_size_request(500,30)
-                   vboxevent = gtk.EventBox()
-                   vboxevent.add(vboxchild)
-                   vboxchildlabel = gtk.Label()
-                   vboxchildlabel.set_selectable(True)
-                   vboxchildlabel.set_label(name)
-                   vboxchild.put(vboxchildlabel, 5, 5)
-                   self.vboxchildtext[name] = gtk.Entry()
-                   self.vboxchildtext[name].set_size_request(200,20)
-                   vboxchild.put(self.vboxchildtext[name], 300, 5)
-                   vboxevent.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
-                   self.builder.get_object("vboxcustomfields").pack_start(vboxevent, False, False, 0)
-                   self.builder.get_object("vboxcustomfields").show_all()
+            for ch in self.builder.get_object("vboxcustomfields").get_children():
+                self.builder.get_object("vboxcustomfields").remove(ch)
+
+            dom = xml.dom.minidom.parseString(
+                self.xc_servers[self.selected_host].all['pool'][pool_ref]["gui_config"]["XenCenter.CustomFields"])
+            for node in dom.getElementsByTagName("CustomFieldDefinition"):
+                name = node.attributes.getNamedItem("name").value
+                if name not in self.vboxchildtext:
+                    vboxframe = gtk.Frame()
+                    vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+                    vboxframe.set_size_request(500, 30)
+                    vboxchild = gtk.Fixed()
+                    vboxchild.set_size_request(500, 30)
+                    vboxevent = gtk.EventBox()
+                    vboxevent.add(vboxchild)
+                    vboxchildlabel = gtk.Label()
+                    vboxchildlabel.set_selectable(True)
+                    vboxchildlabel.set_label(name)
+                    vboxchild.put(vboxchildlabel, 5, 5)
+                    self.vboxchildtext[name] = gtk.Entry()
+                    self.vboxchildtext[name].set_size_request(200, 20)
+                    vboxchild.put(self.vboxchildtext[name], 300, 5)
+                    vboxevent.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+                    self.builder.get_object("vboxcustomfields").pack_start(vboxevent, False, False, 0)
+                    self.builder.get_object("vboxcustomfields").show_all()
         if add:
             self.set_custom_fields_values()
-        
+
     def on_properties_activate(self, widget, data=None):
         """
         Function called when you click on "Properties" window/menuitem for all elements
         """
-        self.fill_custom_fields_table()  
+        self.fill_custom_fields_table()
+        other_config = None
 
         # TODO: comment code
         self.propmodelfilter.refilter()
@@ -1048,9 +1068,5 @@ class oxcWindowProperties:
             self.selected_widget = widget
             other_config = self.fill_vm_properties()
 
-        self.other_config = other_config 
+        self.other_config = other_config
         self.set_custom_fields_values()
-
-
-        
-
