@@ -421,7 +421,7 @@ class oxcWindowProperties:
                 self.xc_servers[self.selected_host].set_network_name_description(
                     ref, tb.get_text(tb.get_start_iter(), tb.get_end_iter()))
             if "automatic" in network['other_config'] and network['other_config']['automatic'] == "true":
-                if self.builder.get_object("checknetworkautoadd").get_active() == False:
+                if not self.builder.get_object("checknetworkautoadd").get_active():
                     self.xc_servers[self.selected_host].set_network_automatically(
                         ref, self.builder.get_object("checknetworkautoadd").get_active())
 
