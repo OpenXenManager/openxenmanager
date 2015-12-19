@@ -1,0 +1,11 @@
+---
+engines:
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
+ratings:
+  paths:
+  - "**.py"
+exclude_paths: 
+  - "src/pygtk_chart/*.py"
