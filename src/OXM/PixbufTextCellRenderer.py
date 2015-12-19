@@ -2,10 +2,11 @@
 # Original Author: John Finlay <finlay at moeraki.com>
 # http://www.daa.com.au/pipermail/pygtk/2004-September/008685.html
 
-import pygtk
-pygtk.require('2.0')
 import gtk
 import gobject
+import pygtk
+pygtk.require('2.0')
+
 
 PAD = 3
 
@@ -13,13 +14,14 @@ PAD = 3
 class PixbufTextCellRenderer(gtk.GenericCellRenderer):
 
     __gproperties__ = {
-        "pixbuf": (gobject.TYPE_PYOBJECT, "Pixbuf", 
+        "pixbuf": (gobject.TYPE_PYOBJECT, "Pixbuf",
                    "Pixbuf image", gobject.PARAM_READWRITE),
         "text": (gobject.TYPE_STRING, "Text", "Text string", None,
                  gobject.PARAM_READWRITE),
-        'background': (gtk.gdk.Color, 'Background', 'The background color', gobject.PARAM_READWRITE)
+        'background': (gtk.gdk.Color, 'Background',
+                       'The background color', gobject.PARAM_READWRITE)
     }
-                     
+
     def __init__(self):
         self.__gobject_init__()
         self.prend = gtk.CellRendererPixbuf()
@@ -35,13 +37,14 @@ class PixbufTextCellRenderer(gtk.GenericCellRenderer):
     def update_properties(self):
         self.trend.set_property('text', self.get_property('text'))
         self.prend.set_property('pixbuf', self.get_property('pixbuf'))
-        self.prend.set_property('cell-background-gdk', self.get_property('background'))
+        self.prend.set_property('cell-background-gdk',
+                                self.get_property('background'))
         return
 
     def on_render(self, window, widget, background_area,
                   cell_area, expose_area, flags):
         self.update_properties()
-        #ypad = self.get_property('ypad')
+        # ypad = self.get_property('ypad')
         px, py, pw, ph = self.prend.get_size(widget, cell_area)
         px += cell_area.x
         prect = (px, cell_area.y, pw, ph)
