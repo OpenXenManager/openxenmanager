@@ -4,6 +4,8 @@ engines:
     enabled: true
   radon:
     enabled: true
+  pep8:
+    enabled: true
 ratings:
   paths:
   - "**.py"
@@ -12,3 +14,5 @@ exclude_paths:
   - "MANIFEST.in"
   - "src/OXM/images/**"
   - "src/OXM/images_map/*.png" 
+  - "**.conf"
+  - "**.xml"
