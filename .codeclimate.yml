@@ -9,4 +9,4 @@ ratings:
   - "**.py"
 exclude_paths: 
   - "src/pygtk_chart/*.py"
-- "MANIFEST.in"
+  - "MANIFEST.in"
