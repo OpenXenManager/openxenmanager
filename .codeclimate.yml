@@ -8,5 +8,7 @@ ratings:
   paths:
   - "**.py"
 exclude_paths: 
-  - "src/pygtk_chart/*.py"
+  - "src/pygtk_chart/*"
   - "MANIFEST.in"
+  - "src/OXM/images/**"
+  - "src/OXM/images_map/*.png" 
