@@ -190,27 +190,6 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         put.putfile(fp, 'https://' + url +
                     '/host_restore?session_id=%s&task_id=%s&dry_run=true' %
                     (self.session_uuid, task_uuid['Value']))
-        return  # TODO: Is this meant to be here?
-        conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/host_restore?session_id=%s&task_id=%s'
-                               '&dry_run=true' % (self.session_uuid,
-                                                  task_uuid['Value']))
-        conn.putheader('Content-Type', 'text/plain')
-        conn.endheaders()
-
-        blocknum = 0
-        uploaded = 0
-        blocksize = 4096
-        while not self.halt_import:
-            bodypart = fp.read(blocksize)
-            blocknum += 1
-            if blocknum % 10 == 0:
-                uploaded += len(bodypart)
-
-            if not bodypart:
-                break
-            conn.send(bodypart)
-
         fp.close()
 
     def save_screenshot(self, ref, filename):
@@ -240,22 +219,6 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         put.putfile(fp, 'https://' + url +
                     '/pool/xmldbdump?session_id=%s&task_id=%s&dry_run=%s' %
                     (self.session_uuid, task_uuid['Value'], dry_run))
-        return  # TODO: Is this meant to be here?
-        conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/pool/xmldbdump?session_id=%s&task_id=%s'
-                               '&dry_run=%s' % (self.session_uuid,
-                                                task_uuid['Value'], dry_run))
-        conn.putheader('Content-Length', str(size))
-        conn.endheaders()
-        total = 0
-        while True:
-            leido = fp.read(16384)
-            if leido:
-                total += len(leido)
-                time.sleep(0.1)
-                conn.send(leido)
-            else:
-                break
         fp.close()
 
     def host_download_logs(self, ref, filename, name):
@@ -298,30 +261,6 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         put.putfile(fp, 'https://' + url +
                     '/import?session_id=%s&sr_id=%s&task_id=%s' %
                     (self.session_uuid, ref, task_uuid['Value']))
-        return  # TODO: Is this meant to be here?
-
-        conn = httplib.HTTP(url)
-        conn.putrequest('PUT', '/import?session_id=%s&sr_id=%s&task_id=%s' %
-                        (self.session_uuid, ref, task_uuid['Value']))
-        conn.putheader('Content-Type', 'text/plain')
-        conn.putheader('Content-Length', str(size))
-        conn.endheaders()
-        fp = open(filename, 'rb')
-        blocknum = 0
-        uploaded = 0
-        blocksize = 4096
-        while not self.halt_import:
-            bodypart = fp.read(blocksize)
-            blocknum += 1
-            if blocknum % 10 == 0:
-                uploaded += len(bodypart)
-            if blocknum % 1000 == 0:
-                time.sleep(0.1)
-
-            if not bodypart:
-                break
-            conn.send(bodypart)
-
         fp.close()
 
     def add_alert(self, message, ref, list):
