@@ -488,7 +488,6 @@ class oxcSERVERmenuitem:
                                              res["ErrorDescription"][1]))
 
     def add_server_to_pool(self, widget, ref, server, server_ref, master_ip):
-        self.wine.xc_servers[server].all['host'][server_ref]
         user = self.wine.xc_servers[server].user
         password = self.wine.xc_servers[server].password
         host = master_ip
@@ -510,7 +509,6 @@ class oxcSERVERmenuitem:
         server = data[0]
         server_ref = data[1]
         master_ip = data[2]
-        self.wine.xc_servers[server].all['host'][server_ref]
         user = self.wine.xc_servers[server].user
         password = self.wine.xc_servers[server].password
         host = master_ip
