@@ -475,7 +475,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 else:
                     addresses = []
 
-                #FIXME - Fix what?
+                # FIXME - Fix what?
                 # Network name
                 if vif['network'] in self.all['network']:
                     network = self.all['network'][vif['network']]['name_label'].\
@@ -841,8 +841,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
-        #FIXME
-        #vboxchildprogressbar.set_style(1)
+        # FIXME
+        # vboxchildprogressbar.set_style(1)
         vboxchildlabel2.set_label(date)
         msg = get_msg(title)
         if msg:
@@ -853,7 +853,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             vboxchildlabel3.set_label(description)
 
         vboxchildlabel1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("blue"))
-        #vboxchildlabel4.set_label(time)
+        # vboxchildlabel4.set_label(time)
         vboxchild.put(vboxchildlabel1, 25, 12)
         vboxchild.put(vboxchildlabel2, 500, 12)
         vboxchild.put(vboxchildlabel3, 25, 32)
@@ -917,7 +917,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             for pbd in storage['PBDs']:
                 if self.all['PBD'][pbd]['host'] == ref:
                     on_host = True
-            #if storage['type'] != "iso":
+            # if storage['type'] != "iso":
             if on_host:
                 if "physical_size" in storage:
                     if int(storage['physical_size']) > 0:
@@ -947,7 +947,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             gobject.idle_add(lambda: list.clear() and False)
             position = 0
             hosts = {}
-            #FIXME: what happen when a pool exists?
+            # FIXME: what happen when a pool exists?
             for host in self.all['host'].keys():
                 metrics = self.all['host'][host]['metrics']
                 memory_free = int(self.all['host_metrics'][metrics]['memory_free'])
@@ -1068,8 +1068,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             memory = int(rrd_updates.get_vm_data(uuid, param, row))*1024
                             memory_total = int(self.all['vms'][vm]['memory_dynamic_max'])
                         else:
-                            #print str(media/i) + "/" + str(max(data))
-                            #print "last: " + str(rrd_updates.get_vm_data(uuid,param,row))
+                            # print str(media/i) + "/" + str(max(data))
+                            # print "last: " + str(rrd_updates.get_vm_data(uuid,param,row))
                             pass
 
                         if cpu:
@@ -1160,7 +1160,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             None
                          ]))
                         """
-                        #print  self.all['vms'][vm]
+                        # print  self.all['vms'][vm]
                 else:
                     gobject.idle_add(lambda: list.set(list.get_iter(hosts[parent]), 2,
                                                       gtk.gdk.pixbuf_new_from_file(os.path.join(
@@ -1188,7 +1188,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                     vm = ""
                 if self.all['VDI'][vdi]['is_a_snapshot']:
                     vm += " (snapshot)"
-                #FIXME
+                # FIXME
                 if self.all['VDI'][vdi]['name_label'] != "base copy":
                     list.append([vdi, self.all['VDI'][vdi]['name_label'],
                                  self.all['VDI'][vdi]['name_description'],
@@ -1384,7 +1384,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
         priority = self.all['vms'][ref]["VCPUs_params"]
         if "weight" in priority:
-            #labels["lbltplpriority"] = priority['weight']
+            # labels["lbltplpriority"] = priority['weight']
             weight = priority['weight']
             if weight == 1:
                 labels["lbltplpriority"] = "Lowest"
@@ -1407,8 +1407,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         else:
             labels["lbltplpriority"] = "Normal"
 
-        #FIXME
-        #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
+        # FIXME
+        # labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
         metric = self.all['vms'][ref]['metrics']
         if metric not in self.all['VM_metrics']:
             res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
@@ -1439,9 +1439,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             labels['lblhostiscsi'] = host_other_config['iscsi_iqn']
         else:
             labels['lblhostiscsi'] = ""
-        #FIXME
+        # FIXME
         labels['lblhostpool'] = ""
-        #str(self.connection.session.get_pool(
+        # str(self.connection.session.get_pool(
         #             self.session_uuid, self.session['Value'])['Value'])
         logging = self.all['host'][ref]['logging']
         if "syslog_destination" in logging:
@@ -1608,8 +1608,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             else:
                 labels["lblvmpriority"] = "Normal"
 
-            #FIXME
-            #labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
+            # FIXME
+            # labels["lblvmstartup"] =  str(self.connection.VM_metrics.get_start_time(self.session_uuid,metric)['Value'])
             metric = self.all['vms'][ref]['metrics']
             if metric not in self.all['VM_metrics']:
                 res = self.connection.VM_metrics.get_record(self.session_uuid, ref)
@@ -1669,7 +1669,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         Thread(target=self.download_export, args=(url, destination, ref, as_vm)).start()
 
     def download_export(self, url, destination, ref, as_vm):
-        #print "Saving %s to %s" % (url, destination)
+        # print "Saving %s to %s" % (url, destination)
         if as_vm:
             self.connection.VM.set_is_a_template(self.session_uuid, ref, False)
         urllib.urlretrieve(url, destination)
@@ -1680,7 +1680,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         return self.all['vms'][ref]['allowed_operations']
 
     def get_connect_string(self, ref):
-        #FIXME
+        # FIXME
         """
         vm_uuid  = self.connection.VM.get_by_uuid(self.session_uuid,uuid)
         consoles = self.connection.VM.get_consoles(self.session_uuid, vm_uuid['Value'])
@@ -1751,7 +1751,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
     def event_next(self):
         print "Entering event loop"
-        #support function -  to evalue msg expression before pushing to GTK loop
+        # support function -  to evalue msg expression before pushing to GTK loop
         def push_alert(msg):
             gobject.idle_add(lambda: self.wine.push_alert(msg))
 
@@ -1847,11 +1847,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                             self.all['VM_guest_metrics'][event['ref']] = \
                                 self.connection.VM_guest_metrics.get_record(self.session_uuid, event['ref'])
                         elif event['class'] == "task":
-                            #print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
+                            # print ">>>" +  event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                             self.all['task'][event["ref"]] = event["snapshot"]
                             if event["ref"] not in self.track_tasks:
-                                #print event
-                                #print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
+                                # print event
+                                # print event["snapshot"]["name_label"] + " " + event["snapshot"]["status"] + " " + str(event["snapshot"]["progress"]) + ":\t", event
                                 pass
                             if event["snapshot"]["status"] == "success":
                                 if event["ref"] in self.vboxchildprogressbar:
@@ -1906,7 +1906,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                                            self.track_tasks[event["ref"]])
                                         if "Value" in vm:
                                             self.all['vms'][self.track_tasks[event["ref"]]] = vm['Value']
-                                            #self.add_vm_to_tree(self.track_tasks[event["ref"]])
+                                            # self.add_vm_to_tree(self.track_tasks[event["ref"]])
                                             gobject.idle_add(lambda: self.wine.modelfilter.clear_cache() and False)
                                             gobject.idle_add(lambda: self.wine.modelfilter.refilter() and False)
                                             gobject.idle_add(lambda: self.wine.push_alert(
@@ -1924,7 +1924,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                                 and False)
                                 else:
                                     pass  # FIXME?
-                                    #self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
+                                    # self.wine.push_alert(event["snapshot"]["name_label"] + (" %.2f%%" % (float(event["snapshot"]["progress"])*100)))
 
                                 self.dbg_track_num += 1
 
@@ -1946,7 +1946,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                     dom = xml.dom.minidom.parseString(event['snapshot']['result'])
                                     nodes = dom.getElementsByTagName("value")
                                     vm_ref = nodes[0].childNodes[0].data
-                                    #self.add_vm_to_tree(vm_ref)
+                                    # self.add_vm_to_tree(vm_ref)
                                     if event["ref"] in self.set_descriptions:
                                         self.connection.VM.set_name_description(self.session_uuid, vm_ref,
                                                                                 self.set_descriptions[event["ref"]])
@@ -1991,11 +1991,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                         dom = xml.dom.minidom.parseString(event['snapshot']['result'])
                                         nodes = dom.getElementsByTagName("value")
                                         snapshot_ref = nodes[0].childNodes[0].data
-                                        #self.all['vms'][vm_uuid]['snapshots'].append(snapshot_ref)
+                                        # self.all['vms'][vm_uuid]['snapshots'].append(snapshot_ref)
                                         self.all['vms'][snapshot_ref] = self.connection.VM.get_record(
                                             self.session_uuid, snapshot_ref)['Value']
                                         for vbd in self.all['vms'][snapshot_ref]['VBDs']:
-                                            #FIXME
+                                            # FIXME
                                             self.all['VBD'][vbd] = self.connection.VBD.get_record(
                                                 self.session_uuid, vbd)['Value']
 
@@ -2038,12 +2038,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
                                 if event["snapshot"]["name_label"] in ("VBD.create", "VBD.destroy"):
                                         if self.wine.selected_tab == "VM_Storage":
-                                                #print "fill_vm_storage start"
+                                                # print "fill_vm_storage start"
                                                 gobject.idle_add(lambda: self.fill_vm_storage(
                                                     self.wine.selected_ref,
                                                     self.wine.builder.get_object("listvmstorage")) and False)
-                                                #print pdb.set_trace()
-                                                #print "fill_vm_storage end"
+                                                # print pdb.set_trace()
+                                                # print "fill_vm_storage end"
                                 if event["snapshot"]["name_label"] in ("VDI.create", "VDI.destroy"):
                                         if self.wine.selected_tab == "Local_Storage":
                                                 gobject.idle_add(lambda: self.fill_local_storage(
@@ -2081,7 +2081,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                         gobject.idle_add(lambda: self.fill_vm_log(self.wine.selected_uuid,
                                                                                   thread=True) and False)
                                     else:
-                                        #print event
+                                        # print event
                                         pass
 
                         elif event["class"] == "vdi":
@@ -2133,7 +2133,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 # FIXME
                                 host = self.all['host'].keys()[0]
                                 if self.poolroot:
-                                    #iter_ref = self.treestore.append(self.poolroot, [\
+                                    # iter_ref = self.treestore.append(self.poolroot, [\
                                     gobject.idle_add(lambda: self.treestore.append(self.poolroot, [
                                         gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
@@ -2141,7 +2141,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                         "storage", None, self.host, sr, self.all['SR'][sr]['allowed_operations'],
                                         None]) and False)
                                 else:
-                                    #iter_ref = self.treestore.append(self.hostroot[host], [\
+                                    # iter_ref = self.treestore.append(self.hostroot[host], [\
                                     gobject.idle_add(lambda: self.treestore.append(self.hostroot[host], [
                                         gtk.gdk.pixbuf_new_from_file(os.path.join(utils.module_path(),
                                                                                   "images/storage_shaped_16.png")),
@@ -2369,7 +2369,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             if item_ref in self.track_tasks:
                 if self.track_tasks[item_ref] in self.all['vms']:
                     return self.all['vms'][self.track_tasks[item_ref]]["uuid"] == self.filter_uuid
-                    #return True
+                    # return True
             if "ref" in item and item["ref"] in self.track_tasks and self.track_tasks[item["ref"]] in self.all['vms']:
                 return self.all['vms'][self.track_tasks[item["ref"]]]["uuid"] == self.filter_uuid
             else:
