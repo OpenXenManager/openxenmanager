@@ -396,23 +396,17 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 vif = self.all['VIF'][vif_ref]
 
                 # QOS Parameters
-                if "kbps" in vif['qos_algorithm_params']:
-                    limit = vif['qos_algorithm_params']['kbps']
-                else:
-                    limit = ""
+                limit = vif['qos_algorithm_params'].get('kbps', '')
 
                 # IP Addresses
-                if guest_metrics in self.all['VM_guest_metrics'] and \
-                        len(self.all['VM_guest_metrics'][guest_metrics]['networks']) > 0:
-                    net_addrs = self.all['VM_guest_metrics'][guest_metrics]['networks']
-                    addresses = []
-                    for key in net_addrs:
-                        if key == vif['device'] + "/ip":
-                            addresses.append(net_addrs[key])
-                        elif not str(net_addrs[key]).startswith('fe80'):
-                            addresses.append(net_addrs[key])
-                else:
-                    addresses = []
+                net_addrs = (
+                    self.all['VM_guest_metrics'].get(
+                        guest_metrics, {'networks': ()}).
+                    get('networks', ()))
+                addresses = [
+                    addr for key, addr in net_addrs.items()
+                    if key.startswith(vif['device'] + '/ip')
+                ]
 
                 # FIXME - Fix what?
                 # Network name
