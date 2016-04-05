@@ -1,11 +1,20 @@
 Nasty alert dialog:
-	Alert Dialog 'walert' definied in file 'warning_dialogs.glade' has some fuckery:
+	Alert Dialog 'walert' definied in file 'warning_dialogs.glade' has some 
+	fuckery:
 	
 	window.py:1562 - def show_error_dlg(self, error_string, error_title="Error"):
 
-	It is definied as a Popup Window Type. This is so it is on top of modal windows.
-	Why not just use a default message box?
+	It is definied as a Popup Window Type. This is so it is on top of modal
+	windows. Why not just use a default message box?
 
-New Storage Repo:
-	Windows File Server* 	-	Under the server options the checkbox doesn't disable/enable the login information frame. The controls are always enabled.
+
+New Storage Repo: storage.glade
+	Windows File Server* 	-	Under the server options the checkbox 
+	doesn't disable/enable the login information frame. The controls are 
+	always enabled.
+
+General: 
+	treemgmtinterfaces (in mgmt_interfaces.glade) - The entries put into 
+	this box wont resize this box. This also looks to be a problem in the 
+	general properties dialog. 
 
