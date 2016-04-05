@@ -6,3 +6,6 @@ Nasty alert dialog:
 	It is definied as a Popup Window Type. This is so it is on top of modal windows.
 	Why not just use a default message box?
 
+New Storage Repo:
+	Windows File Server* 	-	Under the server options the checkbox doesn't disable/enable the login information frame. The controls are always enabled.
+
