@@ -925,7 +925,10 @@ class oxcWindowMenuItem:
             self.builder.get_object(widget).set_sensitive(True)
         self.reattach_storage = False
         self.builder.get_object("nextnewstorage").set_sensitive(True)
-        self.builder.get_object("eventnewstg0").modify_bg(gtk.STATE_NORMAL, blue)
+        # TODO: James GUI - I disabled the following line to continue fixing the storage.glade file
+        # 		I'll need to reimplement this colour highlighting thing as it doesn't work anyway 
+        #		and this is a tad ugly.
+        # self.builder.get_object("eventnewstg0").modify_bg(gtk.STATE_NORMAL, blue)
         self.builder.get_object("tabboxnewstorage").set_current_page(0)
         self.builder.get_object("newstorage").show() 
 

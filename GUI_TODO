@@ -1,0 +1,8 @@
+Nasty alert dialog:
+	Alert Dialog 'walert' definied in file 'warning_dialogs.glade' has some fuckery:
+	
+	window.py:1562 - def show_error_dlg(self, error_string, error_title="Error"):
+
+	It is definied as a Popup Window Type. This is so it is on top of modal windows.
+	Why not just use a default message box?
+

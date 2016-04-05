@@ -1,22 +1,34 @@
 Thread for connection -> cancel button on progres -> update progress
 
 New RoadMap:
-  Server:
+Server:
  - Change server password (done)
  - Enter maintenance mode (done)
  - Backup server (done)
  - Restore from backup (done)
  - Install license key (done)
- VM:
+VM:
  - Install Xenserver tools (done)
  - Start in Recovery mode (done)
- Storage:
+Storage:
  - dettach/reattach/forget/delete (done)
- Other:
+Other:
   - Install last patchs
   - New Storage -> Hardware HBA (done)
   - Send Ctrl alt del
-- Clean code
+  - Clean code
+GUI:
+  - Transition to GTK3
+  - Make GUI Elements use native colour coding. (Ex. window_newvm.glade, storage.glade)
+  - I disabled the 'eventnewstg0' modify_bg colouring of which step of the new storage creation.
+    This glade file is a complete mess and I'll have to reimplement this. Maybe I can find some consistant method to do this.
+	Crash when I modified the layout of this dialog:
+		Traceback (most recent call last):
+		File "./src/OXM/window_menuitem.py", line 928, in on_menuitem_stg_new_activate
+		self.builder.get_object("eventnewstg0").modify_bg(gtk.STATE_NORMAL, blue)
+		AttributeError: 'NoneType' object has no attribute 'modify_bg'
+
+
 
 
 Use text:
