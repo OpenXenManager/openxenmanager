@@ -1,4 +1,9 @@
+There has to be a better way:
+	OXM/window_properties.py   line 953
+
+
 Nasty alert dialog:
+
 	Alert Dialog 'walert' definied in file 'warning_dialogs.glade' has some 
 	fuckery:
 	
