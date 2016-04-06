@@ -12,6 +12,9 @@ VM:
  - Start in Recovery mode (done)
 Storage:
  - dettach/reattach/forget/delete (done)
+ - Allow creation of local storage option:
+   xe sr-create name-label=LocalISOLibrary type=iso device-config:legacy_mode=true device-config:location=/opt/images content-type=iso
+
 Other:
   - Install last patchs
   - New Storage -> Hardware HBA (done)
