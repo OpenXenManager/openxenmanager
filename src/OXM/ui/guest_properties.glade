@@ -155,7 +155,7 @@
                 <property name="can_focus">False</property>
                 <property name="spacing">3</property>
                 <child>
-                  <object class="GtkTable" id="table100">
+                  <object class="GtkTable" id="table103">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">2</property>
@@ -224,7 +224,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkAlignment" id="alignment1">
+                  <object class="GtkAlignment" id="alignment102">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="bottom_padding">10</property>
@@ -271,7 +271,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox101">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">3</property>
@@ -719,7 +719,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkVBox" id="vbox1">
+                              <object class="GtkVBox" id="vbox103">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="spacing">10</property>
@@ -765,7 +765,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkTable" id="table1">
+                                  <object class="GtkTable" id="table101">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="n_rows">2</property>
@@ -1004,7 +1004,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <object class="GtkHButtonBox" id="hbuttonbox1">
+                                          <object class="GtkHButtonBox" id="hbuttonbox102">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="layout_style">end</property>
@@ -1254,7 +1254,7 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkLabel" id="label1">
+                                              <object class="GtkLabel" id="label103">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                               </object>
@@ -1423,7 +1423,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkAlignment" id="alignment1">
+                                  <object class="GtkAlignment" id="alignment103">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="top_padding">20</property>
@@ -2832,7 +2832,7 @@ will always attempt to use the resources of the home if it can.</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkAlignment" id="alignment1">
+          <object class="GtkAlignment" id="alignment101">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="top_padding">50</property>
@@ -2932,12 +2932,12 @@ will always attempt to use the resources of the home if it can.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkVBox" id="vbox102">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
             <child>
-              <object class="GtkHBox" id="hbox1">
+              <object class="GtkHBox" id="hbox102">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -2955,7 +2955,7 @@ will always attempt to use the resources of the home if it can.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTable" id="table1">
+                  <object class="GtkTable" id="table100">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_rows">3</property>
@@ -3076,7 +3076,7 @@ will always attempt to use the resources of the home if it can.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label101">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -3102,7 +3102,7 @@ will always attempt to use the resources of the home if it can.</property>
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox2">
+              <object class="GtkVBox" id="vbox201">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -3231,7 +3231,7 @@ will always attempt to use the resources of the home if it can.</property>
             <property name="left_padding">10</property>
             <property name="right_padding">10</property>
             <child>
-              <object class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="vbox101">
                 <property name="width_request">500</property>
                 <property name="height_request">500</property>
                 <property name="visible">True</property>
@@ -3310,7 +3310,7 @@ will always attempt to use the resources of the home if it can.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox100">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -3331,7 +3331,7 @@ will always attempt to use the resources of the home if it can.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label100">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -3342,7 +3342,7 @@ will always attempt to use the resources of the home if it can.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHButtonBox" id="hbuttonbox1">
+                      <object class="GtkHButtonBox" id="hbuttonbox101">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
