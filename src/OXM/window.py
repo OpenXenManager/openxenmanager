@@ -471,6 +471,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
     	section_header = self.builder.get_object(widget_name)
     	if(section_header is None): return None
 		
+    	# Make the event boxes window visible and set the background color
+    	section_header.set_visible_window(True)
     	section_header.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#3498db'))
     	
     	child_list = section_header.get_children()
