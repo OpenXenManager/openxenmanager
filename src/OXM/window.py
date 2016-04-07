@@ -22,6 +22,9 @@
 import os
 import sys
 import shutil
+import pygtk
+import pango
+
 from configobj import ConfigObj
 from tunnel import Tunnel
 
@@ -439,6 +442,18 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         # Default buttons could be pressed with enter without need do click
         self.set_window_defaults()
         
+        # To easily modify and provide a consistent section header look in the
+        # main_window: I've named all EventBoxes main_section_header#. Iterate through
+        # them until we get a NoneType
+        section_header_string = "main_section_header"
+        section_header_index = 1
+        
+        while(1):
+            done = self.prettify_section_header(section_header_string + str(section_header_index))
+            if(done == None): break
+            section_header_index = section_header_index + 1
+		
+		
         # If we need a master password for connect to servers without password:
         # Show the dialog asking master password
         if str(self.config["gui"]["save_password"]) == "True":
@@ -448,7 +463,34 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
             self.builder.get_object('consolescale').hide()
 
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
-        
+
+   	# I'm fairly new to Python, from C++, this is probably goofy.
+    def prettify_section_header(self, widget_name):
+    	if type(widget_name) is not str: return None
+
+    	section_header = self.builder.get_object(widget_name)
+    	if(section_header is None): return None
+		
+    	section_header.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#3498db'))
+    	
+    	child_list = section_header.get_children()
+    	if child_list is not None:
+    		for child in child_list:
+    			if child is not None:
+		    		if type(child) == gtk.Label:
+		    			child.modify_fg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+		    			
+		    			# Preserve attributes set within Glade.
+		    			child_attributes = child.get_attributes()
+		    			if child_attributes == None:
+		    				child_attributes = pango.AttrList()
+						
+						# Add/modify a few attributes
+		    			child_attributes.change(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
+		    			child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
+		    			child.set_attributes(child_attributes)
+		return True
+    	
     def adjust_scrollbar_performance(self):
         for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
             self.builder.get_object(widget).grab_focus()

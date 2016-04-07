@@ -2770,7 +2770,6 @@ Reboot</property>
                               <object class="GtkAlignment" id="alignment49">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkScrolledWindow" id="scrolledwindow30">
                                     <property name="visible">True</property>
@@ -2788,49 +2787,75 @@ Reboot</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkFixed" id="fixed101">
+                                              <object class="GtkVBox" id="vbox9">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
-                                                  <object class="GtkVBox" id="vbox9">
-                                                    <property name="width_request">413</property>
-                                                    <property name="height_request">320</property>
+                                                  <object class="GtkEventBox" id="main_section_header1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
-                                                      <object class="GtkHButtonBox" id="hbuttonbox14">
+                                                      <object class="GtkLabel" id="label362">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="layout_style">end</property>
+                                                        <property name="xalign">0</property>
+                                                        <property name="xpad">10</property>
+                                                        <property name="ypad">10</property>
+                                                        <property name="label" translatable="yes">&lt;b&gt;Pool General Properties&lt;/b&gt;&lt;span foreground="white"&gt;&lt;/span&gt;</property>
+                                                        <property name="use_markup">True</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkFixed" id="fixed101">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <object class="GtkVBox" id="vbox19">
+                                                        <property name="width_request">413</property>
+                                                        <property name="height_request">320</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
                                                         <child>
-                                                          <object class="GtkButton" id="btpoolproperties">
+                                                          <object class="GtkHButtonBox" id="hbuttonbox14">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="layout_style">end</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="btpoolproperties">
                                                             <property name="label" translatable="yes">Properties</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_properties_activate" swapped="no"/>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkFrame" id="frame1">
-                                                        <property name="width_request">618</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
                                                         <child>
-                                                          <object class="GtkAlignment" id="alignment33">
+                                                          <object class="GtkFrame" id="frame1">
+                                                            <property name="width_request">618</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment33">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="left_padding">12</property>
@@ -3012,26 +3037,26 @@ Reboot</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="label_item">
+                                                            <placeholder/>
+                                                            </child>
                                                           </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
                                                         </child>
-                                                        <child type="label_item">
-                                                          <placeholder/>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkFrame" id="frame2">
-                                                        <property name="width_request">618</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
                                                         <child>
-                                                          <object class="GtkAlignment" id="alignment34">
+                                                          <object class="GtkFrame" id="frame2">
+                                                            <property name="width_request">618</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment34">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="left_padding">12</property>
@@ -3140,22 +3165,29 @@ Reboot</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="label_item">
+                                                            <placeholder/>
+                                                            </child>
                                                           </object>
-                                                        </child>
-                                                        <child type="label_item">
-                                                          <placeholder/>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
                                                         </child>
                                                       </object>
                                                       <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
+                                                        <property name="x">20</property>
+                                                        <property name="y">20</property>
                                                       </packing>
                                                     </child>
                                                   </object>
                                                   <packing>
-                                                    <property name="x">20</property>
-                                                    <property name="y">20</property>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                               </object>
@@ -3168,13 +3200,8 @@ Reboot</property>
                                 </child>
                               </object>
                             </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label362">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Pool General Properties&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </object>
+                            <child type="label_item">
+                              <placeholder/>
                             </child>
                           </object>
                         </child>
@@ -4807,69 +4834,96 @@ Reboot</property>
                             <property name="label_xalign">0</property>
                             <property name="shadow_type">none</property>
                             <child>
-                              <object class="GtkAlignment" id="alignment2">
+                              <object class="GtkVBox" id="vbox13">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
                                 <child>
-                                  <object class="GtkScrolledWindow" id="scrolledwindow2">
+                                  <object class="GtkEventBox" id="main_section_header2">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="hscrollbar_policy">automatic</property>
-                                    <property name="vscrollbar_policy">automatic</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="visible_window">False</property>
                                     <child>
-                                      <object class="GtkViewport" id="viewport7">
+                                      <object class="GtkLabel" id="label5">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="resize_mode">queue</property>
-                                        <property name="shadow_type">none</property>
+                                        <property name="xalign">0</property>
+                                        <property name="xpad">10</property>
+                                        <property name="ypad">10</property>
+                                        <property name="label" translatable="yes">&lt;b&gt;VM General properties&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="left_padding">12</property>
+                                    <child>
+                                      <object class="GtkScrolledWindow" id="scrolledwindow2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
                                         <child>
-                                          <object class="GtkEventBox" id="eventbox16">
+                                          <object class="GtkViewport" id="viewport7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="resize_mode">queue</property>
+                                            <property name="shadow_type">none</property>
                                             <child>
-                                              <object class="GtkFixed" id="fixed11">
+                                              <object class="GtkEventBox" id="eventbox16">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
-                                                  <object class="GtkVBox" id="vbox13">
+                                                  <object class="GtkFixed" id="fixed11">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">5</property>
                                                     <child>
-                                                      <object class="GtkHButtonBox" id="hbuttonbox16">
+                                                      <object class="GtkVBox" id="vbox20">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="layout_style">end</property>
+                                                        <property name="spacing">5</property>
                                                         <child>
-                                                          <object class="GtkButton" id="btvmproperties">
+                                                          <object class="GtkHButtonBox" id="hbuttonbox16">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="layout_style">end</property>
+                                                            <child>
+                                                            <object class="GtkButton" id="btvmproperties">
                                                             <property name="label" translatable="yes">Properties</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_properties_activate" swapped="no"/>
-                                                          </object>
-                                                          <packing>
+                                                            </object>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                           </packing>
                                                         </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkFrame" id="frame9">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
                                                         <child>
-                                                          <object class="GtkAlignment" id="alignment50">
+                                                          <object class="GtkFrame" id="frame9">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment50">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="left_padding">12</property>
@@ -5196,26 +5250,26 @@ Reboot</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            </child>
+                                                            <child type="label_item">
+                                                            <placeholder/>
+                                                            </child>
                                                           </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
                                                         </child>
-                                                        <child type="label_item">
-                                                          <placeholder/>
-                                                        </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkFrame" id="frame10">
-                                                        <property name="width_request">600</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
                                                         <child>
-                                                          <object class="GtkAlignment" id="alignment53">
+                                                          <object class="GtkFrame" id="frame10">
+                                                            <property name="width_request">600</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment53">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="left_padding">12</property>
@@ -5366,23 +5420,23 @@ Reboot</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            </child>
                                                           </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
                                                         </child>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <object class="GtkFrame" id="frame11">
-                                                        <property name="width_request">618</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
                                                         <child>
-                                                          <object class="GtkAlignment" id="alignment55">
+                                                          <object class="GtkFrame" id="frame11">
+                                                            <property name="width_request">618</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <child>
+                                                            <object class="GtkAlignment" id="alignment55">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="left_padding">12</property>
@@ -5494,20 +5548,18 @@ Reboot</property>
                                                             </child>
                                                             </object>
                                                             </child>
+                                                            </object>
+                                                            </child>
                                                           </object>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                          </packing>
                                                         </child>
                                                       </object>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">3</property>
-                                                      </packing>
                                                     </child>
                                                   </object>
-                                                  <packing>
-                                                    <property name="x">20</property>
-                                                    <property name="y">50</property>
-                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>
@@ -5516,16 +5568,16 @@ Reboot</property>
                                       </object>
                                     </child>
                                   </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
                                 </child>
                               </object>
                             </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label5">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">&lt;b&gt;VM General properties&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </object>
+                            <child type="label_item">
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -8770,12 +8822,12 @@ XenServer Tools needs to be installed.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
-                                              <object class="GtkFixed" id="fixed4">
+                                              <object class="GtkAlignment" id="alignment11">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
                                                   <object class="GtkVBox" id="vbox16">
-                                                    <property name="width_request">753</property>
+                                                    <property name="width_request">600</property>
                                                     <property name="height_request">524</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
@@ -8941,10 +8993,6 @@ XenServer Tools needs to be installed.</property>
                                                       </packing>
                                                     </child>
                                                   </object>
-                                                  <packing>
-                                                    <property name="x">20</property>
-                                                    <property name="y">20</property>
-                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>

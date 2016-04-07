@@ -1,3 +1,15 @@
+Make sure we're all good to use the image images/synchronize.png
+	It was made by this guy: https://www.iconfinder.com/CarloRodriguez
+	The license is: License: Free for commercial use
+
+Icons:
+	It'd be nice to revamp the icons. There are a ton of free with only link-back for commercial use on iconfinder.com
+	A lot of people create big collections of icons which are consistant.
+	Not saying to do away with the built in ones for GTK, as they would change with the persons icon set, but for some
+	specialized ones, it may be nice to look at. Give the program a revamped sort of feel.
+
+
+
 There has to be a better way:
 	OXM/window_properties.py   line 953
 
@@ -22,4 +34,9 @@ General:
 	treemgmtinterfaces (in mgmt_interfaces.glade) - The entries put into 
 	this box wont resize this box. This also looks to be a problem in the 
 	general properties dialog. 
+
+Guest_network.glade
+	- Have a checkbox enabling QoS
+	- Edit/New net interface autoselect a valid network entry on dialog show
+
 
