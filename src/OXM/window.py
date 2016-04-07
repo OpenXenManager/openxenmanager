@@ -453,7 +453,9 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
             if(done == None): break
             section_header_index = section_header_index + 1
 		
-		
+       # Make the background of the tab box white
+        self.builder.get_object("tabbox").modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+        
         # If we need a master password for connect to servers without password:
         # Show the dialog asking master password
         if str(self.config["gui"]["save_password"]) == "True":
@@ -488,7 +490,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
 		    				child_attributes = pango.AttrList()
 						
 						# Add/modify a few attributes
-		    			child_attributes.change(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
+		    			#child_attributes.change(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
 		    			child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
 		    			child.set_attributes(child_attributes)
 		return True

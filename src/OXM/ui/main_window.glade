@@ -1230,6 +1230,72 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="listvmnetwork">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name mac -->
+      <column type="gchararray"/>
+      <!-- column-name limit -->
+      <column type="gchararray"/>
+      <!-- column-name network -->
+      <column type="gchararray"/>
+      <!-- column-name ip -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmsnapshots">
+    <columns>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmstorage">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name description -->
+      <column type="gchararray"/>
+      <!-- column-name storagerepository -->
+      <column type="gchararray"/>
+      <!-- column-name deviceposition -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
+      <column type="gchararray"/>
+      <!-- column-name readonly -->
+      <column type="gchararray"/>
+      <!-- column-name priority -->
+      <column type="gchararray"/>
+      <!-- column-name active -->
+      <column type="gchararray"/>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name vbdref -->
+      <column type="gchararray"/>
+      <!-- column-name bootable -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="listvmstoragedvd">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name ref -->
+      <column type="gchararray"/>
+      <!-- column-name parent -->
+      <column type="gboolean"/>
+      <!-- column-name bold -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">1360</property>
     <property name="height_request">800</property>
@@ -2704,6 +2770,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox9">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header1">
                                     <property name="visible">True</property>
@@ -2716,7 +2783,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Pool General Properties&lt;/b&gt;&lt;span foreground="white"&gt;&lt;/span&gt;</property>
+                                        <property name="label" translatable="yes">Pool General Properties</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -2747,6 +2814,7 @@ Reboot</property>
                                               <object class="GtkEventBox" id="eventbox66">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="visible_window">False</property>
                                                 <child>
                                                   <object class="GtkFixed" id="fixed101">
                                                     <property name="visible">True</property>
@@ -3161,6 +3229,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox10">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header2">
                                     <property name="visible">True</property>
@@ -3172,7 +3241,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Storage General Properties&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Storage General Properties</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -3828,6 +3897,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header3">
                                     <property name="visible">True</property>
@@ -3839,7 +3909,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Template General Properties&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Template General Properties</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -4470,6 +4540,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header4">
                                     <property name="visible">True</property>
@@ -4481,7 +4552,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Virtual Disks&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Virtual Disks</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -4515,7 +4586,6 @@ Reboot</property>
                                                 <child>
                                                   <object class="GtkButton" id="rescanisos">
                                                     <property name="label" translatable="yes">Rescan</property>
-                                                    <property name="width_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -4542,7 +4612,6 @@ Reboot</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstgnewdisk">
                                                     <property name="label" translatable="yes">Add Disk</property>
-                                                    <property name="width_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -4557,7 +4626,6 @@ Reboot</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstgproperties">
                                                     <property name="label" translatable="yes">Properties</property>
-                                                    <property name="width_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -4572,7 +4640,6 @@ Reboot</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstgremove">
                                                     <property name="label" translatable="yes">Remove</property>
-                                                    <property name="width_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -4708,6 +4775,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox38">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header5">
                                     <property name="visible">True</property>
@@ -4719,7 +4787,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Overview&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Overview</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -4886,6 +4954,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox13">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header6">
                                     <property name="visible">True</property>
@@ -4898,7 +4967,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;VM General properties&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">VM General properties</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -5654,6 +5723,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox15">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header7">
                                     <property name="visible">True</property>
@@ -5665,7 +5735,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Server General Properties&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Server General Properties</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -7059,6 +7129,7 @@ Reboot</property>
                               <object class="GtkVBox" id="vbox12">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header8">
                                     <property name="visible">True</property>
@@ -7070,7 +7141,7 @@ Reboot</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Memory&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Memory</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -7812,6 +7883,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox23">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header9">
                                     <property name="visible">True</property>
@@ -7823,7 +7895,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Hardware Info&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Hardware Info</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -7911,6 +7983,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header10">
                                     <property name="visible">True</property>
@@ -7922,7 +7995,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Virtual disks&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Virtual disks</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -7956,8 +8029,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btvmaddstorage">
                                                     <property name="label" translatable="yes">Add</property>
-                                                    <property name="width_request">80</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -7972,8 +8043,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstorageattach">
                                                     <property name="label" translatable="yes">Attach</property>
-                                                    <property name="width_request">90</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -8011,8 +8080,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstorageproperties">
                                                     <property name="label" translatable="yes">Properties</property>
-                                                    <property name="width_request">90</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -8028,8 +8095,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstoragedeactivate">
                                                     <property name="label" translatable="yes">Deactivate</property>
-                                                    <property name="width_request">90</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -8068,8 +8133,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstoragedetach">
                                                     <property name="label" translatable="yes">Detach</property>
-                                                    <property name="width_request">80</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -8085,8 +8148,6 @@ XenServer Tools needs to be installed.</property>
                                                 <child>
                                                   <object class="GtkButton" id="btstoragedelete">
                                                     <property name="label" translatable="yes">Delete</property>
-                                                    <property name="width_request">80</property>
-                                                    <property name="height_request">20</property>
                                                     <property name="visible">True</property>
                                                     <property name="sensitive">False</property>
                                                     <property name="can_focus">True</property>
@@ -8357,6 +8418,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox25">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header11">
                                     <property name="visible">True</property>
@@ -8368,7 +8430,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Storage repositories&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Storage repositories</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -8527,6 +8589,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header12">
                                     <property name="visible">True</property>
@@ -8538,7 +8601,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Network Interfaces cards&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Network Interfaces cards</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -8761,6 +8824,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header13">
                                     <property name="visible">True</property>
@@ -8772,7 +8836,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Server networks&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Server networks</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -9014,6 +9078,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox16">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header14">
                                     <property name="visible">True</property>
@@ -9025,7 +9090,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Virtual Network Interfaces&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Virtual Network Interfaces</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -9276,6 +9341,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox6">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header15">
                                     <property name="visible">True</property>
@@ -9287,7 +9353,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Virtual console&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Virtual console</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -9455,6 +9521,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox5">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header16">
                                     <property name="visible">True</property>
@@ -9466,7 +9533,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Performance Graphs&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Performance Graphs</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -9804,6 +9871,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox18">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header17">
                                     <property name="visible">True</property>
@@ -9815,7 +9883,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Active Directory Users&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Active Directory Users</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -10117,6 +10185,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox7">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header18">
                                     <property name="visible">True</property>
@@ -10128,7 +10197,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Virtual Machines Snapshots&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Virtual Machines Snapshots</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -10343,6 +10412,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox17">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header19">
                                     <property name="visible">True</property>
@@ -10354,7 +10424,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Maps&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Maps</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -10557,9 +10627,13 @@ XenServer Tools needs to be installed.</property>
                           </packing>
                         </child>
                         <child type="tab">
-                          <object class="GtkLabel" id="Maps">
+                          <object class="GtkLabel" id="Home">
+                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Maps</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                            <property name="label" translatable="yes">Home</property>
+                            <property name="single_line_mode">True</property>
                           </object>
                           <packing>
                             <property name="position">20</property>
@@ -10576,6 +10650,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox33">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header20">
                                     <property name="visible">True</property>
@@ -10587,7 +10662,7 @@ XenServer Tools needs to be installed.</property>
                                         <property name="xalign">0</property>
                                         <property name="xpad">10</property>
                                         <property name="ypad">10</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;Event log&lt;/b&gt;</property>
+                                        <property name="label" translatable="yes">Event log</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
@@ -10688,6 +10763,7 @@ XenServer Tools needs to be installed.</property>
                               <object class="GtkVBox" id="vbox34">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkEventBox" id="main_section_header21">
                                     <property name="visible">True</property>
@@ -10710,61 +10786,59 @@ XenServer Tools needs to be installed.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkAlignment" id="alignment32">
+                                  <object class="GtkVBox" id="vbox41">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="left_padding">12</property>
+                                    <property name="spacing">30</property>
                                     <child>
-                                      <object class="GtkEventBox" id="eventbox13">
+                                      <object class="GtkVBox" id="vbox42">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <object class="GtkFixed" id="fixedhome">
+                                          <object class="GtkLabel" id="label9">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label8">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Welcome to</property>
-                                                <attributes>
-                                                  <attribute name="absolute-size" value="15000"/>
-                                                </attributes>
-                                              </object>
-                                              <packing>
-                                                <property name="x">13</property>
-                                                <property name="y">14</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label9">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">OpenXenManager</property>
-                                                <attributes>
-                                                  <attribute name="weight" value="bold"/>
-                                                  <attribute name="size" value="0"/>
-                                                  <attribute name="absolute-size" value="15000"/>
-                                                </attributes>
-                                              </object>
-                                              <packing>
-                                                <property name="x">110</property>
-                                                <property name="y">14</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label10">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Click this button to connect to your XenServer and populate 
-your server or Resource Pool with virtual machines</property>
-                                              </object>
-                                              <packing>
-                                                <property name="x">150</property>
-                                                <property name="y">110</property>
-                                              </packing>
-                                            </child>
+                                            <property name="label" translatable="yes">OpenXenManager</property>
+                                            <attributes>
+                                              <attribute name="scale" value="2"/>
+                                            </attributes>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel" id="label6">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Open Source solution for managing XenServer</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkAlignment" id="alignment4">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="xscale">0</property>
+                                        <property name="yscale">0</property>
+                                        <child>
+                                          <object class="GtkVBox" id="vbox43">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">10</property>
                                             <child>
                                               <object class="GtkButton" id="button1">
                                                 <property name="visible">True</property>
@@ -10777,77 +10851,159 @@ your server or Resource Pool with virtual machines</property>
                                                 <property name="yalign">0</property>
                                                 <signal name="clicked" handler="on_tb_addserver_clicked" swapped="no"/>
                                                 <child>
-                                                  <object class="GtkImage" id="image1">
+                                                  <object class="GtkVBox" id="vbox44">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="yalign">0</property>
-                                                    <property name="pixbuf">../images/server.png</property>
+                                                    <property name="border_width">10</property>
+                                                    <child>
+                                                      <object class="GtkImage" id="image1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="pixbuf">../images/server.png</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label12">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">&lt;b&gt;Add&lt;/b&gt; a server</property>
+                                                        <property name="use_markup">True</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
                                                   </object>
                                                 </child>
                                               </object>
                                               <packing>
-                                                <property name="x">9</property>
-                                                <property name="y">52</property>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkHBox" id="hbox8">
+                                              <object class="GtkHSeparator" id="hseparator2">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <child>
-                                                  <object class="GtkLabel" id="label12">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="ypad">7</property>
-                                                    <property name="label" translatable="yes">Need further advice, assistance or support? Visit:</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkLinkButton" id="linkbutton2">
-                                                    <property name="label" translatable="yes">https://sourceforge.net/projects/openxenmanager/forums/</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="relief">none</property>
-                                                    <property name="focus_on_click">False</property>
-                                                    <property name="uri">https://sourceforge.net/projects/openxenmanager/forums/</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
                                               </object>
                                               <packing>
-                                                <property name="x">102</property>
-                                                <property name="y">360</property>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
                                               </packing>
                                             </child>
                                           </object>
                                         </child>
                                       </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkAlignment" id="alignment32">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="xscale">0</property>
+                                        <property name="yscale">0</property>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox10">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">10</property>
+                                            <child>
+                                              <object class="GtkImage" id="image50">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="pixbuf">../images/globe.png</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkAlignment" id="alignment58">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="xscale">0</property>
+                                                <property name="yscale">0</property>
+                                                <child>
+                                                  <object class="GtkVBox" id="vbox40">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <object class="GtkLinkButton" id="buttonlinkt1">
+                                                        <property name="label" translatable="yes">Project Forums</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="relief">none</property>
+                                                        <property name="yalign">0.46000000834465027</property>
+                                                        <property name="uri">https://sourceforge.net/projects/openxenmanager/forums/</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkLinkButton" id="buttonlinkt2">
+                                                        <property name="label" translatable="yes">Project GitHub Page</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="relief">none</property>
+                                                        <property name="uri">https://github.com/OpenXenManager/openxenmanager</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
+                                    <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
                               </object>
                             </child>
-                            <child type="label">
-                              <object class="GtkLabel" id="label6">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="use_markup">True</property>
-                              </object>
+                            <child type="label_item">
+                              <placeholder/>
                             </child>
                           </object>
                           <packing>
@@ -10855,13 +11011,9 @@ your server or Resource Pool with virtual machines</property>
                           </packing>
                         </child>
                         <child type="tab">
-                          <object class="GtkLabel" id="Home">
-                            <property name="visible">True</property>
+                          <object class="GtkLabel" id="Maps">
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="yalign">0</property>
                             <property name="label" translatable="yes">Home</property>
-                            <property name="single_line_mode">True</property>
                           </object>
                           <packing>
                             <property name="position">20</property>
@@ -10905,71 +11057,5 @@ your server or Resource Pool with virtual machines</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="listvmnetwork">
-    <columns>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name mac -->
-      <column type="gchararray"/>
-      <!-- column-name limit -->
-      <column type="gchararray"/>
-      <!-- column-name network -->
-      <column type="gchararray"/>
-      <!-- column-name ip -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmsnapshots">
-    <columns>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name text -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmstorage">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name storagerepository -->
-      <column type="gchararray"/>
-      <!-- column-name deviceposition -->
-      <column type="gchararray"/>
-      <!-- column-name size -->
-      <column type="gchararray"/>
-      <!-- column-name readonly -->
-      <column type="gchararray"/>
-      <!-- column-name priority -->
-      <column type="gchararray"/>
-      <!-- column-name active -->
-      <column type="gchararray"/>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name vbdref -->
-      <column type="gchararray"/>
-      <!-- column-name bootable -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="listvmstoragedvd">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name ref -->
-      <column type="gchararray"/>
-      <!-- column-name parent -->
-      <column type="gboolean"/>
-      <!-- column-name bold -->
-      <column type="gboolean"/>
-    </columns>
   </object>
 </interface>
