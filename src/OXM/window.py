@@ -507,12 +507,13 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
 		    			child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
 		    			child.set_attributes(child_attributes)
 		return True
-    	
-    def adjust_scrollbar_performance(self):
-        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
-            self.builder.get_object(widget).grab_focus()
-            adj = self.builder.get_object(widget).get_hadjustment()
-            adj.set_value(adj.upper - adj.page_size)
+    
+    # todo: James - When we're done redoing the performance tab let's do this on any new scrollbars created
+    #def adjust_scrollbar_performance(self):
+    #    for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
+    #        self.builder.get_object(widget).grab_focus()
+    #        adj = self.builder.get_object(widget).get_hadjustment()
+    #        adj.set_value(adj.upper - adj.page_size)
 
     def func_cell_data_treesearch(self, column, cell, model, iter_ref, user_data):
         # Test function don't used TODO: Can this be removed?
