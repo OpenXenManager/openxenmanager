@@ -37,7 +37,7 @@ class oxcWindowVMPerformance:
         """
         Update period time
         """
-        times = {"btgraphtenmin": 5,
+        times = {"btgraphtenmin": 5,    # TODO: James - Uhh, the button says 10 minutes?
                  "btgraphtwohours": 60,
                  "btgraphoneweek": 3600,
                  "btgraphoneyear": 86400}

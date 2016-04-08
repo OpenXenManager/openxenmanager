@@ -328,7 +328,7 @@ class LineChart(chart.Chart):
         self.yaxis = YAxis(self._range_calc)
         self.grid = Grid(self._range_calc)
         self.legend = Legend()
-        
+
         self._highlighted_points = []
 
         self.xaxis.connect("appearance_changed", self._cb_appearance_changed)
@@ -387,13 +387,12 @@ class LineChart(chart.Chart):
         """
         label.begin_drawing()
         chart.init_sensitive_areas()
-        rect = self.get_allocation()
-        self._range_calc.prepare_tics(rect, self.xaxis, self.yaxis)
+        rect = self.get_allocation() ###############
+        self._range_calc.prepare_tics(rect, self.xaxis, self.yaxis)  # This may be fucked up
         #initial context settings: line width & font
         context.set_line_width(1)
         font = gtk.Label().style.font_desc.get_family()
-        context.select_font_face(font,cairo.FONT_SLANT_NORMAL, \
-                                    cairo.FONT_WEIGHT_NORMAL)
+        context.select_font_face(font,cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 
         self.draw_basics(context, rect)
         data_available = False
@@ -402,10 +401,15 @@ class LineChart(chart.Chart):
                 data_available = True
                 break
 
+        graph_rect = rect
+        if (self.legend.get_property("visible") == True) and (self.legend.get_position() == POSITION_RIGHT):
+            new_width = 400
+            graph_rect.width -= 300
+
         if self.graphs and data_available:
-            self.grid.draw(context, rect, self.xaxis, self.yaxis)
-            self._do_draw_axes(context, rect)
-            self._do_draw_graphs(context, rect)
+            self.grid.draw(context, graph_rect, self.xaxis, self.yaxis)
+            self._do_draw_axes(context, graph_rect)
+            self._do_draw_graphs(context, graph_rect)
         label.finish_drawing()
         
         self.legend.draw(context, rect, self.graphs)
@@ -2012,7 +2016,7 @@ class Legend(ChartObject):
     """
     
     __gproperties__ = {"position": (gobject.TYPE_INT, "legend position",
-                                    "Position of the legend.", 8, 11, 8,
+                                    "Position of the legend.", 7, 11, 8,
                                     gobject.PARAM_READWRITE)}
     
     def __init__(self):
@@ -2064,16 +2068,23 @@ class Legend(ChartObject):
         if self._position == POSITION_TOP_RIGHT:
             x = rect.width - total_width - 16
             y = 16
+
         elif self._position == POSITION_BOTTOM_RIGHT:
             x = rect.width - total_width - 16
             y = rect.height - 16 - total_height
+
         elif self._position == POSITION_BOTTOM_LEFT:
             x = 16
             y = rect.height - 16 - total_height
+
         elif self._position == POSITION_TOP_LEFT:
             x = 16
             y = 16
-        
+
+        elif self._position == POSITION_RIGHT:
+            x = rect.width - total_width - 16
+            y = (rect.height - 16 - total_height) / 2
+
         context.set_antialias(cairo.ANTIALIAS_NONE)
         context.set_source_rgb(1, 1, 1)
         context.rectangle(x, y - 3, total_width, total_height)
