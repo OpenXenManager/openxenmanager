@@ -2821,8 +2821,7 @@ Reboot</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
                                                       <object class="GtkVBox" id="vbox35">
-                                                        <property name="width_request">413</property>
-                                                        <property name="height_request">320</property>
+                                                        <property name="width_request">700</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">5</property>
@@ -2862,7 +2861,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment33">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander17">
                                                             <property name="visible">True</property>
@@ -2875,8 +2873,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment35">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table8">
                                                             <property name="visible">True</property>
@@ -2934,7 +2933,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label356">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
@@ -2954,7 +2953,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label355">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
@@ -2974,7 +2973,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label354">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Name:</property>
                                                             <attributes>
@@ -2992,7 +2991,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label357">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Folder:</property>
                                                             <attributes>
@@ -3063,7 +3062,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment34">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander18">
                                                             <property name="visible">True</property>
@@ -3075,8 +3073,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment36">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table9">
                                                             <property name="visible">True</property>
@@ -3118,7 +3117,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label365">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Partially Applied:</property>
                                                             <attributes>
@@ -3138,7 +3137,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label363">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Fully applied:</property>
                                                             <attributes>
@@ -3279,6 +3278,7 @@ Reboot</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
                                                       <object class="GtkVBox" id="vbox19">
+                                                        <property name="width_request">700</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">4</property>
@@ -3317,7 +3317,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment37">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander14">
                                                             <property name="visible">True</property>
@@ -3330,8 +3329,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment38">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table10">
                                                             <property name="visible">True</property>
@@ -3445,7 +3445,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="lblstgserial">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">SCSI ID:</property>
                                                             <attributes>
@@ -3465,7 +3465,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label193">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Size:</property>
                                                             <attributes>
@@ -3485,7 +3485,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label190">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Type:</property>
                                                             <attributes>
@@ -3505,7 +3505,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label191">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Folder:</property>
                                                             <attributes>
@@ -3525,7 +3525,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label189">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
@@ -3545,7 +3545,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label187">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Name:</property>
                                                             <attributes>
@@ -3563,7 +3563,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label188">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
@@ -3633,7 +3633,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment39">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander15">
                                                             <property name="visible">True</property>
@@ -3645,8 +3644,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment41">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table11">
                                                             <property name="visible">True</property>
@@ -3690,7 +3690,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="lblstghost">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">xenAtlantis:</property>
                                                             <attributes>
@@ -3710,7 +3710,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label195">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">State:</property>
                                                             <attributes>
@@ -3763,7 +3763,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment40">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander16">
                                                             <property name="visible">True</property>
@@ -3775,8 +3774,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment42">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table12">
                                                             <property name="visible">True</property>
@@ -3802,7 +3802,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label198">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Multipath capable:</property>
                                                             <attributes>
@@ -3947,6 +3947,7 @@ Reboot</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
                                                       <object class="GtkVBox" id="vbox36">
+                                                        <property name="width_request">700</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">5</property>
@@ -3985,7 +3986,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment43">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander11">
                                                             <property name="visible">True</property>
@@ -3998,8 +3998,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment44">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table13">
                                                             <property name="visible">True</property>
@@ -4059,7 +4060,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Folder:</property>
                                                             <attributes>
@@ -4081,7 +4082,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
@@ -4103,7 +4104,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
@@ -4125,7 +4126,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Name:</property>
                                                             <attributes>
@@ -4193,7 +4194,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment45">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander12">
                                                             <property name="visible">True</property>
@@ -4205,8 +4205,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment46">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table14">
                                                             <property name="visible">True</property>
@@ -4237,7 +4238,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">VCPU priority:</property>
                                                             <attributes>
@@ -4276,7 +4277,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Virtual CPUs:</property>
                                                             <attributes>
@@ -4298,7 +4299,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Memory:</property>
                                                             <attributes>
@@ -4366,7 +4367,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment47">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander13">
                                                             <property name="visible">True</property>
@@ -4378,8 +4378,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment48">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table15">
                                                             <property name="visible">True</property>
@@ -4423,7 +4424,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">OS boot parameters:</property>
                                                             <attributes>
@@ -4445,7 +4446,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Auto-boot:</property>
                                                             <attributes>
@@ -5005,6 +5006,7 @@ Reboot</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
                                                       <object class="GtkVBox" id="vbox20">
+                                                        <property name="width_request">700</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">5</property>
@@ -5044,7 +5046,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment50">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander1">
                                                             <property name="visible">True</property>
@@ -5183,7 +5184,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label18">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Virtualization State:</property>
                                                             <attributes>
@@ -5203,7 +5204,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label305">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Operating System:</property>
                                                             <attributes>
@@ -5223,7 +5224,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label17">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Folder:</property>
                                                             <attributes>
@@ -5243,7 +5244,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label16">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
@@ -5263,7 +5264,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label173">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">UUID:</property>
                                                             <attributes>
@@ -5283,7 +5284,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label15">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
@@ -5303,7 +5304,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label14">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Name:</property>
                                                             <attributes>
@@ -5321,7 +5322,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label19">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Time since startup:</property>
                                                             <attributes>
@@ -5390,7 +5391,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment53">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander2">
                                                             <property name="visible">True</property>
@@ -5402,8 +5402,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment54">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table17">
                                                             <property name="visible">True</property>
@@ -5467,7 +5468,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label23">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">VCPU priority:</property>
                                                             <attributes>
@@ -5487,7 +5488,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label22">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Virtual CPUs:</property>
                                                             <attributes>
@@ -5507,7 +5508,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label21">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Memory:</property>
                                                             <attributes>
@@ -5557,7 +5558,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment55">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="expander3">
                                                             <property name="visible">True</property>
@@ -5569,8 +5569,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment62">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table18">
                                                             <property name="visible">True</property>
@@ -5615,7 +5616,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="lblvmboot">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">OS boot parameters:</property>
                                                             <attributes>
@@ -5635,7 +5636,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label25">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Auto-boot:</property>
                                                             <attributes>
@@ -5773,6 +5774,7 @@ Reboot</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
                                                       <object class="GtkVBox" id="vbox21">
+                                                        <property name="width_request">700</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">5</property>
@@ -5804,7 +5806,6 @@ Reboot</property>
                                                         </child>
                                                         <child>
                                                           <object class="GtkFrame" id="frame_host_general">
-                                                            <property name="width_request">618</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -5812,7 +5813,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment12">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_general">
                                                             <property name="visible">True</property>
@@ -5825,8 +5825,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment21">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table1">
                                                             <property name="visible">True</property>
@@ -5838,7 +5839,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label27">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Name:</property>
                                                             <attributes>
@@ -5856,7 +5857,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label26">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Description:</property>
                                                             <attributes>
@@ -5876,7 +5877,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label29">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Tags:</property>
                                                             <attributes>
@@ -5896,7 +5897,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label30">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Folder:</property>
                                                             <attributes>
@@ -5916,7 +5917,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label31">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">iSCSI IQN:</property>
                                                             <attributes>
@@ -5936,7 +5937,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label32">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Pool master:</property>
                                                             <attributes>
@@ -5956,7 +5957,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label34">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Log destination:</property>
                                                             <attributes>
@@ -5976,7 +5977,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label35">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Server uptime:</property>
                                                             <attributes>
@@ -5996,7 +5997,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label13">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">UUID:</property>
                                                             <attributes>
@@ -6016,7 +6017,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label36">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Toolstack uptime:</property>
                                                             <attributes>
@@ -6229,7 +6230,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment13">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_management">
                                                             <property name="visible">True</property>
@@ -6241,8 +6241,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment26">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table2">
                                                             <property name="visible">True</property>
@@ -6285,9 +6286,9 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label39">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Primary: </property>
+                                                            <property name="label" translatable="yes">Primary:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6305,7 +6306,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label38">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">DNS hostname:</property>
                                                             <attributes>
@@ -6358,7 +6359,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment14">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_memory">
                                                             <property name="visible">True</property>
@@ -6370,8 +6370,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment27">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table3">
                                                             <property name="visible">True</property>
@@ -6431,9 +6432,9 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">VMs: </property>
+                                                            <property name="label" translatable="yes">VMs:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6452,9 +6453,9 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Xen: </property>
+                                                            <property name="label" translatable="yes">Xen:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6472,9 +6473,9 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label40">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">Server: </property>
+                                                            <property name="label" translatable="yes">Server:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6525,7 +6526,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment15">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_version">
                                                             <property name="visible">True</property>
@@ -6537,8 +6537,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment28">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table4">
                                                             <property name="visible">True</property>
@@ -6598,9 +6599,9 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label45">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">XenServer version: </property>
+                                                            <property name="label" translatable="yes">XenServer version:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6618,9 +6619,9 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label44">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">XenServer build number: </property>
+                                                            <property name="label" translatable="yes">XenServer build number:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6638,9 +6639,9 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label43">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
-                                                            <property name="label" translatable="yes">XenServer build date: </property>
+                                                            <property name="label" translatable="yes">XenServer build date:</property>
                                                             <attributes>
                                                             <attribute name="weight" value="bold"/>
                                                             <attribute name="stretch" value="ultra-condensed"/>
@@ -6691,7 +6692,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment16">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_license">
                                                             <property name="visible">True</property>
@@ -6702,8 +6702,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment29">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table5">
                                                             <property name="visible">True</property>
@@ -6762,7 +6763,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Serial number: </property>
                                                             <attributes>
@@ -6783,7 +6784,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Product code: </property>
                                                             <attributes>
@@ -6803,7 +6804,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label47">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Server License: </property>
                                                             <attributes>
@@ -6823,7 +6824,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label46">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Expiry date: </property>
                                                             <attributes>
@@ -6892,7 +6893,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment18">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_cpus">
                                                             <property name="visible">True</property>
@@ -6904,8 +6904,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment30">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table6">
                                                             <property name="visible">True</property>
@@ -6930,7 +6931,7 @@ Reboot</property>
                                                             <object class="GtkLabel" id="label60">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">CPU:</property>
                                                             <attributes>
@@ -6983,7 +6984,6 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment20">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <object class="GtkExpander" id="exp_host_updates">
                                                             <property name="visible">True</property>
@@ -6995,8 +6995,9 @@ Reboot</property>
                                                             <object class="GtkAlignment" id="alignment31">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="bottom_padding">4</property>
-                                                            <property name="left_padding">22</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">20</property>
+                                                            <property name="right_padding">10</property>
                                                             <child>
                                                             <object class="GtkTable" id="table7">
                                                             <property name="visible">True</property>
@@ -7022,7 +7023,7 @@ Reboot</property>
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="yalign">0</property>
                                                             <property name="label" translatable="yes">Applied:</property>
                                                             <attributes>
@@ -10627,13 +10628,9 @@ XenServer Tools needs to be installed.</property>
                           </packing>
                         </child>
                         <child type="tab">
-                          <object class="GtkLabel" id="Home">
-                            <property name="visible">True</property>
+                          <object class="GtkLabel" id="Maps">
                             <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="yalign">0</property>
-                            <property name="label" translatable="yes">Maps</property>
-                            <property name="single_line_mode">True</property>
+                            <property name="label" translatable="yes">Home</property>
                           </object>
                           <packing>
                             <property name="position">20</property>
@@ -11012,9 +11009,13 @@ XenServer Tools needs to be installed.</property>
                           </packing>
                         </child>
                         <child type="tab">
-                          <object class="GtkLabel" id="Maps">
+                          <object class="GtkLabel" id="Home">
+                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Home</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                            <property name="label" translatable="yes">Maps</property>
+                            <property name="single_line_mode">True</property>
                           </object>
                           <packing>
                             <property name="position">20</property>
