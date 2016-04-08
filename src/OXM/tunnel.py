@@ -24,8 +24,10 @@
 import socket
 import select
 import sys
+import ssl
 from threading import Thread
 import traceback
+import datetime
 
 
 class Tunnel:
@@ -44,8 +46,18 @@ class Tunnel:
         sock.bind(("127.0.0.1", port))
         sock.listen(1)
         self.client_fd, addr = sock.accept()
-        self.server_fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_fd.connect((self.ip, 80))
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_fd = ssl.wrap_socket(sock)
+        self.server_fd.connect((self.ip, 443))
+
+        client_remote = self.client_fd.getpeername()
+        client_local = self.client_fd.getsockname()
+        server_remote = self.server_fd.getpeername()
+        server_local = self.server_fd.getsockname()
+
+        print "Client FD: %s:%s -> %s:%s" % (client_local[0], client_local[1], client_remote[0], client_remote[1])
+        print "Server FD: %s:%s -> %s:%s" % (server_local[0], server_local[1], server_remote[0], server_remote[1])
+
         # self.server_fd.send("CONNECT /console?ref=%s&session_id=%s HTTP/1.1\r\n\r\n" % (self.ref, self.session))
         self.server_fd.send("CONNECT %s&session_id=%s HTTP/1.1\r\n\r\n" % (self.ref, self.session))
         data = self.server_fd.recv(17)
@@ -116,7 +128,13 @@ class Tunnel:
             while self.halt is False:
                 ready_to_read, ready_to_write, in_error = select.select([self.server_fd], [], [])
                 if self.server_fd in ready_to_read:
-                    data = self.server_fd.recv(1024)
+                    print '[%s]: Ready to read!' % datetime.datetime.now()
+
+                    try:
+                        data = self.server_fd.recv(1024)
+                    except ssl.SSLWantReadError:
+                        data = ''
+
                     if "XenServer Virtual Terminal" in data:
                         self.translate = False
                         data = data[:7] + "\x00" + data[8:]
@@ -130,15 +148,19 @@ class Tunnel:
                 print traceback.print_exc()
             else:
                 pass
+        print '[%s]: About to close!!' % datetime.datetime.now()
         self.server_fd.close()
 
     def close(self):
         try:
             self.halt = True
+            print "Closing Client FD"
             self.client_fd.send("close\n")
             self.client_fd.send("close\n")
+            print "Closing Server FD"
             self.server_fd.send("close\n")
             del self
+            print "Tunnel Deleted"
         except:
             pass
 
