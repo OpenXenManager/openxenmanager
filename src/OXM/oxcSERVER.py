@@ -763,9 +763,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxframe = gtk.Frame()
         vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#d5e5f7"))
         if task:
-            vboxframe.set_size_request(700, 100)
+            vboxframe.set_size_request(900, 100)
         else:
-            vboxframe.set_size_request(700, 80)
+            vboxframe.set_size_request(900, 80)
         vboxchild = gtk.Fixed()
         vboxevent = gtk.EventBox()
         vboxevent.add(vboxchild)
@@ -776,7 +776,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxchildlabel2.set_selectable(True)
         vboxchildlabel3 = gtk.Label()
         vboxchildlabel3.set_selectable(True)
-        vboxchildlabel3.set_size_request(600, -1)
+        vboxchildlabel3.set_size_request(-1, -1) # x=600
         vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
@@ -794,7 +794,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxchildlabel1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("blue"))
         # vboxchildlabel4.set_label(time)
         vboxchild.put(vboxchildlabel1, 25, 12)
-        vboxchild.put(vboxchildlabel2, 500, 12)
+        vboxchild.put(vboxchildlabel2, 600, 12)
         vboxchild.put(vboxchildlabel3, 25, 32)
         vboxchild.put(vboxchildlabel4, 25, 52)
 

@@ -441,20 +441,23 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         # Manual function to set the default buttons on dialogs/window 
         # Default buttons could be pressed with enter without need do click
         self.set_window_defaults()
+
+        # Make the background of the tab box, and its container children white
+        tabbox = self.builder.get_object("tabbox")
+        tabbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+
+        #for tab_box_child in tabbox.get_children():
+        self.recursive_set_bg_color(tabbox)
         
         # To easily modify and provide a consistent section header look in the
         # main_window: I've named all EventBoxes main_section_header#. Iterate through
         # them until we get a NoneType
         section_header_string = "main_section_header"
         section_header_index = 1
-        
         while(1):
             done = self.prettify_section_header(section_header_string + str(section_header_index))
             if(done == None): break
             section_header_index = section_header_index + 1
-		
-       # Make the background of the tab box white
-        self.builder.get_object("tabbox").modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
         
         # If we need a master password for connect to servers without password:
         # Show the dialog asking master password
@@ -465,7 +468,17 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
             self.builder.get_object('consolescale').hide()
 
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
-
+    
+	# Recursive function to set the background colour on certain objects
+    def recursive_set_bg_color(self, widget):
+        for child in widget.get_children():
+            # Is a storage container, dive into it
+            if isinstance(child, gtk.Container):
+                self.recursive_set_bg_color(child)
+            	# Is a specific type of widget
+                child.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+		
+		
    	# I'm fairly new to Python, from C++, this is probably goofy.
     def prettify_section_header(self, widget_name):
     	if type(widget_name) is not str: return None
