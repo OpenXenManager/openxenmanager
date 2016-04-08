@@ -38,7 +38,7 @@ from pygtk_chart import label
 from pygtk_chart import COLORS, COLOR_AUTO
 
 RANGE_AUTO = 0
-GRAPH_PADDING = 1 / 15.0 #a relative padding
+GRAPH_PADDING = 0 #a relative padding
 GRAPH_POINTS = 1
 GRAPH_LINES = 2
 GRAPH_BOTH = 3
@@ -385,28 +385,34 @@ class LineChart(chart.Chart):
         @type context: cairo.Context
         @param context: The context to draw on.
         """
+
         label.begin_drawing()
         chart.init_sensitive_areas()
         rect = self.get_allocation() ###############
-        self._range_calc.prepare_tics(rect, self.xaxis, self.yaxis)  # This may be fucked up
+
+        graph_rect = rect
+        graph_rect.y += 10
+        graph_rect.height -= 26
+
+        # Make the thing bigger
+        if (self.legend.get_property("visible") == True) and (self.legend.get_position() == POSITION_RIGHT):
+            graph_rect.width -= self.legend.last_width
+
+        self._range_calc.prepare_tics(graph_rect, self.xaxis, self.yaxis)
         #initial context settings: line width & font
         context.set_line_width(1)
         font = gtk.Label().style.font_desc.get_family()
         context.select_font_face(font,cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
 
-        self.draw_basics(context, rect)
+        # self.draw_basics(context, rect)
         data_available = False
         for (name, graph) in self.graphs.iteritems():
             if graph.has_something_to_draw():
                 data_available = True
                 break
 
-        graph_rect = rect
-        if (self.legend.get_property("visible") == True) and (self.legend.get_position() == POSITION_RIGHT):
-            graph_rect.width -= self.legend.last_width
-
         if self.graphs and data_available:
-            self.grid.draw(context, graph_rect, self.xaxis, self.yaxis)
+            self.grid.draw(context, graph_rect, self.xaxis, self.yaxis)     # This is the grid
             self._do_draw_axes(context, graph_rect)
             self._do_draw_graphs(context, graph_rect)
         label.finish_drawing()
@@ -2022,7 +2028,7 @@ class Legend(ChartObject):
         ChartObject.__init__(self)
         self._show = False
         self._position = POSITION_TOP_RIGHT
-        self.last_width = 0
+        self.last_width = 200
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -2046,26 +2052,29 @@ class Legend(ChartObject):
         
     def _do_draw(self, context, rect, graphs):
         context.set_line_width(1)
-        width = 0.2 * rect.width
-        label_width = width - 12 - 20
 
-        x = rect.width - width
-        y = 16
+        total_height = rect.height - 1
+        total_width = 200
+
+        label_width = total_width - 12 - 20
+
+        x = 0
+        y = 0
         
-        total_height = 0
-        total_width = 0
-        for id, graph in graphs.iteritems():
-            if not graph.get_visible(): continue
-            graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
-            graph_label.set_max_width(label_width)
+        # This must have been to get the maximum width based on the text in it or something
+        #for id, graph in graphs.iteritems():
+            #if not graph.get_visible(): continue
+            #graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
+            #graph_label.set_max_width(label_width)
             
-            rwidth, rheight = graph_label.get_calculated_dimensions(context, rect)
+            #rwidth, rheight = graph_label.get_calculated_dimensions(context, rect)
             
-            total_height += rheight + 6
-            total_width = max(total_width, rwidth)
+            # James - I have no idea but it's messy
+            #total_height += rheight + 6
+            #total_width = max(total_width, rwidth)
 
-        self.last_width = total_width
-        total_width += 18 + 20
+        #self.last_width = total_width
+        #total_width += 18 + 20
         if self._position == POSITION_TOP_RIGHT:
             x = rect.width - total_width - 16
             y = 16
@@ -2084,8 +2093,8 @@ class Legend(ChartObject):
 
         elif self._position == POSITION_RIGHT:
             # Bah. This is so broken and horrible and just wont work for small graphs
-            x = rect.width - (total_width/2) - 16
-            y = (rect.height - total_height) / 2
+            x = rect.width
+            y = 4 # Why 16?
 
         context.set_antialias(cairo.ANTIALIAS_NONE)
         context.set_source_rgb(1, 1, 1)
@@ -2098,7 +2107,7 @@ class Legend(ChartObject):
         for id, graph in graphs.iteritems():
             if not graph.get_visible(): continue
             #draw the label
-            graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
+            graph_label = label.Label((x + (total_width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
             graph_label.set_max_width(label_width)
             graph_label.draw(context, rect)
             
@@ -2123,7 +2132,8 @@ class Legend(ChartObject):
                     
             
             y += graph_label.get_real_dimensions()[1] + 6
-            
+
+
     def set_position(self, position):
         """
         Set the position of the legend. position has to be one of these

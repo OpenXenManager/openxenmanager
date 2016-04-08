@@ -544,9 +544,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart[name].xaxis.set_tic_format_function(show_tic)
             chart[name].yaxis.set_position(7)
             chart[name].connect("datapoint-hovered", hovered)
-            chart[name].legend.set_visible(False)
-            chart[name].legend.set_position(line_chart.POSITION_BOTTOM_LEFT)
-            chart[name].set_padding(100)
+            chart[name].legend.set_visible(True)
+            chart[name].legend.set_position(line_chart.POSITION_RIGHT)
+            chart[name].set_padding(0)
             chart[name].yaxis.set_label("kBps")
         chart["cpu"].yaxis.set_label("%")
         chart["mem"].yaxis.set_label("MB")
@@ -556,6 +556,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         for key in rrdinfo.keys():
             if key[:3] == "cpu":
                 data = rrdinfo[key]["values"]
+
                 for i in range(len(data)):
                     data[i][1] *= 100
                 graph[key] = line_chart.Graph(key, key, data)
@@ -565,9 +566,6 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         chart["cpu"].set_size_request(len(data)*20, 250)
         gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"]) and False)
         gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
-
-        # self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"])
-        # self.wine.builder.get_object("scrwin_cpuusage").show_all()
 
         # Memory
         if "memory_internal_free" in rrdinfo and "memory" in rrdinfo:

@@ -19,6 +19,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # -----------------------------------------------------------------------
+
+# This file provides access to server data via XML files stored in ~/.config/openxenmanager/
+
 import xml.dom.minidom
 
 

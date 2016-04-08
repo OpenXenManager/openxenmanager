@@ -1166,7 +1166,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
                     # Fill the list of snapshots
                     self.xc_servers[host].fill_vm_snapshots(self.selected_ref, treevmsnapshots, listvmsnapshots)
             elif tab_label == "VM_Performance":
-                if self.treeview.get_cursor()[1]:
+                if self.treeview.get_cursor()[1]:   # Get which VM is selected in the left list
                     # Thread to update performance images
                     ref = self.selected_ref
                     if self.selected_type == "vm":
