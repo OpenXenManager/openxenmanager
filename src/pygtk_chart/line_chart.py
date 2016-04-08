@@ -403,8 +403,7 @@ class LineChart(chart.Chart):
 
         graph_rect = rect
         if (self.legend.get_property("visible") == True) and (self.legend.get_position() == POSITION_RIGHT):
-            new_width = 400
-            graph_rect.width -= 300
+            graph_rect.width -= self.legend.last_width
 
         if self.graphs and data_available:
             self.grid.draw(context, graph_rect, self.xaxis, self.yaxis)
@@ -2023,6 +2022,7 @@ class Legend(ChartObject):
         ChartObject.__init__(self)
         self._show = False
         self._position = POSITION_TOP_RIGHT
+        self.last_width = 0
         
     def do_get_property(self, property):
         if property.name == "visible":
@@ -2063,7 +2063,8 @@ class Legend(ChartObject):
             
             total_height += rheight + 6
             total_width = max(total_width, rwidth)
-            
+
+        self.last_width = total_width
         total_width += 18 + 20
         if self._position == POSITION_TOP_RIGHT:
             x = rect.width - total_width - 16
@@ -2082,8 +2083,9 @@ class Legend(ChartObject):
             y = 16
 
         elif self._position == POSITION_RIGHT:
-            x = rect.width - total_width - 16
-            y = (rect.height - 16 - total_height) / 2
+            # Bah. This is so broken and horrible and just wont work for small graphs
+            x = rect.width - (total_width/2) - 16
+            y = (rect.height - total_height) / 2
 
         context.set_antialias(cairo.ANTIALIAS_NONE)
         context.set_source_rgb(1, 1, 1)

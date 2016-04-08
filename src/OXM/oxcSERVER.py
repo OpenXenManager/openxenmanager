@@ -472,7 +472,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         # Default three hours of period
         self.halt_performance = False
 
-        # TODO: James - Commented this out
+        # TODO: James - Commented this out GUI Has changed
         #for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
             # widget = self.wine.builder.get_object(widget).get_children()[0]
             # if widget.get_children():
@@ -544,8 +544,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart[name].xaxis.set_tic_format_function(show_tic)
             chart[name].yaxis.set_position(7)
             chart[name].connect("datapoint-hovered", hovered)
-            chart[name].legend.set_visible(True)
-            chart[name].legend.set_position(line_chart.POSITION_RIGHT)
+            chart[name].legend.set_visible(False)
+            chart[name].legend.set_position(line_chart.POSITION_BOTTOM_LEFT)
             chart[name].set_padding(100)
             chart[name].yaxis.set_label("kBps")
         chart["cpu"].yaxis.set_label("%")
@@ -563,10 +563,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 chart["cpu"].add_graph(graph[key])
 
         chart["cpu"].set_size_request(len(data)*20, 250)
-        # gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"]) and False)
-        # gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
-        self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"])
-        self.wine.builder.get_object("scrwin_cpuusage").show_all()
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"]) and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
+
+        # self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"])
+        # self.wine.builder.get_object("scrwin_cpuusage").show_all()
 
         # Memory
         if "memory_internal_free" in rrdinfo and "memory" in rrdinfo:
