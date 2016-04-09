@@ -4,7 +4,7 @@
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkDialog" id="hostdmesg">
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Host dmesg</property>
     <property name="type_hint">normal</property>
     <child internal-child="vbox">

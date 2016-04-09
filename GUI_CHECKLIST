@@ -1,0 +1,43 @@
+about_dialog.glade		- Done
+add_bond.glade			- Workable. Could use a redesign
+add_server.glade		- Done
+alerts.glade			- Done
+backup.glade			- Done
+change_password.glade		- Done
+delete_vm.glade			- Done
+download_logs.glade		- Done
+export_map.glade		- Done 
+export_xva.glade		- Done
+guest_network.glade		- Done
+guest_properties.glade		- Check this one - I think the internal colour is wonky
+host_dmesg.glade		- Done
+host_network.glade		- Done
+license.glade			- 
+maint_mode.glade
+main_window.glade
+master_password.glade
+mgmt_interface.glade
+migrate.glade
+networks.glade
+open_file.glade
+options.glade
+pool_db.glade
+pool.glade
+progress.glade
+restore_server.glade
+save_file.glade
+screenshot.glade
+server_power_control.glade
+snapshots.glade
+status_report.glade
+storage.glade
+syslog.glade
+updates.glade
+virtual_disks.glade
+vm_import.glade
+warning_dialogs.glade
+window_copyvm.glade
+window_log.glade
+window_newvm.glade
+window_vnc.glade
+
