@@ -28,167 +28,195 @@
     <property name="width_request">500</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">New Network</property>
     <property name="window_position">center</property>
     <child>
-      <object class="GtkEventBox" id="eventbox26">
+      <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="spacing">10</property>
         <child>
-          <object class="GtkFixed" id="fixed61">
+          <object class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="label243">
-                <property name="width_request">200</property>
-                <property name="height_request">20</property>
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Select the network type:&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <child>
+                  <object class="GtkLabel" id="label243">
+                    <property name="width_request">200</property>
+                    <property name="height_request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="yalign">1</property>
+                    <property name="label" translatable="yes">Select the network type:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixbuf">../images/prop_networksettings.png</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">10</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkRadioButton" id="radioexternalnetwork">
-                <property name="width_request">20</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="active">True</property>
-                <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="on_radiointernalnetwork_toggled" swapped="no"/>
-              </object>
-              <packing>
-                <property name="x">50</property>
-                <property name="y">40</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label251">
-                <property name="width_request">390</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;External Network&lt;/b&gt;
-Create a network that passes traffic over one of your VLANs</property>
-                <property name="use_markup">True</property>
-              </object>
-              <packing>
-                <property name="x">80</property>
-                <property name="y">40</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkRadioButton" id="radiointernalnetwork">
-                <property name="label" translatable="yes">
-</property>
-                <property name="width_request">20</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="active">True</property>
-                <property name="draw_indicator">True</property>
-                <property name="group">radioexternalnetwork</property>
-                <signal name="toggled" handler="on_radiointernalnetwork_toggled" swapped="no"/>
-              </object>
-              <packing>
-                <property name="x">50</property>
-                <property name="y">90</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label252">
-                <property name="width_request">390</property>
-                <property name="height_request">60</property>
+              <object class="GtkVBox" id="vbox3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Internal Network&lt;/b&gt;
-Create a network that does not leave the XenServer host.
+                <child>
+                  <object class="GtkRadioButton" id="radioexternalnetwork">
+                    <property name="label" translatable="yes">External Network</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Create a network that passes traffic over one of your VLANs</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_radiointernalnetwork_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="radiointernalnetwork">
+                    <property name="label" translatable="yes">Internal Network</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Create a network that does not leave the XenServer host.
 This can be used as a private connection between VMs.</property>
-                <property name="use_markup">True</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">radioexternalnetwork</property>
+                    <signal name="toggled" handler="on_radiointernalnetwork_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">80</property>
-                <property name="y">90</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTable" id="table1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
+            <property name="row_spacing">5</property>
             <child>
               <object class="GtkLabel" id="label253">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Name:&lt;/b&gt;</property>
+                <property name="xalign">1</property>
+                <property name="label" translatable="yes">Name:</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">160</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label254">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Description:&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
-              </object>
-              <packing>
-                <property name="x">10</property>
-                <property name="y">190</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"/>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="txtnetworkname">
-                <property name="width_request">330</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">●</property>
                 <property name="text" translatable="yes">New Network</property>
+                <property name="invisible_char_set">True</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
               </object>
               <packing>
-                <property name="x">130</property>
-                <property name="y">160</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label254">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Description:</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"/>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="txtnetworkdesc">
-                <property name="width_request">330</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
                 <property name="primary_icon_activatable">False</property>
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
               </object>
               <packing>
-                <property name="x">130</property>
-                <property name="y">190</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="label255">
                 <property name="width_request">390</property>
@@ -200,200 +228,221 @@ This can be used as a private connection between VMs.</property>
                 <property name="label" translatable="yes">Select a physical network interface for the new network:</property>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">240</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label256">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
+              <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;NIC:&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label256">
+                    <property name="width_request">100</property>
+                    <property name="height_request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">NIC:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combonetworknic">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="model">listnetworknic</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">265</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkLabel" id="label257">
-                <property name="width_request">390</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Assign a number to your logical network or VLAN:</property>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">300</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label258">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
+              <object class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;VLAN:&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label258">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">VLAN:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="spinnetworkvlan">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">●</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment2</property>
+                    <signal name="change-value" handler="on_spinnetworkvlan_change_value" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">10</property>
-                <property name="y">330</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="spinnetworkvlan">
-                <property name="width_request">60</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <property name="adjustment">adjustment2</property>
-                <signal name="change-value" handler="on_spinnetworkvlan_change_value" swapped="no"/>
-              </object>
-              <packing>
-                <property name="x">130</property>
-                <property name="y">330</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="lblvlaninuse">
-                <property name="width_request">260</property>
-                <property name="height_request">20</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">1</property>
                 <property name="label" translatable="yes">The specified VLAN tag is already in use!</property>
                 <attributes>
                   <attribute name="foreground" value="#ffff00000000"/>
                 </attributes>
               </object>
               <packing>
-                <property name="x">200</property>
-                <property name="y">330</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkCheckButton" id="checkautonetwork">
-                <property name="label" translatable="yes">Automatically add this network to new virtual machines.</property>
-                <property name="width_request">390</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="x">10</property>
-                <property name="y">370</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label260">
-                <property name="width_request">480</property>
-                <property name="height_request">60</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Select this check box to add this network to any new virtual machine (VM) 
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="checkautonetwork">
+            <property name="label" translatable="yes">Automatically add this network to new virtual machines.</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="tooltip_text" translatable="yes">Select this check box to add this network to any new virtual machine (VM) 
 created using New VM Wizard. You will be ableto remove this network when 
 creating new VMs using the New VM Wizard </property>
-              </object>
-              <packing>
-                <property name="x">30</property>
-                <property name="y">390</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkImage" id="image13">
-                <property name="width_request">24</property>
-                <property name="height_request">24</property>
-                <property name="visible">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBoxEntry" id="combonetworknic3">
+            <property name="can_focus">False</property>
+            <property name="model">listnetworknic</property>
+            <property name="has_frame">False</property>
+            <property name="focus_on_click">False</property>
+            <property name="text_column">1</property>
+            <child internal-child="entry">
+              <object class="GtkEntry" id="comboboxentry-entry">
                 <property name="can_focus">False</property>
-                <property name="pixbuf">../images/prop_networksettings.png</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
               </object>
-              <packing>
-                <property name="x">461</property>
-                <property name="y">15</property>
-              </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHButtonBox" id="hbuttonbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="acceptnewnetwork">
                 <property name="label" translatable="yes">Create</property>
-                <property name="width_request">80</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_acceptnewnetwork_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">320</property>
-                <property name="y">460</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="cancelnewnetwork">
                 <property name="label" translatable="yes">Cancel</property>
-                <property name="width_request">80</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_cancelnewnetwork_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">410</property>
-                <property name="y">460</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBoxEntry" id="combonetworknic3">
-                <property name="width_request">330</property>
-                <property name="height_request">20</property>
-                <property name="can_focus">False</property>
-                <property name="model">listnetworknic</property>
-                <property name="has_frame">False</property>
-                <property name="focus_on_click">False</property>
-                <property name="text_column">1</property>
-                <child internal-child="entry">
-                  <object class="GtkEntry" id="comboboxentry-entry4">
-                    <property name="can_focus">False</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="x">130</property>
-                <property name="y">400</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBox" id="combonetworknic">
-                <property name="width_request">330</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="model">listnetworknic</property>
-              </object>
-              <packing>
-                <property name="x">130</property>
-                <property name="y">265</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">6</property>
+          </packing>
         </child>
       </object>
     </child>
