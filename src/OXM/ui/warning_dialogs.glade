@@ -6,6 +6,7 @@
     <property name="can_focus">False</property>
     <property name="has_focus">True</property>
     <property name="is_focus">True</property>
+    <property name="border_width">10</property>
     <property name="type">popup</property>
     <property name="title" translatable="yes">Alert</property>
     <property name="modal">True</property>
@@ -18,6 +19,7 @@
       <object class="GtkEventBox" id="eventbox110">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="visible_window">False</property>
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
@@ -26,6 +28,7 @@
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="spacing">10</property>
                 <child>
                   <object class="GtkImage" id="image76">
                     <property name="visible">True</property>
@@ -39,34 +42,29 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="walerttext">
+                  <object class="GtkAlignment" id="alignment1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0</property>
-                    <property name="ypad">29</property>
-                    <property name="label" translatable="yes">label</property>
-                    <property name="wrap">True</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="right_padding">50</property>
+                    <child>
+                      <object class="GtkLabel" id="walerttext">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
+                        <property name="ypad">29</property>
+                        <property name="label" translatable="yes">label</property>
+                        <property name="wrap">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label1">
-                    <property name="width_request">29</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -100,6 +98,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="pack_type">end</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -113,7 +112,7 @@
     <property name="can_focus">False</property>
     <property name="has_focus">True</property>
     <property name="is_focus">True</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="default_width">300</property>

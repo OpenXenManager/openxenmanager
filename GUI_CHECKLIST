@@ -30,13 +30,13 @@ screenshot.glade		- Done
 server_power_control.glade	- Done
 snapshots.glade			- Done - Check
 status_report.glade		- Done
-storage.glade			- 
-syslog.glade
-updates.glade
-virtual_disks.glade
-vm_import.glade
-warning_dialogs.glade
-window_copyvm.glade
+storage.glade			- Done - Could use a bit of TLC - Major Interface
+syslog.glade			- Done
+updates.glade			- Done - Check
+virtual_disks.glade		- Done - Check 
+vm_import.glade			- Done - Check
+warning_dialogs.glade		- Done
+window_copyvm.glade		- 
 window_log.glade
 window_newvm.glade
 window_vnc.glade

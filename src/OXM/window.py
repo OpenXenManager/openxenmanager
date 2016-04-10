@@ -188,7 +188,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         self.builder.set_translation_domain("oxc")
         # Add the glade files to gtk.Builder object
         for g_file in glade_files:
-            self.builder.add_from_file(g_file)
+            try:
+                self.builder.add_from_file(g_file)
+            except:
+                print "While loading Glade GUI Builder file \"" + g_file + "\" a duplicate entry was found:"
+                raise
 
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button

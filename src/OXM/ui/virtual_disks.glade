@@ -57,22 +57,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFixed" id="fixed1deletedisk">
-            <property name="width_request">0</property>
+          <object class="GtkLabel" id="label1deletedisk">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label1deletedisk">
-                <property name="width_request">520</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">This will delete this virtual disk permanently, destroying the data on it. Continue? </property>
-              </object>
-              <packing>
-                <property name="y">5</property>
-              </packing>
-            </child>
+            <property name="label" translatable="yes">This will delete this virtual disk permanently, destroying the data on it. Continue? </property>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -171,8 +159,10 @@
     </columns>
   </object>
   <object class="GtkDialog" id="newvmdisk">
+    <property name="width_request">900</property>
+    <property name="height_request">450</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Disk Settings</property>
     <property name="default_width">400</property>
     <property name="default_height">320</property>
@@ -226,158 +216,188 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFixed" id="fixed29">
+          <object class="GtkVBox" id="vbox1">
+            <property name="width_request">600</property>
+            <property name="height_request">500</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
-              <object class="GtkLabel" id="label166">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
+              <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Enter the settings for the new virtual disk</property>
-              </object>
-              <packing>
-                <property name="x">20</property>
-                <property name="y">25</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="newvmdisksize">
-                <property name="width_request">80</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <property name="adjustment">disksize</property>
-                <property name="digits">2</property>
-                <property name="numeric">True</property>
-              </object>
-              <packing>
-                <property name="x">56</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label167">
-                <property name="width_request">40</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Size:</property>
-              </object>
-              <packing>
-                <property name="x">20</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label168">
-                <property name="width_request">20</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">GB</property>
-              </object>
-              <packing>
-                <property name="x">145</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label169">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Location:
-</property>
-              </object>
-              <packing>
-                <property name="x">20</property>
-                <property name="y">100</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow35">
-                <property name="width_request">400</property>
-                <property name="height_request">200</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">automatic</property>
-                <property name="vscrollbar_policy">automatic</property>
                 <child>
-                  <object class="GtkViewport" id="viewport36">
+                  <object class="GtkLabel" id="label166">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="resize_mode">queue</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Enter the settings for the new virtual disk</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">5</property>
                     <child>
-                      <object class="GtkTreeView" id="treenewvmdisk">
+                      <object class="GtkLabel" id="label167">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Size:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="newvmdisksize">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">listnewvmdisk</property>
-                        <property name="headers_clickable">False</property>
-                        <property name="search_column">0</property>
-                        <signal name="cursor-changed" handler="on_treenewvmdisk_row_activated" swapped="no"/>
+                        <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">disksize</property>
+                        <property name="digits">2</property>
+                        <property name="numeric">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label168">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">GB</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="label169">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Location:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow35">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <child>
+                      <object class="GtkViewport" id="viewport36">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="resize_mode">queue</property>
                         <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn47">
-                            <property name="title">Name</property>
+                          <object class="GtkTreeView" id="treenewvmdisk">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="model">listnewvmdisk</property>
+                            <property name="headers_clickable">False</property>
+                            <property name="search_column">0</property>
+                            <signal name="cursor-changed" handler="on_treenewvmdisk_row_activated" swapped="no"/>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext46"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn47">
+                                <property name="title">Name</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext46"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn48">
-                            <property name="title">Description</property>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext47"/>
-                              <attributes>
-                                <attribute name="text">1</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn48">
+                                <property name="title">Description</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext47"/>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn49">
-                            <property name="title">Size (GB)</property>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext48"/>
-                              <attributes>
-                                <attribute name="text">2</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn49">
+                                <property name="title">Size (GB)</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext48"/>
+                                  <attributes>
+                                    <attribute name="text">2</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn51">
-                            <property name="title">Free Space (GB)</property>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext49"/>
-                              <attributes>
-                                <attribute name="text">3</attribute>
-                              </attributes>
+                              <object class="GtkTreeViewColumn" id="treeviewcolumn51">
+                                <property name="title">Free Space (GB)</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext49"/>
+                                  <attributes>
+                                    <attribute name="text">3</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
                             </child>
                           </object>
                         </child>
                       </object>
                     </child>
                   </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
-                <property name="x">20</property>
-                <property name="y">130</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>

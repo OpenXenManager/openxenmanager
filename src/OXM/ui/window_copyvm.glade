@@ -15,253 +15,285 @@
     </columns>
   </object>
   <object class="GtkWindow" id="windowcopyvm">
-    <property name="width_request">450</property>
+    <property name="width_request">700</property>
+    <property name="height_request">500</property>
     <property name="can_focus">False</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Copy Virtual Machine</property>
     <property name="window_position">center</property>
     <child>
-      <object class="GtkFixed" id="fixed41">
-        <property name="width_request">350</property>
-        <property name="height_request">400</property>
+      <object class="GtkVBox" id="vbox1">
+        <property name="width_request">1000</property>
+        <property name="height_request">800</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="spacing">10</property>
         <child>
-          <object class="GtkLabel" id="label204">
-            <property name="width_request">45</property>
-            <property name="height_request">20</property>
+          <object class="GtkTable" id="table1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xalign">0</property>
-            <property name="label" translatable="yes">Name:</property>
-          </object>
-          <packing>
-            <property name="x">20</property>
-            <property name="y">25</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="txtcopyvmname">
-            <property name="width_request">320</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">●</property>
-            <property name="text" translatable="yes">st</property>
-            <property name="primary_icon_activatable">False</property>
-            <property name="secondary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">True</property>
-            <property name="secondary_icon_sensitive">True</property>
-          </object>
-          <packing>
-            <property name="x">110</property>
-            <property name="y">25</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label209">
-            <property name="width_request">80</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xalign">0</property>
-            <property name="label" translatable="yes">Description:
-</property>
-          </object>
-          <packing>
-            <property name="x">20</property>
-            <property name="y">55</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="txtcopyvmdesc">
-            <property name="width_request">320</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="invisible_char">●</property>
-            <property name="primary_icon_activatable">False</property>
-            <property name="secondary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">True</property>
-            <property name="secondary_icon_sensitive">True</property>
-          </object>
-          <packing>
-            <property name="x">110</property>
-            <property name="y">55</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkFrame" id="frame4">
-            <property name="width_request">410</property>
-            <property name="height_request">250</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
+            <property name="row_spacing">5</property>
             <child>
-              <object class="GtkAlignment" id="alignment26">
+              <object class="GtkLabel" id="label204">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Name:</property>
+              </object>
+              <packing>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label209">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Description:
+</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtcopyvmname">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtcopyvmdesc">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Copy Mode</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkFixed" id="fixed42">
+                  <object class="GtkRadioButton" id="radiofastclone">
+                    <property name="label" translatable="yes">Fast clone</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Clone the existing VM, using a storage-level fast disk clone operation.</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_radiofastclone_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="radiofullclone">
+                    <property name="label" translatable="yes">Full copy</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="tooltip_text" translatable="yes">Create a full copy of the existing VM on this storage repository.</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">radiofastclone</property>
+                    <signal name="toggled" handler="on_radiofastclone_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Select the VM to copy</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow17">
+                <property name="width_request">380</property>
+                <property name="height_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkViewport" id="viewport17">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="resize_mode">queue</property>
                     <child>
-                      <object class="GtkRadioButton" id="radiofastclone">
-                        <property name="label" translatable="yes">Fast clone
-  Clone the existing VM, using a storage-level fast disk clone 
-  operation.</property>
-                        <property name="width_request">400</property>
-                        <property name="height_request">60</property>
+                      <object class="GtkTreeView" id="treecopystg">
                         <property name="visible">True</property>
+                        <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_radiofastclone_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="y">11</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="radiofullclone">
-                        <property name="label" translatable="yes">Full copy
-  Create a full copy of the existing VM on this storage repository:</property>
-                        <property name="width_request">400</property>
-                        <property name="height_request">40</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">radiofastclone</property>
-                        <signal name="toggled" handler="on_radiofastclone_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="y">63</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkScrolledWindow" id="scrolledwindow17">
-                        <property name="width_request">380</property>
-                        <property name="height_request">100</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="model">listcopystg</property>
+                        <property name="headers_visible">False</property>
+                        <property name="headers_clickable">False</property>
+                        <property name="search_column">1</property>
                         <child>
-                          <object class="GtkViewport" id="viewport17">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="resize_mode">queue</property>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn67">
+                            <property name="title">column</property>
                             <child>
-                              <object class="GtkTreeView" id="treecopystg">
-                                <property name="visible">True</property>
-                                <property name="sensitive">False</property>
-                                <property name="can_focus">True</property>
-                                <property name="model">listcopystg</property>
-                                <property name="headers_visible">False</property>
-                                <property name="headers_clickable">False</property>
-                                <child>
-                                  <object class="GtkTreeViewColumn" id="treeviewcolumn67">
-                                    <property name="title">column</property>
-                                    <child>
-                                      <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf4"/>
-                                      <attributes>
-                                        <attribute name="pixbuf">0</attribute>
-                                      </attributes>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCellRendererText" id="cellrenderertext66"/>
-                                      <attributes>
-                                        <attribute name="text">2</attribute>
-                                      </attributes>
-                                    </child>
-                                    <child>
-                                      <object class="GtkCellRendererText" id="cellrenderertext67">
-                                        <property name="foreground_gdk">#bebebebebebe</property>
-                                      </object>
-                                      <attributes>
-                                        <attribute name="text">3</attribute>
-                                      </attributes>
-                                    </child>
-                                  </object>
-                                </child>
+                              <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf4"/>
+                              <attributes>
+                                <attribute name="pixbuf">0</attribute>
+                              </attributes>
+                            </child>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext66"/>
+                              <attributes>
+                                <attribute name="text">2</attribute>
+                              </attributes>
+                            </child>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext67">
+                                <property name="foreground_gdk">#bebebebebebe</property>
                               </object>
+                              <attributes>
+                                <attribute name="text">3</attribute>
+                              </attributes>
                             </child>
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="y">124</property>
-                      </packing>
                     </child>
                   </object>
                 </child>
               </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
-            <child type="label">
-              <object class="GtkLabel" id="label210">
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHButtonBox" id="hbuttonbox2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="windowcopyvm_copy">
+                <property name="label" translatable="yes">Copy</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Copy mode </property>
-                <property name="use_markup">True</property>
-                <attributes>
-                  <attribute name="style" value="normal"/>
-                  <attribute name="foreground" value="#00000000ffff"/>
-                </attributes>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_windowcopyvm_copy_activate" swapped="no"/>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="windowcopyvm_cancel">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_windowcopyvm_cancel_activate" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
-            <property name="x">20</property>
-            <property name="y">95</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkCheckButton" id="checkbutton1">
-            <property name="label" translatable="yes">Delete original VM after copy</property>
-            <property name="width_request">210</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="draw_indicator">True</property>
-          </object>
-          <packing>
-            <property name="x">20</property>
-            <property name="y">370</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="windowcopyvm_copy">
-            <property name="label" translatable="yes">Copy</property>
-            <property name="width_request">75</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_windowcopyvm_copy_activate" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">265</property>
-            <property name="y">370</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="windowcopyvm_cancel">
-            <property name="label" translatable="yes">Cancel</property>
-            <property name="width_request">75</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_windowcopyvm_cancel_activate" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">350</property>
-            <property name="y">370</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
