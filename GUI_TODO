@@ -1,3 +1,224 @@
+Finishing Refinements:
+	- Light background colour, not matching the dialog
+		- The Xen server general properties
+		- new VM
+		- CPU/Memory tab isn't spaced out very nice
+		- Virtual Disks tab
+			- The column header for Shared is too wide. This is only false/true, should be smaller. 
+			- Doesn't resize with the window
+		- It would be nice if each tab was in the same style as the main window, to give a big name on the top
+		- The virtual Network Interfaces tab doesn't work.
+			- Perhaps have it automatically add a normal ethernet card?
+		- It added it to the template section???
+			It probably used the new VM dialog for the new template VM dialog action. I used the right click interface
+			( I thought)
+			
+			I tried it again. It added a real VM this time, these are the errors that came back:
+					Exception in thread Thread-16:
+					Traceback (most recent call last):
+					  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
+						self.run()
+					  File "/usr/lib/python2.7/threading.py", line 763, in run
+						self.__target(*self.__args, **self.__kwargs)
+					  File "./src/OXM/oxcSERVER_newvm.py", line 150, in create_newvm
+						self.track_tasks[ref['Value']] = vm_uuid
+					KeyError: 'Value'
+
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1698, in <lambda>
+						gobject.idle_add(lambda: self.add_vm_to_tree(event["ref"]) and False)
+					  File "./src/OXM/oxcSERVER.py", line 341, in add_vm_to_tree
+						if self.all['vms'][vm]['resident_on'] != "OpaqueRef:NULL" \
+					KeyError: 'OpaqueRef:7a44ed4e-30a6-4c0b-0fe9-090277fddb14'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+					Traceback (most recent call last):
+					  File "./src/OXM/oxcSERVER.py", line 1776, in <lambda>
+						gobject.idle_add(lambda: self.wine.update_memory_tab() and False)
+					  File "./src/OXM/window_vm.py", line 38, in update_memory_tab
+						dynamicmin = self.xc_servers[self.selected_host].all['vms'][self.selected_ref]["memory_dynamic_min"]
+					KeyError: 'OpaqueRef:4d2cdb68-2107-8591-2e19-2d4f9ce8618b'
+	- New Interface dialog for VM
+		- only available network isn't automatically selected
+		- Edited the network interface address. Got this: (The operation succeeded)
+			Event loop received CannotSendRequest exception, retrying...
+			Traceback (most recent call last):
+			File "./src/OXM/oxcSERVER.py", line 1962, in <lambda>
+			self.wine.builder.get_object("listvmnetwork")) and False)
+			File "./src/OXM/oxcSERVER.py", line 395, in fill_vm_network
+			vif = self.all['VIF'][vif_ref]
+			KeyError: 'OpaqueRef:bb879b1e-c75c-156f-4344-adde1b75767c'
+			Traceback (most recent call last):
+			File "./src/OXM/oxcSERVER.py", line 1962, in <lambda>
+			self.wine.builder.get_object("listvmnetwork")) and False)
+			File "./src/OXM/oxcSERVER.py", line 395, in fill_vm_network
+			vif = self.all['VIF'][vif_ref]
+			KeyError: 'OpaqueRef:bb879b1e-c75c-156f-4344-adde1b75767c'
+			- The NIC disappeared in the box
+			
+			- Tried to add another one got this:
+					Traceback (most recent call last):
+					  File "./src/OXM/window_vm_network.py", line 177, in on_acceptaddnetwork_clicked
+						self.xc_servers[self.selected_host].vm_add_interface(self.selected_ref, network_ref, mac, limit)
+					  File "./src/OXM/oxcSERVER_vm_network.py", line 59, in vm_add_interface
+						userdevices.append(self.all['VIF'][vif]['device'])
+					KeyError: 'OpaqueRef:bb879b1e-c75c-156f-4344-adde1b75767c'
+				- Tried to add another. Doesn't work at all
+				
+			
+	- The log tab within the VM section shows the logs for everything. Not just that specific VM
+	
+	- New VM Dialog:
+		- Home Server - only home server available isn't automatically selected. It should be?
+
+	- The rows of information on the General sections on the main dialog should line up
+	- The Search tab when a Xen Server is selected brings up a page called "overview" should this be 
+		overview as well?
+	
+	- Under a xen server general properties. The "general" selection area doesn't have boarders around the
+		"Folder:<None>"
+		"Tags: Add Tag..." << maybe also remove the ...
+	
+	- Under azenguard general properties:
+		- the vCPU priority slider looks like the drag thingy might be cut off.
+		- The startup options has that ugly ------- VM will not boot from the devices
+			Can we do this better?
+	
+	- VM Storage Tab
+		- Custom field add, when you click edit custom fields. the Custom Fields dialog appears behind the 
+			Properties, out of view, and also text isn't editable until you close the properties dialog.
+			- After adding a custom field, when you go pack into the properties/custom fields. There is a label
+				and a text box that is added to that frame, they have improper sizes assigned to them.
+		- When the Storage tab is first opened, and nothing is selected, the properties button is still enabled
+			you can click on it with nothing selected and you get the following:
+					Traceback (most recent call last):
+					  File "./src/OXM/window_properties.py", line 1072, in on_properties_activate
+						self.set_custom_fields_values()
+					  File "./src/OXM/window_properties.py", line 1010, in set_custom_fields_values
+						for config in self.other_config:
+					TypeError: 'NoneType' object is not iterable
+			
+		- Delete virtual disk confirmation dialog is cramped. no icon
+
+		- Adding new storage (for the second time) after i click apply: (I had DVD Drive selected. )
+			Traceback (most recent call last):
+			  File "./src/OXM/window_vm_storage.py", line 265, in on_acceptvmaddnewdisk_clicked
+				self.selected_ref if self.selected_type=='vm' else None)
+			  File "./src/OXM/oxcSERVER_vm_storage.py", line 65, in add_disk_to_vm
+				'VDI': vdi['Value'],
+			KeyError: 'Value'
+
+	
+	
+
+	- When moving from
+				./src/OXM/oxcSERVER.py:725: GtkWarning: IA__gtk_container_remove: assertion 'GTK_IS_TOOLBAR (container) || widget->parent == GTK_WIDGET (container)' failed
+				  "vmtablelog").remove(ch) and False)
+	- When clicking from Azenguard to DVD drivers
+			VM not found OpaqueRef:243ee46b-bdf4-fb39-9fd2-59ef027e5086
+			None
+	
+	
 Undo the shit i changed with pychart gtk
 
 Make sure we're all good to use the images:

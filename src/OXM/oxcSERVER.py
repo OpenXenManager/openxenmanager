@@ -47,7 +47,6 @@ import put
 import rrdinfo
 import utils
 
-
 class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 oxcSERVERstorage, oxcSERVERalerts, oxcSERVERaddserver,
                 oxcSERVERnewvm, oxcSERVERmenuitem):
@@ -991,6 +990,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 vif_read_avg += 0
                                 vif_read_max += 0
                         elif param.count("memory_internal_free") > 0:
+                            if uuid == "NaN" or param == "NaN" or row == "NaN":
+                                print "NaN variables"
+                                print "  uuid: " + str(uuid)
+                                print "param: " + str(param)
+                                print "  row: " + str(row)
+
                             memory = int(rrd_updates.get_vm_data(uuid, param, row))*1024
                             memory_total = int(self.all['vms'][vm]['memory_dynamic_max'])
                         else:
