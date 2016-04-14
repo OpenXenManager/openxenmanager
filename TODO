@@ -20,18 +20,6 @@ Other:
   - New Storage -> Hardware HBA (done)
   - Send Ctrl alt del
   - Clean code
-GUI:
-  - Transition to GTK3
-  - Make GUI Elements use native colour coding. (Ex. window_newvm.glade, storage.glade)
-  - I disabled the 'eventnewstg0' modify_bg colouring of which step of the new storage creation.
-    This glade file is a complete mess and I'll have to reimplement this. Maybe I can find some consistant method to do this.
-	Crash when I modified the layout of this dialog:
-		Traceback (most recent call last):
-		File "./src/OXM/window_menuitem.py", line 928, in on_menuitem_stg_new_activate
-		self.builder.get_object("eventnewstg0").modify_bg(gtk.STATE_NORMAL, blue)
-		AttributeError: 'NoneType' object has no attribute 'modify_bg'
-
-
 
 
 Use text:
