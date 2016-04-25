@@ -9043,7 +9043,7 @@ Reboot</property>
                                             <property name="spacing">3</property>
                                             <child>
                                               <object class="GtkButton" id="btgraphtenmin">
-                                                <property name="label" translatable="yes">10 minutes</property>
+                                                <property name="label" translatable="yes">5 minutes</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>

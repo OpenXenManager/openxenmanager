@@ -458,9 +458,10 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         # them until we get a NoneType
         section_header_string = "main_section_header"
         section_header_index = 1
-        while(1):
+        while 1:
             done = self.prettify_section_header(section_header_string + str(section_header_index))
-            if(done == None): break
+            if(done is None):
+                break
             section_header_index = section_header_index + 1
         
         # If we need a master password for connect to servers without password:
@@ -473,44 +474,44 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
 
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
     
-	# Recursive function to set the background colour on certain objects
+    # Recursive function to set the background colour on certain objects
     def recursive_set_bg_color(self, widget):
         for child in widget.get_children():
             # Is a storage container, dive into it
             if isinstance(child, gtk.Container):
                 self.recursive_set_bg_color(child)
-            	# Is a specific type of widget
+                # Is a specific type of widget
                 child.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
-		
-		
-   	# I'm fairly new to Python, from C++, this is probably goofy.
-    def prettify_section_header(self, widget_name):
-    	if type(widget_name) is not str: return None
 
-    	section_header = self.builder.get_object(widget_name)
-    	if(section_header is None): return None
-		
-    	# Make the event boxes window visible and set the background color
-    	section_header.set_visible_window(True)
-    	section_header.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#3498db'))
-    	
-    	child_list = section_header.get_children()
-    	if child_list is not None:
-    		for child in child_list:
-    			if child is not None:
-		    		if type(child) == gtk.Label:
-		    			child.modify_fg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
-		    			
-		    			# Preserve attributes set within Glade.
-		    			child_attributes = child.get_attributes()
-		    			if child_attributes == None:
-		    				child_attributes = pango.AttrList()
-						
-						# Add/modify a few attributes
-		    			#child_attributes.change(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
-		    			child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
-		    			child.set_attributes(child_attributes)
-		return True
+    # Add a common theme to the section header areas
+    def prettify_section_header(self, widget_name):
+        if type(widget_name) is not str:
+            return None
+
+        section_header = self.builder.get_object(widget_name)
+        if(section_header is None):
+            return None
+
+        # Make the event boxes window visible and set the background color
+        section_header.set_visible_window(True)
+        section_header.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#3498db'))
+
+        child_list = section_header.get_children()
+        if child_list is not None:
+            for child in child_list:
+                if child is not None:
+                    if type(child) == gtk.Label:
+                        child.modify_fg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+
+                        # Preserve attributes set within Glade.
+                        child_attributes = child.get_attributes()
+                        if child_attributes is None:
+                            child_attributes = pango.AttrList()
+
+                        # Add/modify a few attributes
+                        child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
+                        child.set_attributes(child_attributes)
+        return True
     
     # todo: James - When we're done redoing the performance tab let's do this on any new scrollbars created
     #def adjust_scrollbar_performance(self):

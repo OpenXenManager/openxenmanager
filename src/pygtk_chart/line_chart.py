@@ -2061,20 +2061,6 @@ class Legend(ChartObject):
         x = 0
         y = 0
         
-        # This must have been to get the maximum width based on the text in it or something
-        #for id, graph in graphs.iteritems():
-            #if not graph.get_visible(): continue
-            #graph_label = label.Label((x + (width - label_width), y), graph.get_title(), anchor=label.ANCHOR_TOP_LEFT)
-            #graph_label.set_max_width(label_width)
-            
-            #rwidth, rheight = graph_label.get_calculated_dimensions(context, rect)
-            
-            # James - I have no idea but it's messy
-            #total_height += rheight + 6
-            #total_width = max(total_width, rwidth)
-
-        #self.last_width = total_width
-        #total_width += 18 + 20
         if self._position == POSITION_TOP_RIGHT:
             x = rect.width - total_width - 16
             y = 16

@@ -47,6 +47,7 @@ import put
 import rrdinfo
 import utils
 
+
 class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 oxcSERVERstorage, oxcSERVERalerts, oxcSERVERaddserver,
                 oxcSERVERnewvm, oxcSERVERmenuitem):
@@ -467,11 +468,11 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
 
         # TODO: James - Commented this out GUI Has changed
         #for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
-            # widget = self.wine.builder.get_object(widget).get_children()[0]
-            # if widget.get_children():
-            #     gtk.gdk.threads_enter()
-            #     widget.remove(widget.get_children()[0])
-            #     gtk.gdk.threads_leave()
+        # widget = self.wine.builder.get_object(widget).get_children()[0]
+        # if widget.get_children():
+        #     gtk.gdk.threads_enter()
+        #     widget.remove(widget.get_children()[0])
+        #     gtk.gdk.threads_leave()
 
         if host:
             data_sources = self.connection.host.get_data_sources(self.session_uuid, ref)

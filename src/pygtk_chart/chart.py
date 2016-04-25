@@ -166,7 +166,7 @@ class Chart(gtk.DrawingArea):
         
         #calculate the rectangle that's available for drawing the chart
         title_height = self.title.get_real_dimensions()[1]  ## This may be why it's cutting off the bottom of the chart
-        title_height = 0 # TODO: James - Works?
+        title_height = 0
 
         rect_height = int(rect.height - 3 * self._padding - title_height)
         rect_width = int(rect.width - 2 * self._padding)
