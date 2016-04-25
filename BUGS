@@ -1,0 +1,15 @@
+- When adding interfaces to offline VMs, they are listed with the same IP address as an existing interface. This should be empty.
+
+
+
+- Graph bugs:
+./src/OXM/oxcSERVER.py:566: GtkWarning: Attempting to add a widget with type pygtk_chart+line_chart+LineChart to a GtkEventBox, but as a GtkBin subclass a GtkEventBox can only contain one widget at a time; it already contains a widget of type pygtk_chart+line_chart+LineChart
+  gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"]) and False)
+  ./src/OXM/oxcSERVER.py:603: GtkWarning: Attempting to add a widget with type GtkLabel to a GtkEventBox, but as a GtkBin subclass a GtkEventBox can only contain one widget at a time; it already contains a widget of type pygtk_chart+line_chart+LineChart
+    gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add(label) and False)
+	./src/OXM/oxcSERVER.py:623: GtkWarning: Attempting to add a widget with type pygtk_chart+line_chart+LineChart to a GtkEventBox, but as a GtkBin subclass a GtkEventBox can only contain one widget at a time; it already contains a widget of type pygtk_chart+line_chart+LineChart
+	  gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add(chart["vif"]) and False)
+	  ./src/OXM/oxcSERVER.py:649: GtkWarning: Attempting to add a widget with type pygtk_chart+line_chart+LineChart to a GtkEventBox, but as a GtkBin subclass a GtkEventBox can only contain one widget at a time; it already contains a widget of type pygtk_chart+line_chart+LineChart
+	    gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_diskusage").add(chart["vbd"]) and False)
+
+
