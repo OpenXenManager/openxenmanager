@@ -38,8 +38,11 @@ Requirements:
 * ConfigObj
 * GTK-VNC (Linux only)
  
-Linux package dependencies:
+Debian/Ubuntu Linux package dependencies:
 python2.7 python-gtk2 glade python-gtk-vnc python-glade2 python-configobj
+
+Gentoo Linux package dependencies:
+dev-python/pygtk dev-python/configobj net-libs/gtk-vnc dev-lang/python:2.7  (remember to set "python" USE flag for gtk-vnc!)
 
 OpenXenManager runs has been tested to run on Linux or Windows and should work
 on MacOSX as well.
