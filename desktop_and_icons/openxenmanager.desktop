@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=OpenXenManager
+Comment=Manage XenServer installations
+Categories=System;
+Exec=openxenmanager
+Terminal=false
+Type=Application
+Icon=xen
+StartupNotify=true
