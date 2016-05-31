@@ -38,8 +38,8 @@ class oxcSERVERvm(oxcSERVERvmnetwork,oxcSERVERvmstorage,oxcSERVERvmsnapshot):
         res = self.connection.VM.set_memory_dynamic_range(self.session_uuid, ref, str(int(dynamicmin)*1024*1024), str(int(dynamicmax)*1024*1024))
         if "Value" in res:
             if int(actual_staticmax) != int(int(staticmax)*1024*1024):
-                res = self.connection.VM.set_memory_static_range(self.session_uid, ref, actual_staticmin, staticmax)
-                if "Value" not in "OK":
+                res = self.connection.VM.set_memory_static_range(self.session_uuid, ref, actual_staticmin, int(int(staticmax)*1024*1024))
+                if "Value" not in res:
                     self.wine.show_error_dlg(str(res["ErrorDescription"]))
         else:
             self.wine.show_error_dlg(str(res["ErrorDescription"]))
