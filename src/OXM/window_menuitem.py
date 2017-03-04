@@ -1019,12 +1019,12 @@ class oxcWindowMenuItem:
         """
         "Send Ctrl-Alt-Del" menu item is pressed (tools menu)
         """
-        self.tunnel.send_data("\xfe\x01\x00\x00\x00\x00\x00\x1d")
-        self.tunnel.send_data("\xfe\x01\x00\x00\x00\x00\x00\x38")
-        self.tunnel.send_data("\xfe\x01\x00\x00\x00\x00\x00\xd3")
-        self.tunnel.send_data("\xfe\x00\x00\x00\x00\x00\x00\x1d")
-        self.tunnel.send_data("\xfe\x00\x00\x00\x00\x00\x00\x38")
-        self.tunnel.send_data("\xfe\x00\x00\x00\x00\x00\x00\xd3")
+        self.tunnel[data].send_data("\xfe\x01\x00\x00\x00\x00\x00\x1d")
+        self.tunnel[data].send_data("\xfe\x01\x00\x00\x00\x00\x00\x38")
+        self.tunnel[data].send_data("\xfe\x01\x00\x00\x00\x00\x00\xd3")
+        self.tunnel[data].send_data("\xfe\x00\x00\x00\x00\x00\x00\x1d")
+        self.tunnel[data].send_data("\xfe\x00\x00\x00\x00\x00\x00\x38")
+        self.tunnel[data].send_data("\xfe\x00\x00\x00\x00\x00\x00\xd3")
 
     def on_menuitem_migratetool_activate(self, widget, data=None):
         """

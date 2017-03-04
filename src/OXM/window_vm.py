@@ -25,6 +25,8 @@ from window_vm_snapshot import *
 from window_vm_performance import *
 import gtk
 import time
+import os
+import utils
 selection = None
 
 
@@ -87,7 +89,7 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
     def vnc_button_release(self, clipboard, data, user=None):
         global selection
         selection = data
-        self.vnc.client_cut_text(data)
+        self.vnc[self.selected_ref].client_cut_text(data)
         return 
 
     def copy_cb(self, clipboard, data, info, user=None):
@@ -103,22 +105,22 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         """
         if hasattr(self, 'vnc'):
             if widget.get_active():
-                self.vnc.set_scaling(True)
+                self.vnc[self.selected_ref].set_scaling(True)
             else:
-                self.vnc.set_scaling(False)
+                self.vnc[self.selected_ref].set_scaling(False)
 
     def on_btcopytext_clicked(self, widget, data=None):
         """
         Function called when you press "Copy selected text" on console tab
         """
-        clipboard = self.vnc.get_clipboard(gtk.gdk.SELECTION_CLIPBOARD)
+        clipboard = self.vnc[self.selected_ref].get_clipboard(gtk.gdk.SELECTION_CLIPBOARD)
         clipboard.connect("owner-change", self.vnc_button_release)
         text = clipboard.wait_for_text()
         targets = [('TEXT', 0, 1), ('STRING', 0, 2), ('COMPOUND_TEXT', 0, 3), ('UTF8_STRING', 0, 4)]
         clipboard.set_with_data(targets, self.copy_cb, self.clear_cb, None);
         def text_get_func(clipboard, text, data):
             if text:
-                self.vnc.client_cut_text(text)
+                self.vnc[self.selected_ref].client_cut_text(text)
         clipboard.request_text(text_get_func)
 
 
@@ -126,19 +128,36 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         """
         Function called when you press "undock"
         """
-        self.noclosevnc = True
-        self.builder.get_object("windowvncundock").show()
-        self.builder.get_object("console_area").remove(self.vnc)
-        self.builder.get_object("console_area3").add(self.vnc)
+        #create a new window and append the vnc
+        if self.selected_ref not in self.vnc_builders.keys():
+            self.noclosevnc = True
+            self.builder.get_object("console_area").remove(self.vnc[self.selected_ref])
+            glade_dir = os.path.join(utils.module_path(), 'ui')
+            self.vnc_builders[self.selected_ref] = gtk.Builder()
+            self.vnc_builders[self.selected_ref].add_from_file(os.path.join(glade_dir,"window_vnc.glade"))
+            self.vnc_builders[self.selected_ref].get_object("console_area3").add(self.vnc[self.selected_ref])
+            self.vnc_builders[self.selected_ref].get_object("btredockconsole").connect("clicked", self.on_btredockconsole_clicked,self.selected_ref)
+            self.vnc_builders[self.selected_ref].get_object("btredockconsole").connect("destroy", self.on_btredockconsole_clicked,self.selected_ref)
+            self.vnc_builders[self.selected_ref].get_object("btsendctrlaltdel1").connect("clicked", self.on_btsendctraltdel_clicked,self.selected_ref)
+            self.vnc_builders[self.selected_ref].get_object("windowvncundock").set_title(self.selected_name)
+            self.vnc_builders[self.selected_ref].get_object("windowvncundock").show_all()
+            
+        else:
+            #If the vnc window already exists (partially covered or minimized), present it to the user.
+            self.vnc_builders[self.selected_ref].get_object("windowvncundock").present()
 
     def on_btredockconsole_clicked(self, widget, data=None):
         """
         Function called when you press "redock"
         """
-        self.builder.get_object("windowvncundock").hide()
-        self.builder.get_object("console_area3").remove(self.vnc)
-        self.builder.get_object("console_area").add(self.vnc)
+        try: self.vnc_builders[data].get_object("console_area3").remove(self.vnc[data])
+        except: print "Failed to remove vnc object from window"
 
+        self.vnc_builders[data].get_object("windowvncundock").destroy()
+        if self.selected_ref == data:
+            self.builder.get_object("console_area").add(self.vnc[self.selected_ref])
+        #Pop key from vnc_builders dict
+        if data in self.vnc_builders.keys(): del self.vnc_builders[data]        
 
 
     def on_btenterfullscreen_clicked(self, widget, data=None):
@@ -146,8 +165,8 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         Function called when you press "enter fullscreen"
         """
         self.builder.get_object("windowvnc").show()
-        self.builder.get_object("console_area").remove(self.vnc)
-        self.builder.get_object("console_area2").add(self.vnc)
+        self.builder.get_object("console_area").remove(self.vnc[self.selected_ref])
+        self.builder.get_object("console_area2").add(self.vnc[self.selected_ref])
         self.builder.get_object("windowvnc").fullscreen()
 
     def on_btexitfullscreen_clicked(self, widget, data=None):
@@ -155,8 +174,8 @@ class oxcWindowVM(oxcWindowVMNetwork,oxcWindowVMStorage,oxcWindowVMSnapshot,oxcW
         Function called when you press "exit fullscreen"
         """
         self.builder.get_object("windowvnc").hide()
-        self.builder.get_object("console_area2").remove(self.vnc)
-        self.builder.get_object("console_area").add(self.vnc)
+        self.builder.get_object("console_area2").remove(self.vnc[self.selected_ref])
+        self.builder.get_object("console_area").add(self.vnc[self.selected_ref])
 
     def on_windowcopyvm_cancel_activate(self, widget, data=None):
         """
