@@ -39,7 +39,7 @@ Requirements:
 * GTK-VNC (Linux only)
  
 Debian/Ubuntu Linux package dependencies:
-python2.7 python-gtk2 glade python-gtk-vnc python-glade2 python-configobj
+python2.7 python-gtk2 glade python-gtk-vnc python-glade2 python-configobj python-setuptools
 
 Gentoo Linux package dependencies:
 dev-python/pygtk dev-python/configobj net-libs/gtk-vnc dev-lang/python:2.7  (remember to set "python" USE flag for gtk-vnc!)
