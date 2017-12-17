@@ -465,13 +465,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
     def update_performance(self, uuid, ref, ip, host=False, period=5):
         # Default three hours of period
         self.halt_performance = False
-        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage",
-                       "scrwin_diskusage"]:
-            widget = self.wine.builder.get_object(widget).get_children()[0]
-            if widget.get_children():
-                gtk.gdk.threads_enter()
-                widget.remove(widget.get_children()[0])
-                gtk.gdk.threads_leave()
+
+        # TODO: James - Commented this out GUI Has changed
+        #for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
+        # widget = self.wine.builder.get_object(widget).get_children()[0]
+        # if widget.get_children():
+        #     gtk.gdk.threads_enter()
+        #     widget.remove(widget.get_children()[0])
+        #     gtk.gdk.threads_leave()
 
         if host:
             data_sources = self.connection.host.get_data_sources(self.session_uuid, ref)
@@ -538,8 +539,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart[name].yaxis.set_position(7)
             chart[name].connect("datapoint-hovered", hovered)
             chart[name].legend.set_visible(True)
-            chart[name].legend.set_position(line_chart.POSITION_BOTTOM_RIGHT)
-            chart[name].set_padding(100)
+            chart[name].legend.set_position(line_chart.POSITION_RIGHT)
+            chart[name].set_padding(0)
             chart[name].yaxis.set_label("kBps")
         chart["cpu"].yaxis.set_label("%")
         chart["mem"].yaxis.set_label("MB")
@@ -549,6 +550,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         for key in rrdinfo.keys():
             if key[:3] == "cpu":
                 data = rrdinfo[key]["values"]
+
                 for i in range(len(data)):
                     data[i][1] *= 100
                 graph[key] = line_chart.Graph(key, key, data)
@@ -556,10 +558,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                 chart["cpu"].add_graph(graph[key])
 
         chart["cpu"].set_size_request(len(data)*20, 250)
-        gobject.idle_add(lambda: self.wine.builder.get_object(
-            "scrwin_cpuusage").add_with_viewport(chart["cpu"]) and False)
-        gobject.idle_add(lambda: self.wine.builder.get_object(
-            "scrwin_cpuusage").show_all() and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").add(chart["cpu"]) and False)
+        gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_cpuusage").show_all() and False)
 
         # Memory
         if "memory_internal_free" in rrdinfo and "memory" in rrdinfo:
@@ -574,10 +574,8 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").add_with_viewport(chart["mem"]) and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
         elif "memory_total_kib" in rrdinfo \
                 and "xapi_free_memory_kib" in rrdinfo:
             chart["mem"].set_yrange(
@@ -591,18 +589,14 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["mem"].add_graph(graph["mem"])
             chart["mem"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").add_with_viewport(chart["mem"]) and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add(chart["mem"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
 
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").add_with_viewport(label) and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_memusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").add(label) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_memusage").show_all() and False)
 
         # Network
         max_value = 0
@@ -621,17 +615,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["vif"].set_yrange((0, max_value))
             chart["vif"].set_size_request(len(data)*20, 250)
 
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_netusage").add_with_viewport(chart["vif"]) and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_netusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add(chart["vif"]) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
         else:
             label = gtk.Label()
             label.set_markup("<b>No data available</b>")
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_netusage").add_with_viewport(label) and False)
-            gobject.idle_add(lambda: self.wine.builder.get_object(
-                "scrwin_netusage").show_all() and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").add(label) and False)
+            gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_netusage").show_all() and False)
 
         # Disk
         if not host:
@@ -651,16 +641,13 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
             chart["vbd"].set_yrange((0, max_value))
             chart["vbd"].set_size_request(len(data)*20, 250)
             if data:
-                gobject.idle_add(lambda: self.wine.builder.get_object(
-                    "scrwin_diskusage").add_with_viewport(chart["vbd"])
-                    and False)
-                gobject.idle_add(lambda: self.wine.builder.get_object(
-                    "scrwin_diskusage").show_all() and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_diskusage").add(chart["vbd"]) and False)
+                gobject.idle_add(lambda: self.wine.builder.get_object("scrwin_diskusage").show_all() and False)
 
         if max_value == 0:  # TODO: What's this for?
             max_value = 1
-        gobject.idle_add(lambda: self.wine.adjust_scrollbar_performance()
-                         and False)
+        # TODO: James - disabled this. Maybe reenable it properly
+        #gobject.idle_add(lambda: self.wine.adjust_scrollbar_performance() and False)
 
         time.sleep(5)
         while not self.halt_performance:
@@ -757,9 +744,9 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxframe = gtk.Frame()
         vboxframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#d5e5f7"))
         if task:
-            vboxframe.set_size_request(700, 100)
+            vboxframe.set_size_request(900, 100)
         else:
-            vboxframe.set_size_request(700, 80)
+            vboxframe.set_size_request(900, 80)
         vboxchild = gtk.Fixed()
         vboxevent = gtk.EventBox()
         vboxevent.add(vboxchild)
@@ -770,7 +757,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxchildlabel2.set_selectable(True)
         vboxchildlabel3 = gtk.Label()
         vboxchildlabel3.set_selectable(True)
-        vboxchildlabel3.set_size_request(600, -1)
+        vboxchildlabel3.set_size_request(-1, -1) # x=600
         vboxchildlabel3.set_line_wrap(True)
         vboxchildlabel4 = gtk.Label()
         vboxchildlabel4.set_selectable(True)
@@ -788,7 +775,7 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
         vboxchildlabel1.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("blue"))
         # vboxchildlabel4.set_label(time)
         vboxchild.put(vboxchildlabel1, 25, 12)
-        vboxchild.put(vboxchildlabel2, 500, 12)
+        vboxchild.put(vboxchildlabel2, 600, 12)
         vboxchild.put(vboxchildlabel3, 25, 32)
         vboxchild.put(vboxchildlabel4, 25, 52)
 
@@ -998,6 +985,12 @@ class oxcSERVER(oxcSERVERvm, oxcSERVERhost, oxcSERVERproperties,
                                 vif_read_avg += 0
                                 vif_read_max += 0
                         elif param.count("memory_internal_free") > 0:
+                            if uuid == "NaN" or param == "NaN" or row == "NaN":
+                                print "NaN variables"
+                                print "  uuid: " + str(uuid)
+                                print "param: " + str(param)
+                                print "  row: " + str(row)
+
                             memory = int(rrd_updates.get_vm_data(uuid, param, row))*1024
                             memory_total = int(self.all['vms'][vm]['memory_dynamic_max'])
                         else:

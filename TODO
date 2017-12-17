@@ -1,22 +1,25 @@
 Thread for connection -> cancel button on progres -> update progress
 
 New RoadMap:
-  Server:
+Server:
  - Change server password (done)
  - Enter maintenance mode (done)
  - Backup server (done)
  - Restore from backup (done)
  - Install license key (done)
- VM:
+VM:
  - Install Xenserver tools (done)
  - Start in Recovery mode (done)
- Storage:
+Storage:
  - dettach/reattach/forget/delete (done)
- Other:
+ - Allow creation of local storage option:
+   xe sr-create name-label=LocalISOLibrary type=iso device-config:legacy_mode=true device-config:location=/opt/images content-type=iso
+
+Other:
   - Install last patchs
   - New Storage -> Hardware HBA (done)
   - Send Ctrl alt del
-- Clean code
+  - Clean code
 
 
 Use text:

@@ -3,8 +3,9 @@
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkDialog" id="dialogdeletehostnetwork">
+    <property name="height_request">200</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Delete Network</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
@@ -60,7 +61,6 @@
         </child>
         <child>
           <object class="GtkLabel" id="label239">
-            <property name="height_request">40</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">This will delete the selected network permanently. Continue?</property>
@@ -79,8 +79,9 @@
     </action-widgets>
   </object>
   <object class="GtkDialog" id="dialogdeletehostnic">
+    <property name="height_request">150</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Delete Bond</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
@@ -89,7 +90,6 @@
       <object class="GtkVBox" id="dialog-vbox29">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area28">
             <property name="visible">True</property>
@@ -156,7 +156,7 @@
   <object class="GtkDialog" id="dialogreconfigure">
     <property name="width_request">600</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Confirm reconfigure</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
@@ -207,44 +207,40 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEventBox" id="eventbox51">
+          <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
             <child>
-              <object class="GtkFixed" id="fixed84">
+              <object class="GtkImage" id="image19">
+                <property name="width_request">40</property>
+                <property name="height_request">40</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkImage" id="image19">
-                    <property name="width_request">40</property>
-                    <property name="height_request">40</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="pixbuf">../images/alert.png</property>
-                  </object>
-                  <packing>
-                    <property name="x">10</property>
-                    <property name="y">15</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label306">
-                    <property name="width_request">550</property>
-                    <property name="height_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">You are reconfiguring the primary management interface.  If the new settings are 
+                <property name="pixbuf">../images/alert.png</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label306">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">You are reconfiguring the primary management interface.  If the new settings are 
 incorrect then XenCenter may permanently lose the connection to the server.
 
 You should only proceed if you have verified that these settings are correct.
 </property>
-                  </object>
-                  <packing>
-                    <property name="x">50</property>
-                    <property name="y">10</property>
-                  </packing>
-                </child>
               </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>

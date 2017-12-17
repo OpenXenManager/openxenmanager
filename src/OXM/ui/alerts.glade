@@ -79,34 +79,176 @@ Are you sure you want to continue?</property>
     <property name="width_request">750</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">System Alerts</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
     <property name="urgency_hint">True</property>
     <child>
-      <object class="GtkAlignment" id="alignment1">
+      <object class="GtkVBox" id="vbox1">
+        <property name="width_request">650</property>
+        <property name="height_request">500</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="bottom_padding">5</property>
-        <property name="left_padding">5</property>
-        <property name="right_padding">5</property>
+        <property name="spacing">3</property>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">3</property>
             <child>
-              <object class="GtkHBox" id="hbox1">
+              <object class="GtkImage" id="image4">
+                <property name="width_request">40</property>
+                <property name="height_request">40</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="stock">gtk-dialog-warning</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label211">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Current system alerts are listed below</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lblnalerts">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">System alerts: 0</property>
+                <attributes>
+                  <attribute name="weight" value="heavy"/>
+                  <attribute name="foreground" value="#ffff00000000"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow18">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <child>
+              <object class="GtkViewport" id="viewport18">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="resize_mode">queue</property>
                 <child>
-                  <object class="GtkImage" id="image4">
-                    <property name="width_request">40</property>
-                    <property name="height_request">40</property>
+                  <object class="GtkTreeView" id="treealerts">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="stock">gtk-dialog-warning</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">listalerts</property>
+                    <property name="headers_clickable">False</property>
+                    <property name="reorderable">True</property>
+                    <property name="search_column">1</property>
+                    <property name="level_indentation">1</property>
+                    <property name="rubber_banding">True</property>
+                    <property name="enable_grid_lines">both</property>
+                    <property name="enable_tree_lines">True</property>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn68">
+                        <property name="fixed_width">20</property>
+                        <property name="title"> </property>
+                        <property name="widget">lbltreealerts4</property>
+                        <child>
+                          <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf6"/>
+                          <attributes>
+                            <attribute name="pixbuf">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn69">
+                        <property name="title">Applies To</property>
+                        <property name="widget">lbltreealerts1</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext68"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn70">
+                        <property name="min_width">400</property>
+                        <property name="title">Details</property>
+                        <property name="widget">lbltreealerts2</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext69"/>
+                          <attributes>
+                            <attribute name="text">2</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn71">
+                        <property name="title">Date</property>
+                        <property name="widget">lbltreealerts3</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext70">
+                            <property name="editable">True</property>
+                          </object>
+                          <attributes>
+                            <attribute name="text">3</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkHButtonBox" id="hbuttonbox1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">3</property>
+                <property name="layout_style">start</property>
+                <child>
+                  <object class="GtkButton" id="btalertdismiss">
+                    <property name="label" translatable="yes">Dismiss selected</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_btalertdismiss_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -115,32 +257,17 @@ Are you sure you want to continue?</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label211">
+                  <object class="GtkButton" id="btalertdismissall">
+                    <property name="label" translatable="yes">Dismiss all</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Current system alerts are listed below</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_btalertdismissall_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lblnalerts">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">System alerts: 0</property>
-                    <attributes>
-                      <attribute name="weight" value="heavy"/>
-                      <attribute name="foreground" value="#ffff00000000"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -151,84 +278,9 @@ Are you sure you want to continue?</property>
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow18">
+              <object class="GtkFixed" id="fixed2">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">automatic</property>
-                <property name="vscrollbar_policy">automatic</property>
-                <child>
-                  <object class="GtkViewport" id="viewport18">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="resize_mode">queue</property>
-                    <child>
-                      <object class="GtkTreeView" id="treealerts">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="model">listalerts</property>
-                        <property name="headers_clickable">False</property>
-                        <property name="reorderable">True</property>
-                        <property name="search_column">1</property>
-                        <property name="level_indentation">1</property>
-                        <property name="rubber_banding">True</property>
-                        <property name="enable_grid_lines">both</property>
-                        <property name="enable_tree_lines">True</property>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn68">
-                            <property name="fixed_width">20</property>
-                            <property name="title"> </property>
-                            <property name="widget">lbltreealerts4</property>
-                            <child>
-                              <object class="GtkCellRendererPixbuf" id="cellrendererpixbuf6"/>
-                              <attributes>
-                                <attribute name="pixbuf">0</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn69">
-                            <property name="title">Applies To</property>
-                            <property name="widget">lbltreealerts1</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext68"/>
-                              <attributes>
-                                <attribute name="text">1</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn70">
-                            <property name="min_width">400</property>
-                            <property name="title">Details</property>
-                            <property name="widget">lbltreealerts2</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext69"/>
-                              <attributes>
-                                <attribute name="text">2</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="treeviewcolumn71">
-                            <property name="title">Date</property>
-                            <property name="widget">lbltreealerts3</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext70">
-                                <property name="editable">True</property>
-                              </object>
-                              <attributes>
-                                <attribute name="text">3</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
+                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -237,90 +289,21 @@ Are you sure you want to continue?</property>
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox2">
+              <object class="GtkHButtonBox" id="hbuttonbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkHButtonBox" id="hbuttonbox1">
+                  <object class="GtkButton" id="btclosewindowalerts">
+                    <property name="label" translatable="yes">Close</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">3</property>
-                    <property name="layout_style">start</property>
-                    <child>
-                      <object class="GtkButton" id="btalertdismiss">
-                        <property name="label" translatable="yes">Dismiss selected</property>
-                        <property name="width_request">120</property>
-                        <property name="height_request">20</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <signal name="clicked" handler="on_btalertdismiss_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="btalertdismissall">
-                        <property name="label" translatable="yes">Dismiss all</property>
-                        <property name="width_request">100</property>
-                        <property name="height_request">20</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <signal name="clicked" handler="on_btalertdismissall_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_btclosewindowalerts_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFixed" id="fixed1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHButtonBox" id="hbuttonbox2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="btclosewindowalerts">
-                        <property name="label" translatable="yes">Close</property>
-                        <property name="width_request">100</property>
-                        <property name="height_request">20</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <signal name="clicked" handler="on_btclosewindowalerts_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -331,6 +314,12 @@ Are you sure you want to continue?</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
+          </packing>
         </child>
       </object>
     </child>

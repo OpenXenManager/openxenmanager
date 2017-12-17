@@ -56,47 +56,40 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEventBox" id="eventbox99">
+          <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkFixed" id="fixed145">
+              <object class="GtkImage" id="image73">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkImage" id="image73">
-                    <property name="width_request">32</property>
-                    <property name="height_request">32</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="stock">gtk-dialog-warning</property>
-                  </object>
-                  <packing>
-                    <property name="x">15</property>
-                    <property name="y">15</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label96">
-                    <property name="width_request">400</property>
-                    <property name="height_request">150</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0</property>
-                    <property name="label" translatable="yes">Are you sure you want to revert to the selected snapshot?
+                <property name="yalign">0</property>
+                <property name="stock">gtk-dialog-warning</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label96">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Are you sure you want to revert to the selected snapshot?
 
 Reverting to this snapshot will revert the VM back to the point in the time that the snapshot was created, and the current state of the VM will be lost.
 
 Before doing a revert it is recommended take a snapshot of the current state.</property>
-                    <property name="wrap">True</property>
-                  </object>
-                  <packing>
-                    <property name="x">60</property>
-                    <property name="y">15</property>
-                  </packing>
-                </child>
+                <property name="wrap">True</property>
               </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -165,28 +158,16 @@ Before doing a revert it is recommended take a snapshot of the current state.</p
           </packing>
         </child>
         <child>
-          <object class="GtkFixed" id="fixed34">
+          <object class="GtkLabel" id="label177">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <object class="GtkLabel" id="label177">
-                <property name="width_request">400</property>
-                <property name="height_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">Are you sure you want to delete this snapshot? This operation
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
+            <property name="label" translatable="yes">Are you sure you want to delete this snapshot? This operation
 cannot be undone.</property>
-              </object>
-              <packing>
-                <property name="x">5</property>
-                <property name="y">15</property>
-              </packing>
-            </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
@@ -251,30 +232,13 @@ cannot be undone.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkFixed" id="fixed32">
+          <object class="GtkVBox" id="vbox1">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkEntry" id="snapshotname">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-              </object>
-              <packing>
-                <property name="x">5</property>
-                <property name="y">40</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label182">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
@@ -282,8 +246,26 @@ cannot be undone.</property>
                 <property name="label" translatable="yes">New snapshot name:</property>
               </object>
               <packing>
-                <property name="x">5</property>
-                <property name="y">15</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="snapshotname">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -302,7 +284,7 @@ cannot be undone.</property>
   </object>
   <object class="GtkDialog" id="dialogsnaptplname">
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">VM snapshot</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
@@ -353,30 +335,13 @@ cannot be undone.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkFixed" id="fixed33">
+          <object class="GtkVBox" id="vbox11">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkEntry" id="snaptplname">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-              </object>
-              <packing>
-                <property name="x">5</property>
-                <property name="y">40</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label176">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
@@ -384,8 +349,26 @@ cannot be undone.</property>
                 <property name="label" translatable="yes">Enter name for new template:</property>
               </object>
               <packing>
-                <property name="x">5</property>
-                <property name="y">15</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="snaptplname">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>

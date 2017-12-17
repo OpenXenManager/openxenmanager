@@ -22,6 +22,9 @@
 import os
 import sys
 import shutil
+import pygtk
+import pango
+
 from configobj import ConfigObj
 from tunnel import Tunnel
 
@@ -185,7 +188,11 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         self.builder.set_translation_domain("oxc")
         # Add the glade files to gtk.Builder object
         for g_file in glade_files:
-            self.builder.add_from_file(g_file)
+            try:
+                self.builder.add_from_file(g_file)
+            except:
+                print "While loading Glade GUI Builder file \"" + g_file + "\" a duplicate entry was found:"
+                raise
 
         # Connect Windows and Dialog to delete-event (we want not destroy dialog/window)
         # delete-event is called when you close the window with "x" button
@@ -438,6 +445,24 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         # Manual function to set the default buttons on dialogs/window 
         # Default buttons could be pressed with enter without need do click
         self.set_window_defaults()
+
+        # Make the background of the tab box, and its container children white
+        tabbox = self.builder.get_object("tabbox")
+        tabbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+
+        #for tab_box_child in tabbox.get_children():
+        self.recursive_set_bg_color(tabbox)
+        
+        # To easily modify and provide a consistent section header look in the
+        # main_window: I've named all EventBoxes main_section_header#. Iterate through
+        # them until we get a NoneType
+        section_header_string = "main_section_header"
+        section_header_index = 1
+        while 1:
+            done = self.prettify_section_header(section_header_string + str(section_header_index))
+            if(done is None):
+                break
+            section_header_index = section_header_index + 1
         
         # If we need a master password for connect to servers without password:
         # Show the dialog asking master password
@@ -448,12 +473,52 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
             self.builder.get_object('consolescale').hide()
 
         self.windowmap = MyDotWindow(self.builder.get_object("viewportmap"), self.treestore, self.treeview)
-        
-    def adjust_scrollbar_performance(self):
-        for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
-            self.builder.get_object(widget).grab_focus()
-            adj = self.builder.get_object(widget).get_hadjustment()
-            adj.set_value(adj.upper - adj.page_size)
+    
+    # Recursive function to set the background colour on certain objects
+    def recursive_set_bg_color(self, widget):
+        for child in widget.get_children():
+            # Is a storage container, dive into it
+            if isinstance(child, gtk.Container):
+                self.recursive_set_bg_color(child)
+                # Is a specific type of widget
+                child.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+
+    # Add a common theme to the section header areas
+    def prettify_section_header(self, widget_name):
+        if type(widget_name) is not str:
+            return None
+
+        section_header = self.builder.get_object(widget_name)
+        if(section_header is None):
+            return None
+
+        # Make the event boxes window visible and set the background color
+        section_header.set_visible_window(True)
+        section_header.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#3498db'))
+
+        child_list = section_header.get_children()
+        if child_list is not None:
+            for child in child_list:
+                if child is not None:
+                    if type(child) == gtk.Label:
+                        child.modify_fg(gtk.STATE_NORMAL, gtk.gdk.Color('#FFFFFF'))
+
+                        # Preserve attributes set within Glade.
+                        child_attributes = child.get_attributes()
+                        if child_attributes is None:
+                            child_attributes = pango.AttrList()
+
+                        # Add/modify a few attributes
+                        child_attributes.change(pango.AttrScale(pango.SCALE_XX_LARGE, 0, -1))
+                        child.set_attributes(child_attributes)
+        return True
+    
+    # todo: James - When we're done redoing the performance tab let's do this on any new scrollbars created
+    #def adjust_scrollbar_performance(self):
+    #    for widget in ["scrwin_cpuusage", "scrwin_memusage", "scrwin_netusage", "scrwin_diskusage"]:
+    #        self.builder.get_object(widget).grab_focus()
+    #        adj = self.builder.get_object(widget).get_hadjustment()
+    #        adj.set_value(adj.upper - adj.page_size)
 
     def func_cell_data_treesearch(self, column, cell, model, iter_ref, user_data):
         # Test function don't used TODO: Can this be removed?
@@ -1106,7 +1171,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
                     # Fill the list of snapshots
                     self.xc_servers[host].fill_vm_snapshots(self.selected_ref, treevmsnapshots, listvmsnapshots)
             elif tab_label == "VM_Performance":
-                if self.treeview.get_cursor()[1]:
+                if self.treeview.get_cursor()[1]:   # Get which VM is selected in the left list
                     # Thread to update performance images
                     ref = self.selected_ref
                     if self.selected_type == "vm":

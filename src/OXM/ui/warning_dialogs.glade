@@ -4,59 +4,102 @@
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="walert">
     <property name="can_focus">False</property>
+    <property name="has_focus">True</property>
+    <property name="is_focus">True</property>
+    <property name="border_width">10</property>
     <property name="type">popup</property>
+    <property name="title" translatable="yes">Alert</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
-    <property name="default_width">300</property>
+    <property name="default_width">303</property>
     <property name="default_height">120</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="urgency_hint">True</property>
     <child>
       <object class="GtkEventBox" id="eventbox110">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="visible_window">False</property>
         <child>
-          <object class="GtkFixed" id="fixed158">
+          <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkButton" id="closewbutton1">
-                <property name="label" translatable="yes">Close</property>
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_closewalert_clicked" swapped="no"/>
+                <property name="can_focus">False</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkImage" id="image76">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-dialog-warning</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkAlignment" id="alignment1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="right_padding">50</property>
+                    <child>
+                      <object class="GtkLabel" id="walerttext">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
+                        <property name="ypad">29</property>
+                        <property name="label" translatable="yes">label</property>
+                        <property name="wrap">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">250</property>
-                <property name="y">80</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkImage" id="image76">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
+              <object class="GtkHButtonBox" id="hbuttonbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-dialog-warning</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="walerttext">
-                <property name="width_request">250</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">label</property>
-                <property name="wrap">True</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="border_width">4</property>
+                <property name="layout_style">end</property>
+                <child>
+                  <object class="GtkButton" id="closewbutton1">
+                    <property name="label" translatable="yes">Close</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_closewalert_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="x">112</property>
-                <property name="y">10</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -69,7 +112,7 @@
     <property name="can_focus">False</property>
     <property name="has_focus">True</property>
     <property name="is_focus">True</property>
-    <property name="border_width">5</property>
+    <property name="border_width">10</property>
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="default_width">300</property>

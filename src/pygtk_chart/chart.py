@@ -92,13 +92,13 @@ class Chart(gtk.DrawingArea):
     """
     
     __gproperties__ = {"padding": (gobject.TYPE_INT, "padding",
-                                    "The chart's padding.", 0, 100, 16,
+                                    "The chart's padding.", 0, 100, 0,
                                     gobject.PARAM_READWRITE)}
     
     def __init__(self):
         gtk.DrawingArea.__init__(self)
         #private properties:
-        self._padding = 16
+        self._padding = 0
         #objects needed for every chart:
         self.background = Background()
         self.background.connect("appearance-changed", self._cb_appearance_changed)
@@ -165,7 +165,9 @@ class Chart(gtk.DrawingArea):
         self.title.draw(context, rect)
         
         #calculate the rectangle that's available for drawing the chart
-        title_height = self.title.get_real_dimensions()[1]
+        title_height = self.title.get_real_dimensions()[1]  ## This may be why it's cutting off the bottom of the chart
+        title_height = 0
+
         rect_height = int(rect.height - 3 * self._padding - title_height)
         rect_width = int(rect.width - 2 * self._padding)
         rect_x = int(rect.x + self._padding)

@@ -4,83 +4,19 @@
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="dialogoptions">
     <property name="can_focus">False</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">Options</property>
     <property name="window_position">center</property>
     <child>
-      <object class="GtkEventBox" id="eventbox28">
+      <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="spacing">10</property>
         <child>
-          <object class="GtkFixed" id="fixed62">
-            <property name="width_request">550</property>
-            <property name="height_request">200</property>
+          <object class="GtkHButtonBox" id="hbuttonbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <object class="GtkCheckButton" id="checksavepassword">
-                <property name="label" translatable="yes">OpenXenManager can remember the passwords to access your servers. 
-If you enable this option you must specify a master password for security reasons.</property>
-                <property name="width_request">550</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="on_checksavepassword_toggled" swapped="no"/>
-              </object>
-              <packing>
-                <property name="x">10</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label259">
-                <property name="width_request">220</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Please specify master password:</property>
-              </object>
-              <packing>
-                <property name="y">80</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="txtmasterpassword">
-                <property name="width_request">250</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="visibility">False</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-              </object>
-              <packing>
-                <property name="x">230</property>
-                <property name="y">80</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label261">
-                <property name="width_request">280</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Password will be saved in oxc.conf as md5 hash.</property>
-                <attributes>
-                  <attribute name="weight" value="normal"/>
-                  <attribute name="size" value="8000"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="x">232</property>
-                <property name="y">111</property>
-              </packing>
-            </child>
+            <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="acceptdialogoptions">
                 <property name="label">gtk-apply</property>
@@ -93,8 +29,9 @@ If you enable this option you must specify a master password for security reason
                 <signal name="clicked" handler="on_acceptdialogoptions_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">300</property>
-                <property name="y">140</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -109,11 +46,128 @@ If you enable this option you must specify a master password for security reason
                 <signal name="clicked" handler="on_canceldialogoptions_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">410</property>
-                <property name="y">140</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">OpenXenManager can remember the passwords to access your servers. 
+If you enable this option you must specify a master password for security reasons.</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="checksavepassword">
+            <property name="label" translatable="yes">Enable Master Password</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="draw_indicator">True</property>
+            <signal name="toggled" handler="on_checksavepassword_toggled" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkAlignment" id="alignment2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="left_padding">30</property>
+            <child>
+              <object class="GtkTable" id="table1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="n_rows">2</property>
+                <property name="n_columns">2</property>
+                <property name="column_spacing">3</property>
+                <child>
+                  <object class="GtkLabel" id="label259">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Master Password</property>
+                  </object>
+                  <packing>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="txtmasterpassword">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="visibility">False</property>
+                    <property name="invisible_char">●</property>
+                    <property name="invisible_char_set">True</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label261">
+                    <property name="width_request">280</property>
+                    <property name="height_request">20</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">Password will be saved in oxc.conf as md5 hash.</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">3</property>
+          </packing>
         </child>
       </object>
     </child>

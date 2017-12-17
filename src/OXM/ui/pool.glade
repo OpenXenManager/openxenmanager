@@ -91,18 +91,93 @@ Do you want force join to pool?</property>
   </object>
   <object class="GtkWindow" id="newpool">
     <property name="can_focus">False</property>
+    <property name="border_width">10</property>
     <property name="title" translatable="yes">New Pool</property>
     <property name="window_position">center</property>
     <child>
-      <object class="GtkEventBox" id="eventbox53">
+      <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="spacing">10</property>
         <child>
-          <object class="GtkFixed" id="fixed86">
-            <property name="width_request">600</property>
-            <property name="height_request">550</property>
+          <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkImage" id="image21">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="pixbuf">../images/add_vm.png</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label307">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Enter a name and description for the new pool 
+and choose members for the new pool.</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="size" value="14000"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTable" id="table2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="n_rows">4</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">5</property>
+            <property name="row_spacing">5</property>
+            <child>
+              <object class="GtkLabel" id="label311">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Select members:</property>
+              </object>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label310">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="label" translatable="yes">Select master:</property>
+              </object>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"/>
+              </packing>
+            </child>
             <child>
               <object class="GtkTreeView" id="treepoolvms">
                 <property name="width_request">400</property>
@@ -111,6 +186,8 @@ Do you want force join to pool?</property>
                 <property name="can_focus">True</property>
                 <property name="model">listpoolvms</property>
                 <property name="headers_visible">False</property>
+                <property name="headers_clickable">False</property>
+                <property name="search_column">0</property>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn85">
                     <property name="title">column</property>
@@ -148,187 +225,136 @@ Do you want force join to pool?</property>
                 </child>
               </object>
               <packing>
-                <property name="x">140</property>
-                <property name="y">210</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEventBox" id="eventbox54">
-                <property name="width_request">700</property>
-                <property name="height_request">70</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkFixed" id="fixed87">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImage" id="image21">
-                        <property name="width_request">100</property>
-                        <property name="height_request">80</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="pixbuf">../images/add_vm.png</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label307">
-                        <property name="width_request">570</property>
-                        <property name="height_request">70</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Enter a name and description for the new pool 
-and choose members for the new pool.</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                          <attribute name="size" value="14000"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="x">108</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label308">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Name:</property>
-              </object>
-              <packing>
-                <property name="x">30</property>
-                <property name="y">85</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label309">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Description:</property>
-              </object>
-              <packing>
-                <property name="x">30</property>
-                <property name="y">110</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="txtpoolname">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="text" translatable="yes">New Pool</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-              </object>
-              <packing>
-                <property name="x">140</property>
-                <property name="y">85</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="txtpooldesc">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-              </object>
-              <packing>
-                <property name="x">140</property>
-                <property name="y">110</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label310">
-                <property name="width_request">100</property>
-                <property name="height_request">20</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Select master:</property>
-              </object>
-              <packing>
-                <property name="x">30</property>
-                <property name="y">150</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
               </packing>
             </child>
             <child>
               <object class="GtkComboBox" id="combopoolmaster">
-                <property name="width_request">400</property>
-                <property name="height_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="model">listpoolmaster</property>
                 <signal name="changed" handler="on_combopoolmaster_changed" swapped="no"/>
               </object>
               <packing>
-                <property name="x">140</property>
-                <property name="y">150</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="y_options">GTK_FILL</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label311">
-                <property name="width_request">120</property>
-                <property name="height_request">20</property>
+              <object class="GtkLabel" id="label308">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Select members:</property>
+                <property name="xalign">1</property>
+                <property name="label" translatable="yes">Name:</property>
               </object>
               <packing>
-                <property name="x">30</property>
-                <property name="y">182</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLabel" id="label309">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="label" translatable="yes">Description:</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtpoolname">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="text" translatable="yes">New Pool</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtpooldesc">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHButtonBox" id="hbuttonbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="acceptnewpool">
                 <property name="label" translatable="yes">Finish</property>
-                <property name="width_request">100</property>
-                <property name="height_request">25</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_acceptnewpool_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">350</property>
-                <property name="y">515</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="cancelnewpool">
                 <property name="label" translatable="yes">Cancel</property>
-                <property name="width_request">100</property>
-                <property name="height_request">25</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_cancelnewpool_clicked" swapped="no"/>
               </object>
               <packing>
-                <property name="x">460</property>
-                <property name="y">515</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
         </child>
       </object>
     </child>
