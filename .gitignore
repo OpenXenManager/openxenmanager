@@ -50,3 +50,4 @@ docs/_build/
 
 # Other Stuff
 Thumbs.db
+.DS_Store
