@@ -220,6 +220,7 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         self.listprop = self.builder.get_object("listprop")
         self.statusbar = self.builder.get_object("statusbar1")
         self.treesearch = self.builder.get_object("treesearch")
+        self.treestg = self.builder.get_object("treestg")
 
         #Tunnel and VNC pid dicts
         self.tunnel = {}
@@ -240,6 +241,8 @@ class oxcWindow(oxcWindowVM, oxcWindowHost, oxcWindowProperties,
         ''')
 
         self.builder.connect_signals(self)
+
+        self.treestg.get_selection().connect('changed', self.on_treestg_selection_changed)
 
         # Create a new TreeStore
         self.treestore = gtk.TreeStore(gtk.gdk.Pixbuf, str, str, str, str, str, str, object, str)

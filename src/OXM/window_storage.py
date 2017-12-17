@@ -650,20 +650,14 @@ class oxcWindowStorage:
         # Show the confirmation dialog
         self.builder.get_object("dialogdeletevdi").show()
 
-    def on_treestg_button_press_event(self, widget, event):
+    def on_treestg_selection_changed(self, selection):
         """"
         Function called when you select a storage on "tree storage" tree
         """
-        x = int(event.x)
-        y = int(event.y)
-        time = event.time
-        pthinfo = widget.get_path_at_pos(x, y)
-        if pthinfo is not None:
-            path, col, cellx, celly = pthinfo
-            widget.grab_focus()
-            widget.set_cursor(path, col, 0)
-            iter = self.builder.get_object("liststg").get_iter(path)
-            self.selected_vdi_ref = self.builder.get_object("liststg").get_value(iter, 0)
+        iter = selection.get_selected()[1]
+        self.selected_vdi_ref = self.builder.get_object("liststg").get_value(iter, 0)
+
+        if self.selected_vdi_ref is not None:
             operations = self.xc_servers[self.selected_host].all['VDI'][self.selected_vdi_ref]['allowed_operations']
             # If have "destroy" option in "allowed_operations"
             if operations.count("destroy"):
