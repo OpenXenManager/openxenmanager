@@ -46,6 +46,11 @@ Help / bug reports
 If you have found a bug, please file a detailed report in our bug tracker:
   https://github.com/OpenXenManager/openxenmanager/issues
 
+<img src="https://sentry-brand.storage.googleapis.com/sentry-logo-black.svg" alt="Sentry Logo" width="200px">
+
+In addition to submitting bug reports, we will be collecting crash data via Sentry.io 
+No personally identifying data is collected.
+
 For help you can:
 
 * Visit the forums:
@@ -59,7 +64,7 @@ Developers
 
 - Original Author: Alberto Gonzalez Rodriguez <alberto@pesadilla.org>
 - Previous Developer: Cheng Sun <chengsun9@gmail.com>
-- Current Developer: Daniel Lintott <daniel@serverb.co.uk>
+- Current Developer: Daniel Lintott <daniel.j.lintott@gmail.com>
 - Contributors:
   * Lars Hagström (DonOregano) <lars@foldspace.nu>
   * Sol Jerome (solj)
