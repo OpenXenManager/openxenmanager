@@ -1,0 +1,14 @@
+version: '{build}-{branch}'
+
+image: Visual Studio 2015
+
+environment:
+    PYTHON: "C:\\Python27"
+    
+install:
+    - "%PYTHON%\\python.exe -m pip install wheel"
+    - "%PYTHON%\\python.exe -m pip install pygtk"
+    - "%PYTHON%\\python.exe -m pip install configobj"
+    - "%PYTHON%\\python.exe -m pip install raven"
+    
+build_script: '%PYTHON%\\python.exe  setup.py bdist_wininst'
