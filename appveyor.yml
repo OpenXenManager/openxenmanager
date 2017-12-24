@@ -16,4 +16,4 @@ cache:
   - pygtk-all-in-one-2.24.2.win32-py2.7.msi
 
 artifacts:
-  - path: dists/openxenmanager-*.win32.exe
+  - path: dists\*.exe
