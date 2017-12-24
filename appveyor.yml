@@ -2,6 +2,10 @@ version: 1.0.{build}
 
 environment:
   PYTHON: C:\\Python27
+  APPVEYOR_RDP_PASSWORD: Ngf!y9UJ#Dt_&NY@
+  
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   
 install:
   - cmd: cinst gtk-runtime
@@ -17,3 +21,6 @@ cache:
 
 artifacts:
   - path: dists\*
+  
+ on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
